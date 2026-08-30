@@ -1,0 +1,202 @@
+/* ==========================================================================
+   GreekCloud — menu drawer
+   One hamburger button holds navigation, language and theme. Accessibility
+   preferences live in their own dedicated floating widget — see
+   a11y-widget.css/.js — opened with Alt+A, not from here. The two used to
+   share one button; they were split so neither has to compete with the
+   other for space or attention, and so Alt+A unambiguously means
+   "accessibility" rather than "whichever panel happened to own the key".
+   ========================================================================== */
+
+.menu-btn {
+  width: 42px; height: 42px; flex-shrink: 0;
+  display: inline-grid; place-items: center;
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--rule-strong); border-radius: 50%;
+  cursor: pointer; font: inherit; line-height: 1;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.menu-btn:hover { background: var(--band-sage); border-color: var(--sage); transform: translateY(-1px); }
+.menu-btn svg { width: 20px; height: 20px; }
+.menu-btn[aria-expanded="true"] { background: var(--sage-wash); border-color: var(--sage); }
+@media (prefers-reduced-motion: reduce) { .menu-btn { transition: none; } .menu-btn:hover { transform: none; } }
+@media (max-width: 480px) { .menu-btn { width: 38px; height: 38px; } }
+
+/* ---- scrim ---- */
+.menu-scrim {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(20, 23, 15, .45);
+  backdrop-filter: blur(2px);
+}
+.menu-scrim[hidden] { display: none; }
+
+/* ---- drawer ----
+   Anchored to the inline-start edge, which is the left in Hebrew and the
+   right in English. One logical property serves both directions. */
+.menu-panel {
+  position: fixed; inset-block: 0; inset-inline-start: 0; z-index: 91;
+  width: min(360px, 90vw); overflow-y: auto; overscroll-behavior: contain;
+  background: var(--surface); color: var(--ink-body);
+  border-inline-end: 1px solid var(--rule-strong);
+  box-shadow: var(--shadow-lg);
+  padding: 20px 22px 40px;
+  display: flex; flex-direction: column; gap: 22px;
+  text-align: start;
+}
+.menu-panel[hidden] { display: none; }
+
+/* The off-screen starting position must be a PHYSICAL direction, but the
+   panel is anchored with the LOGICAL inset-inline-start. In RTL (Hebrew,
+   this site's default) inline-start resolves to the right edge, so the
+   panel sits flush right — meaning "off-screen" is +100% (further right),
+   not -100%. A hardcoded -100% only happens to work for LTR; on the
+   default Hebrew pages it slid the panel from mid-content instead of from
+   off-screen, which read as a broken/glitchy open. This variable flips the
+   sign per direction so the same keyframe serves both. */
+:root { --menu-off-x: -100%; }
+:root[dir="rtl"] { --menu-off-x: 100%; }
+
+/* The open is a two-beat move rather than one flat slide: the panel glides
+   in from its own edge while the scrim darkens under it, then the sections
+   settle in a short stagger. The stagger is what makes the drawer read as
+   "arriving" instead of "appearing" — at .22s of pure translate the old
+   version was over before the eye had tracked it. Everything here is inside
+   the reduced-motion guard, so a user who asks for stillness gets the panel
+   with no movement at all. */
+@media (prefers-reduced-motion: no-preference) {
+  .menu-scrim { animation: menu-scrim-in .3s ease both; }
+  @keyframes menu-scrim-in { from { opacity: 0; } to { opacity: 1; } }
+
+  .menu-panel { animation: menu-in .4s cubic-bezier(.16,.84,.34,1) both; }
+  @keyframes menu-in {
+    from { transform: translateX(var(--menu-off-x)); opacity: .35; }
+    to   { transform: none; opacity: 1; }
+  }
+
+  .menu-panel > * { animation: menu-item-in .34s cubic-bezier(.22,.61,.36,1) both; }
+  .menu-panel > :nth-child(1) { animation-delay: .10s; }
+  .menu-panel > :nth-child(2) { animation-delay: .15s; }
+  .menu-panel > :nth-child(3) { animation-delay: .19s; }
+  .menu-panel > :nth-child(4) { animation-delay: .23s; }
+  .menu-panel > :nth-child(5) { animation-delay: .26s; }
+  .menu-panel > :nth-child(6) { animation-delay: .29s; }
+  .menu-panel > :nth-child(n+7) { animation-delay: .32s; }
+  @keyframes menu-item-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
+
+.menu-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.menu-top .t { font-family: var(--f-anchor); font-size: 19px; color: var(--ink); }
+.menu-close {
+  width: 36px; height: 36px; display: grid; place-items: center;
+  background: none; border: 1px solid var(--rule); border-radius: 50%;
+  color: var(--ink); cursor: pointer; font: inherit; flex-shrink: 0;
+}
+.menu-close:hover { background: var(--band-sage); border-color: var(--sage); }
+.menu-close svg { width: 16px; height: 16px; }
+
+.menu-sec > h3 {
+  font-family: var(--f-work); font-size: 11.5px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+  margin: 0 0 10px;
+}
+
+/* ---- navigation ---- */
+.menu-nav { display: flex; flex-direction: column; gap: 1px; }
+.menu-nav a {
+  padding: 10px 12px; border-radius: var(--radius);
+  color: var(--ink-body); text-decoration: none; font-size: 16px; font-weight: 600;
+}
+.menu-nav a:hover { background: var(--band-sage); color: var(--ink); text-decoration: none; }
+.menu-nav a[aria-current="page"] { background: var(--sage-wash); color: var(--sage-deep); }
+.menu-nav.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1px 8px; }
+.menu-nav.cols a { padding: 8px 10px; font-size: 15px; }
+
+/* ---- segmented control ---- */
+.seg { display: flex; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+.seg button, .seg a, .seg .seg-current {
+  flex: 1; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+  padding: 9px 5px; border: 0; background: var(--surface); color: var(--ink-soft);
+  text-align: center; text-decoration: none;
+  transition: background-color .14s ease, color .14s ease;
+}
+.seg button:hover, .seg a:hover { background: var(--band-sage); color: var(--ink); text-decoration: none; }
+.seg [role="radio"][aria-checked="true"], .seg .seg-current { background: var(--sage-solid); color: var(--on-solid); }
+.seg button:focus-visible, .seg a:focus-visible { outline: 2px solid var(--sage); outline-offset: -2px; }
+@media (prefers-reduced-motion: reduce) { .seg button, .seg a { transition: none; } }
+
+/* ---- toggle rows ---- */
+.menu-toggle {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 8px 0; cursor: pointer; font-size: 15px; color: var(--ink-body);
+}
+.menu-toggle + .menu-toggle { border-top: 1px solid var(--rule); }
+.menu-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+.menu-toggle .sw {
+  flex-shrink: 0; width: 40px; height: 23px; border-radius: 100px;
+  background: var(--rule-strong); position: relative; transition: background-color .18s ease;
+}
+.menu-toggle .sw::after {
+  content: ""; position: absolute; inset-block-start: 3px; inset-inline-start: 3px;
+  width: 17px; height: 17px; border-radius: 50%; background: var(--surface);
+  transition: transform .18s ease;
+}
+.menu-toggle input:checked + .sw { background: var(--sage-solid); }
+.menu-toggle input:checked + .sw::after { transform: translateX(17px); }
+[dir="rtl"] .menu-toggle input:checked + .sw::after { transform: translateX(-17px); }
+.menu-toggle input:focus-visible + .sw { outline: 2px solid var(--sage); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .menu-toggle .sw, .menu-toggle .sw::after { transition: none; } }
+
+.menu-note { font-size: 12.5px; color: var(--ink-faint); line-height: 1.55; margin: 0; }
+.menu-note a { color: var(--sage); }
+
+/* Shared visually-hidden utility for the live-announcement regions. Both
+   this menu's script and a11y-widget.js create one of these; the class is
+   defined once here since both stylesheets load on every page. */
+.a11y-live {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* The accessibility contrast filters (defined once, in a11y-widget.css) are
+   applied to the whole page including this menu. Without this, turning on
+   inverted or greyscale contrast would leave the nav menu's own colours
+   un-inverted relative to everything else — jarring, though still readable.
+   The a11y widget's own button/panel get the equivalent rule in its own
+   stylesheet. */
+html.a11y-contrast-invert .menu-panel,
+html.a11y-contrast-invert .menu-btn,
+html.a11y-contrast-invert .menu-scrim { filter: invert(1) hue-rotate(180deg); }
+html.a11y-contrast-mono .menu-panel,
+html.a11y-contrast-mono .menu-btn { filter: grayscale(1); }
+
+@media print { .menu-btn, .menu-panel, .menu-scrim { display: none !important; } }
+
+/* ==========================================================================
+   first-visit privacy notice
+   Docked to the bottom edge. On phones it reserves nothing above itself, so
+   it must not sit over a primary action — hence the bottom dock rather than
+   a floating card, which on the old site covered the hero CTA.
+   ========================================================================== */
+.gc-notice {
+  position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 70;
+  background: var(--surface); color: var(--ink-body);
+  border-block-start: 1px solid var(--rule-strong);
+  box-shadow: 0 -4px 24px -14px rgba(46,58,40,.4);
+  padding: 13px clamp(14px, 4vw, 34px);
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  font-size: 14.5px; line-height: 1.55;
+}
+.gc-notice-txt { margin: 0; flex: 1 1 300px; }
+.gc-notice-txt b { color: var(--ink); }
+.gc-notice-txt a { color: var(--sage); }
+.gc-notice-ok {
+  font: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer; flex-shrink: 0;
+  background: var(--sage-solid); color: var(--on-solid);
+  border: 0; border-radius: var(--radius-pill); padding: 9px 22px;
+}
+.gc-notice-ok:hover { background: #2C3A26; }
+.gc-notice-ok:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+@media print { .gc-notice { display: none !important; } }

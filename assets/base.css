@@ -1,0 +1,572 @@
+/* ==========================================================================
+   GreekCloud — design system
+   Direction: Apothecary. Sage, clay, linen. No saturated colour anywhere.
+
+   TYPE — three faces, three jobs. The split is what makes two display
+   faces survive in one page:
+
+     Amatic SC   the voice.   H1 and H2 only. A botanical hand face, and the
+                              whole personality of the direction. It is thin
+                              and condensed, and Hebrew letters separate on
+                              small details (ב/כ, ד/ר, ה/ח, ו/ז/ן) — so it
+                              is used large and never below the floor set in
+                              the type section.
+     Suez One    the anchor.  Wordmark, H3, prices, fact values. Everywhere
+                              the page has to feel solid rather than warm,
+                              and the fallback the floor drops back to.
+     Assistant   the work.    Body, nav, buttons, labels, forms, fine print.
+                              Everything a person actually has to read.
+
+   The accessibility panel can withdraw the voice face entirely: the
+   "simpler heading font" preference sets html.a11y-font, which overrides
+   the display faces with Assistant. Whoever turns that on is precisely the
+   person who cannot read a hand face, so it has to win. See settings.css.
+
+   Nothing functional is ever set in a display face.
+   ========================================================================== */
+
+:root {
+  /* --- ground & surface --- */
+  --paper:        #F7F5F0;   /* linen */
+  --surface:      #FFFFFF;
+  --surface-sunk: #EFECE3;
+  --surface-warm: #EDEADF;
+
+  /* --- BANDS -----------------------------------------------------------
+     Sections alternate through these so the page has colour rhythm rather
+     than one flat ground. Every band is a *ground*: all six must carry the
+     same ink tokens at 4.5:1, which is why they stay within a narrow
+     lightness range and vary in hue instead. --band-invert is the one
+     reversal, and it carries --on-invert rather than the ink tokens.
+  --------------------------------------------------------------------- */
+  --band-cream:   #FDFCF8;
+  --band-linen:   #F7F5F0;
+  --band-sage:    #ECF1E4;
+  --band-clay:    #F6EEE3;
+  --band-stone:   #EFEFE7;
+  --band-invert:  #38472F;
+  --on-invert:    #F2F0E6;
+
+  /* --- ink --- */
+  --ink:          #2E3A28;   /* headings — deep sage-black */
+  --ink-body:     #4A4740;
+  --ink-soft:     #5F5B52;
+  --ink-faint:    #6C6860;
+
+  /* --- lines --- */
+  --rule:         #E3DFD5;
+  --rule-strong:  #D2CCBC;
+
+  /* --- brand --- */
+  --sage:         #5C704E;   /* one step darker than #5E7350: as a link colour on the
+                                stone band that read 4.49:1, just under the floor. */
+  --sage-deep:    #3A4A33;   /* TEXT ONLY. Inverts to a light tint in dark mode. */
+  --sage-solid:   #3A4A33;   /* BACKGROUND ONLY. Must stay dark in both themes —
+                                it always carries near-white text on top. Splitting
+                                this out fixes light-on-light in .rx-top / .final. */
+  --on-solid:     #F2F0E6;   /* the text colour that sits on --sage-solid */
+  --sage-lift:    #748C63;
+  --sage-wash:    #E9EEE2;
+
+  --clay:         #826342;   /* the second note: eyebrows, accents. Darkened from
+                                #93704B, which read 4.14:1 on linen — under the 4.5
+                                floor for the 12.5px uppercase eyebrow it is used on. */
+  --clay-wash:    #F3EBE0;
+
+  /* --- semantic --- */
+  --warn:         #8A6A22;
+  --warn-wash:    #F6EFDC;
+  --stop:         #96503C;
+  --stop-wash:    #F6E8E2;
+
+  /* --- form --- */
+  --radius:    12px;
+  --radius-lg: 20px;
+  --radius-pill: 100px;
+  --shadow-sm: 0 1px 2px rgba(46,58,40,.05);
+  --shadow:    0 2px 5px rgba(46,58,40,.05), 0 14px 30px -18px rgba(46,58,40,.28);
+  --shadow-lg: 0 4px 10px rgba(46,58,40,.07), 0 26px 50px -24px rgba(46,58,40,.36);
+
+  --measure: 64ch;
+  --page:    1120px;
+  --gutter:  clamp(18px, 4vw, 40px);
+
+  /* --- type stacks --- */
+  --f-voice:  "Amatic SC", "Bradley Hand", cursive;
+  --f-anchor: "Suez One", Georgia, "Times New Roman", serif;
+  --f-work:   Assistant, "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:        #14170F;
+    --surface:      #1D2118;
+    --surface-sunk: #232819;
+    --surface-warm: #262A1B;
+
+    --band-cream:   #171B12;
+    --band-linen:   #14170F;
+    --band-sage:    #192115;
+    --band-clay:    #201C13;
+    --band-stone:   #1B1E17;
+    --band-invert:  #26331F;
+    --on-invert:    #EDF1E4;
+
+    --ink:          #E8EDDF;
+    --ink-body:     #C5CBB8;
+    --ink-soft:     #9AA18C;
+    --ink-faint:    #8B927E;
+
+    --rule:         #2C3122;
+    --rule-strong:  #3E4531;
+
+    --sage:         #A3BC88;
+    --sage-deep:    #C0D4A8;
+    --sage-solid:   #2C3A26;
+    --on-solid:     #EDF1E4;
+    --sage-lift:    #8FA974;
+    --sage-wash:    #232C1B;
+
+    --clay:         #C9A176;
+    --clay-wash:    #2B2419;
+
+    --warn:         #D2AC5E;
+    --warn-wash:    #2C2617;
+    --stop:         #D3907B;
+    --stop-wash:    #2E1F1A;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.32);
+    --shadow:    0 2px 5px rgba(0,0,0,.32), 0 16px 32px -18px rgba(0,0,0,.7);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,.38), 0 28px 54px -24px rgba(0,0,0,.8);
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:        #14170F;
+  --surface:      #1D2118;
+  --surface-sunk: #232819;
+  --surface-warm: #262A1B;
+
+  --band-cream:   #171B12;
+  --band-linen:   #14170F;
+  --band-sage:    #192115;
+  --band-clay:    #201C13;
+  --band-stone:   #1B1E17;
+  --band-invert:  #26331F;
+  --on-invert:    #EDF1E4;
+
+  --ink:          #E8EDDF;
+  --ink-body:     #C5CBB8;
+  --ink-soft:     #9AA18C;
+  --ink-faint:    #8B927E;
+
+  --rule:         #2C3122;
+  --rule-strong:  #3E4531;
+
+  --sage:         #A3BC88;
+  --sage-deep:    #C0D4A8;
+  --sage-solid:   #2C3A26;
+  --on-solid:     #EDF1E4;
+  --sage-lift:    #8FA974;
+  --sage-wash:    #232C1B;
+
+  --clay:         #C9A176;
+  --clay-wash:    #2B2419;
+
+  --warn:         #D2AC5E;
+  --warn-wash:    #2C2617;
+  --stop:         #D3907B;
+  --stop-wash:    #2E1F1A;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.32);
+  --shadow:    0 2px 5px rgba(0,0,0,.32), 0 16px 32px -18px rgba(0,0,0,.7);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,.38), 0 28px 54px -24px rgba(0,0,0,.8);
+}
+
+/* ==========================================================================
+   reset & base
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: hidden; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink-body);
+  font-family: var(--f-work);
+  font-size: 17px;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img, svg, video { max-width: 100%; height: auto; display: block; }
+::selection { background: var(--sage-wash); color: var(--ink); }
+
+/* ==========================================================================
+   type
+
+   Amatic SC sits small on the em — roughly 0.62 of a normal face at the
+   same px. Every size below is set for the optical result, which is why
+   the numbers look large. The floor is 30px; below that this face stops
+   being readable in Hebrew and H2 falls back to the anchor face.
+   ========================================================================== */
+
+h1, h2 {
+  font-family: var(--f-voice);
+  font-weight: 700;          /* Amatic ships 400 and 700; 700 is the usable one */
+  color: var(--ink);
+  line-height: 1.06;
+  letter-spacing: .006em;    /* a condensed hand face needs air, not tightening */
+  text-wrap: balance;
+  margin: 0;
+}
+h1 { font-size: clamp(50px, 8.2vw, 86px); }
+h2 { font-size: clamp(37px, 5.4vw, 56px); }
+
+h3, h4 {
+  font-family: var(--f-work);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.34;
+  letter-spacing: -.005em;
+  text-wrap: balance;
+  margin: 0;
+}
+h3 { font-size: clamp(18px, 2.1vw, 21px); }
+h4 { font-size: 16.5px; }
+
+
+/* Legibility floor. Amatic is a thin condensed hand face and Hebrew letters
+   separate on small details (b/k, d/r, h/ch, v/z/final-n). Below this width
+   the headings stop being comfortably readable, so the voice face is
+   withdrawn and the anchor face carries them instead. Better a solid
+   heading than a charming unreadable one. */
+@media (max-width: 400px) {
+  h1 { font-family: var(--f-anchor); font-weight: 400; font-size: 30px; line-height: 1.16; letter-spacing: -.012em; }
+  h2 { font-family: var(--f-anchor); font-weight: 400; font-size: 24px; line-height: 1.24; letter-spacing: -.01em; }
+}
+
+p { margin: 0 0 1.05em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--sage); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--sage-deep); text-decoration-thickness: 2px; }
+
+strong, b { font-weight: 700; color: var(--ink); }
+:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; border-radius: 4px; }
+
+.eyebrow {
+  font-family: var(--f-work);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin: 0 0 14px;
+}
+
+.lede { font-size: clamp(18px, 2.1vw, 20.5px); line-height: 1.62; color: var(--ink-soft); }
+.num { font-family: var(--f-anchor); font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   layout
+   ========================================================================== */
+
+.wrap { width: 100%; max-width: var(--page); margin-inline: auto; padding-inline: var(--gutter); }
+.measure { max-width: var(--measure); }
+
+section { padding-block: clamp(56px, 8vw, 100px); }
+
+/* Bands carry the rhythm, so no rule between sections — the colour change
+   is the separator. A hairline only appears where two bands would meet at
+   the same value, which the rotation in index.html avoids. */
+.band-cream { background: var(--band-cream); }
+.band-linen { background: var(--band-linen); }
+.band-sage  { background: var(--band-sage); }
+.band-clay  { background: var(--band-clay); }
+.band-stone { background: var(--band-stone); }
+
+/* The one reversal on the page. It swaps the ink tokens wholesale rather
+   than relying on inheritance, so nothing inside it can fall back to a
+   colour meant for a light ground. */
+.band-invert {
+  background: var(--band-invert);
+  --ink:       var(--on-invert);
+  --ink-body:  var(--on-invert);
+  --ink-soft:  color-mix(in srgb, var(--on-invert) 82%, transparent);
+  --ink-faint: color-mix(in srgb, var(--on-invert) 74%, transparent);
+  --rule:      color-mix(in srgb, var(--on-invert) 22%, transparent);
+  color: var(--on-invert);
+}
+.band-invert h1, .band-invert h2, .band-invert h3, .band-invert p { color: var(--on-invert); }
+.band-invert .eyebrow { color: color-mix(in srgb, var(--on-invert) 78%, transparent); }
+.band-invert .btn-primary { background: var(--on-invert); color: var(--band-invert); }
+.band-invert .btn-primary:hover { background: #FFFFFF; color: var(--band-invert); }
+.band-invert .btn-ghost { background: transparent; color: var(--on-invert); border-color: color-mix(in srgb, var(--on-invert) 45%, transparent); }
+.band-invert .btn-ghost:hover { background: color-mix(in srgb, var(--on-invert) 12%, transparent); color: var(--on-invert); }
+
+/* legacy aliases so older markup keeps working */
+.band { background: var(--band-sage); }
+.band-warm { background: var(--band-clay); }
+
+.sec-head { margin-bottom: clamp(28px, 4vw, 46px); max-width: 62ch; }
+.sec-head h2 { margin-bottom: 14px; }
+.sec-head p { color: var(--ink-soft); font-size: 17.5px; margin: 0; }
+
+.grid { display: grid; gap: clamp(16px, 2.4vw, 24px); }
+.g-2 { grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); }
+.g-3 { grid-template-columns: repeat(auto-fit, minmax(232px, 1fr)); }
+.g-4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+
+/* ==========================================================================
+   components
+   ========================================================================== */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  padding: clamp(20px, 2.6vw, 28px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  font-family: var(--f-work);
+  font-size: 16.5px; font-weight: 700; line-height: 1.2;
+  padding: 14px 30px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer; text-decoration: none;
+  transition: background-color .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+.btn-primary { background: var(--sage-solid); color: var(--on-solid); box-shadow: var(--shadow); }
+.btn-primary:hover { background: #2C3A26; color: var(--on-solid); transform: translateY(-1px); box-shadow: var(--shadow-lg); text-decoration: none; }
+
+.btn-ghost { background: var(--surface); color: var(--ink); border-color: var(--rule-strong); }
+.btn-ghost:hover { background: var(--surface-sunk); color: var(--ink); border-color: var(--ink-faint); text-decoration: none; }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:hover { transform: none; } }
+
+.tag {
+  display: inline-block; font-family: var(--f-work);
+  font-size: 13px; font-weight: 700; line-height: 1.5;
+  padding: 3px 12px; border-radius: var(--radius-pill);
+  background: var(--sage-wash); color: var(--sage-deep); border: 1px solid transparent;
+}
+.tag-clay { background: var(--clay-wash); color: var(--clay); }
+.tag-warn { background: var(--warn-wash); color: var(--warn); }
+
+.note {
+  border-radius: var(--radius); padding: 18px 22px;
+  font-size: 16px; line-height: 1.65;
+  border: 1px solid var(--rule); background: var(--surface-warm);
+}
+.note-warn { background: var(--warn-wash); border-color: color-mix(in srgb, var(--warn) 32%, transparent); }
+/* note-stop marks a legal/criminal-exposure warning, one level above
+   note-warn. A filled tint at this strength read as a muddy, undifferentiated
+   block in dark mode (--stop over --stop-wash sit too close in value). A
+   card surface with a strong accent border and a coloured, bold heading
+   reads as "alert" without the mud, and reuses tokens already verified
+   against --surface elsewhere on the page. */
+.note-stop {
+  background: var(--surface);
+  border-color: var(--rule);
+  border-inline-start: 4px solid var(--stop);
+}
+.note .nt { display: block; font-family: var(--f-anchor); font-size: 17px; color: var(--ink); margin-bottom: 5px; }
+/* Same specificity as .note .nt (two classes each) — placed after it in
+   source order so this override actually wins the cascade. */
+.note-stop .nt { color: var(--stop); font-weight: 700; }
+
+ul.clean { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+ul.clean > li { position: relative; padding-inline-start: 23px; }
+ul.clean > li::before {
+  content: ""; position: absolute; inset-inline-start: 4px; top: .66em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--sage);
+}
+ul.clean.clay > li::before { background: var(--clay); }
+
+.t-scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--radius-lg); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 15.5px; }
+th, td { text-align: start; padding: 13px 18px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+thead th { background: var(--surface-sunk); font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+
+/* faq — summary uses the anchor face: it is a control, not a headline */
+.faq { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden; }
+.faq details { background: var(--surface); }
+.faq summary {
+  cursor: pointer; list-style: none; padding: 19px 22px;
+  font-family: var(--f-work); font-weight: 700; font-size: 17.5px; color: var(--ink);
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; font-family: var(--f-work); font-size: 24px; font-weight: 400;
+  color: var(--sage); flex-shrink: 0; line-height: 1; transition: transform .18s ease;
+}
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq summary:hover { background: var(--surface-sunk); }
+.faq .a { padding: 0 22px 20px; color: var(--ink-body); font-size: 16.5px; max-width: 68ch; }
+@media (prefers-reduced-motion: reduce) { .faq summary::after { transition: none; } }
+
+/* ==========================================================================
+   header / footer
+   ========================================================================== */
+
+.site-head {
+  position: sticky; top: 0; z-index: 60;
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.site-head .bar { display: flex; align-items: center; gap: 18px; height: 94px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-inline-end: auto; }
+.brand:hover { text-decoration: none; }
+/* Sized up from the old 33px line-icon mark: the illustrated badge logo
+   carries fine detail (lettering, shading) that needs more room to read as
+   more than a smudge. object-fit guards against any future non-square
+   source. The footer gets its own larger size below — it has the vertical
+   room the fixed-height header does not. */
+.brand .mark { width: 70px; height: 70px; flex-shrink: 0; object-fit: contain; }
+.brand .wm { font-family: var(--f-anchor); font-size: 23px; font-weight: 400; color: var(--ink); letter-spacing: -.015em; }
+.site-foot .brand .mark { width: 95px; height: 95px; }
+.nav { display: flex; align-items: center; gap: 22px; }
+.nav a { font-family: var(--f-work); font-size: 16px; font-weight: 600; color: var(--ink-soft); text-decoration: none; }
+.nav a:hover { color: var(--sage); text-decoration: none; }
+.head-cta { padding: 10px 21px; font-size: 15.5px; }
+
+/* Language switch. Sits between the nav and the controls; on narrow screens
+   the nav is hidden but this stays — it is the only route to the other
+   language, so it must never be the thing that gets dropped. */
+.lang-switch {
+  font-family: var(--f-work); font-size: 15px; font-weight: 700;
+  color: var(--ink-soft); text-decoration: none; white-space: nowrap;
+  padding: 7px 12px; border-radius: var(--radius); flex-shrink: 0;
+  transition: background-color .16s ease, color .16s ease;
+}
+.lang-switch:hover { color: var(--sage); background: var(--sage-wash); text-decoration: none; }
+@media (prefers-reduced-motion: reduce) { .lang-switch { transition: none; } }
+@media (max-width: 420px) { .lang-switch { padding: 6px 8px; font-size: 14px; } }
+@media (max-width: 860px) { .nav { display: none; } }
+
+/* Narrow screens: brand + language + theme + CTA is too much for the bar,
+   and the CTA was wrapping to two lines and clipping at the edge. Tighten
+   the controls first; the CTA keeps its full label because it is the one
+   thing in the header that has a job. */
+@media (max-width: 480px) {
+  .site-head .bar { gap: 8px; height: 78px; }
+  .brand .wm { font-size: 18px; }
+  .brand .mark { width: 55px; height: 55px; }
+  .head-cta { padding: 9px 14px; font-size: 14px; white-space: nowrap; }
+}
+.head-cta { white-space: nowrap; }
+
+.site-foot { background: var(--surface-sunk); border-top: 1px solid var(--rule); padding-block: 54px 34px; font-size: 15.5px; }
+.site-foot h4 { font-family: var(--f-work); font-size: 13px; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; font-weight: 700; }
+.site-foot ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.site-foot a { color: var(--ink-soft); text-decoration: none; }
+.site-foot a:hover { color: var(--sage); text-decoration: underline; }
+.foot-legal { margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--rule-strong); color: var(--ink-faint); font-size: 13.5px; line-height: 1.65; }
+
+.skip { position: absolute; inset-inline-start: -9999px; top: 0; }
+.skip:focus { inset-inline-start: 50%; transform: translateX(-50%); z-index: 999; background: var(--surface); padding: 12px 20px; border: 2px solid var(--sage); border-radius: 0 0 var(--radius) var(--radius); }
+
+/* ==========================================================================
+   motion
+
+   Every hidden-by-default rule is scoped under html.has-anim, a class set
+   by an inline script in <head>. No script, no hidden state — content is
+   never invisible to a crawler or a no-JS visitor. anim.js drops the class
+   outright when the visitor asks for reduced motion.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  html.has-anim [data-reveal],
+  html.has-anim [data-reveal-group] > * { opacity: 0; transform: translateY(12px); }
+  html.has-anim [data-reveal].is-in,
+  html.has-anim [data-reveal-group] > .is-in {
+    opacity: 1; transform: none;
+    transition: opacity .38s cubic-bezier(.22,.61,.36,1), transform .38s cubic-bezier(.22,.61,.36,1);
+  }
+  html.has-anim [data-reveal-group] { opacity: 1; transform: none; }
+
+  html.has-anim .hero [data-lift] { opacity: 0; transform: translateY(14px); }
+  html.has-anim.is-ready .hero [data-lift] {
+    opacity: 1; transform: none;
+    transition: opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);
+  }
+  html.has-anim.is-ready .hero [data-lift="1"] { transition-delay: .05s; }
+  html.has-anim.is-ready .hero [data-lift="2"] { transition-delay: .12s; }
+  html.has-anim.is-ready .hero [data-lift="3"] { transition-delay: .19s; }
+  html.has-anim.is-ready .hero [data-lift="4"] { transition-delay: .26s; }
+  html.has-anim.is-ready .hero [data-lift="5"] { transition-delay: .33s; }
+
+  html.has-anim .hero .rx-wrap { opacity: 0; transform: translateY(22px) scale(.985); }
+  html.has-anim.is-ready .hero .rx-wrap {
+    opacity: 1; transform: none;
+    transition: opacity .7s cubic-bezier(.22,.61,.36,1) .3s, transform .7s cubic-bezier(.22,.61,.36,1) .3s;
+  }
+
+  html.has-anim .rx-stamp { opacity: 0; transform: scale(.94); }
+  html.has-anim.is-ready .rx-stamp {
+    opacity: 1; transform: none;
+    transition: opacity .4s ease-out .95s, transform .45s cubic-bezier(.34,1.4,.64,1) .95s;
+  }
+  html.has-anim .rx-stamp svg path { stroke-dasharray: 22; stroke-dashoffset: 22; }
+  html.has-anim.is-ready .rx-stamp svg path { stroke-dashoffset: 0; transition: stroke-dashoffset .45s ease-out 1.15s; }
+
+  .card[data-hover], .tier, ol.steps > li {
+    transition: transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease-out;
+  }
+  .card[data-hover]:hover, .tier:hover, ol.steps > li:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+  .chips span { transition: transform .18s ease-out, border-color .18s ease-out, color .18s ease-out; }
+  .chips span:hover { transform: translateY(-2px); border-color: var(--sage); color: var(--sage-deep); }
+
+  .nav a { position: relative; }
+  .nav a::after {
+    content: ""; position: absolute; inset-inline-start: 0; bottom: -5px;
+    height: 2px; width: 100%; background: var(--sage);
+    transform: scaleX(0); transform-origin: inline-start;
+    transition: transform .22s cubic-bezier(.22,.61,.36,1);
+  }
+  .nav a:hover::after, .nav a:focus-visible::after { transform: scaleX(1); }
+}
+
+.site-head { transition: box-shadow .2s ease-out, background-color .2s ease-out; }
+.site-head.is-stuck { box-shadow: 0 1px 0 var(--rule), 0 6px 20px -12px rgba(46,58,40,.28); }
+.faq .a { overflow: hidden; }
+
+/* ==========================================================================
+   theme toggle
+   Sits in the header next to the CTA. The stamp it writes (data-theme on
+   <html>) is the same one the pre-paint script in <head> reads back, so a
+   chosen theme survives reload without a flash of the other one.
+   ========================================================================== */
+.theme-btn {
+  width: 42px; height: 42px; flex-shrink: 0;
+  display: inline-grid; place-items: center;
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--rule-strong); border-radius: 50%;
+  cursor: pointer; font: inherit; line-height: 1;
+  transition: background-color .16s ease, transform .16s ease, border-color .16s ease;
+}
+.theme-btn:hover { background: var(--band-sage); border-color: var(--sage); transform: translateY(-1px); }
+.theme-btn svg { width: 19px; height: 19px; }
+.theme-btn .i-sun  { display: none; }
+.theme-btn .i-moon { display: block; }
+:root[data-theme="dark"] .theme-btn .i-sun  { display: block; }
+:root[data-theme="dark"] .theme-btn .i-moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-btn .i-sun  { display: block; }
+  :root:not([data-theme="light"]) .theme-btn .i-moon { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .theme-btn { transition: none; } .theme-btn:hover { transform: none; } }
+@media (max-width: 420px) { .theme-btn { width: 38px; height: 38px; } }

@@ -1,0 +1,26 @@
+# intake.html carries <meta name="robots" content="noindex"> rather than a
+# Disallow here. A Disallow would stop crawlers reading that tag, leaving the
+# bare URL eligible for indexing if anything ever links to it. Crawl is what
+# makes noindex work.
+
+User-agent: *
+Allow: /
+
+# AI crawlers are welcome: this site answers questions people ask assistants,
+# and being citable there is worth more than the traffic it costs.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.greekcloud.co.il/sitemap.xml

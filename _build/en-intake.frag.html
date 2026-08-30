@@ -1,0 +1,173 @@
+  <section class="doc-head band-cream">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/en/">Home</a> &rsaquo; Eligibility check</nav>
+      <p class="eyebrow">Questionnaire</p>
+      <h1>Eligibility check</h1>
+      <p class="lede">
+        A few questions about your health and your passport details. A Greek-licensed physician will review
+        the request and decide independently. Filling this in commits you to nothing.
+      </p>
+      <div class="city-facts" style="margin-top:28px">
+        <div><span class="k">Time to complete</span><span class="v">About 3 minutes</span></div>
+        <div><span class="k">What you need</span><span class="v">Passport number and a selfie</span></div>
+        <div><span class="k">If not approved</span><span class="v">Full refund</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-linen">
+    <div class="wrap">
+      <form class="intake" data-intake novalidate>
+
+        <fieldset>
+          <legend>Plan</legend>
+          <p class="fs-help">The only difference is the physician's response time. You can change this later.</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="plan" value="standard" required><span>
+              <b>Standard &middot; &#8362;289</b><small>Response within 24 hours &middot; WhatsApp support</small></span></label>
+            <label class="choice"><input type="radio" name="plan" value="vip"><span>
+              <b>VIP &middot; &#8362;379</b><small>Response within about an hour during working hours &middot; personal support &middot; help finding a pharmacy</small></span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Personal details</legend>
+          <p class="fs-help">
+            These must match your passport exactly. The prescription is issued in your passport name, and
+            the pharmacy checks it against the document.
+          </p>
+          <div class="fields">
+            <p class="f"><label for="fullname">Full name, exactly as it appears in your passport</label>
+              <input id="fullname" name="full_name" type="text" autocomplete="name"
+                     required aria-describedby="fullname-hint">
+              <small id="fullname-hint">For example: ISRAEL ISRAELI</small></p>
+            <p class="f"><label for="passport">Passport number</label>
+              <input id="passport" name="passport" type="text" required aria-describedby="passport-hint">
+              <small id="passport-hint">As printed in the passport, no spaces</small></p>
+            <p class="f"><label for="age">Age</label>
+              <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
+              <small id="age-hint">The service is for adults aged 18 and over</small></p>
+            <p class="f"><label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required></p>
+            <p class="f"><label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+30 000 000 0000" required></p>
+            <p class="f"><label for="city">Where you are staying in Greece</label>
+              <select id="city" name="city" required>
+                <option value="">Choose</option>
+                <option>Athens</option><option>Thessaloniki</option><option>Crete</option>
+                <option>Rhodes</option><option>Kos</option><option>Santorini</option>
+                <option>Mykonos</option><option>Corfu</option><option>Other / not yet decided</option>
+              </select></p>
+            <p class="f"><label for="arrival">Approximate arrival date</label>
+              <input id="arrival" name="arrival" type="date"></p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your health</legend>
+          <p class="fs-help">
+            Write freely and in your own words. The physician reads this — the more specific you are, the
+            better grounded their assessment.
+          </p>
+          <p class="f"><label for="condition">What is troubling you, and what have you already tried?</label>
+            <textarea id="condition" name="condition" rows="5" required
+              placeholder="For example: lower back pain for two years, mostly after sitting for long periods. I have tried painkillers and physiotherapy, with only partial relief."></textarea></p>
+          <div class="fields">
+            <p class="f"><label for="rx-exists">Do you hold a cannabis prescription or licence at home?</label>
+              <select id="rx-exists" name="rx_exists" aria-describedby="rx-hint">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+                <option value="past">I did in the past</option>
+              </select>
+              <small id="rx-hint">Not a requirement and not valid in Greece — asked only to inform the assessment</small></p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Identity verification</legend>
+          <p class="fs-help">
+            One selfie, to verify against the passport details you entered.
+            <b>We do not ask for a scan of the passport itself.</b>
+          </p>
+          <div class="fields">
+            <p class="f"><label for="f-selfie">Selfie photo</label>
+              <input id="f-selfie" name="file_selfie" type="file" accept="image/*"
+                     required aria-describedby="selfie-hint">
+              <small id="selfie-hint">Face only, in good light. It does not need to be a formal photo.</small></p>
+            <p class="f"><label for="f-rx">Existing prescription, if any</label>
+              <input id="f-rx" name="file_rx" type="file" accept="image/*,.pdf" aria-describedby="frx-hint">
+              <small id="frx-hint">Optional</small></p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Confirmations</legend>
+          <div class="consents">
+            <label class="cbx"><input type="checkbox" name="c_age" required>
+              <span>I confirm that I am 18 or over.</span></label>
+            <label class="cbx"><input type="checkbox" name="c_terms" required>
+              <span>I have read and agree to the <a href="/en/terms.html">terms of use</a> and the <a href="/en/privacy.html">privacy policy</a>.</span></label>
+            <label class="cbx"><input type="checkbox" name="c_customs" required>
+              <span>I understand that taking cannabis products out of Greece is prohibited, and that the prescription is valid inside Greece only.</span></label>
+            <label class="cbx"><input type="checkbox" name="c_nopromise" required>
+              <span>I understand the decision rests with the physician alone, and that submitting this is no guarantee of approval.</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="declare">
+          <legend>Final declaration</legend>
+          <p class="fs-help">
+            This is the most important part of the form. The prescription is issued from what you entered
+            here, and it cannot be corrected once issued.
+          </p>
+          <div class="consents">
+            <label class="cbx"><input type="checkbox" name="c_accuracy" required>
+              <span>
+                <b>I have checked my details and they are correct and accurate.</b>
+                I confirm that the name and passport number I entered match exactly the passport I will be
+                carrying in Greece.
+              </span></label>
+            <label class="cbx"><input type="checkbox" name="c_liability" required>
+              <span>
+                I understand that <b>a prescription issued with incorrect details cannot be corrected</b>,
+                that the pharmacy may refuse to honour it, and that this is my responsibility alone. In that
+                case a new request and a new payment would be required, and the refund does not apply.
+              </span></label>
+          </div>
+          <div class="note note-warn" style="margin-top:16px">
+            <span class="nt">Before you send</span>
+            Take out your passport and compare letter by letter: given name, surname and number. This one
+            check prevents most of the problems we see.
+          </div>
+        </fieldset>
+
+        <p class="hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </p>
+
+        <button class="btn btn-primary submit" type="submit">Submit request</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="band-sage">
+    <div class="wrap prose">
+      <p class="eyebrow">What happens next</p>
+      <h2>After you submit</h2>
+      <ul class="clean">
+        <li>The request is passed to a Greek-licensed physician for review.</li>
+        <li>The physician may ask for clarification before deciding.</li>
+        <li>Approved — a digital prescription in your passport name, by email.</li>
+        <li>Not approved — the service fee is refunded in full.</li>
+      </ul>
+      <div class="note">
+        <span class="nt">About the information you send</span>
+        Your details and selfie are used solely to pass the request to the physician and have it reviewed,
+        and are stored encrypted. We do not ask for and do not store a scan of your passport.
+        Full details in the <a href="/en/privacy.html">privacy policy</a>.
+      </div>
+    </div>
+  </section>
+

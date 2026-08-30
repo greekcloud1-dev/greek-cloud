@@ -1,0 +1,143 @@
+/* ==========================================================================
+   GreekCloud — dedicated accessibility widget (Regulation 35 / IS 5568)
+   ==========================================================================
+
+   Split out from the hamburger menu on request: navigation, language and
+   theme stay in the menu drawer (settings.css/.js). Everything that is an
+   accessibility PREFERENCE lives here, behind its own floating button, which
+   is the convention Israeli sites are expected to follow and is what
+   Alt+A opens.
+
+   Scope fence unchanged: toggles classes on <html> only. Never touches
+   content DOM, never injects alt text, never rewrites ARIA.
+   ========================================================================== */
+
+.a11y-fab {
+  position: fixed; z-index: 85;
+  inset-inline-start: 18px; inset-block-end: 96px;
+  width: 50px; height: 50px; flex-shrink: 0;
+  display: inline-grid; place-items: center;
+  background: var(--sage-solid); color: var(--on-solid);
+  border: 0; border-radius: 50%;
+  cursor: pointer; font: inherit;
+  box-shadow: var(--shadow-lg);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+.a11y-fab:hover { transform: translateY(-2px); box-shadow: 0 6px 16px -6px rgba(0,0,0,.4), var(--shadow-lg); }
+.a11y-fab svg { width: 27px; height: 27px; }
+.a11y-fab[aria-expanded="true"] { outline: 3px solid var(--sage); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .a11y-fab { transition: none; } .a11y-fab:hover { transform: none; } }
+@media (max-width: 480px) { .a11y-fab { width: 46px; height: 46px; inset-block-end: 88px; inset-inline-start: 14px; } .a11y-fab svg { width: 24px; height: 24px; } }
+
+/* The 96px bottom offset clears the first-visit privacy notice bar in the
+   common case. It is a fixed estimate, not a measurement of the notice's
+   actual height, so it is generous rather than exact — see notice.js. */
+
+.a11y-panel {
+  position: fixed; z-index: 86;
+  inset-inline-start: 18px; inset-block-end: 156px;
+  width: min(320px, calc(100vw - 36px));
+  max-height: min(72vh, 560px); overflow-y: auto; overscroll-behavior: contain;
+  background: var(--surface); color: var(--ink-body);
+  border: 1px solid var(--rule-strong); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 18px 20px 20px;
+  display: flex; flex-direction: column; gap: 18px;
+  text-align: start;
+}
+.a11y-panel[hidden] { display: none; }
+@media (max-width: 480px) { .a11y-panel { inset-block-end: 142px; inset-inline-start: 14px; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .a11y-panel { animation: a11y-in .18s cubic-bezier(.22,.61,.36,1); transform-origin: bottom center; }
+  @keyframes a11y-in { from { opacity: 0; transform: scale(.94) translateY(6px); } to { opacity: 1; transform: none; } }
+}
+
+.a11y-panel-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.a11y-panel-top .t { font-family: var(--f-anchor); font-size: 18px; color: var(--ink); }
+.a11y-close {
+  width: 32px; height: 32px; flex-shrink: 0; display: grid; place-items: center;
+  background: none; border: 1px solid var(--rule); border-radius: 50%;
+  color: var(--ink); cursor: pointer; font: inherit;
+}
+.a11y-close:hover { background: var(--band-sage); border-color: var(--sage); }
+.a11y-close svg { width: 15px; height: 15px; }
+
+.a11y-group > h3 {
+  font-family: var(--f-work); font-size: 11px; font-weight: 700;
+  letter-spacing: .11em; text-transform: uppercase; color: var(--ink-faint);
+  margin: 0 0 8px;
+}
+
+.a11y-reset {
+  font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+  background: none; border: 0; color: var(--sage); padding: 0;
+  text-decoration: underline; text-underline-offset: 3px; align-self: flex-start;
+}
+.a11y-reset:hover { color: var(--sage-deep); }
+
+.a11y-panel .menu-note { margin: 0; }
+
+/* The page filter must not swallow the widget itself, or the person who
+   just turned on invert/greyscale loses the one control that turns it back
+   off. Excluded from the filter the same way the nav drawer is. */
+html.a11y-contrast-invert .a11y-fab, html.a11y-contrast-invert .a11y-panel { filter: invert(1) hue-rotate(180deg); }
+html.a11y-contrast-mono .a11y-fab, html.a11y-contrast-mono .a11y-panel { filter: grayscale(1); }
+
+@media print { .a11y-fab, .a11y-panel { display: none !important; } }
+
+/* ==========================================================================
+   accessibility preferences — classes on <html>
+   Unchanged from before: same class names, same effect. Only the control
+   surface that sets them moved. The pre-paint snippet in <head> must keep
+   writing these exact names or the FOUC guard drifts from runtime.
+   ========================================================================== */
+
+html.a11y-text-110 { font-size: 110%; }
+html.a11y-text-125 { font-size: 125%; }
+html.a11y-text-150 { font-size: 150%; }
+
+html.a11y-lines-16 body, html.a11y-lines-16 p, html.a11y-lines-16 li { line-height: 1.85; }
+html.a11y-lines-20 body, html.a11y-lines-20 p, html.a11y-lines-20 li { line-height: 2.1; }
+
+html.a11y-links a {
+  text-decoration: underline !important; text-underline-offset: 3px;
+  font-weight: 600 !important;
+}
+
+/* Readable font uses an OS stack only. Pulling in a webfont here would
+   re-flow the page for the person least able to cope with that. */
+html.a11y-font body, html.a11y-font h1, html.a11y-font h2, html.a11y-font h3, html.a11y-font h4,
+html.a11y-font .brand .wm, html.a11y-font .price, html.a11y-font .fact .v,
+html.a11y-font .faq summary, html.a11y-font legend {
+  font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif !important;
+}
+html.a11y-font h1, html.a11y-font h2 { font-weight: 700; letter-spacing: -.01em; }
+html.a11y-font h1 { font-size: clamp(30px, 5vw, 48px); line-height: 1.16; }
+html.a11y-font h2 { font-size: clamp(24px, 3.4vw, 34px); line-height: 1.24; }
+
+html.a11y-headings h1, html.a11y-headings h2, html.a11y-headings h3 {
+  outline: 2px dashed currentColor; outline-offset: 5px;
+}
+
+html.a11y-contrast-high { filter: contrast(1.32); }
+html.a11y-contrast-invert { filter: invert(1) hue-rotate(180deg); }
+html.a11y-contrast-mono { filter: grayscale(1) contrast(1.12); }
+
+html.a11y-cursor-big, html.a11y-cursor-big * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'%3E%3Cpath d='M5 2l14 10-6 1 3.5 7-2.6 1.2L10.4 14 5 18z' fill='%23000' stroke='%23fff' stroke-width='1.4'/%3E%3C/svg%3E") 4 2, auto !important;
+}
+
+html.a11y-motion *, html.a11y-motion *::before, html.a11y-motion *::after {
+  animation-duration: .001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media print {
+  html[class*="a11y-"] { filter: none !important; }
+  html[class*="a11y-text-"] { font-size: 100% !important; }
+  html[class*="a11y-lines-"] body, html[class*="a11y-lines-"] p, html[class*="a11y-lines-"] li { line-height: normal !important; }
+  html.a11y-headings h1, html.a11y-headings h2, html.a11y-headings h3 { outline: none !important; }
+}

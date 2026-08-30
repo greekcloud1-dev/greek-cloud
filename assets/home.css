@@ -1,0 +1,308 @@
+/* ==========================================================================
+   GreekCloud — home page
+   Shared by the Hebrew and English home pages. Everything here uses logical
+   properties (inset-inline, margin-inline, text-align: start/end) so the
+   same file lays out correctly in both RTL and LTR.
+   ========================================================================== */
+/* ---------- page-local: hero ---------- */
+.hero { padding-block: clamp(48px, 7vw, 86px) clamp(44px, 6vw, 76px); position: relative; overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset-block-start: -30%; inset-inline-start: -12%;
+  width: 62vw; height: 62vw; max-width: 760px; max-height: 760px;
+  background: radial-gradient(circle, var(--sage-wash) 0%, transparent 68%);
+  opacity: .75; pointer-events: none; z-index: 0;
+}
+.hero > .wrap { position: relative; z-index: 1; }
+.hero-grid { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr); gap: clamp(28px, 5vw, 60px); align-items: center; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+
+.hero h1 { margin-bottom: 20px; }
+.hero h1 .accent { color: var(--sage); }
+.hero .lede { margin-bottom: 26px; max-width: 54ch; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+.trust-row { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 15px; color: var(--ink-soft); }
+.trust-row span { display: inline-flex; align-items: center; gap: 7px; }
+.trust-row svg { flex-shrink: 0; color: var(--sage); }
+
+/* hero brand mark
+   This slot used to hold a mock prescription card. It now holds the company
+   mark at the card's exact width (400px), so the hero grid keeps its
+   proportions and the columns stay balanced. The mark is square, so the box
+   is square: an aspect-ratio forcing the card's shorter 1.15:1 box would
+   only letterbox the same image inside more empty space. `contain` keeps it
+   undistorted if the source ever stops being square. The alt is the brand
+   name, not empty: this is now the only image in the hero and it names the
+   service, so a screen-reader user should hear it. */
+.hero-logo {
+  max-width: 400px; width: 100%; margin-inline: auto;
+  display: grid; place-items: center;
+}
+.hero-logo img { width: 100%; height: auto; object-fit: contain; display: block; }
+@media (max-width: 900px) { .hero-logo { max-width: 320px; } }
+
+/* ---------- answer block ---------- */
+.answer { background: var(--surface); border: 1px solid var(--rule-strong); border-radius: var(--radius-lg); padding: clamp(24px, 3.4vw, 36px); box-shadow: var(--shadow); }
+.answer h2 { font-size: clamp(33px, 4.2vw, 44px); margin-bottom: 14px; }
+.answer > p { font-size: 18px; max-width: 68ch; }
+
+/* ---------- facts ---------- */
+.fact { display: flex; flex-direction: column; gap: 5px; }
+.fact .k { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+.fact .v { font-family: var(--f-anchor); font-size: clamp(21px, 2.6vw, 26px); font-weight: 400; color: var(--ink); line-height: 1.25; }
+.fact .d { font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; }
+
+/* ---------- steps ---------- */
+ol.steps { list-style: none; counter-reset: st; padding: 0; margin: 0; display: grid; gap: clamp(14px,2vw,20px); grid-template-columns: repeat(auto-fit, minmax(224px,1fr)); }
+ol.steps > li { counter-increment: st; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 24px 22px; position: relative; }
+ol.steps > li::before {
+  content: counter(st); position: absolute; inset-block-start: -14px; inset-inline-start: 22px;
+  width: 32px; height: 32px; border-radius: 50%; background: var(--sage-solid); color: var(--on-solid);
+  display: grid; place-items: center; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+ol.steps h3 { margin: 8px 0 7px; }
+ol.steps p { font-size: 15.5px; color: var(--ink-soft); margin: 0; }
+ol.steps .when { display: inline-block; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--clay); }
+
+/* ==========================================================================
+   PRICING — the boarding pass
+   The two plans are tickets: a dark header strip, a row of ticket fields, a
+   feature list, a perforation, then the stub with the price. The metaphor is
+   doing work, not decoration — a ticket is a thing you buy once and hold,
+   which is exactly what this service is, and the fields are where the two
+   plans differ at a glance.
+
+   The band is cream with a fine sage grain rather than a flat colour, so the
+   section reads as its own surface without introducing a new hue that would
+   need its own contrast audit.
+   ========================================================================== */
+.pricing-band { position: relative; overflow: hidden; }
+.pricing-band > .wrap { position: relative; z-index: 2; }
+.pricing-band::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .5;
+  background-image: radial-gradient(color-mix(in srgb, var(--sage) 17%, transparent) 1px, transparent 1px);
+  background-size: 5px 5px;
+}
+/* Two very slow, very faint lights. At 28s and 34s per cycle and ~12% alpha
+   they read as ambient light rather than as animation — which is what keeps
+   the section inside a sane motion budget while three planes also fly. */
+.pricing-band .glow { position: absolute; z-index: 0; border-radius: 50%; filter: blur(40px); pointer-events: none; }
+.pricing-band .glow-1 { width: 460px; height: 460px; background: radial-gradient(circle, color-mix(in srgb, var(--sage) 13%, transparent), transparent 70%); inset-block-start: -180px; inset-inline-start: -120px; }
+.pricing-band .glow-2 { width: 380px; height: 380px; background: radial-gradient(circle, color-mix(in srgb, var(--clay) 11%, transparent), transparent 70%); inset-block-end: -160px; inset-inline-end: -100px; }
+@media (prefers-reduced-motion: no-preference) {
+  .pricing-band .glow-1 { animation: gc-drift-1 28s ease-in-out infinite alternate; }
+  .pricing-band .glow-2 { animation: gc-drift-2 34s ease-in-out infinite alternate; }
+  @keyframes gc-drift-1 { from { transform: translate3d(0,0,0); } to { transform: translate3d(44px,32px,0); } }
+  @keyframes gc-drift-2 { from { transform: translate3d(0,0,0); } to { transform: translate3d(-40px,-30px,0); } }
+}
+.pricing-band .sec-head { max-width: 58ch; margin-inline: auto; text-align: center; }
+
+/* ---- the five-step rail ----
+   Steps 1-4 are identical in both plans; step 5, the pharmacy, is VIP only
+   and carries a badge saying so. Showing that visually sells the upgrade
+   better than a sentence could, and it is true, which is why it works. */
+.rail { position: relative; margin: 0 auto 14px; max-width: 760px; }
+.rail-line { position: absolute; inset-block-start: 11px; inset-inline: 22px; height: 2px; background: var(--rule-strong); }
+.rail-fill { position: absolute; inset-block-start: 11px; inset-inline-start: 22px; height: 2px; background: var(--sage); width: calc(100% - 44px); }
+.rail-steps { display: flex; justify-content: space-between; position: relative; }
+.rail-steps { list-style: none; margin: 0; padding: 0; }
+.rail-steps .step { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 20%; text-align: center; }
+/* The numeral sits on --sage, which is a DARK green in light mode and a
+   LIGHT green in dark mode, so a fixed light ink fails one of the two. The
+   cream band token flips the same way the background does, so it stays
+   readable in both: near-white on dark green, near-black on light green.
+   Measured 1.81:1 before this fix in dark mode. */
+.rail-steps .dot { width: 24px; height: 24px; border-radius: 50%; background: var(--sage); border: 2px solid var(--sage); display: grid; place-items: center; font-size: 11px; font-weight: 800; color: var(--band-cream); }
+/* --sage-solid is the one brand token that stays dark in BOTH themes, so the
+   last dot keeps the light ink rather than the flipping cream above. */
+.rail-steps .last .dot { background: var(--sage-solid); border-color: var(--sage-solid); color: var(--on-solid); }
+/* The labels wrap naturally inside a narrow measure instead of carrying a
+   hardcoded <br>. A forced break is a desktop decision baked into the markup,
+   and it is exactly what broke the mobile layout: on one line per row the
+   break left a ragged second line under every step. */
+.rail-steps .lab { font-size: 12.5px; font-weight: 700; color: var(--ink); line-height: 1.35; max-inline-size: 11ch; }
+.rail-steps .only { font-family: var(--f-anchor); font-size: 10.5px; letter-spacing: .05em; color: var(--on-solid); background: var(--sage-solid); border-radius: 100px; padding: 1px 8px; }
+.rail-cap { text-align: center; font-size: 14px; color: var(--sage); font-weight: 700; margin: 0 auto 30px; max-width: 62ch; }
+
+/* The plane rides the leading edge of the fill, so the trail is the line it
+   draws. One gesture instead of two competing loops. The nose has to point
+   the way it travels, and that flips with direction: inline-start is the
+   right edge in Hebrew and the left edge in English. */
+:root { --nose: 90deg; }
+:root[dir="rtl"] { --nose: -90deg; }
+.rail-plane {
+  position: absolute; inset-inline-end: -11px; inset-block-start: -10px;
+  width: 22px; height: 22px; display: grid; place-items: center;
+  background: var(--band-cream); border-radius: 50%; color: var(--sage);
+}
+.rail-plane svg { transform: rotate(var(--nose)); }
+@media (prefers-reduced-motion: no-preference) {
+  .rail-fill { animation: gc-fill 16s cubic-bezier(.5,0,.2,1) infinite; }
+  @keyframes gc-fill {
+    0%, 6%   { width: 0; opacity: 1; }
+    58%, 88% { width: calc(100% - 44px); opacity: 1; }
+    97%      { width: calc(100% - 44px); opacity: 0; }
+    100%     { width: 0; opacity: 0; }
+  }
+}
+
+/* ---- the passes ---- */
+.passes { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 350px)); justify-content: center; gap: 22px; align-items: stretch; }
+.pass { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; }
+.pass.feature { border: 2px solid var(--sage); box-shadow: var(--shadow-lg); }
+.pass .strip { background: var(--sage-solid); color: var(--on-solid); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; font-weight: 800; letter-spacing: .1em; }
+.pass .strip .side { display: flex; align-items: center; gap: 10px; }
+.pass .strip .go { font-family: var(--f-anchor); letter-spacing: 0; font-size: 15px; }
+/* The "most chosen" badge sits INSIDE the strip. Floating it above the card
+   the way the old .tier.feature did cannot work here: .pass needs
+   overflow:hidden so the strip respects the rounded corners, which would
+   slice the badge in half. */
+.pass .vip-name { font-family: var(--f-anchor); font-size: 22px; letter-spacing: .04em; line-height: 1; }
+.pass .badge { background: var(--on-solid); color: var(--sage-solid); font-size: 11px; font-weight: 800; letter-spacing: .06em; padding: 3px 10px; border-radius: 100px; }
+
+/* Two ticket fields, never three: at three columns each cell was ~76px inside
+   a 300px card, so a long value wrapped in one card and not the other and the
+   rows stopped lining up. nowrap makes the one-line guarantee explicit
+   rather than hopeful. */
+.pass .fields { display: grid; grid-template-columns: repeat(2, 1fr); border-bottom: 1px solid var(--rule); background: var(--sage-wash); }
+.pass .fields div { padding: 11px 12px; text-align: center; border-inline-start: 1px dashed var(--rule-strong); }
+.pass .fields div:first-child { border-inline-start: 0; }
+/* --ink-faint measured 4.4986:1 on the wash in dark mode — under the floor by a hair, at 9.5px. */
+.pass .fields .k { display: block; font-size: 9.5px; font-weight: 800; letter-spacing: .1em; color: var(--ink-soft); margin-bottom: 3px; }
+.pass .fields .v { font-family: var(--f-anchor); font-size: 15.5px; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1.2; white-space: nowrap; }
+.pass .fields .v.hot { color: var(--sage); }
+
+.pass .body { padding: 20px 22px; display: flex; flex-direction: column; gap: 11px; flex: 1; }
+.pass ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; flex: 1; font-size: 15px; }
+.pass li { display: flex; gap: 8px; align-items: flex-start; }
+.pass li svg { flex-shrink: 0; margin-top: 4px; color: var(--sage); }
+
+/* The in-card route repeats the promise of the field above it in the visual
+   language of a ticket rather than in another sentence. It is airborne for
+   ~2.5s of a 14s cycle and invisible the rest, so that for most of the time
+   exactly one thing in this section is moving. */
+.route { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .04em; color: var(--ink-faint); padding-bottom: 3px; }
+.route .dash { flex: 1; height: 1px; border-top: 1px dashed var(--rule-strong); position: relative; }
+.route .plane { position: absolute; inset-block-start: -8px; inset-inline-start: 0; color: var(--sage); opacity: 0; }
+.route .plane svg { display: block; transform: rotate(var(--nose)); }
+@media (prefers-reduced-motion: no-preference) {
+  .route .plane { animation: gc-taxi 14s linear infinite; }
+  .pass.feature .route .plane { animation-delay: 1.4s; }
+  @keyframes gc-taxi {
+    0%   { inset-inline-start: 0%;   opacity: 0; }
+    3%   { opacity: 1; }
+    15%  { opacity: 1; }
+    18%  { inset-inline-start: 100%; opacity: 0; }
+    100% { inset-inline-start: 100%; opacity: 0; }
+  }
+}
+
+.perf { position: relative; height: 0; border-top: 2px dashed var(--rule-strong); margin: 2px 0; }
+.perf::before, .perf::after { content: ""; position: absolute; inset-block-start: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--band-cream); }
+.perf::before { inset-inline-start: -32px; }
+.perf::after  { inset-inline-end: -32px; }
+
+.stub { padding: 17px 22px 21px; display: flex; flex-direction: column; gap: 13px; }
+.stub .price { font-family: var(--f-anchor); font-size: 38px; line-height: 1.05; color: var(--ink); font-variant-numeric: tabular-nums; }
+/* Suez One draws the shekel sign as a joined shin-het at full cap height,
+   which reads as the letters shin-het rather than as a currency mark.
+   Setting the sign in the work face at a smaller size gives the conventional
+   symbol and subordinates the currency to the number, which is how prices
+   are set anyway. */
+.stub .price .cur { font-family: var(--f-work); font-size: .58em; font-weight: 700; margin-inline-start: 2px; }
+.stub .price small { display: block; font-family: var(--f-work); font-size: 13px; font-weight: 600; color: var(--ink-faint); margin-top: 6px; letter-spacing: 0; }
+.stub .btn { width: 100%; }
+
+.chooser { max-width: 62ch; margin: 26px auto 0; text-align: center; font-size: 16.5px; color: var(--ink); }
+.chooser strong { color: var(--sage); }
+/* The footnote is running text under a hairline, not a bordered box: framed
+   and bolded, the same three facts read as a warning, which is the opposite
+   of what a reassurance should feel like. */
+.fine { max-width: 68ch; margin: 30px auto 0; padding-top: 16px; border-top: 1px solid var(--rule-strong); text-align: center; font-size: 13.5px; line-height: 1.7; color: var(--ink-faint); }
+.fine .st { color: var(--sage); font-weight: 800; }
+
+/* ---- narrow screens ----
+   The rail stays horizontal on phones: a five-step journey read left to right
+   is the whole point of drawing it as a rail, and stacking it into a list
+   throws that away. What changes is scale — smaller dots, smaller labels,
+   tighter columns — plus a mobile-only animation, below.
+
+   An earlier version let the steps wrap into a 2+2+1 grid, which read as
+   neither a row nor a list: the fifth step orphaned under the fourth and the
+   connecting line gone. Wrapping is the one thing this component must not do,
+   so the columns are fixed at a fifth each and the type shrinks to fit. */
+@media (max-width: 640px) {
+  .rail { max-width: 100%; }
+  .rail-steps { gap: 0; }
+  .rail-steps .step { width: 20%; gap: 6px; }
+  .rail-steps .dot { width: 20px; height: 20px; font-size: 10px; border-width: 2px; }
+  .rail-steps .lab { font-size: 10.5px; line-height: 1.25; max-inline-size: 9ch; }
+  .rail-steps .only { font-size: 9px; padding: 0 6px; letter-spacing: .04em; }
+
+  .rail-line  { inset-block-start: 9px; inset-inline: 18px; }
+  .rail-fill  { inset-block-start: 9px; inset-inline-start: 18px; width: calc(100% - 36px); }
+  .rail-plane { width: 18px; height: 18px; inset-block-start: -8px; inset-inline-end: -9px; }
+  .rail-plane svg { width: 12px; height: 12px; }
+
+  /* ---- the mobile flight ----
+     Desktop eases the fill, which looks good but makes the plane's position a
+     non-linear function of time. On a phone the steps sit close enough
+     together that the eye reads the plane and the dots as one event, so the
+     mobile fill runs LINEAR: that makes position proportional to time, which
+     is what lets each dot be timed to the moment the plane actually reaches
+     it, with a delay rather than a script.
+
+     Dot centres sit at 10/30/50/70/90% of the row. The fill starts 18px in
+     and its tip travels (100% - 36px), so a dot at centre c is reached at
+     (c - 18px) / (100% - 36px) of the traverse — ~5%, 27.5%, 50%, 72.5% and
+     95%. Over an 8.4s traverse that is the delay list below. Both animations
+     share the 14s cycle, so they stay locked together forever. */
+  @media (prefers-reduced-motion: no-preference) {
+    .rail-fill { animation: gc-fill-m 14s linear infinite; }
+    @keyframes gc-fill-m {
+      0%       { width: 0; opacity: 1; }
+      60%, 90% { width: calc(100% - 36px); opacity: 1; }
+      97%      { width: calc(100% - 36px); opacity: 0; }
+      100%     { width: 0; opacity: 0; }
+    }
+
+    .rail-steps .dot { animation: gc-dot-ping 14s linear infinite; }
+    .rail-steps .step:nth-child(1) .dot { animation-delay: .44s; }
+    .rail-steps .step:nth-child(2) .dot { animation-delay: 2.32s; }
+    .rail-steps .step:nth-child(3) .dot { animation-delay: 4.20s; }
+    .rail-steps .step:nth-child(4) .dot { animation-delay: 6.08s; }
+    .rail-steps .step:nth-child(5) .dot { animation-delay: 7.96s; }
+    @keyframes gc-dot-ping {
+      0%   { transform: scale(1);    box-shadow: 0 0 0 0 color-mix(in srgb, var(--sage) 50%, transparent); }
+      1.6% { transform: scale(1.32); }
+      5%   { transform: scale(1);    box-shadow: 0 0 0 10px color-mix(in srgb, var(--sage) 0%, transparent); }
+      100% { transform: scale(1);    box-shadow: 0 0 0 0 color-mix(in srgb, var(--sage) 0%, transparent); }
+    }
+  }
+
+  .perf::before, .perf::after { display: none; }
+}
+
+@media (max-width: 380px) {
+  .rail-steps .lab { font-size: 9.5px; max-inline-size: 8ch; }
+  .rail-steps .only { font-size: 8.5px; }
+}
+
+/* ---------- coverage ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 9px; }
+.chips span { background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 100px; padding: 7px 17px; font-size: 15.5px; font-weight: 600; color: var(--ink); }
+
+/* ---------- final cta ---------- */
+.final { text-align: center; }
+
+.final h2 { font-size: clamp(40px, 5.6vw, 60px); margin-bottom: 14px; }
+.final p { max-width: 54ch; margin-inline: auto; margin-bottom: 26px; font-size: 18px; }
+
+/* Below the legibility floor these overrides must not re-assert Amatic at a
+   size the global fallback just stepped away from. See base.css. */
+@media (max-width: 400px) {
+  .answer h2 { font-size: 23px; }
+  .final h2  { font-size: 26px; }
+}
+/* Two plans instead of three: cap the track so the pair sits centred at a
+   readable card width rather than stretching across the full page. */
+.tiers.two { grid-template-columns: repeat(auto-fit, minmax(255px, 360px)); justify-content: center; }

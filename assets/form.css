@@ -1,0 +1,79 @@
+/* ==========================================================================
+   GreekCloud — intake form
+   ========================================================================== */
+
+.intake { max-width: 62ch; display: flex; flex-direction: column; gap: 26px; }
+
+.intake fieldset {
+  border: 1px solid var(--rule); border-radius: var(--radius-lg);
+  background: var(--surface); padding: 22px 24px 24px; margin: 0;
+}
+.intake legend {
+  font-family: var(--f-anchor); font-size: 18px; color: var(--ink);
+  padding-inline: 10px; margin-inline-start: -10px;
+}
+.fs-help { font-size: 15px; color: var(--ink-soft); margin: 4px 0 16px; }
+
+.fields { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.f { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.f label { font-weight: 700; font-size: 15px; color: var(--ink); }
+.f small { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+
+.intake input[type=text], .intake input[type=email], .intake input[type=tel],
+.intake input[type=number], .intake input[type=date], .intake select, .intake textarea {
+  font: inherit; font-size: 16px;             /* 16px stops iOS zooming on focus */
+  padding: 11px 13px; width: 100%;
+  color: var(--ink); background: var(--paper);
+  border: 1px solid var(--rule-strong); border-radius: var(--radius);
+}
+.intake textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+.intake input:focus-visible, .intake select:focus-visible, .intake textarea:focus-visible {
+  outline: 2px solid var(--sage); outline-offset: 1px; border-color: var(--sage);
+}
+.intake input[type=file] { font: inherit; font-size: 15px; color: var(--ink-soft); }
+.intake input[aria-invalid="true"], .intake textarea[aria-invalid="true"], .intake select[aria-invalid="true"] {
+  border-color: var(--stop);
+}
+.err { color: var(--stop); font-size: 13.5px; font-weight: 700; }
+
+/* plan chooser */
+.choices { display: grid; gap: 10px; }
+.choice { display: block; cursor: pointer; }
+.choice input { position: absolute; opacity: 0; width: 0; height: 0; }
+.choice span {
+  display: block; padding: 14px 17px;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius);
+  background: var(--paper); transition: border-color .16s ease, background-color .16s ease;
+}
+.choice b { display: block; font-weight: 700; color: var(--ink); font-size: 16.5px; }
+.choice small { display: block; font-size: 14px; color: var(--ink-soft); margin-top: 2px; }
+.choice input:checked + span { border-color: var(--sage); border-width: 2px; padding: 13px 16px; background: var(--sage-wash); }
+.choice input:focus-visible + span { outline: 2px solid var(--sage); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .choice span { transition: none; } }
+
+/* consents */
+.consents { display: flex; flex-direction: column; gap: 13px; }
+.cbx { display: flex; gap: 11px; align-items: flex-start; cursor: pointer; font-size: 15.5px; line-height: 1.55; }
+.cbx input { margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--sage); }
+.cbx a { color: var(--sage); }
+
+/* honeypot — offset upward only. A negative inline-start value is real
+   scrollable overflow in an RTL document and stretches the viewport. */
+.hp { position: absolute; top: -9999px; inset-inline-start: 0; width: 1px; height: 1px; overflow: hidden; }
+
+.intake .submit { width: 100%; padding-block: 16px; font-size: 17.5px; }
+.intake .submit:disabled { opacity: .55; cursor: not-allowed; }
+.form-status { text-align: center; font-weight: 700; margin: 0; min-height: 1.5em; }
+.form-status.is-error { color: var(--stop); }
+
+/* The final declaration carries real consequences for the person signing it,
+   so it is visually separated from the routine confirmations above rather
+   than reading as one more box to tick. */
+.intake fieldset.declare {
+  border-color: color-mix(in srgb, var(--warn) 45%, var(--rule));
+  background: var(--warn-wash);
+}
+.intake fieldset.declare legend { color: var(--warn); }
+.intake fieldset.declare .cbx { align-items: flex-start; }
+.intake fieldset.declare .cbx span { line-height: 1.6; }
+.intake fieldset.declare input[type=checkbox] { accent-color: var(--warn); }
