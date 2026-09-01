@@ -349,10 +349,26 @@
 .intake-top h1 { font-size: clamp(33px, 4.4vw, 46px); margin-bottom: 14px; }
 .intake-top .lede { font-size: 17px; max-width: 60ch; }
 .intake-top .crumbs { margin-bottom: 14px; }
-.intake-top .city-facts { margin-top: 22px !important; }
 .intake-top .city-facts > div { padding: 14px 17px; }
 .intake-top .city-facts .v { font-size: 16.5px; }
 .intake-top .saved { margin: 26px 0 0; }
+
+/* ---- hero layout ----
+   Below 900px the facts card sits under the lede, full width, same as any
+   other .city-facts on the site. From 900px up it becomes a narrow rail
+   running the height of the title block -- DOM order alone decides which
+   side it lands on for each locale, since flex placement follows dir. */
+.hero-grid { display: flex; flex-direction: column; }
+.hero-facts.city-facts { margin-top: 22px; }
+@media (min-width: 900px) {
+  .hero-grid { flex-direction: row; align-items: stretch; gap: clamp(24px, 4vw, 48px); }
+  .hero-main { flex: 1 1 auto; min-width: 0; }
+  .hero-facts.city-facts {
+    flex: 0 0 220px; margin-top: 0;
+    display: flex; flex-direction: column; grid-template-columns: none;
+  }
+  .hero-facts.city-facts > div { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+}
 
 /* One element, three outcomes: maintenance-closed, sent, and a genuine send
    failure. It replaces the thin .form-status line once the whole
