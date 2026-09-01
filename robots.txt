@@ -1,3 +1,12 @@
+# ============================================================
+# SITE IS PRIVATE / PRE-LAUNCH.
+# Every response carries X-Robots-Tag: noindex, nofollow via
+# vercel.json. Crawling stays ALLOWED on purpose: a Disallow
+# would stop crawlers reading that header, which leaves bare
+# URLs eligible to appear. Crawl is what makes noindex work.
+# Remove the header in vercel.json to go live.
+# ============================================================
+
 # intake.html carries <meta name="robots" content="noindex"> rather than a
 # Disallow here. A Disallow would stop crawlers reading that tag, leaving the
 # bare URL eligible for indexing if anything ever links to it. Crawl is what

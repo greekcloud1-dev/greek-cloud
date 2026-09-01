@@ -37,6 +37,7 @@
   max-width: 400px; width: 100%; margin-inline: auto;
   display: grid; place-items: center;
 }
+.hero-logo picture { display: block; width: 100%; }
 .hero-logo img { width: 100%; height: auto; object-fit: contain; display: block; }
 @media (max-width: 900px) { .hero-logo { max-width: 320px; } }
 

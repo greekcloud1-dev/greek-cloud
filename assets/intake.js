@@ -127,3 +127,298 @@
     submitBtn.disabled = false;
   });
 })();
+
+/* ==========================================================================
+   GreekCloud — intake field behaviour
+   ==========================================================================
+
+   The form is one page, five named sections. This module owns the parts the
+   markup cannot express on its own: input shaping, the live passport check,
+   the symptom tags, the segmented control, the review card and the draft.
+   Validation messages, the secure-pipeline gate and submit stay with the
+   module above.
+
+   The draft stores NO file inputs and NO free-text health description. That
+   text is medical information, and the rule this form is built around is that
+   such data does not sit outside the encrypted pipeline. A convenience feature
+   is not worth parking a health history in a browser store nobody opted into.
+   ========================================================================== */
+
+(function () {
+  'use strict';
+
+  var form = document.querySelector('[data-intake]');
+  if (!form) return;
+
+  var savedEl = document.querySelector('[data-saved]');
+  var seg     = form.querySelector('[data-seg]');
+  var segOut  = form.querySelector('#rx-exists');
+
+  /* ---------- input shaping ---------- */
+
+  var nameEl = form.querySelector('#fullname');
+  if (nameEl) {
+    nameEl.addEventListener('input', function () {
+      var v = nameEl.value.toUpperCase().replace(/[^A-Z \-]/g, '');
+      if (v !== nameEl.value) nameEl.value = v;
+    });
+  }
+
+  var pass = form.querySelector('#passport');
+  var passHint = form.querySelector('#passport-hint');
+  if (pass && passHint && pass.getAttribute('inputmode') === 'numeric') {
+    var hintText = passHint.textContent;
+    pass.setAttribute('pattern', '\\d{8}');
+    pass.addEventListener('input', function () {
+      var v = pass.value.replace(/\D/g, '').slice(0, 8);
+      if (v !== pass.value) pass.value = v;
+      pass.removeAttribute('aria-invalid');
+      var ok = v.length === 8;
+      passHint.textContent = ok ? '✓ 8 ספרות. תואם לפורמט.' : hintText;
+      passHint.style.color = ok ? 'var(--sage)' : '';
+      passHint.style.fontWeight = ok ? '700' : '';
+    });
+    // Validate on blur, never while typing: flagging an incomplete number
+    // mid-keystroke reads as the field fighting the person filling it.
+    pass.addEventListener('blur', function () {
+      if (pass.value && pass.value.length !== 8) {
+        pass.setAttribute('aria-invalid', 'true');
+        passHint.textContent = 'חסרה ספרה. במספר דרכון ישראלי יש 8 ספרות.';
+        passHint.style.color = 'var(--stop)';
+        passHint.style.fontWeight = '700';
+      }
+    });
+  }
+
+  /* ---------- symptom tags ---------- */
+
+  var tags = form.querySelector('[data-tags]');
+  var cond = form.querySelector('#condition');
+  if (tags && cond) {
+    tags.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      var on = b.getAttribute('aria-pressed') === 'true';
+      b.setAttribute('aria-pressed', on ? 'false' : 'true');
+      if (on) return;
+      // Append, never overwrite: the textarea stays the person's own words.
+      var phrase = b.textContent.trim();
+      cond.value = cond.value.trim() ? cond.value.replace(/\s*$/, '') + ', ' + phrase : phrase;
+      cond.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+  }
+
+  /* ---------- segmented control ---------- */
+
+  if (seg && segOut) {
+    seg.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      [].forEach.call(seg.querySelectorAll('button'), function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+      segOut.value = b.getAttribute('data-val');
+      save();
+    });
+  }
+
+  /* ---------- review card ----------
+     Mirrors the two fields that get printed on the prescription, live, so the
+     last thing seen before submitting is the thing that cannot be corrected
+     afterwards. */
+
+  function fillReview() {
+    [].forEach.call(form.querySelectorAll('[data-review]'), function (el) {
+      var f = form.querySelector('[name="' + el.getAttribute('data-review') + '"]');
+      el.textContent = (f && f.value) ? f.value : '—';
+    });
+  }
+  form.addEventListener('input', fillReview);
+  fillReview();
+
+  form.addEventListener('click', function (e) {
+    var ed = e.target.closest('[data-edit]');
+    if (!ed) return;
+    var target = form.querySelector('#' + ed.getAttribute('data-edit'));
+    if (!target) return;
+    target.focus();
+    target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
+
+  /* ---------- draft ---------- */
+
+  var KEY = 'gc-intake-draft';
+  var SKIP = { condition: 1, website: 1, file_selfie: 1, file_rx: 1 };
+  var timer;
+
+  function save() {
+    var data = {};
+    [].forEach.call(form.elements, function (f) {
+      if (!f.name || SKIP[f.name] || f.type === 'file') return;
+      if (f.type === 'radio' || f.type === 'checkbox') { if (f.checked) data[f.name] = f.value || true; }
+      else data[f.name] = f.value;
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { return; }
+    if (savedEl) { savedEl.textContent = 'נשמר ✓'; savedEl.classList.add('is-ok'); }
+  }
+
+  function queueSave() {
+    if (savedEl) { savedEl.textContent = 'שומר…'; savedEl.classList.remove('is-ok'); }
+    clearTimeout(timer);
+    timer = setTimeout(save, 800);
+  }
+
+  form.addEventListener('input', queueSave);
+  form.addEventListener('blur', function () { clearTimeout(timer); save(); }, true);
+
+  (function restore() {
+    var raw;
+    try { raw = localStorage.getItem(KEY); } catch (e) { return; }
+    if (!raw) return;
+    var data;
+    try { data = JSON.parse(raw); } catch (e) { return; }
+    Object.keys(data).forEach(function (k) {
+      var f = form.elements[k];
+      if (!f) return;
+      if (f.length && f[0] && f[0].type === 'radio') {
+        [].forEach.call(f, function (r) { if (r.value === data[k]) r.checked = true; });
+      } else if (f.type === 'checkbox') { f.checked = !!data[k]; }
+      else if (f.type !== 'file') { f.value = data[k]; }
+    });
+    if (seg && segOut) {
+      [].forEach.call(seg.querySelectorAll('button'), function (x) {
+        x.setAttribute('aria-pressed', String(x.getAttribute('data-val') === segOut.value));
+      });
+    }
+    fillReview();
+    if (savedEl) { savedEl.textContent = 'נשמר ✓'; savedEl.classList.add('is-ok'); }
+  })();
+
+  form.addEventListener('submit', function () {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+  });
+})();
+
+/* ---- rail index ----------------------------------------------------------
+   Marks which section the reader is in. IntersectionObserver only tells us
+   *that* something crossed the line, so the active section is recomputed from
+   geometry on each event: the last section whose top has passed the header.
+   A narrow observer band alone left nothing marked while scrolling between
+   two widely spaced sections.
+   ------------------------------------------------------------------------ */
+(function () {
+  'use strict';
+  var links = [].slice.call(document.querySelectorAll('.rail-index a'));
+  if (!links.length || !('IntersectionObserver' in window)) return;
+
+  var pairs = links.map(function (a) {
+    var h = document.getElementById(a.getAttribute('href').slice(1));
+    return h && h.closest('.step') ? { link: a, sec: h.closest('.step') } : null;
+  }).filter(Boolean);
+  if (!pairs.length) return;
+
+  function mark() {
+    var active = pairs[0];
+    pairs.forEach(function (p) {
+      if (p.sec.getBoundingClientRect().top <= 120) active = p;
+    });
+    links.forEach(function (a) { a.removeAttribute('aria-current'); });
+    active.link.setAttribute('aria-current', 'true');
+  }
+
+  var io = new IntersectionObserver(mark, {
+    rootMargin: '-110px 0px -40% 0px',
+    threshold: [0, 0.25, 0.5, 1]
+  });
+  pairs.forEach(function (p) { io.observe(p.sec); });
+  mark();
+})();
+
+/* ---- file upload UI ------------------------------------------------------
+   Progressive enhancement over <input type="file">. The input keeps its id,
+   name, label and required flag; it is only moved off-screen and driven by a
+   styled row. With JS off nothing here runs and the native control shows.
+
+   The preview says a file was received. It deliberately does NOT claim the
+   photo was checked or a face recognised — nothing here does that, and a form
+   that collects identity documents is the last place to imply verification
+   that has not happened.
+   ------------------------------------------------------------------------ */
+(function () {
+  'use strict';
+  var form = document.querySelector('[data-intake]');
+  if (!form) return;
+
+  var he = document.documentElement.lang === 'he';
+  var T = he
+    ? { pick: 'בחירת קובץ', opt: 'לא חובה, אפשר לדלג', got: 'נקלט ✓', swap: 'החלפה' }
+    : { pick: 'Choose a file', opt: 'Optional, you can skip this', got: 'Received ✓', swap: 'Replace' };
+
+  [].forEach.call(form.querySelectorAll('input[type=file]'), function (input) {
+    var field = input.closest('.f');
+    if (!field) return;
+    var hint = field.querySelector('small');
+    var optional = !input.required;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'upload' + (optional ? ' is-optional' : '');
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(input);
+    // Visually hidden, still focusable and still labelled by the <label for>.
+    input.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none';
+
+    var drop = document.createElement('label');
+    drop.className = 'upload-drop';
+    drop.setAttribute('for', input.id);
+    drop.innerHTML =
+      '<span class="upload-plus" aria-hidden="true">+</span>' +
+      '<span class="upload-txt"><b></b><small></small></span>';
+    wrap.appendChild(drop);
+
+    var nameEl = drop.querySelector('b');
+    var subEl  = drop.querySelector('small');
+    var swap   = null;
+
+    function reset() {
+      drop.querySelector('.upload-plus, .upload-thumb').outerHTML =
+        '<span class="upload-plus" aria-hidden="true">+</span>';
+      nameEl.textContent = T.pick;
+      subEl.textContent = optional ? T.opt : (hint ? hint.textContent : '');
+      subEl.className = '';
+      if (swap) { swap.remove(); swap = null; }
+    }
+    reset();
+
+    input.addEventListener('change', function () {
+      var f = input.files && input.files[0];
+      if (!f) { reset(); return; }
+
+      nameEl.textContent = f.name;
+      subEl.textContent = T.got + ' · ' + Math.max(1, Math.round(f.size / 1024)) + ' KB';
+      subEl.className = 'ok';
+
+      var slot = drop.querySelector('.upload-plus, .upload-thumb');
+      if (f.type.indexOf('image/') === 0) {
+        var img = document.createElement('img');
+        img.className = 'upload-thumb';
+        img.alt = '';
+        // Object URL, not a data URL: nothing about the file is copied into
+        // the document, and it is released as soon as the image has decoded.
+        img.src = URL.createObjectURL(f);
+        img.onload = function () { URL.revokeObjectURL(img.src); };
+        slot.replaceWith(img);
+      } else if (slot.tagName === 'IMG') {
+        slot.outerHTML = '<span class="upload-plus" aria-hidden="true">+</span>';
+      }
+
+      if (!swap) {
+        swap = document.createElement('button');
+        swap.type = 'button';
+        swap.className = 'upload-swap';
+        swap.textContent = T.swap;
+        swap.addEventListener('click', function () { input.value = ''; reset(); });
+        drop.appendChild(swap);
+      }
+    });
+  });
+})();

@@ -40,7 +40,7 @@
 .choices { display: grid; gap: 10px; }
 .choice { display: block; cursor: pointer; }
 .choice input { position: absolute; opacity: 0; width: 0; height: 0; }
-.choice span {
+.choice > span {
   display: block; padding: 14px 17px;
   border: 1px solid var(--rule-strong); border-radius: var(--radius);
   background: var(--paper); transition: border-color .16s ease, background-color .16s ease;
@@ -49,7 +49,7 @@
 .choice small { display: block; font-size: 14px; color: var(--ink-soft); margin-top: 2px; }
 .choice input:checked + span { border-color: var(--sage); border-width: 2px; padding: 13px 16px; background: var(--sage-wash); }
 .choice input:focus-visible + span { outline: 2px solid var(--sage); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { .choice span { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .choice > span { transition: none; } }
 
 /* consents */
 .consents { display: flex; flex-direction: column; gap: 13px; }
@@ -77,3 +77,159 @@
 .intake fieldset.declare .cbx { align-items: flex-start; }
 .intake fieldset.declare .cbx span { line-height: 1.6; }
 .intake fieldset.declare input[type=checkbox] { accent-color: var(--warn); }
+/* ==========================================================================
+   INTAKE — one page, five named sections
+   The form reads top to bottom in a single scroll. The sections are numbered
+   so the sequence stays legible without a stepper. Everything below consumes
+   tokens already defined in base.css; nothing here introduces a new colour.
+   ========================================================================== */
+
+/* ---- the ground ----
+   Same cream-plus-grain surface the pricing band uses, so the questionnaire
+   reads as the same product rather than a bare form page. The dots are a
+   background-image on a pseudo-element, not an asset, so they cost nothing
+   and inherit --sage in both themes. */
+/* No overflow:hidden here — it silently kills position:sticky on the rail.
+   The grain pseudo-element is inset:0, so it never overflows anyway. */
+.intake-band { position: relative; background: var(--band-cream); }
+.intake-band::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .5;
+  background-image: radial-gradient(color-mix(in srgb, var(--sage) 17%, transparent) 1px, transparent 1px);
+  background-size: 5px 5px;
+}
+.intake-band > .wrap { position: relative; z-index: 1; }
+
+/* ---- sections ----
+   Sized as section headings, not hero headings. The step version ran to 56px,
+   which is right when one fills the screen alone and a wall when five stack. */
+/* These are <section> elements nested inside a band, so they inherit the
+   global section padding meant for full-width page bands. Reset it: the
+   separation between them is the border rule below, not 100px of air. */
+.step { display: flex; flex-direction: column; gap: 20px; padding-block: 0; }
+.step + .step { margin-top: 40px; padding-top: 36px; border-top: 1px solid var(--rule); }
+.step > h2 {
+  display: flex; align-items: baseline; gap: 12px;
+  font-family: var(--f-anchor); font-size: clamp(25px, 3.1vw, 31px);
+  line-height: 1.2; letter-spacing: -.005em; margin: 0;
+}
+.step > h2 .n {
+  flex: none; font-size: .62em; font-weight: 400; color: var(--sage);
+  font-variant-numeric: tabular-nums;
+}
+.step > .intro { font-size: 17px; color: var(--ink-body); margin: -10px 0 0; max-width: 54ch; }
+
+/* ---- autosave state ---- */
+.saved { font-size: 13px; font-weight: 700; color: var(--ink-faint); min-height: 1.4em; }
+.saved.is-ok { color: var(--sage); }
+
+/* ---- symptom tags ---- */
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags button {
+  font: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer;
+  padding: 7px 14px; border-radius: var(--radius-pill);
+  border: 1px solid transparent; background: var(--sage-wash); color: var(--sage-deep);
+  transition: background-color .16s ease, color .16s ease;
+}
+.tags button[aria-pressed="true"] { background: var(--sage-solid); color: var(--on-solid); }
+.tags button[aria-pressed="true"]::after { content: " ✓"; }
+
+/* ---- segmented control ---- */
+.seg { display: flex; gap: 8px; flex-wrap: wrap; }
+.seg button {
+  font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+  padding: 9px 18px; border-radius: var(--radius-pill);
+  border: 1px solid var(--rule-strong); background: var(--paper); color: var(--ink);
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+}
+.seg button[aria-pressed="true"] { background: var(--sage-solid); border-color: var(--sage-solid); color: var(--on-solid); }
+
+/* ---- review card (step 5) ---- */
+.review { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 20px 22px; box-shadow: var(--shadow-sm); }
+.review h3 { font-family: var(--f-anchor); font-size: 17px; margin: 0 0 14px; color: var(--ink); }
+.review dl { display: grid; gap: 12px; margin: 0; }
+.review .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-bottom: 1px dashed var(--rule-strong); padding-bottom: 10px; }
+.review dt { font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+.review dd { margin: 0; font-family: var(--f-anchor); font-size: 17px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.review .edit { font-size: 13.5px; font-weight: 700; color: var(--sage); background: none; border: 0; cursor: pointer; font-family: var(--f-work); }
+
+.pay-note { font-size: 14px; color: var(--ink-soft); text-align: center; margin: 10px 0 0; }
+
+@media (max-width: 640px) {
+  .step > h2 { font-size: 23px; line-height: 1.24; }
+  .step + .step { margin-top: 32px; padding-top: 28px; }
+}
+
+/* ---- two-column shell ----
+   The spec's tablet rail carried the step list. On a one-page form there are
+   no steps to carry, so the rail keeps the half that still earns its space:
+   an index that tracks where you are, and the two reassurances that stop the
+   "am I about to be charged" question from forming. */
+.intake-shell { display: block; }
+.intake-rail { display: none; }
+
+@media (min-width: 900px) {
+  .intake-shell {
+    display: grid; grid-template-columns: minmax(0, 1fr) 272px;
+    gap: clamp(28px, 4vw, 56px); align-items: start;
+  }
+  .intake-shell .intake { max-width: none; }
+  .intake-rail {
+    display: flex; flex-direction: column; gap: 14px;
+    position: sticky; top: 96px; align-self: start;
+  }
+  .rail-index ol { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  .rail-index a {
+    display: block; padding: 7px 12px; border-radius: var(--radius);
+    font-size: 14.5px; font-weight: 700; color: var(--ink-soft); text-decoration: none;
+    border-inline-start: 2px solid transparent;
+  }
+  .rail-index a:hover { color: var(--ink); background: var(--surface); text-decoration: none; }
+  .rail-index a[aria-current="true"] {
+    color: var(--sage); background: var(--sage-wash); border-inline-start-color: var(--sage);
+  }
+  .rail-card {
+    background: var(--surface); border: 1px solid var(--rule);
+    border-radius: var(--radius-lg); padding: 15px 17px;
+    font-size: 14.5px; line-height: 1.6; color: var(--ink-soft);
+  }
+  .rail-card b { display: block; font-family: var(--f-anchor); font-size: 16px; color: var(--ink); margin-bottom: 5px; }
+  .rail-card ul.clean { margin-top: 8px; gap: 6px; }
+  .rail-card ul.clean > li { font-size: 14px; }
+  .rail-pay { background: var(--sage-wash); border-color: transparent; }
+  .rail-pay b { color: var(--sage-deep); }
+}
+
+/* ---- file uploads ----
+   The native control gives a filename and nothing else, which on a form whose
+   whole point is "does this match your passport" is the wrong amount of
+   feedback. JS wraps it: thumbnail, name, size, and a way back out.
+   The input itself stays in the DOM and keeps its label, so with JS off this
+   degrades to exactly what it was. */
+.upload { display: flex; flex-direction: column; gap: 10px; }
+.upload.is-optional .upload-drop { border-style: dashed; }
+.upload-drop {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 15px; border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-lg); background: var(--paper);
+  cursor: pointer; transition: border-color .16s ease, background-color .16s ease;
+}
+.upload-drop:hover { border-color: var(--sage); }
+.upload input[type=file]:focus-visible + .upload-drop { outline: 2px solid var(--sage); outline-offset: 2px; }
+.upload-plus {
+  width: 38px; height: 38px; flex: none; border-radius: 50%;
+  display: grid; place-items: center; font-size: 21px; line-height: 1;
+  background: var(--sage-wash); color: var(--sage-deep);
+}
+.upload-thumb {
+  width: 54px; height: 54px; flex: none; border-radius: 50%;
+  object-fit: cover; background: var(--surface-sunk); display: block;
+}
+.upload-txt { min-width: 0; }
+.upload-txt b { display: block; font-size: 15px; color: var(--ink); font-weight: 700;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upload-txt small { display: block; font-size: 13.5px; color: var(--ink-soft); }
+.upload-txt .ok { color: var(--sage); font-weight: 700; }
+.upload-swap {
+  margin-inline-start: auto; flex: none; font: inherit; font-size: 13.5px; font-weight: 700;
+  color: var(--sage); background: none; border: 0; cursor: pointer; padding: 4px 6px;
+}

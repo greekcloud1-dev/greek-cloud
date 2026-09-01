@@ -20,7 +20,7 @@
 <meta property="og:title" content="Eligibility check — GreekCloud">
 <meta property="og:description" content="A short questionnaire in English. A Greek-licensed physician reviews the request and decides independently. No commitment.">
 <meta property="og:url" content="https://www.greekcloud.co.il/en/intake.html">
-<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-en.png">
+<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-en-plain.png">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -60,6 +60,10 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
   ]
 }
 </script>
+<script type="speculationrules">
+{"prerender":[{"where":{"href_matches":"/intake.html"},"eagerness":"moderate"}],
+ "prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}
+</script>
 </head>
 
 <body>
@@ -68,7 +72,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 <header class="site-head">
   <div class="wrap bar">
     <a class="brand" href="/en/">
-      <img class="mark" src="/assets/logo.png" alt="" aria-hidden="true">
+      <picture><source srcset="/assets/logo.webp" type="image/webp"><img class="mark" src="/assets/logo.png" width="224" height="224" alt="" aria-hidden="true" decoding="async"></picture>
       <span class="wm">GreekCloud</span>
     </a>
     <nav class="nav" aria-label="Main">
@@ -100,42 +104,48 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     </div>
   </section>
 
-  <section class="band-linen">
+  <section class="band-linen intake-band">
     <div class="wrap">
+      <p class="saved" data-saved role="status" aria-live="polite"></p>
+      <div class="intake-shell">
       <form class="intake" data-intake novalidate>
 
-        <fieldset>
-          <legend>Plan</legend>
-          <p class="fs-help">The only difference is the physician's response time. You can change this later.</p>
+        <!-- ---------- 1 · plan ---------- -->
+        <section class="step" data-step="1" aria-labelledby="s1h">
+          <h2 id="s1h"><span class="n" aria-hidden="true">1</span>How long until you fly?</h2>
+          <p class="intro">The same physician, the same review. Only the response time changes. You can change this later.</p>
           <div class="choices">
             <label class="choice"><input type="radio" name="plan" value="standard" required><span>
-              <b>Standard &middot; &#8362;289</b><small>Response within 24 hours &middot; WhatsApp support</small></span></label>
+              <b>Standard &middot; &#8362;289</b><small>First reply within 24 hours. WhatsApp support.</small></span></label>
             <label class="choice"><input type="radio" name="plan" value="vip"><span>
-              <b>VIP &middot; &#8362;379</b><small>Response within about an hour during working hours &middot; personal support &middot; help finding a pharmacy</small></span></label>
+              <b>VIP &middot; &#8362;379 <span class="tag tag-clay">Most chosen</span></b><small>Reply in about an hour. A personal contact. Support at the pharmacy.</small></span></label>
           </div>
-        </fieldset>
+          <div class="note">
+            No payment at this stage — you fill this in, you are reviewed, and only then is the
+            service fee settled. The decision rests with the physician alone.
+          </div>
+        </section>
 
-        <fieldset>
-          <legend>Personal details</legend>
-          <p class="fs-help">
-            These must match your passport exactly. The prescription is issued in your passport name, and
-            the pharmacy checks it against the document.
-          </p>
+        <!-- ---------- 2 · passport ---------- -->
+        <section class="step" data-step="2" aria-labelledby="s2h">
+          <h2 id="s2h"><span class="n" aria-hidden="true">2</span>Exactly as in your passport</h2>
+          <p class="intro">The pharmacy checks it letter by letter. This is the one part of the form that cannot be corrected after the prescription is issued.</p>
           <div class="fields">
-            <p class="f"><label for="fullname">Full name, exactly as it appears in your passport</label>
-              <input id="fullname" name="full_name" type="text" autocomplete="name"
+            <p class="f" style="grid-column:1/-1"><label for="fullname">Full name, exactly as it appears in your passport</label>
+              <input id="fullname" name="full_name" type="text" autocomplete="name" dir="ltr"
                      required aria-describedby="fullname-hint">
               <small id="fullname-hint">For example: ISRAEL ISRAELI</small></p>
             <p class="f"><label for="passport">Passport number</label>
-              <input id="passport" name="passport" type="text" required aria-describedby="passport-hint">
+              <input id="passport" name="passport" type="text" dir="ltr" required aria-describedby="passport-hint">
               <small id="passport-hint">As printed in the passport, no spaces</small></p>
             <p class="f"><label for="age">Age</label>
               <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
               <small id="age-hint">The service is for adults aged 18 and over</small></p>
             <p class="f"><label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required></p>
-            <p class="f"><label for="phone">Phone</label>
-              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+30 000 000 0000" required></p>
+              <input id="email" name="email" type="email" autocomplete="email" dir="ltr" required></p>
+            <p class="f"><label for="phone">WhatsApp phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" dir="ltr"
+                     placeholder="+30 000 000 0000" required></p>
             <p class="f"><label for="city">Where you are staying in Greece</label>
               <select id="city" name="city" required>
                 <option value="">Choose</option>
@@ -146,34 +156,42 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <p class="f"><label for="arrival">Approximate arrival date</label>
               <input id="arrival" name="arrival" type="date"></p>
           </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Your health</legend>
-          <p class="fs-help">
-            Write freely and in your own words. The physician reads this — the more specific you are, the
-            better grounded their assessment.
-          </p>
-          <p class="f"><label for="condition">What is troubling you, and what have you already tried?</label>
-            <textarea id="condition" name="condition" rows="5" required
-              placeholder="For example: lower back pain for two years, mostly after sitting for long periods. I have tried painkillers and physiotherapy, with only partial relief."></textarea></p>
-          <div class="fields">
-            <p class="f"><label for="rx-exists">Do you hold a cannabis prescription or licence at home?</label>
-              <select id="rx-exists" name="rx_exists" aria-describedby="rx-hint">
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-                <option value="past">I did in the past</option>
-              </select>
-              <small id="rx-hint">Not a requirement and not valid in Greece — asked only to inform the assessment</small></p>
+          <div class="note">
+            <span class="nt">Compare now, not later</span>
+            First name, surname and number. Problems almost always start with one letter typed from memory.
           </div>
-        </fieldset>
+        </section>
 
-        <fieldset>
-          <legend>Identity verification</legend>
-          <p class="fs-help">
-            One selfie, to verify against the passport details you entered.
-            <b>We do not ask for a scan of the passport itself.</b>
-          </p>
+        <!-- ---------- 3 · health ---------- -->
+        <section class="step" data-step="3" aria-labelledby="s3h">
+          <h2 id="s3h"><span class="n" aria-hidden="true">3</span>What is troubling you?</h2>
+          <p class="intro">Write in your own words. A physician reads this, not an algorithm.</p>
+          <div class="tags" data-tags role="group" aria-label="Common topics">
+            <button type="button" aria-pressed="false">Chronic pain</button>
+            <button type="button" aria-pressed="false">Sleep</button>
+            <button type="button" aria-pressed="false">Anxiety</button>
+            <button type="button" aria-pressed="false">Migraines</button>
+            <button type="button" aria-pressed="false">Appetite</button>
+            <button type="button" aria-pressed="false">Inflammatory</button>
+          </div>
+          <p class="f"><label for="condition">What is troubling you, and what have you already tried?</label>
+            <textarea id="condition" name="condition" rows="5" required aria-describedby="cond-hint"
+              placeholder="For example: lower back pain for two years, mostly after sitting for long periods. I have tried painkillers and physiotherapy, with only partial relief."></textarea>
+            <small id="cond-hint">The more you say about what you have tried, the better grounded the assessment.</small></p>
+          <p class="f"><label id="rx-lab">Do you hold a cannabis prescription or licence at home?</label>
+            <span class="seg" data-seg role="group" aria-labelledby="rx-lab">
+              <button type="button" data-val="no" aria-pressed="true">No</button>
+              <button type="button" data-val="yes" aria-pressed="false">Yes</button>
+              <button type="button" data-val="past" aria-pressed="false">In the past</button>
+            </span>
+            <input type="hidden" id="rx-exists" name="rx_exists" value="no">
+            <small id="rx-hint">Not a requirement and not valid in Greece. Asked only to inform the assessment.</small></p>
+        </section>
+
+        <!-- ---------- 4 · verification ---------- -->
+        <section class="step" data-step="4" aria-labelledby="s4h">
+          <h2 id="s4h"><span class="n" aria-hidden="true">4</span>One selfie to verify</h2>
+          <p class="intro">Used to check against the details you entered. We do not ask for a scan of the passport itself.</p>
           <div class="fields">
             <p class="f"><label for="f-selfie">Selfie photo</label>
               <input id="f-selfie" name="file_selfie" type="file" accept="image/*"
@@ -183,10 +201,6 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
               <input id="f-rx" name="file_rx" type="file" accept="image/*,.pdf" aria-describedby="frx-hint">
               <small id="frx-hint">Optional</small></p>
           </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Confirmations</legend>
           <div class="consents">
             <label class="cbx"><input type="checkbox" name="c_age" required>
               <span>I confirm that I am 18 or over.</span></label>
@@ -197,43 +211,86 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <label class="cbx"><input type="checkbox" name="c_nopromise" required>
               <span>I understand the decision rests with the physician alone, and that submitting this is no guarantee of approval.</span></label>
           </div>
-        </fieldset>
+        </section>
 
-        <fieldset class="declare">
-          <legend>Final declaration</legend>
-          <p class="fs-help">
-            This is the most important part of the form. The prescription is issued from what you entered
-            here, and it cannot be corrected once issued.
-          </p>
-          <div class="consents">
-            <label class="cbx"><input type="checkbox" name="c_accuracy" required>
-              <span>
-                <b>I have checked my details and they are correct and accurate.</b>
-                I confirm that the name and passport number I entered match exactly the passport I will be
-                carrying in Greece.
-              </span></label>
-            <label class="cbx"><input type="checkbox" name="c_liability" required>
-              <span>
-                I understand that <b>a prescription issued with incorrect details cannot be corrected</b>,
-                that the pharmacy may refuse to honour it, and that this is my responsibility alone. In that
-                case a new request and a new payment would be required, and the refund does not apply.
-              </span></label>
+        <!-- ---------- 5 · declaration ---------- -->
+        <section class="step" data-step="5" aria-labelledby="s5h">
+          <h2 id="s5h"><span class="n" aria-hidden="true">5</span>Just before you send</h2>
+          <p class="intro">Take out your passport and compare letter by letter.</p>
+
+          <div class="review">
+            <h3>What will be printed on the prescription</h3>
+            <dl>
+              <div class="row">
+                <dt>Full name</dt>
+                <dd dir="ltr" data-review="full_name" style="letter-spacing:.04em">—</dd>
+                <button type="button" class="edit" data-edit="fullname">Edit</button>
+              </div>
+              <div class="row" style="border-bottom:0;padding-bottom:0">
+                <dt>Passport number</dt>
+                <dd dir="ltr" data-review="passport" style="letter-spacing:.1em">—</dd>
+                <button type="button" class="edit" data-edit="passport">Edit</button>
+              </div>
+            </dl>
           </div>
-          <div class="note note-warn" style="margin-top:16px">
-            <span class="nt">Before you send</span>
-            Take out your passport and compare letter by letter: given name, surname and number. This one
-            check prevents most of the problems we see.
-          </div>
-        </fieldset>
+
+          <fieldset class="declare">
+            <legend>Final declaration</legend>
+            <p class="fs-help">
+              This is the most important part of the form. The prescription is issued from what you
+              entered here, and it cannot be corrected once issued.
+            </p>
+            <div class="consents">
+              <label class="cbx"><input type="checkbox" name="c_accuracy" required>
+                <span>
+                  <b>I have checked my details and they are accurate.</b>
+                  The name and passport number match the passport I will be carrying in Greece.
+                </span></label>
+              <label class="cbx"><input type="checkbox" name="c_liability" required>
+                <span>
+                  I understand that <b>a prescription issued with incorrect details cannot be corrected</b>,
+                  that the pharmacy may refuse to honour it, and that this is my responsibility alone. In that
+                  case a new request and a new payment would be required, and the refund does not apply.
+                </span></label>
+            </div>
+          </fieldset>
+
+          <button class="btn btn-primary submit" type="submit">Send request</button>
+          <p class="pay-note">No payment on the site. We will reach out on WhatsApp to continue.</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </section>
 
         <p class="hp" aria-hidden="true">
           <label for="website">Website</label>
           <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
         </p>
-
-        <button class="btn btn-primary submit" type="submit">Submit request</button>
-        <p class="form-status" role="status" aria-live="polite"></p>
       </form>
+
+      <aside class="intake-rail" aria-label="About this form">
+        <nav class="rail-index" aria-label="Form sections">
+          <p class="eyebrow">In this form</p>
+          <ol>
+            <li><a href="#s1h">Plan</a></li>
+            <li><a href="#s2h">Passport details</a></li>
+            <li><a href="#s3h">Your health</a></li>
+            <li><a href="#s4h">Verification</a></li>
+            <li><a href="#s5h">Declaration</a></li>
+          </ol>
+        </nav>
+        <div class="rail-card rail-pay">
+          <b>No payment on the site</b>
+          You fill this in, you are reviewed, and only then is the service fee settled on WhatsApp.
+        </div>
+        <div class="rail-card">
+          <b>What happens to your details</b>
+          <ul class="clean">
+            <li>Sent only to a Greek-licensed physician</li>
+            <li>Never used for marketing, never sold</li>
+            <li><a href="/en/privacy.html">Privacy policy</a></li>
+          </ul>
+        </div>
+      </aside>
+      </div>
     </div>
   </section>
 
@@ -263,7 +320,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     <div class="grid g-4">
       <div>
         <a class="brand" href="/en/" style="margin-bottom:12px">
-          <img class="mark" src="/assets/logo.png" alt="" aria-hidden="true">
+          <picture><source srcset="/assets/logo.webp" type="image/webp"><img class="mark" src="/assets/logo.png" width="224" height="224" alt="" aria-hidden="true" decoding="async"></picture>
           <span class="wm">GreekCloud</span>
         </a>
         <p style="color:var(--ink-soft);font-size:15px;max-width:34ch">

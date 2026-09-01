@@ -19,7 +19,7 @@
 <meta property="og:title" content="בדיקת התאמה — GreekCloud">
 <meta property="og:description" content="שאלון קצר בעברית. רופא בעל רישיון יווני יבחן את הפנייה ויחליט באופן עצמאי. מילוי השאלון אינו מחייב.">
 <meta property="og:url" content="https://www.greekcloud.co.il/intake.html">
-<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-he.png">
+<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-he-plain.png">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
@@ -60,6 +60,10 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
   ]
 }
 </script>
+<script type="speculationrules">
+{"prerender":[{"where":{"href_matches":"/intake.html"},"eagerness":"moderate"}],
+ "prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}
+</script>
 </head>
 
 <body>
@@ -68,7 +72,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 <header class="site-head">
   <div class="wrap bar">
     <a class="brand" href="/">
-      <img class="mark" src="/assets/logo.png" alt="" aria-hidden="true">
+      <picture><source srcset="/assets/logo.webp" type="image/webp"><img class="mark" src="/assets/logo.png" width="224" height="224" alt="" aria-hidden="true" decoding="async"></picture>
       <span class="wm">GreekCloud</span>
     </a>
     <nav class="nav" aria-label="ניווט ראשי">
@@ -100,42 +104,49 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     </div>
   </section>
 
-  <section class="band-linen">
+  <section class="band-linen intake-band">
     <div class="wrap">
+
+      <p class="saved" data-saved role="status" aria-live="polite"></p>
+
+      <div class="intake-shell">
       <form class="intake" data-intake novalidate>
 
-        <fieldset>
-          <legend>המסלול</legend>
-          <p class="fs-help">ההבדל היחיד הוא זמן המענה של הרופא. אפשר לשנות בהמשך.</p>
+        <!-- ---------- 1 · מסלול ---------- -->
+        <section class="step" data-step="1" aria-labelledby="s1h">
+          <h2 id="s1h"><span class="n" aria-hidden="true">1</span>כמה זמן יש לכם עד הטיסה?</h2>
+          <p class="intro">אותו רופא, אותה בדיקה. משתנה רק זמן המענה. אפשר לשנות בהמשך.</p>
           <div class="choices">
             <label class="choice"><input type="radio" name="plan" value="standard" required><span>
-              <b>סטנדרט · 289 ₪</b><small>מענה תוך 24 שעות · תמיכת וואטסאפ</small></span></label>
+              <b>סטנדרט · 289 ₪</b><small>מענה ראשוני תוך 24 שעות. תמיכת וואטסאפ בעברית.</small></span></label>
             <label class="choice"><input type="radio" name="plan" value="vip"><span>
-              <b>VIP · 379 ₪</b><small>מענה תוך כשעה בשעות הפעילות · ליווי אישי · סיוע באיתור בית מרקחת</small></span></label>
+              <b>VIP · 379 ₪ <span class="tag tag-clay">הכי נבחר</span></b><small>מענה תוך כשעה. איש קשר אישי. ליווי בבית המרקחת.</small></span></label>
           </div>
-        </fieldset>
+          <div class="note">
+            אין תשלום בשלב הזה — ממלאים, נבדקים, ורק אחר כך מסדירים את דמי השירות.
+            ההחלטה נתונה לרופא בלבד.
+          </div>
+        </section>
 
-        <fieldset>
-          <legend>פרטים אישיים</legend>
-          <p class="fs-help">
-            הפרטים חייבים להיות זהים למופיע בדרכון שלכם. המרשם מונפק על שם הדרכון,
-            ובית המרקחת משווה מולו.
-          </p>
+        <!-- ---------- 2 · פרטי דרכון ---------- -->
+        <section class="step" data-step="2" aria-labelledby="s2h">
+          <h2 id="s2h"><span class="n" aria-hidden="true">2</span>בדיוק כמו בדרכון</h2>
+          <p class="intro">בית המרקחת משווה אות מול אות. זה החלק היחיד בטופס שאי אפשר לתקן אחרי ההנפקה.</p>
           <div class="fields">
-            <p class="f"><label for="fullname">שם מלא, באנגלית, בדיוק כפי שמופיע בדרכון</label>
+            <p class="f" style="grid-column:1/-1"><label for="fullname">שם מלא, באנגלית, בדיוק כפי שמופיע בדרכון</label>
               <input id="fullname" name="full_name" type="text" autocomplete="name" dir="ltr"
                      required aria-describedby="fullname-hint">
               <small id="fullname-hint">לדוגמה: ISRAEL ISRAELI</small></p>
             <p class="f"><label for="passport">מספר דרכון</label>
-              <input id="passport" name="passport" type="text" dir="ltr" inputmode="latin"
-                     required aria-describedby="passport-hint">
-              <small id="passport-hint">כפי שמופיע בדרכון, ללא רווחים</small></p>
+              <input id="passport" name="passport" type="text" dir="ltr" inputmode="numeric"
+                     maxlength="8" required aria-describedby="passport-hint">
+              <small id="passport-hint">8 ספרות, ללא רווחים</small></p>
             <p class="f"><label for="age">גיל</label>
               <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
               <small id="age-hint">השירות מיועד לבגירים מגיל 18</small></p>
             <p class="f"><label for="email">אימייל</label>
               <input id="email" name="email" type="email" autocomplete="email" dir="ltr" required></p>
-            <p class="f"><label for="phone">טלפון</label>
+            <p class="f"><label for="phone">טלפון בוואטסאפ</label>
               <input id="phone" name="phone" type="tel" autocomplete="tel" dir="ltr"
                      placeholder="+972-50-0000000" required></p>
             <p class="f"><label for="city">עיר השהות ביוון</label>
@@ -148,33 +159,42 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <p class="f"><label for="arrival">תאריך הגעה משוער</label>
               <input id="arrival" name="arrival" type="date"></p>
           </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>המצב הבריאותי</legend>
-          <p class="fs-help">
-            כתבו בחופשיות ובלשונכם. הרופא קורא את זה — ככל שתהיו מדויקים יותר, כך הערכתו מבוססת יותר.
-          </p>
-          <p class="f"><label for="condition">מה מטריד אתכם, ומה ניסיתם עד היום?</label>
-            <textarea id="condition" name="condition" rows="5" required
-              placeholder="לדוגמה: כאבי גב תחתון כבר שנתיים, בעיקר אחרי ישיבה ממושכת. ניסיתי משככי כאבים ופיזיותרפיה, עם הקלה חלקית בלבד."></textarea></p>
-          <div class="fields">
-            <p class="f"><label for="rx-exists">יש לכם מרשם או רישיון קנאביס בישראל?</label>
-              <select id="rx-exists" name="rx_exists" aria-describedby="rx-hint">
-                <option value="no">לא</option>
-                <option value="yes">כן</option>
-                <option value="past">היה בעבר</option>
-              </select>
-              <small id="rx-hint">אינו תנאי ואינו תקף ביוון — נשאל לצורך ההערכה בלבד</small></p>
+          <div class="note">
+            <span class="nt">השוו עכשיו, לא אחר כך</span>
+            שם פרטי, שם משפחה ומספר. תקלות מתחילות כמעט תמיד באות אחת שהוקלדה מהזיכרון.
           </div>
-        </fieldset>
+        </section>
 
-        <fieldset>
-          <legend>אימות זהות</legend>
-          <p class="fs-help">
-            תמונת סלפי אחת, לאימות מול פרטי הדרכון שהזנתם.
-            <b>איננו מבקשים צילום של הדרכון עצמו.</b>
-          </p>
+        <!-- ---------- 3 · מצב בריאותי ---------- -->
+        <section class="step" data-step="3" aria-labelledby="s3h">
+          <h2 id="s3h"><span class="n" aria-hidden="true">3</span>מה מטריד אתכם?</h2>
+          <p class="intro">כתבו בלשונכם. רופא קורא את זה, לא אלגוריתם.</p>
+          <div class="tags" data-tags role="group" aria-label="נושאים נפוצים">
+            <button type="button" aria-pressed="false">כאב כרוני</button>
+            <button type="button" aria-pressed="false">שינה</button>
+            <button type="button" aria-pressed="false">חרדה</button>
+            <button type="button" aria-pressed="false">מיגרנות</button>
+            <button type="button" aria-pressed="false">תיאבון</button>
+            <button type="button" aria-pressed="false">דלקתי</button>
+          </div>
+          <p class="f"><label for="condition">מה מטריד אתכם, ומה ניסיתם עד היום?</label>
+            <textarea id="condition" name="condition" rows="5" required aria-describedby="cond-hint"
+              placeholder="לדוגמה: כאבי גב תחתון כבר שנתיים, בעיקר אחרי ישיבה ממושכת. ניסיתי משככי כאבים ופיזיותרפיה, עם הקלה חלקית בלבד."></textarea>
+            <small id="cond-hint">ככל שתפרטו מה ניסיתם, ההערכה מבוססת יותר.</small></p>
+          <p class="f"><label id="rx-lab">יש לכם מרשם או רישיון קנאביס בישראל?</label>
+            <span class="seg" data-seg role="group" aria-labelledby="rx-lab">
+              <button type="button" data-val="no" aria-pressed="true">לא</button>
+              <button type="button" data-val="yes" aria-pressed="false">כן</button>
+              <button type="button" data-val="past" aria-pressed="false">היה בעבר</button>
+            </span>
+            <input type="hidden" id="rx-exists" name="rx_exists" value="no">
+            <small id="rx-hint">אינו תנאי ואינו תקף ביוון. נשאל לצורך ההערכה בלבד.</small></p>
+        </section>
+
+        <!-- ---------- 4 · אימות זהות ---------- -->
+        <section class="step" data-step="4" aria-labelledby="s4h">
+          <h2 id="s4h"><span class="n" aria-hidden="true">4</span>סלפי אחד לאימות</h2>
+          <p class="intro">משמש להשוואה מול הפרטים שהזנתם. איננו מבקשים צילום של הדרכון עצמו.</p>
           <div class="fields">
             <p class="f"><label for="f-selfie">תמונת סלפי</label>
               <input id="f-selfie" name="file_selfie" type="file" accept="image/*"
@@ -185,10 +205,6 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
                      aria-describedby="frx-hint">
               <small id="frx-hint">לא חובה</small></p>
           </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>אישורים</legend>
           <div class="consents">
             <label class="cbx"><input type="checkbox" name="c_age" required>
               <span>אני מאשר/ת שגילי 18 ומעלה.</span></label>
@@ -199,41 +215,85 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <label class="cbx"><input type="checkbox" name="c_nopromise" required>
               <span>הבנתי שההחלטה נתונה לרופא בלבד, ושאין בפנייה כדי להבטיח אישור.</span></label>
           </div>
-        </fieldset>
+        </section>
 
-        <fieldset class="declare">
-          <legend>הצהרה אחרונה</legend>
-          <p class="fs-help">
-            זה הסעיף החשוב ביותר בטופס. המרשם מונפק על סמך מה שהזנתם, ולא ניתן לתקן אותו לאחר ההנפקה.
-          </p>
-          <div class="consents">
-            <label class="cbx"><input type="checkbox" name="c_accuracy" required>
-              <span>
-                <b>בדקתי את הפרטים והם נכונים ומדויקים.</b>
-                אני מאשר/ת ששמי ומספר הדרכון שהזנתי זהים בדיוק למופיע בדרכון שאיתו אשהה ביוון.
-              </span></label>
-            <label class="cbx"><input type="checkbox" name="c_liability" required>
-              <span>
-                הבנתי ש<b>מרשם שהונפק עם פרטים שגויים אינו ניתן לתיקון</b>, שבית המרקחת רשאי
-                לסרב לכבד אותו, ושהאחריות לכך היא שלי בלבד. במקרה כזה יידרש תהליך חדש
-                ותשלום חדש, וההחזר הכספי אינו חל.
-              </span></label>
+        <!-- ---------- 5 · הצהרה ושליחה ---------- -->
+        <section class="step" data-step="5" aria-labelledby="s5h">
+          <h2 id="s5h"><span class="n" aria-hidden="true">5</span>רגע לפני ששולחים</h2>
+          <p class="intro">הוציאו את הדרכון והשוו אות אחר אות.</p>
+
+          <div class="review">
+            <h3>מה שיודפס על המרשם</h3>
+            <dl>
+              <div class="row">
+                <dt>שם מלא</dt>
+                <dd dir="ltr" data-review="full_name" style="letter-spacing:.04em">—</dd>
+                <button type="button" class="edit" data-edit="fullname">עריכה</button>
+              </div>
+              <div class="row" style="border-bottom:0;padding-bottom:0">
+                <dt>מספר דרכון</dt>
+                <dd dir="ltr" data-review="passport" style="letter-spacing:.1em">—</dd>
+                <button type="button" class="edit" data-edit="passport">עריכה</button>
+              </div>
+            </dl>
           </div>
-          <div class="note note-warn" style="margin-top:16px">
-            <span class="nt">רגע לפני ששולחים</span>
-            הוציאו את הדרכון והשוו אות־אות: שם פרטי, שם משפחה ומספר. זו הפעולה שחוסכת את רוב
-            התקלות שאנחנו רואים.
-          </div>
-        </fieldset>
+
+          <fieldset class="declare">
+            <legend>הצהרה אחרונה</legend>
+            <p class="fs-help">
+              זה הסעיף החשוב ביותר בטופס. המרשם מונפק על סמך מה שהזנתם, ולא ניתן לתקן אותו לאחר ההנפקה.
+            </p>
+            <div class="consents">
+              <label class="cbx"><input type="checkbox" name="c_accuracy" required>
+                <span>
+                  <b>בדקתי והפרטים מדויקים.</b>
+                  השם ומספר הדרכון זהים לדרכון שאיתו אשהה ביוון.
+                </span></label>
+              <label class="cbx"><input type="checkbox" name="c_liability" required>
+                <span>
+                  הבנתי ש<b>מרשם שהונפק עם פרטים שגויים אינו ניתן לתיקון</b>, שבית המרקחת רשאי
+                  לסרב לכבד אותו, ושהאחריות לכך היא שלי בלבד. במקרה כזה יידרש תהליך חדש
+                  ותשלום חדש, וההחזר הכספי אינו חל.
+                </span></label>
+            </div>
+          </fieldset>
+
+          <button class="btn btn-primary submit" type="submit">שליחת הפנייה</button>
+          <p class="pay-note">אין תשלום באתר. ניצור קשר בוואטסאפ להמשך.</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </section>
 
         <p class="hp" aria-hidden="true">
           <label for="website">Website</label>
           <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
         </p>
-
-        <button class="btn btn-primary submit" type="submit">שליחת הפנייה</button>
-        <p class="form-status" role="status" aria-live="polite"></p>
       </form>
+
+      <aside class="intake-rail" aria-label="מידע על השאלון">
+        <nav class="rail-index" aria-label="מקטעי השאלון">
+          <p class="eyebrow">בשאלון</p>
+          <ol>
+            <li><a href="#s1h">מסלול</a></li>
+            <li><a href="#s2h">פרטי דרכון</a></li>
+            <li><a href="#s3h">מצב בריאותי</a></li>
+            <li><a href="#s4h">אימות זהות</a></li>
+            <li><a href="#s5h">הצהרה ושליחה</a></li>
+          </ol>
+        </nav>
+        <div class="rail-card rail-pay">
+          <b>אין תשלום באתר</b>
+          ממלאים, נבדקים, ורק אחר כך מסדירים את דמי השירות בוואטסאפ.
+        </div>
+        <div class="rail-card">
+          <b>מה קורה עם הפרטים</b>
+          <ul class="clean">
+            <li>נשלחים לרופא בעל רישיון יווני בלבד</li>
+            <li>לא משמשים לשיווק ולא נמכרים</li>
+            <li><a href="/privacy.html">מדיניות הפרטיות</a></li>
+          </ul>
+        </div>
+      </aside>
+      </div>
     </div>
   </section>
 
@@ -263,7 +323,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     <div class="grid g-4">
       <div>
         <a class="brand" href="/" style="margin-bottom:12px">
-          <img class="mark" src="/assets/logo.png" alt="" aria-hidden="true">
+          <picture><source srcset="/assets/logo.webp" type="image/webp"><img class="mark" src="/assets/logo.png" width="224" height="224" alt="" aria-hidden="true" decoding="async"></picture>
           <span class="wm">GreekCloud</span>
         </a>
         <p style="color:var(--ink-soft);font-size:15px;max-width:34ch">

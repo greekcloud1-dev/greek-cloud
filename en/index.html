@@ -20,7 +20,7 @@
 <meta property="og:title" content="Medical Cannabis Prescription in Greece">
 <meta property="og:description" content="A short questionnaire, review by a Greek-licensed physician, and if approved, a digital prescription valid at pharmacies across Greece. No foreign licence needed.">
 <meta property="og:url" content="https://www.greekcloud.co.il/en/">
-<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-en.png">
+<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-en-plain.png">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -78,7 +78,27 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       "serviceType": "Prescription coordination service",
       "provider": { "@id": "https://www.greekcloud.co.il/#org" },
       "areaServed": { "@type": "Country", "name": "Greece" },
-      "audience": { "@type": "Audience", "audienceType": "Visitors in Greece" }
+      "audience": { "@type": "Audience", "audienceType": "Visitors in Greece" },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Standard",
+          "price": "289",
+          "priceCurrency": "ILS",
+          "category": "Coordination service fee",
+          "description": "One-off service fee. First reply within 24 hours, prescription within up to 5 business days subject to the physician's decision. Not approved, full refund. The product itself is bought and paid for at the pharmacy in Greece, at its own price.",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "VIP",
+          "price": "379",
+          "priceCurrency": "ILS",
+          "category": "Coordination service fee",
+          "description": "One-off service fee. First reply in about an hour, prescription within one business day subject to the physician's decision, plus personal support through to the pharmacy. Not approved, full refund. The product itself is bought and paid for at the pharmacy in Greece, at its own price.",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
     },
     {
       "@type": "FAQPage",
@@ -101,6 +121,10 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
   ]
 }
 </script>
+<script type="speculationrules">
+{"prerender":[{"where":{"href_matches":"/intake.html"},"eagerness":"moderate"}],
+ "prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}
+</script>
 </head>
 
 <body>
@@ -109,7 +133,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 <header class="site-head">
   <div class="wrap bar">
     <a class="brand" href="/en/">
-      <img class="mark" src="/assets/logo.png" alt="" aria-hidden="true">
+      <picture><source srcset="/assets/logo.webp" type="image/webp"><img class="mark" src="/assets/logo.png" width="224" height="224" alt="" aria-hidden="true" decoding="async"></picture>
       <span class="wm">GreekCloud</span>
     </a>
     <nav class="nav" aria-label="Main">
@@ -129,11 +153,11 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <div class="hero-grid">
         <div>
           <p class="eyebrow" data-lift="1">Coordination service · Greece</p>
-          <h1 data-lift="2">Medical cannabis in Greece,<br><span class="accent">without a licence from home</span></h1>
+          <h1 data-lift="2">Medical cannabis in Greece.<br><span class="accent">No licence from&nbsp;home.</span></h1>
           <p class="lede" data-lift="3">
-            Fill in a short questionnaire. A Greek-licensed physician reviews it remotely and decides
-            independently. If approved, you get a digital prescription in your passport name, valid at
-            licensed pharmacies across Greece.
+            Your prescription from home has no standing in Greece, and you cannot bring it
+        with you. A short questionnaire, a Greek-licensed physician reviews and decides —
+        and if approved, a digital prescription valid across Greece.
           </p>
 
           <div class="cta-row" data-lift="4">
@@ -158,7 +182,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </div>
 
         <div class="hero-logo">
-          <img src="/assets/logo-lg.png" width="640" height="640" alt="GreekCloud" fetchpriority="high" decoding="async">
+          <picture><source srcset="/assets/logo-lg.webp" type="image/webp"><img src="/assets/logo-lg.png" width="640" height="640" alt="GreekCloud" fetchpriority="high" decoding="async"></picture>
         </div>
       </div>
     </div>
@@ -170,11 +194,10 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <p class="eyebrow">The short answer</p>
         <h2>How does a visitor get a medical cannabis prescription in Greece?</h2>
         <p>
-          You approach a Greek-licensed physician while you are in Greece. The physician reviews your case
-          and decides independently whether medical cannabis is appropriate. If it is, they issue a digital
-          prescription you redeem at a licensed pharmacy. <strong>A licence or prescription from another
-          country is not part of this and carries no weight in Greece.</strong> GreekCloud coordinates the
-          request, translates and guides — nothing more.
+          A Greek-licensed physician reviews your request remotely, before you fly, and decides whether
+          the treatment is appropriate. If approved, they issue a digital prescription to be filled at a
+          licensed pharmacy in Greece. <strong>A prescription from home does not substitute for a Greek
+          one.</strong> GreekCloud coordinates and guides you in English.
         </p>
 
         <div class="grid g-3" style="margin-top:32px" data-reveal-group>
@@ -186,7 +209,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <div class="fact">
             <span class="k">What you need</span>
             <span class="v">A questionnaire and a passport</span>
-            <span class="d">From your phone. No foreign licence, no translated medical file.</span>
+            <span class="d">From your phone, in three minutes.</span>
           </div>
           <div class="fact">
             <span class="k">Prescription validity</span>
@@ -196,11 +219,10 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </div>
 
         <div class="note note-warn" style="margin-top:28px">
-          <span class="nt">What to know before you go further</span>
+          <span class="nt">Before you go further</span>
           The decision rests with the physician alone. Under Greek law, medical cannabis is considered where
-          conventional treatments have not helped, were unsuitable or were not tolerated — so submitting a
-          request is no guarantee of approval. A foreign prescription is not valid in Greece, and what you
-          buy in Greece stays in Greece.
+          conventional treatments have not helped, were unsuitable or were not tolerated — so a request is
+          no guarantee of approval.
         </div>
       </div>
     </div>
@@ -479,7 +501,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     <div class="grid g-4">
       <div>
         <a class="brand" href="/en/" style="margin-bottom:12px">
-          <img class="mark" src="/assets/logo.png" alt="" aria-hidden="true">
+          <picture><source srcset="/assets/logo.webp" type="image/webp"><img class="mark" src="/assets/logo.png" width="224" height="224" alt="" aria-hidden="true" decoding="async"></picture>
           <span class="wm">GreekCloud</span>
         </a>
         <p style="color:var(--ink-soft);font-size:15px;max-width:34ch">
