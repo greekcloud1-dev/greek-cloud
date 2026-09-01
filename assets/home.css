@@ -43,8 +43,48 @@
 
 /* ---------- answer block ---------- */
 .answer { background: var(--surface); border: 1px solid var(--rule-strong); border-radius: var(--radius-lg); padding: clamp(24px, 3.4vw, 36px); box-shadow: var(--shadow); }
-.answer h2 { font-size: clamp(33px, 4.2vw, 44px); margin-bottom: 14px; }
+.answer h2 { font-size: clamp(33px, 4.2vw, 44px); margin-bottom: 16px; }
 .answer > p { font-size: 18px; max-width: 68ch; }
+
+/* ---- the short answer, in three beats ----
+   It used to be one paragraph carrying three different jobs: what happens, the
+   correction, and who we are. The correction in particular sat mid-paragraph
+   and wrapped across a line break, so the one claim the reader most needs was
+   also the one hardest to see. Each beat now gets its own block. */
+.answer > .ans-lead { font-size: 18.5px; line-height: 1.72; }
+.answer > .ans-lead strong { color: var(--sage); font-weight: 700; }
+
+/* The correction, pulled out. Short enough to hold one line at most widths, so
+   the emphasis can no longer be broken in half by a wrap. */
+.answer > .ans-claim {
+  margin: 20px 0 0; padding: 2px 0 2px 0;
+  padding-inline-start: 16px;
+  border-inline-start: 3px solid var(--sage);
+  font-family: var(--f-anchor); font-weight: 400;
+  font-size: clamp(19px, 2.3vw, 23px); line-height: 1.35;
+  color: var(--ink); text-wrap: balance;
+}
+
+/* The scope statement is a footnote to the answer, not part of it. */
+.answer > .ans-role { margin: 16px 0 0; font-size: 15.5px; color: var(--ink-soft); max-width: 62ch; }
+
+/* Hairlines between the three facts. Without them they float on the card with
+   nothing saying they are three separate things. */
+.ans-facts { margin-top: 30px; }
+@media (min-width: 760px) {
+  .ans-facts { gap: 0; }
+  .ans-facts > .fact { padding-inline: 22px; border-inline-start: 1px solid var(--rule); }
+  .ans-facts > .fact:first-child { padding-inline-start: 0; border-inline-start: 0; }
+  .ans-facts > .fact:last-child { padding-inline-end: 0; }
+}
+@media (max-width: 759px) {
+  .ans-facts > .fact + .fact { padding-top: 16px; border-top: 1px solid var(--rule); }
+}
+
+/* .note is a bordered box, so a max-width here narrows the BOX and leaves it
+   hanging off one edge of the card. The card already holds the measure near
+   64 characters at this size, so only the type scale needs adjusting. */
+.ans-fine { margin-top: 28px; font-size: 15.5px; }
 
 /* ---------- facts ---------- */
 .fact { display: flex; flex-direction: column; gap: 5px; }
