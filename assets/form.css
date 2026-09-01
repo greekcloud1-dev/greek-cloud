@@ -250,8 +250,14 @@
 .intake-top .city-facts .v { font-size: 16.5px; }
 .intake-top .saved { margin: 26px 0 0; }
 
-/* The maintenance notice replaces the thin .form-status line once the whole
-   questionnaire validates. .note-warn already carries the right weight. */
+/* One element, three outcomes: maintenance-closed, sent, and a genuine send
+   failure. It replaces the thin .form-status line once the whole
+   questionnaire validates -- by then a one-line status is not proportionate
+   to "here is what happened to everything you just filled in". */
 .form-down { margin-top: 18px; }
 .form-down .nt { margin-bottom: 6px; }
 .form-down .body { display: block; }
+.form-down--warn { background: var(--warn-wash); border-color: color-mix(in srgb, var(--warn) 32%, transparent); }
+.form-down--warn .nt { color: var(--warn); font-weight: 700; }
+.form-down--ok { background: var(--sage-wash); border-color: color-mix(in srgb, var(--sage) 32%, transparent); }
+.form-down--ok .nt { color: var(--sage-deep); font-weight: 700; }

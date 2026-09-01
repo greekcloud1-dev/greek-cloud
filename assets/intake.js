@@ -37,7 +37,11 @@
     downTitle: 'האתר בשיפוצים',
     downBody:  'השאלון מלא ותקין, אבל הטופס עדיין לא מקבל שליחות. ' +
                'הפרטים שלכם לא נשלחו לשום מקום ולא נשמרו אצלנו — ' +
-               'הם נשארו בדפדפן שלכם בלבד. נסו שוב בקרוב.'
+               'הם נשארו בדפדפן שלכם בלבד. נסו שוב בקרוב.',
+    sentTitle: 'התקבל!',
+    sentBody:  'הפנייה שלכם נשלחה ונשמרה. ניצור איתכם קשר בוואטסאפ להמשך התהליך.',
+    errTitle:  'השליחה נכשלה',
+    errBody:   'הייתה תקלה בשליחה. הפרטים שלכם נשארו בדפדפן ולא אבדו — נסו לשלוח שוב בעוד רגע.'
   } : {
     missing:   'A few fields are still missing — I have marked them.',
     required:  'This field is required.',
@@ -50,7 +54,11 @@
     downTitle: 'The site is under maintenance',
     downBody:  'Your answers are complete and valid, but the form is not accepting ' +
                'submissions yet. Nothing was sent anywhere and nothing was stored by us — ' +
-               'it stayed in your browser. Please try again soon.'
+               'it stayed in your browser. Please try again soon.',
+    sentTitle: 'Received!',
+    sentBody:  'Your request was sent and saved. We will reach out on WhatsApp to continue.',
+    errTitle:  'Sending failed',
+    errBody:   'Something went wrong while sending. Your details are still in your browser and were not lost -- please try again in a moment.'
   };
 
   var statusEl = form.querySelector('.form-status');
@@ -133,20 +141,66 @@
 
   /* Rendered as a block, not a line of status text: by this point the visitor
      has filled in everything, and a thin sentence under the button is not
-     proportionate to "none of that went anywhere". */
-  function showDown() {
+     proportionate to "none of that went anywhere". One element is reused for
+     all three outcomes (maintenance / sent / error) with a class swap, so
+     only one ever shows at a time. */
+  function notice(kind, title, body) {
     var box = form.querySelector('.form-down');
     if (!box) {
       box = document.createElement('div');
-      box.className = 'note note-warn form-down';
       box.setAttribute('role', 'status');
       box.innerHTML = '<span class="nt"></span><span class="body"></span>';
       statusEl.parentNode.insertBefore(box, statusEl);
     }
-    box.querySelector('.nt').textContent = S.downTitle;
-    box.querySelector('.body').textContent = S.downBody;
+    box.className = 'note form-down form-down--' + kind;
+    box.querySelector('.nt').textContent = title;
+    box.querySelector('.body').textContent = body;
     say('');
     box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    return box;
+  }
+
+  function showDown() { notice('warn', S.downTitle, S.downBody); }
+  function showSendError() { notice('warn', S.errTitle, S.errBody); }
+
+  function showSent() {
+    notice('ok', S.sentTitle, S.sentBody);
+    // Nothing left to correct after a real send: freeze the form so a second
+    // tap of "back" plus "submit" can't fire a duplicate request.
+    [].forEach.call(form.querySelectorAll('input, select, textarea, button'), function (el) {
+      el.disabled = true;
+    });
+    var payNote = form.querySelector('.pay-note');
+    if (payNote) payNote.hidden = true;
+  }
+
+  /* ---------- image compression ----------
+     A phone camera photo can run 5-10MB; a serverless function body has a
+     hard ceiling well under that. Downscaling client-side, before upload, is
+     what keeps a normal selfie from ever hitting that ceiling, and it also
+     makes the upload itself faster on a mobile connection. Only touches
+     actual images -- the optional prescription file may be a PDF, which
+     passes through untouched. Any failure here just falls back to the
+     original file rather than blocking submission over a cosmetic step. */
+  function compressImage(file, maxDim, quality) {
+    if (!file || !file.type || file.type.indexOf('image/') !== 0) return Promise.resolve(file);
+    return Promise.resolve()
+      .then(function () { return createImageBitmap(file); })
+      .then(function (bitmap) {
+        var scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
+        var w = Math.max(1, Math.round(bitmap.width * scale));
+        var h = Math.max(1, Math.round(bitmap.height * scale));
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+        return new Promise(function (resolve) { canvas.toBlob(resolve, 'image/jpeg', quality); });
+      })
+      .then(function (blob) {
+        if (!blob) return file;
+        var name = (file.name || 'photo').replace(/\.[a-zA-Z0-9]+$/, '') + '.jpg';
+        return new File([blob], name, { type: 'image/jpeg' });
+      })
+      .catch(function () { return file; });
   }
 
   /* ---------- submit ---------- */
@@ -173,11 +227,42 @@
     submitBtn.disabled = true;
     say(S.sending);
 
-    // Wired once the pipeline exists: request signed upload URLs, PUT the
-    // files directly to private storage, then POST the field values with
-    // the returned paths. Files never travel through this JSON body.
-    showDown();
-    submitBtn.disabled = false;
+    var selfieInput = form.querySelector('#f-selfie');
+    var rxInput = form.querySelector('#f-rx');
+    var selfieFile = selfieInput && selfieInput.files[0];
+    var rxFile = rxInput && rxInput.files[0];
+
+    Promise.all([
+      compressImage(selfieFile, 1600, 0.82),
+      compressImage(rxFile, 1600, 0.82),
+    ]).then(function (files) {
+      // FormData(form) captures every named field -- text, select, radio,
+      // hidden, checked checkboxes, and both file inputs -- in one call, so
+      // this only needs to override the two files with their compressed
+      // versions rather than re-listing every field by hand.
+      var fd = new FormData(form);
+      if (files[0]) fd.set('file_selfie', files[0], files[0].name);
+      if (files[1]) fd.set('file_rx', files[1], files[1].name);
+
+      return fetch('/api/submit', { method: 'POST', body: fd });
+    }).then(function (res) {
+      return res.json().catch(function () { return null; }).then(function (body) {
+        if (res.ok && body && body.ok) {
+          // showSent() disables every control, submitBtn included, on
+          // purpose -- there is nothing left to correct after a real send.
+          // Re-enabling it in a shared "finally" below would undo exactly
+          // that, so success returns early instead of falling through to it.
+          showSent();
+          if (window.gcIntakeClearDraft) window.gcIntakeClearDraft();
+          return;
+        }
+        showSendError();
+        submitBtn.disabled = false;
+      });
+    }).catch(function () {
+      showSendError();
+      submitBtn.disabled = false;
+    });
   });
 })();
 
