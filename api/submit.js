@@ -113,6 +113,7 @@ async function handleSubmit(request) {
   const arrival = str('arrival');
   const condition = str('condition');
   const rxExists = str('rx_exists');
+  const symptomTags = str('symptom_tags');
 
   const consents = {};
   for (const key of CONSENT_FIELDS) consents[key] = form.get(key) === 'on';
@@ -168,7 +169,7 @@ async function handleSubmit(request) {
     submissionId,
     receivedAt: new Date().toISOString(),
     locale, plan, fullName, passport, birthdate, age: ageYears, email, phone, city, arrival,
-    condition, rxExists, consents,
+    condition, symptomTags, rxExists, consents,
     selfiePath: selfieBlob ? selfieBlob.pathname : null,
     rxPath: rxBlob ? rxBlob.pathname : null,
   };

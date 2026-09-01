@@ -92,15 +92,15 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <nav class="crumbs" aria-label="מיקום בעמוד"><a href="/">דף הבית</a> ← בדיקת התאמה</nav>
       <p class="eyebrow">שאלון</p>
       <h1>בדיקת התאמה</h1>
-      <p class="lede">
-        כמה שאלות על המצב הבריאותי ופרטי הדרכון. רופא בעל רישיון יווני יבחן את הפנייה ויחליט
-        באופן עצמאי. מילוי השאלון אינו מחייב אתכם בדבר.
-      </p>
-      <div class="city-facts" style="margin-top:28px">
+      <div class="city-facts" style="margin-top:16px">
         <div><span class="k">זמן מילוי</span><span class="v">כ־3 דקות</span></div>
         <div><span class="k">מה צריך</span><span class="v">מספר דרכון (סלפי אופציונלי)</span></div>
         <div><span class="k">לא אושר</span><span class="v">החזר מלא</span></div>
       </div>
+      <p class="lede" style="margin-top:20px">
+        כמה שאלות על המצב הבריאותי ופרטי הדרכון. רופא בעל רישיון יווני יבחן את הפנייה ויחליט
+        באופן עצמאי. מילוי השאלון אינו מחייב אתכם בדבר.
+      </p>
 
       <p class="saved" data-saved role="status" aria-live="polite"></p>
 
@@ -162,8 +162,16 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
                 <option>רודוס</option><option>קוס</option><option>סנטוריני</option>
                 <option>מיקונוס</option><option>קורפו</option><option>אחר / עדיין לא ידוע</option>
               </select></p>
-            <p class="f"><label for="arrival">תאריך הגעה משוער</label>
-              <input id="arrival" name="arrival" type="date"></p>
+            <p class="f flight-field"><label for="arrival">תאריך הגעה משוער</label>
+              <span class="flight-wrap">
+                <input id="arrival" name="arrival" type="date">
+                <span class="flight-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path class="flight-trail" d="M3 19q6-1.5 9.5-3.5"/>
+                    <path class="flight-plane" d="M21 16v-2l-8-5V3.5C13 2.67 12.33 2 11.5 2S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5z"/>
+                  </svg>
+                </span>
+              </span></p>
           </div>
           <div class="note">
             <span class="nt">השוו עכשיו, לא אחר כך</span>
@@ -175,6 +183,17 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <section class="step" data-step="3" aria-labelledby="s3h">
           <h2 id="s3h"><span class="n" aria-hidden="true">3</span>ממה אתם סובלים?</h2>
           <p class="intro">כתבו בלשונכם. רופא קורא את זה, לא אלגוריתם.</p>
+          <p class="f"><label id="tags-lab">נושאים נפוצים, לסימון בלבד</label>
+            <span class="tags" data-tags role="group" aria-labelledby="tags-lab">
+              <button type="button" aria-pressed="false">כאב כרוני</button>
+              <button type="button" aria-pressed="false">שינה</button>
+              <button type="button" aria-pressed="false">חרדה</button>
+              <button type="button" aria-pressed="false">מיגרנות</button>
+              <button type="button" aria-pressed="false">תיאבון</button>
+              <button type="button" aria-pressed="false">דלקתי</button>
+            </span>
+            <input type="hidden" id="symptom-tags" name="symptom_tags" value="">
+            <small>הסימון עוזר לרופא למיין, אבל לא נכתב עבורכם — התיאור למטה נשאר במילים שלכם.</small></p>
           <p class="f"><label for="condition">מה מטריד אתכם, ומה ניסיתם עד היום?</label>
             <textarea id="condition" name="condition" rows="5" required aria-describedby="cond-hint"
               placeholder="לדוגמה: כאבי גב תחתון כבר שנתיים, בעיקר אחרי ישיבה ממושכת. ניסיתי משככי כאבים ופיזיותרפיה, עם הקלה חלקית בלבד."></textarea>

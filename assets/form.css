@@ -122,6 +122,17 @@
 .saved { font-size: 13px; font-weight: 700; color: var(--ink-faint); min-height: 1.4em; }
 .saved.is-ok { color: var(--sage); }
 
+/* ---- symptom tags ---- */
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags button {
+  font: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer;
+  padding: 7px 14px; border-radius: var(--radius-pill);
+  border: 1px solid transparent; background: var(--sage-wash); color: var(--sage-deep);
+  transition: background-color .16s ease, color .16s ease;
+}
+.tags button[aria-pressed="true"] { background: var(--sage-solid); color: var(--on-solid); }
+.tags button[aria-pressed="true"]::after { content: " ✓"; }
+
 /* ---- birthdate ---- */
 .bday-wrap {
   display: flex; align-items: center; gap: 10px;
@@ -166,15 +177,75 @@
   100% { transform: scale(1) rotate(0deg); }
 }
 
-/* ---- segmented control ---- */
-.seg { display: flex; gap: 8px; flex-wrap: wrap; }
-.seg button {
-  font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
-  padding: 9px 18px; border-radius: var(--radius-pill);
-  border: 1px solid var(--rule-strong); background: var(--paper); color: var(--ink);
-  transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+/* ---- arrival date / flight ---- */
+.flight-wrap {
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius);
+  background: var(--paper); padding-inline-end: 12px;
 }
-.seg button[aria-pressed="true"] { background: var(--sage-solid); border-color: var(--sage-solid); color: var(--on-solid); }
+.flight-wrap input[type=date] {
+  border: 0; background: none; flex: 1;
+}
+.flight-wrap:focus-within {
+  outline: 2px solid var(--sage); outline-offset: 1px; border-color: var(--sage);
+}
+.flight-icon { flex: none; display: flex; color: var(--ink-faint); transition: color .2s ease; }
+.flight-icon svg { display: block; overflow: visible; }
+.flight-icon .flight-plane { fill: var(--ink-faint); transition: fill .2s ease; }
+.flight-icon .flight-trail {
+  fill: none; stroke: var(--rule-strong); stroke-width: 1.4; stroke-linecap: round;
+  stroke-dasharray: 1.5 3; transition: stroke .2s ease;
+}
+
+.flight-wrap.is-set { border-color: var(--sage); }
+.flight-wrap.is-set .flight-icon { color: var(--sage-deep); }
+.flight-wrap.is-set .flight-icon .flight-plane { fill: var(--sage-solid); }
+.flight-wrap.is-set .flight-icon .flight-trail { stroke: var(--sage); }
+
+@media (prefers-reduced-motion: no-preference) {
+  html.has-anim .flight-icon .flight-plane {
+    animation: flight-bob 2.2s ease-in-out infinite;
+  }
+  html.has-anim .flight-wrap.flight-pop .flight-icon .flight-plane {
+    animation: flight-takeoff .6s cubic-bezier(.34,1.56,.64,1);
+  }
+  html.has-anim .flight-wrap.flight-pop .flight-icon .flight-trail {
+    animation: flight-trail-fade .6s ease-out;
+  }
+}
+@keyframes flight-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(-4deg); }
+}
+@keyframes flight-takeoff {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  55% { transform: translate(5px, -6px) rotate(-14deg) scale(1.25); }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+}
+@keyframes flight-trail-fade {
+  0% { opacity: 0; }
+  40% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* ---- segmented control ----
+   One evenly-split row -- each option is a fixed 1/3 share of the track --
+   instead of free-floating pills, which wrapped unevenly on narrow screens. */
+.seg {
+  display: flex; width: 100%;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius-pill);
+  background: var(--paper); overflow: hidden;
+}
+.seg button {
+  flex: 1 1 0; min-width: 0;
+  font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+  padding: 9px 10px; text-align: center; white-space: nowrap;
+  border: 0; border-inline-start: 1px solid var(--rule-strong);
+  background: var(--paper); color: var(--ink);
+  transition: background-color .16s ease, color .16s ease;
+}
+.seg button:first-child { border-inline-start: 0; }
+.seg button[aria-pressed="true"] { background: var(--sage-solid); color: var(--on-solid); }
 
 /* ---- review card (step 5) ---- */
 .review { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 20px 22px; box-shadow: var(--shadow-sm); }

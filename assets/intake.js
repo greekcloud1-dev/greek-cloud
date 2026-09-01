@@ -272,7 +272,8 @@
 
    The form is one page, five named sections. This module owns the parts the
    markup cannot express on its own: input shaping, the live passport check,
-   the birthdate field, the segmented control, the review card and the draft.
+   the symptom tags, the birthdate field, the segmented control, the review
+   card and the draft.
    Validation messages, the secure-pipeline gate and submit stay with the
    module above.
 
@@ -328,6 +329,26 @@
     });
   }
 
+  /* ---------- symptom tags ----------
+     These select topics for the physician to sort by; they must never touch
+     the condition textarea, which stays entirely in the visitor's own words.
+     Selected labels are collected into one hidden field instead. */
+  var tags = form.querySelector('[data-tags]');
+  var tagsOut = form.querySelector('#symptom-tags');
+  if (tags && tagsOut) {
+    tags.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      var on = b.getAttribute('aria-pressed') === 'true';
+      b.setAttribute('aria-pressed', on ? 'false' : 'true');
+      var picked = [].filter.call(tags.querySelectorAll('button'), function (x) {
+        return x.getAttribute('aria-pressed') === 'true';
+      }).map(function (x) { return x.textContent.trim(); });
+      tagsOut.value = picked.join(', ');
+      save();
+    });
+  }
+
   /* ---------- birthdate ----------
      Replaces the old plain-number age field. min/max are computed from
      today's date rather than hardcoded, so the 18+ window never goes stale.
@@ -355,6 +376,24 @@
         bdayWrap.classList.remove('bday-pop');
         void bdayWrap.offsetWidth; // restart the animation on repeated valid picks
         bdayWrap.classList.add('bday-pop');
+      }
+    });
+  }
+
+  /* ---------- arrival date ----------
+     Same is-set / one-shot-pop pattern as the birthdate field above, just
+     with a little plane taking off instead of a candle -- arrival is not
+     required, so there is no validity gate here beyond "a value exists". */
+  var arrival = form.querySelector('#arrival');
+  var arrivalWrap = form.querySelector('.flight-wrap');
+  if (arrival && arrivalWrap) {
+    arrival.addEventListener('change', function () {
+      var ok = !!arrival.value;
+      arrivalWrap.classList.toggle('is-set', ok);
+      if (ok) {
+        arrivalWrap.classList.remove('flight-pop');
+        void arrivalWrap.offsetWidth;
+        arrivalWrap.classList.add('flight-pop');
       }
     });
   }
