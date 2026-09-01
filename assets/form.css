@@ -249,3 +249,9 @@
 .intake-top .city-facts > div { padding: 14px 17px; }
 .intake-top .city-facts .v { font-size: 16.5px; }
 .intake-top .saved { margin: 26px 0 0; }
+
+/* The maintenance notice replaces the thin .form-status line once the whole
+   questionnaire validates. .note-warn already carries the right weight. */
+.form-down { margin-top: 18px; }
+.form-down .nt { margin-bottom: 6px; }
+.form-down .body { display: block; }

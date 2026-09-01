@@ -21,6 +21,38 @@
   var form = document.querySelector('[data-intake]');
   if (!form) return;
 
+  /* Both language versions load this file, so every message the visitor can
+     see has to come from here. Before this table the English page answered
+     its visitors in Hebrew. */
+  var HE = document.documentElement.lang === 'he';
+  var S = HE ? {
+    missing:   'כמה שדות עוד חסרים — סימנתי אותם.',
+    required:  'השדה הזה נדרש.',
+    consent:   'צריך לאשר כדי להמשיך.',
+    email:     'כתובת המייל לא נראית תקינה.',
+    under18:   'השירות מיועד לבגירים מגיל 18.',
+    ageHigh:   'הגיל שהוזן אינו סביר.',
+    invalid:   'הערך הזה לא תקין.',
+    sending:   'שולחים בצורה מאובטחת…',
+    downTitle: 'האתר בשיפוצים',
+    downBody:  'השאלון מלא ותקין, אבל הטופס עדיין לא מקבל שליחות. ' +
+               'הפרטים שלכם לא נשלחו לשום מקום ולא נשמרו אצלנו — ' +
+               'הם נשארו בדפדפן שלכם בלבד. נסו שוב בקרוב.'
+  } : {
+    missing:   'A few fields are still missing — I have marked them.',
+    required:  'This field is required.',
+    consent:   'You need to confirm this to continue.',
+    email:     'That email address does not look right.',
+    under18:   'The service is for adults aged 18 and over.',
+    ageHigh:   'That age does not look right.',
+    invalid:   'That value is not valid.',
+    sending:   'Sending securely…',
+    downTitle: 'The site is under maintenance',
+    downBody:  'Your answers are complete and valid, but the form is not accepting ' +
+               'submissions yet. Nothing was sent anywhere and nothing was stored by us — ' +
+               'it stayed in your browser. Please try again soon.'
+  };
+
   var statusEl = form.querySelector('.form-status');
   var submitBtn = form.querySelector('.submit');
 
@@ -59,13 +91,12 @@
 
   function messageFor(field) {
     if (field.validity.valueMissing) {
-      if (field.type === 'checkbox') return 'צריך לאשר כדי להמשיך.';
-      return 'השדה הזה נדרש.';
+      return field.type === 'checkbox' ? S.consent : S.required;
     }
-    if (field.validity.typeMismatch && field.type === 'email') return 'כתובת המייל לא נראית תקינה.';
-    if (field.validity.rangeUnderflow) return 'השירות מיועד לבגירים מגיל 18.';
-    if (field.validity.rangeOverflow) return 'הגיל שהוזן אינו סביר.';
-    return 'הערך הזה לא תקין.';
+    if (field.validity.typeMismatch && field.type === 'email') return S.email;
+    if (field.validity.rangeUnderflow) return S.under18;
+    if (field.validity.rangeOverflow) return S.ageHigh;
+    return S.invalid;
   }
 
   function validate() {
@@ -76,9 +107,12 @@
       clearError(field);
       if (field.checkValidity()) return;
       // Radios and checkboxes hang their message off the group, not the input.
-      var anchor = field.type === 'checkbox' || field.type === 'radio'
-        ? field.closest('fieldset') : field;
+      // The group used to always be a <fieldset>; since the form was rebuilt as
+      // <section class="step"> only the declaration still is one, so fall back
+      // through the section and finally the field itself rather than throwing.
       if (field.type === 'checkbox' || field.type === 'radio') {
+        var anchor = field.closest('fieldset') || field.closest('.consents')
+                  || field.closest('.step') || field;
         anchor.setAttribute('aria-invalid', 'true');
       } else {
         showError(field, messageFor(field));
@@ -91,10 +125,29 @@
   [].forEach.call(form.querySelectorAll('input, select, textarea'), function (f) {
     f.addEventListener('input', function () { clearError(f); });
     f.addEventListener('change', function () {
-      var fs = f.closest('fieldset');
-      if (fs) fs.removeAttribute('aria-invalid');
+      // Same fallback chain validate() uses, or the flag it set never clears.
+      var g = f.closest('fieldset') || f.closest('.consents') || f.closest('.step');
+      if (g) g.removeAttribute('aria-invalid');
     });
   });
+
+  /* Rendered as a block, not a line of status text: by this point the visitor
+     has filled in everything, and a thin sentence under the button is not
+     proportionate to "none of that went anywhere". */
+  function showDown() {
+    var box = form.querySelector('.form-down');
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'note note-warn form-down';
+      box.setAttribute('role', 'status');
+      box.innerHTML = '<span class="nt"></span><span class="body"></span>';
+      statusEl.parentNode.insertBefore(box, statusEl);
+    }
+    box.querySelector('.nt').textContent = S.downTitle;
+    box.querySelector('.body').textContent = S.downBody;
+    say('');
+    box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
 
   /* ---------- submit ---------- */
 
@@ -103,27 +156,27 @@
 
     if (form.querySelector('[name="website"]').value) return;   // bot
 
+    // Validate FIRST. The maintenance notice is deliberately the last thing a
+    // visitor meets: telling someone the form is closed before they have
+    // finished throws away answers they already gave, and only after a full,
+    // valid set of details is the message honest about what happened to them.
     var bad = validate();
     if (bad) {
-      say('כמה שדות עוד חסרים — סימנתי אותם.', true);
+      say(S.missing, true);
       bad.focus();
       bad.scrollIntoView({ block: 'center', behavior: 'smooth' });
       return;
     }
 
-    if (!secureReady) {
-      say('שליחה מקוונת אינה זמינה כרגע. הפרטים שלכם לא נשלחו לשום מקום — ' +
-          'כתבו לנו ונמשיך משם.', true);
-      return;
-    }
+    if (!secureReady) { showDown(); return; }
 
     submitBtn.disabled = true;
-    say('שולחים בצורה מאובטחת…');
+    say(S.sending);
 
     // Wired once the pipeline exists: request signed upload URLs, PUT the
     // files directly to private storage, then POST the field values with
     // the returned paths. Files never travel through this JSON body.
-    say('שליחה מקוונת אינה זמינה כרגע. הפרטים שלכם לא נשלחו לשום מקום.', true);
+    showDown();
     submitBtn.disabled = false;
   });
 })();
@@ -294,9 +347,14 @@
     if (savedEl) { savedEl.textContent = 'נשמר ✓'; savedEl.classList.add('is-ok'); }
   })();
 
-  form.addEventListener('submit', function () {
+  /* The draft is cleared only on a genuinely successful send, never on the
+     submit event itself. While the form is closed for maintenance every submit
+     fails, and wiping a complete set of answers right after telling someone to
+     "try again soon" would throw away exactly what they were asked to keep.
+     The submit path calls this once a real pipeline confirms receipt. */
+  window.gcIntakeClearDraft = function () {
     try { localStorage.removeItem(KEY); } catch (e) {}
-  });
+  };
 })();
 
 /* ---- rail index ----------------------------------------------------------
