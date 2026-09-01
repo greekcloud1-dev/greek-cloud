@@ -21,9 +21,14 @@
    A failed step 3 does not fail the request: the person's answers are
    already safe in Blob by then, and the operator can still find them by
    browsing Storage even if the email never arrives.
-   ========================================================================== */
 
-export const config = { runtime: 'edge' };
+   Runs on the Node.js runtime, not Edge: @vercel/blob and resend both reach
+   for Node built-ins (node:stream, node:net, node:zlib and friends) that the
+   Edge runtime does not provide, and an Edge build fails outright on them.
+   The `export default { fetch }` shape is the Web-standard signature Vercel's
+   Node runtime supports, so request.formData() and Response still work
+   exactly as written.
+   ========================================================================== */
 
 import { put } from '@vercel/blob';
 import { Resend } from 'resend';
@@ -71,7 +76,7 @@ function buildEmail(record) {
   return { subject, text: lines.join('\n') };
 }
 
-export default async function handler(request) {
+async function handleSubmit(request) {
   if (request.method !== 'POST') return json(405, { ok: false, error: 'method_not_allowed' });
 
   const configured = Boolean(
@@ -186,3 +191,5 @@ export default async function handler(request) {
 
   return json(200, { ok: true, submissionId });
 }
+
+export default { fetch: handleSubmit };
