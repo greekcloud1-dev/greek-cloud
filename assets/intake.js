@@ -102,8 +102,8 @@
       return field.type === 'checkbox' ? S.consent : S.required;
     }
     if (field.validity.typeMismatch && field.type === 'email') return S.email;
-    if (field.validity.rangeUnderflow) return S.under18;
-    if (field.validity.rangeOverflow) return S.ageHigh;
+    if (field.validity.rangeUnderflow) return field.id === 'birthdate' ? S.ageHigh : S.under18;
+    if (field.validity.rangeOverflow) return field.id === 'birthdate' ? S.under18 : S.ageHigh;
     return S.invalid;
   }
 
@@ -272,7 +272,7 @@
 
    The form is one page, five named sections. This module owns the parts the
    markup cannot express on its own: input shaping, the live passport check,
-   the symptom tags, the segmented control, the review card and the draft.
+   the birthdate field, the segmented control, the review card and the draft.
    Validation messages, the secure-pipeline gate and submit stay with the
    module above.
 
@@ -328,21 +328,34 @@
     });
   }
 
-  /* ---------- symptom tags ---------- */
+  /* ---------- birthdate ----------
+     Replaces the old plain-number age field. min/max are computed from
+     today's date rather than hardcoded, so the 18+ window never goes stale.
+     messageFor() in the module above already maps rangeUnderflow/overflow to
+     the right copy for this field's flipped semantics (a date past `max` is
+     someone too young, not too old). The icon plays a small celebratory
+     animation once a plausible date is entered -- gated behind is-set so it
+     fires once per completion rather than on every keystroke. */
+  var bday = form.querySelector('#birthdate');
+  var bdayWrap = form.querySelector('.bday-wrap');
+  if (bday && bdayWrap) {
+    var today = new Date();
+    function isoYearsAgo(years) {
+      var d = new Date(today);
+      d.setFullYear(d.getFullYear() - years);
+      return d.toISOString().slice(0, 10);
+    }
+    bday.max = isoYearsAgo(18);
+    bday.min = isoYearsAgo(120);
 
-  var tags = form.querySelector('[data-tags]');
-  var cond = form.querySelector('#condition');
-  if (tags && cond) {
-    tags.addEventListener('click', function (e) {
-      var b = e.target.closest('button');
-      if (!b) return;
-      var on = b.getAttribute('aria-pressed') === 'true';
-      b.setAttribute('aria-pressed', on ? 'false' : 'true');
-      if (on) return;
-      // Append, never overwrite: the textarea stays the person's own words.
-      var phrase = b.textContent.trim();
-      cond.value = cond.value.trim() ? cond.value.replace(/\s*$/, '') + ', ' + phrase : phrase;
-      cond.dispatchEvent(new Event('input', { bubbles: true }));
+    bday.addEventListener('change', function () {
+      var ok = bday.value && bday.checkValidity();
+      bdayWrap.classList.toggle('is-set', !!ok);
+      if (ok) {
+        bdayWrap.classList.remove('bday-pop');
+        void bdayWrap.offsetWidth; // restart the animation on repeated valid picks
+        bdayWrap.classList.add('bday-pop');
+      }
     });
   }
 

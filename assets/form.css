@@ -122,16 +122,49 @@
 .saved { font-size: 13px; font-weight: 700; color: var(--ink-faint); min-height: 1.4em; }
 .saved.is-ok { color: var(--sage); }
 
-/* ---- symptom tags ---- */
-.tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.tags button {
-  font: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer;
-  padding: 7px 14px; border-radius: var(--radius-pill);
-  border: 1px solid transparent; background: var(--sage-wash); color: var(--sage-deep);
-  transition: background-color .16s ease, color .16s ease;
+/* ---- birthdate ---- */
+.bday-wrap {
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius);
+  background: var(--paper); padding-inline-end: 12px;
 }
-.tags button[aria-pressed="true"] { background: var(--sage-solid); color: var(--on-solid); }
-.tags button[aria-pressed="true"]::after { content: " ✓"; }
+.bday-wrap input[type=date] {
+  border: 0; background: none; flex: 1;
+}
+.bday-wrap:focus-within {
+  outline: 2px solid var(--sage); outline-offset: 1px; border-color: var(--sage);
+}
+.bday-icon { flex: none; display: flex; color: var(--ink-faint); transition: color .2s ease; }
+.bday-icon svg { display: block; }
+.bday-icon .bday-flame { fill: var(--warn); transform-origin: 24px 12px; }
+.bday-icon .bday-stick { stroke: var(--ink-faint); stroke-width: 1.6; }
+.bday-icon .bday-top { fill: var(--sage-wash); stroke: var(--sage); stroke-width: 1.2; }
+.bday-icon .bday-base { fill: var(--sage-wash); stroke: var(--sage); stroke-width: 1.2; }
+
+.bday-wrap.is-set { border-color: var(--sage); }
+.bday-wrap.is-set .bday-icon { color: var(--sage-deep); }
+.bday-wrap.is-set .bday-icon .bday-top,
+.bday-wrap.is-set .bday-icon .bday-base { fill: var(--sage-solid); stroke: var(--sage-solid); }
+
+@media (prefers-reduced-motion: no-preference) {
+  html.has-anim .bday-icon .bday-flame {
+    animation: bday-flicker 1.6s ease-in-out infinite;
+  }
+  html.has-anim .bday-wrap.bday-pop .bday-icon {
+    animation: bday-pop .5s cubic-bezier(.34,1.56,.64,1);
+  }
+}
+@keyframes bday-flicker {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  35% { transform: scale(.9, 1.08) rotate(-3deg); opacity: .85; }
+  65% { transform: scale(1.06, .94) rotate(3deg); opacity: 1; }
+}
+@keyframes bday-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35) rotate(-6deg); }
+  70% { transform: scale(.92) rotate(4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
 
 /* ---- segmented control ---- */
 .seg { display: flex; gap: 8px; flex-wrap: wrap; }

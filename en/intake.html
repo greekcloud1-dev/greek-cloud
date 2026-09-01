@@ -98,7 +98,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </p>
       <div class="city-facts" style="margin-top:28px">
         <div><span class="k">Time to complete</span><span class="v">About 3 minutes</span></div>
-        <div><span class="k">What you need</span><span class="v">Passport number and a selfie</span></div>
+        <div><span class="k">What you need</span><span class="v">Passport number (selfie optional)</span></div>
         <div><span class="k">If not approved</span><span class="v">Full refund</span></div>
       </div>
       <p class="saved" data-saved role="status" aria-live="polite"></p>
@@ -134,9 +134,19 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <p class="f"><label for="passport">Passport number</label>
               <input id="passport" name="passport" type="text" dir="ltr" required aria-describedby="passport-hint">
               <small id="passport-hint">As printed in the passport, no spaces</small></p>
-            <p class="f"><label for="age">Age</label>
-              <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
-              <small id="age-hint">The service is for adults aged 18 and over</small></p>
+            <p class="f bday-field"><label for="birthdate">Date of birth</label>
+              <span class="bday-wrap">
+                <input id="birthdate" name="birthdate" type="date" required aria-describedby="birthdate-hint">
+                <span class="bday-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" width="30" height="30">
+                    <path class="bday-flame" d="M24 8c-2.4 2.4-2.4 5 0 7.4c2.4-2.4 2.4-5 0-7.4z"/>
+                    <line class="bday-stick" x1="24" y1="15" x2="24" y2="21"/>
+                    <rect class="bday-top" x="9" y="21" width="30" height="7" rx="2"/>
+                    <rect class="bday-base" x="7" y="28" width="34" height="12" rx="3"/>
+                  </svg>
+                </span>
+              </span>
+              <small id="birthdate-hint">The service is for adults aged 18 and over</small></p>
             <p class="f"><label for="email">Email</label>
               <input id="email" name="email" type="email" autocomplete="email" dir="ltr" required></p>
             <p class="f"><label for="phone">WhatsApp phone</label>
@@ -160,16 +170,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 
         <!-- ---------- 3 · health ---------- -->
         <section class="step" data-step="3" aria-labelledby="s3h">
-          <h2 id="s3h"><span class="n" aria-hidden="true">3</span>What is troubling you?</h2>
+          <h2 id="s3h"><span class="n" aria-hidden="true">3</span>What are you suffering from?</h2>
           <p class="intro">Write in your own words. A physician reads this, not an algorithm.</p>
-          <div class="tags" data-tags role="group" aria-label="Common topics">
-            <button type="button" aria-pressed="false">Chronic pain</button>
-            <button type="button" aria-pressed="false">Sleep</button>
-            <button type="button" aria-pressed="false">Anxiety</button>
-            <button type="button" aria-pressed="false">Migraines</button>
-            <button type="button" aria-pressed="false">Appetite</button>
-            <button type="button" aria-pressed="false">Inflammatory</button>
-          </div>
           <p class="f"><label for="condition">What is troubling you, and what have you already tried?</label>
             <textarea id="condition" name="condition" rows="5" required aria-describedby="cond-hint"
               placeholder="For example: lower back pain for two years, mostly after sitting for long periods. I have tried painkillers and physiotherapy, with only partial relief."></textarea>
@@ -191,8 +193,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <div class="fields">
             <p class="f"><label for="f-selfie">Selfie photo</label>
               <input id="f-selfie" name="file_selfie" type="file" accept="image/*"
-                     required aria-describedby="selfie-hint">
-              <small id="selfie-hint">Face only, in good light. It does not need to be a formal photo.</small></p>
+                     aria-describedby="selfie-hint">
+              <small id="selfie-hint">Optional. Face only, in good light, if you add one.</small></p>
             <p class="f"><label for="f-rx">Existing prescription, if any</label>
               <input id="f-rx" name="file_rx" type="file" accept="image/*,.pdf" aria-describedby="frx-hint">
               <small id="frx-hint">Optional</small></p>

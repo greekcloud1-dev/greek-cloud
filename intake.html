@@ -98,7 +98,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </p>
       <div class="city-facts" style="margin-top:28px">
         <div><span class="k">זמן מילוי</span><span class="v">כ־3 דקות</span></div>
-        <div><span class="k">מה צריך</span><span class="v">מספר דרכון וסלפי</span></div>
+        <div><span class="k">מה צריך</span><span class="v">מספר דרכון (סלפי אופציונלי)</span></div>
         <div><span class="k">לא אושר</span><span class="v">החזר מלא</span></div>
       </div>
 
@@ -137,9 +137,19 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
               <input id="passport" name="passport" type="text" dir="ltr" inputmode="numeric"
                      maxlength="8" required aria-describedby="passport-hint">
               <small id="passport-hint">8 ספרות, ללא רווחים</small></p>
-            <p class="f"><label for="age">גיל</label>
-              <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
-              <small id="age-hint">השירות מיועד לבגירים מגיל 18</small></p>
+            <p class="f bday-field"><label for="birthdate">תאריך לידה</label>
+              <span class="bday-wrap">
+                <input id="birthdate" name="birthdate" type="date" required aria-describedby="birthdate-hint">
+                <span class="bday-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" width="30" height="30">
+                    <path class="bday-flame" d="M24 8c-2.4 2.4-2.4 5 0 7.4c2.4-2.4 2.4-5 0-7.4z"/>
+                    <line class="bday-stick" x1="24" y1="15" x2="24" y2="21"/>
+                    <rect class="bday-top" x="9" y="21" width="30" height="7" rx="2"/>
+                    <rect class="bday-base" x="7" y="28" width="34" height="12" rx="3"/>
+                  </svg>
+                </span>
+              </span>
+              <small id="birthdate-hint">השירות מיועד לבגירים מגיל 18</small></p>
             <p class="f"><label for="email">אימייל</label>
               <input id="email" name="email" type="email" autocomplete="email" dir="ltr" required></p>
             <p class="f"><label for="phone">טלפון בוואטסאפ</label>
@@ -163,16 +173,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 
         <!-- ---------- 3 · מצב בריאותי ---------- -->
         <section class="step" data-step="3" aria-labelledby="s3h">
-          <h2 id="s3h"><span class="n" aria-hidden="true">3</span>מה מטריד אתכם?</h2>
+          <h2 id="s3h"><span class="n" aria-hidden="true">3</span>ממה אתם סובלים?</h2>
           <p class="intro">כתבו בלשונכם. רופא קורא את זה, לא אלגוריתם.</p>
-          <div class="tags" data-tags role="group" aria-label="נושאים נפוצים">
-            <button type="button" aria-pressed="false">כאב כרוני</button>
-            <button type="button" aria-pressed="false">שינה</button>
-            <button type="button" aria-pressed="false">חרדה</button>
-            <button type="button" aria-pressed="false">מיגרנות</button>
-            <button type="button" aria-pressed="false">תיאבון</button>
-            <button type="button" aria-pressed="false">דלקתי</button>
-          </div>
           <p class="f"><label for="condition">מה מטריד אתכם, ומה ניסיתם עד היום?</label>
             <textarea id="condition" name="condition" rows="5" required aria-describedby="cond-hint"
               placeholder="לדוגמה: כאבי גב תחתון כבר שנתיים, בעיקר אחרי ישיבה ממושכת. ניסיתי משככי כאבים ופיזיותרפיה, עם הקלה חלקית בלבד."></textarea>
@@ -194,8 +196,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <div class="fields">
             <p class="f"><label for="f-selfie">תמונת סלפי</label>
               <input id="f-selfie" name="file_selfie" type="file" accept="image/*"
-                     required aria-describedby="selfie-hint">
-              <small id="selfie-hint">פנים בלבד, בתאורה טובה. לא נדרשת תמונה רשמית.</small></p>
+                     aria-describedby="selfie-hint">
+              <small id="selfie-hint">לא חובה. פנים בלבד, בתאורה טובה, אם מצרפים.</small></p>
             <p class="f"><label for="f-rx">מרשם קיים, אם יש</label>
               <input id="f-rx" name="file_rx" type="file" accept="image/*,.pdf"
                      aria-describedby="frx-hint">
