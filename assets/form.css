@@ -357,12 +357,16 @@
    Below 900px the facts card sits under the lede, full width, same as any
    other .city-facts on the site. From 900px up it becomes a narrow rail
    running the height of the title block -- DOM order alone decides which
-   side it lands on for each locale, since flex placement follows dir. */
+   side it lands on for each locale, since flex placement follows dir.
+   hero-main does NOT grow to fill the row: the lede already caps itself at
+   60ch, so a stretching flex-basis just left a dead gap between the card and
+   where the text actually ends. Content-sized instead, the two sit flush
+   together (one `gap`) and the leftover width falls outside the pair. */
 .hero-grid { display: flex; flex-direction: column; }
 .hero-facts.city-facts { margin-top: 22px; }
 @media (min-width: 900px) {
-  .hero-grid { flex-direction: row; align-items: stretch; gap: clamp(24px, 4vw, 48px); }
-  .hero-main { flex: 1 1 auto; min-width: 0; }
+  .hero-grid { flex-direction: row; align-items: stretch; gap: clamp(20px, 3vw, 32px); }
+  .hero-main { flex: 0 1 auto; min-width: 0; max-width: 60ch; }
   .hero-facts.city-facts {
     flex: 0 0 220px; margin-top: 0;
     display: flex; flex-direction: column; grid-template-columns: none;
