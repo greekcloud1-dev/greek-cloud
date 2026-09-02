@@ -140,7 +140,7 @@
   background: var(--paper); padding-inline-end: 12px;
 }
 .bday-wrap input[type=date] {
-  border: 0; background: none; flex: 1;
+  border: 0; background: none; flex: 1; min-width: 0;
 }
 .bday-wrap:focus-within {
   outline: 2px solid var(--sage); outline-offset: 1px; border-color: var(--sage);
@@ -184,14 +184,14 @@
   background: var(--paper); padding-inline-end: 12px;
 }
 .flight-wrap input[type=date] {
-  border: 0; background: none; flex: 1;
+  border: 0; background: none; flex: 1; min-width: 0;
 }
 .flight-wrap:focus-within {
   outline: 2px solid var(--sage); outline-offset: 1px; border-color: var(--sage);
 }
-.flight-icon { flex: none; display: flex; color: var(--ink-faint); transition: color .2s ease; }
-.flight-icon svg { display: block; overflow: visible; }
-.flight-icon .flight-plane { fill: var(--ink-faint); transition: fill .2s ease; }
+.flight-icon { flex: none; display: flex; color: var(--clay); transition: color .2s ease; }
+.flight-icon svg { display: block; }
+.flight-icon .flight-plane { fill: var(--clay); transition: fill .2s ease; }
 .flight-icon .flight-trail {
   fill: none; stroke: var(--rule-strong); stroke-width: 1.4; stroke-linecap: round;
   stroke-dasharray: 1.5 3; transition: stroke .2s ease;
