@@ -7,7 +7,7 @@
 
      1. Reject anything that fails the honeypot or server-side validation --
         the client already validates, but a request can reach here directly.
-     2. Store the selfie (required), the existing-prescription file
+     2. Store the selfie (optional), the existing-prescription file
         (optional), and a JSON record of every field in Vercel Blob, under
         one private, unguessable path per submission. This IS the durable
         copy of the request; nothing here is disposable.
@@ -106,44 +106,54 @@ async function handleSubmit(request) {
   const plan = str('plan');
   const fullName = str('full_name');
   const passport = str('passport');
-  const age = str('age');
+  const birthdate = str('birthdate');
   const email = str('email');
   const phone = str('phone');
   const city = str('city');
   const arrival = str('arrival');
   const condition = str('condition');
   const rxExists = str('rx_exists');
+  const symptomTags = str('symptom_tags');
 
   const consents = {};
   for (const key of CONSENT_FIELDS) consents[key] = form.get(key) === 'on';
 
-  const required = { plan, full_name: fullName, passport, age, email, phone, city, condition };
+  const required = { plan, full_name: fullName, passport, birthdate, email, phone, city, condition };
   for (const [key, value] of Object.entries(required)) {
     if (!value) return json(400, { ok: false, error: `missing:${key}` });
   }
   if (plan !== 'standard' && plan !== 'vip') return json(400, { ok: false, error: 'invalid:plan' });
   if (!/^\d{8}$/.test(passport)) return json(400, { ok: false, error: 'invalid:passport' });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { ok: false, error: 'invalid:email' });
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(birthdate)) return json(400, { ok: false, error: 'invalid:birthdate' });
+  const ageYears = Math.floor((Date.now() - new Date(birthdate).getTime()) / (365.2425 * 86400000));
+  if (!Number.isFinite(ageYears) || ageYears < 18 || ageYears > 120) {
+    return json(400, { ok: false, error: 'invalid:birthdate' });
+  }
   for (const key of CONSENT_FIELDS) {
     if (!consents[key]) return json(400, { ok: false, error: `missing:${key}` });
   }
 
+  // The selfie used to be required; it is now optional, so a submission can
+  // land without one and be reviewed on the written answers alone.
   const selfie = form.get('file_selfie');
-  if (!(selfie instanceof File) || selfie.size === 0) return json(400, { ok: false, error: 'missing:file_selfie' });
+  const hasSelfie = selfie instanceof File && selfie.size > 0;
   const rxFile = form.get('file_rx');
   const hasRx = rxFile instanceof File && rxFile.size > 0;
 
   const submissionId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${Math.random().toString(36).slice(2, 8)}`;
   const base = `submissions/${submissionId}`;
 
-  let selfieBlob;
+  let selfieBlob = null;
   let rxBlob = null;
   try {
-    selfieBlob = await put(`${base}/selfie-${selfie.name || 'selfie.jpg'}`, selfie, {
-      access: 'private',
-      addRandomSuffix: false,
-      contentType: selfie.type || 'image/jpeg',
-    });
+    if (hasSelfie) {
+      selfieBlob = await put(`${base}/selfie-${selfie.name || 'selfie.jpg'}`, selfie, {
+        access: 'private',
+        addRandomSuffix: false,
+        contentType: selfie.type || 'image/jpeg',
+      });
+    }
     if (hasRx) {
       rxBlob = await put(`${base}/rx-${rxFile.name || 'prescription'}`, rxFile, {
         access: 'private',
@@ -158,9 +168,9 @@ async function handleSubmit(request) {
   const record = {
     submissionId,
     receivedAt: new Date().toISOString(),
-    locale, plan, fullName, passport, age, email, phone, city, arrival,
-    condition, rxExists, consents,
-    selfiePath: selfieBlob.pathname,
+    locale, plan, fullName, passport, birthdate, age: ageYears, email, phone, city, arrival,
+    condition, symptomTags, rxExists, consents,
+    selfiePath: selfieBlob ? selfieBlob.pathname : null,
     rxPath: rxBlob ? rxBlob.pathname : null,
   };
 

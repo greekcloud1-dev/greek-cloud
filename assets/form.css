@@ -133,15 +133,119 @@
 .tags button[aria-pressed="true"] { background: var(--sage-solid); color: var(--on-solid); }
 .tags button[aria-pressed="true"]::after { content: " ✓"; }
 
-/* ---- segmented control ---- */
-.seg { display: flex; gap: 8px; flex-wrap: wrap; }
-.seg button {
-  font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
-  padding: 9px 18px; border-radius: var(--radius-pill);
-  border: 1px solid var(--rule-strong); background: var(--paper); color: var(--ink);
-  transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+/* ---- birthdate ---- */
+.bday-wrap {
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius);
+  background: var(--paper); padding-inline-end: 12px;
 }
-.seg button[aria-pressed="true"] { background: var(--sage-solid); border-color: var(--sage-solid); color: var(--on-solid); }
+.bday-wrap input[type=date] {
+  border: 0; background: none; flex: 1; min-width: 0;
+}
+.bday-wrap:focus-within {
+  outline: 2px solid var(--sage); outline-offset: 1px; border-color: var(--sage);
+}
+.bday-icon { flex: none; display: flex; color: var(--ink-faint); transition: color .2s ease; }
+.bday-icon svg { display: block; }
+.bday-icon .bday-flame { fill: var(--warn); transform-origin: 24px 12px; }
+.bday-icon .bday-stick { stroke: var(--ink-faint); stroke-width: 1.6; }
+.bday-icon .bday-top { fill: var(--sage-wash); stroke: var(--sage); stroke-width: 1.2; }
+.bday-icon .bday-base { fill: var(--sage-wash); stroke: var(--sage); stroke-width: 1.2; }
+
+.bday-wrap.is-set { border-color: var(--sage); }
+.bday-wrap.is-set .bday-icon { color: var(--sage-deep); }
+.bday-wrap.is-set .bday-icon .bday-top,
+.bday-wrap.is-set .bday-icon .bday-base { fill: var(--sage-solid); stroke: var(--sage-solid); }
+
+@media (prefers-reduced-motion: no-preference) {
+  html.has-anim .bday-icon .bday-flame {
+    animation: bday-flicker 1.6s ease-in-out infinite;
+  }
+  html.has-anim .bday-wrap.bday-pop .bday-icon {
+    animation: bday-pop .5s cubic-bezier(.34,1.56,.64,1);
+  }
+}
+@keyframes bday-flicker {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  35% { transform: scale(.9, 1.08) rotate(-3deg); opacity: .85; }
+  65% { transform: scale(1.06, .94) rotate(3deg); opacity: 1; }
+}
+@keyframes bday-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35) rotate(-6deg); }
+  70% { transform: scale(.92) rotate(4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* ---- arrival date / flight ---- */
+.flight-wrap {
+  display: flex; align-items: center; gap: 10px;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius);
+  background: var(--paper); padding-inline-end: 12px;
+}
+.flight-wrap input[type=date] {
+  border: 0; background: none; flex: 1; min-width: 0;
+}
+.flight-wrap:focus-within {
+  outline: 2px solid var(--sage); outline-offset: 1px; border-color: var(--sage);
+}
+.flight-icon { flex: none; display: flex; color: var(--clay); transition: color .2s ease; }
+.flight-icon svg { display: block; }
+.flight-icon .flight-plane { fill: var(--clay); transition: fill .2s ease; }
+.flight-icon .flight-trail {
+  fill: none; stroke: var(--rule-strong); stroke-width: 1.4; stroke-linecap: round;
+  stroke-dasharray: 1.5 3; transition: stroke .2s ease;
+}
+
+.flight-wrap.is-set { border-color: var(--sage); }
+.flight-wrap.is-set .flight-icon { color: var(--sage-deep); }
+.flight-wrap.is-set .flight-icon .flight-plane { fill: var(--sage-solid); }
+.flight-wrap.is-set .flight-icon .flight-trail { stroke: var(--sage); }
+
+@media (prefers-reduced-motion: no-preference) {
+  html.has-anim .flight-icon .flight-plane {
+    animation: flight-bob 2.2s ease-in-out infinite;
+  }
+  html.has-anim .flight-wrap.flight-pop .flight-icon .flight-plane {
+    animation: flight-takeoff .6s cubic-bezier(.34,1.56,.64,1);
+  }
+  html.has-anim .flight-wrap.flight-pop .flight-icon .flight-trail {
+    animation: flight-trail-fade .6s ease-out;
+  }
+}
+@keyframes flight-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(-4deg); }
+}
+@keyframes flight-takeoff {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  55% { transform: translate(5px, -6px) rotate(-14deg) scale(1.25); }
+  100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+}
+@keyframes flight-trail-fade {
+  0% { opacity: 0; }
+  40% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* ---- segmented control ----
+   One evenly-split row -- each option is a fixed 1/3 share of the track --
+   instead of free-floating pills, which wrapped unevenly on narrow screens. */
+.seg {
+  display: flex; width: 100%;
+  border: 1px solid var(--rule-strong); border-radius: var(--radius-pill);
+  background: var(--paper); overflow: hidden;
+}
+.seg button {
+  flex: 1 1 0; min-width: 0;
+  font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+  padding: 9px 10px; text-align: center; white-space: nowrap;
+  border: 0; border-inline-start: 1px solid var(--rule-strong);
+  background: var(--paper); color: var(--ink);
+  transition: background-color .16s ease, color .16s ease;
+}
+.seg button:first-child { border-inline-start: 0; }
+.seg button[aria-pressed="true"] { background: var(--sage-solid); color: var(--on-solid); }
 
 /* ---- review card (step 5) ---- */
 .review { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 20px 22px; box-shadow: var(--shadow-sm); }
@@ -245,10 +349,30 @@
 .intake-top h1 { font-size: clamp(33px, 4.4vw, 46px); margin-bottom: 14px; }
 .intake-top .lede { font-size: 17px; max-width: 60ch; }
 .intake-top .crumbs { margin-bottom: 14px; }
-.intake-top .city-facts { margin-top: 22px !important; }
 .intake-top .city-facts > div { padding: 14px 17px; }
 .intake-top .city-facts .v { font-size: 16.5px; }
 .intake-top .saved { margin: 26px 0 0; }
+
+/* ---- hero layout ----
+   Below 900px the facts card sits under the lede, full width, same as any
+   other .city-facts on the site. From 900px up it becomes a narrow rail
+   running the height of the title block -- DOM order alone decides which
+   side it lands on for each locale, since flex placement follows dir.
+   hero-main does NOT grow to fill the row: the lede already caps itself at
+   60ch, so a stretching flex-basis just left a dead gap between the card and
+   where the text actually ends. Content-sized instead, the two sit flush
+   together (one `gap`) and the leftover width falls outside the pair. */
+.hero-grid { display: flex; flex-direction: column; }
+.hero-facts.city-facts { margin-top: 22px; }
+@media (min-width: 900px) {
+  .hero-grid { flex-direction: row; align-items: stretch; gap: clamp(20px, 3vw, 32px); }
+  .hero-main { flex: 0 1 auto; min-width: 0; max-width: 60ch; }
+  .hero-facts.city-facts {
+    flex: 0 0 220px; margin-top: 0;
+    display: flex; flex-direction: column; grid-template-columns: none;
+  }
+  .hero-facts.city-facts > div { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+}
 
 /* One element, three outcomes: maintenance-closed, sent, and a genuine send
    failure. It replaces the thin .form-status line once the whole

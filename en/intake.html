@@ -89,17 +89,21 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 <main id="main" tabindex="-1">
   <section class="doc-head intake-band intake-top">
     <div class="wrap">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="/en/">Home</a> &rsaquo; Eligibility check</nav>
-      <p class="eyebrow">Questionnaire</p>
-      <h1>Eligibility check</h1>
-      <p class="lede">
-        A few questions about your health and your passport details. A Greek-licensed physician will review
-        the request and decide independently. Filling this in commits you to nothing.
-      </p>
-      <div class="city-facts" style="margin-top:28px">
-        <div><span class="k">Time to complete</span><span class="v">About 3 minutes</span></div>
-        <div><span class="k">What you need</span><span class="v">Passport number and a selfie</span></div>
-        <div><span class="k">If not approved</span><span class="v">Full refund</span></div>
+      <div class="hero-grid">
+        <div class="city-facts hero-facts">
+          <div><span class="k">Time to complete</span><span class="v">About 3 minutes</span></div>
+          <div><span class="k">What you need</span><span class="v">Passport number (selfie optional)</span></div>
+          <div><span class="k">If not approved</span><span class="v">Full refund</span></div>
+        </div>
+        <div class="hero-main">
+          <nav class="crumbs" aria-label="Breadcrumb"><a href="/en/">Home</a> &rsaquo; Eligibility check</nav>
+          <p class="eyebrow">Questionnaire</p>
+          <h1>Eligibility check</h1>
+          <p class="lede">
+            A few questions about your health and your passport details. A Greek-licensed physician will review
+            the request and decide independently. Filling this in commits you to nothing.
+          </p>
+        </div>
       </div>
       <p class="saved" data-saved role="status" aria-live="polite"></p>
       <div class="intake-shell">
@@ -134,9 +138,19 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <p class="f"><label for="passport">Passport number</label>
               <input id="passport" name="passport" type="text" dir="ltr" required aria-describedby="passport-hint">
               <small id="passport-hint">As printed in the passport, no spaces</small></p>
-            <p class="f"><label for="age">Age</label>
-              <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
-              <small id="age-hint">The service is for adults aged 18 and over</small></p>
+            <p class="f bday-field"><label for="birthdate">Date of birth</label>
+              <span class="bday-wrap">
+                <input id="birthdate" name="birthdate" type="date" required aria-describedby="birthdate-hint">
+                <span class="bday-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" width="30" height="30">
+                    <path class="bday-flame" d="M24 8c-2.4 2.4-2.4 5 0 7.4c2.4-2.4 2.4-5 0-7.4z"/>
+                    <line class="bday-stick" x1="24" y1="15" x2="24" y2="21"/>
+                    <rect class="bday-top" x="9" y="21" width="30" height="7" rx="2"/>
+                    <rect class="bday-base" x="7" y="28" width="34" height="12" rx="3"/>
+                  </svg>
+                </span>
+              </span>
+              <small id="birthdate-hint">The service is for adults aged 18 and over</small></p>
             <p class="f"><label for="email">Email</label>
               <input id="email" name="email" type="email" autocomplete="email" dir="ltr" required></p>
             <p class="f"><label for="phone">WhatsApp phone</label>
@@ -149,8 +163,16 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
                 <option>Rhodes</option><option>Kos</option><option>Santorini</option>
                 <option>Mykonos</option><option>Corfu</option><option>Other / not yet decided</option>
               </select></p>
-            <p class="f"><label for="arrival">Approximate arrival date</label>
-              <input id="arrival" name="arrival" type="date"></p>
+            <p class="f flight-field"><label for="arrival">Approximate arrival date</label>
+              <span class="flight-wrap">
+                <input id="arrival" name="arrival" type="date">
+                <span class="flight-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path class="flight-trail" d="M3 19q6-1.5 9.5-3.5"/>
+                    <path class="flight-plane" d="M21 16v-2l-8-5V3.5C13 2.67 12.33 2 11.5 2S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5z"/>
+                  </svg>
+                </span>
+              </span></p>
           </div>
           <div class="note">
             <span class="nt">Compare now, not later</span>
@@ -160,16 +182,19 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 
         <!-- ---------- 3 · health ---------- -->
         <section class="step" data-step="3" aria-labelledby="s3h">
-          <h2 id="s3h"><span class="n" aria-hidden="true">3</span>What is troubling you?</h2>
+          <h2 id="s3h"><span class="n" aria-hidden="true">3</span>What are you suffering from?</h2>
           <p class="intro">Write in your own words. A physician reads this, not an algorithm.</p>
-          <div class="tags" data-tags role="group" aria-label="Common topics">
-            <button type="button" aria-pressed="false">Chronic pain</button>
-            <button type="button" aria-pressed="false">Sleep</button>
-            <button type="button" aria-pressed="false">Anxiety</button>
-            <button type="button" aria-pressed="false">Migraines</button>
-            <button type="button" aria-pressed="false">Appetite</button>
-            <button type="button" aria-pressed="false">Inflammatory</button>
-          </div>
+          <p class="f"><label id="tags-lab">Common topics, for marking only</label>
+            <span class="tags" data-tags role="group" aria-labelledby="tags-lab">
+              <button type="button" aria-pressed="false">Chronic pain</button>
+              <button type="button" aria-pressed="false">Sleep</button>
+              <button type="button" aria-pressed="false">Anxiety</button>
+              <button type="button" aria-pressed="false">Migraines</button>
+              <button type="button" aria-pressed="false">Appetite</button>
+              <button type="button" aria-pressed="false">Inflammatory</button>
+            </span>
+            <input type="hidden" id="symptom-tags" name="symptom_tags" value="">
+            <small>Marking helps the physician sort, but does not write for you — the description below stays in your own words.</small></p>
           <p class="f"><label for="condition">What is troubling you, and what have you already tried?</label>
             <textarea id="condition" name="condition" rows="5" required aria-describedby="cond-hint"
               placeholder="For example: lower back pain for two years, mostly after sitting for long periods. I have tried painkillers and physiotherapy, with only partial relief."></textarea>
@@ -191,8 +216,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <div class="fields">
             <p class="f"><label for="f-selfie">Selfie photo</label>
               <input id="f-selfie" name="file_selfie" type="file" accept="image/*"
-                     required aria-describedby="selfie-hint">
-              <small id="selfie-hint">Face only, in good light. It does not need to be a formal photo.</small></p>
+                     aria-describedby="selfie-hint">
+              <small id="selfie-hint">Optional. Face only, in good light, if you add one.</small></p>
             <p class="f"><label for="f-rx">Existing prescription, if any</label>
               <input id="f-rx" name="file_rx" type="file" accept="image/*,.pdf" aria-describedby="frx-hint">
               <small id="frx-hint">Optional</small></p>
