@@ -41,7 +41,10 @@
     sentTitle: 'התקבל!',
     sentBody:  'הפנייה שלכם נשלחה ונשמרה. ניצור איתכם קשר בוואטסאפ להמשך התהליך.',
     errTitle:  'השליחה נכשלה',
-    errBody:   'הייתה תקלה בשליחה. הפרטים שלכם נשארו בדפדפן ולא אבדו — נסו לשלוח שוב בעוד רגע.'
+    errBody:   'הייתה תקלה בשליחה. הפרטים שלכם נשארו בדפדפן ולא אבדו — נסו לשלוח שוב בעוד רגע.',
+    bigTitle:  'הקבצים גדולים מדי',
+    bigBody:   'סך הקבצים המצורפים יכול להגיע עד 4MB. שאר הפרטים שלכם נשמרו — ' +
+               'נסו לצלם שוב או לצרף קובץ קטן יותר.'
   } : {
     missing:   'A few fields are still missing — I have marked them.',
     required:  'This field is required.',
@@ -58,7 +61,10 @@
     sentTitle: 'Received!',
     sentBody:  'Your request was sent and saved. We will reach out on WhatsApp to continue.',
     errTitle:  'Sending failed',
-    errBody:   'Something went wrong while sending. Your details are still in your browser and were not lost -- please try again in a moment.'
+    errBody:   'Something went wrong while sending. Your details are still in your browser and were not lost -- please try again in a moment.',
+    bigTitle:  'Those files are too large',
+    bigBody:   'Attachments can total up to 4MB. The rest of your details are safe -- ' +
+               'please retake the photo or attach a smaller file.'
   };
 
   var statusEl = form.querySelector('.form-status');
@@ -205,6 +211,13 @@
 
   /* ---------- submit ---------- */
 
+  /* Kept under Vercel's 4.5MB request-body limit with room for the text
+     fields and the multipart framing. /api/submit enforces its own, larger
+     ceiling per file: this one is here to give the visitor a sentence they
+     can act on, not to be the security boundary. */
+  var MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
+  var TOO_BIG = 'gc-upload-too-big';
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -236,6 +249,14 @@
       compressImage(selfieFile, 1600, 0.82),
       compressImage(rxFile, 1600, 0.82),
     ]).then(function (files) {
+      /* Checked after compression, because compression is what decides the
+         real size: a 12MP photo lands well under this, an unshrinkable PDF
+         may not. The platform refuses a body over 4.5MB with a bare error
+         page, so catching it here is the difference between a person being
+         told what to do and a person watching the form fail. */
+      var total = (files[0] ? files[0].size : 0) + (files[1] ? files[1].size : 0);
+      if (total > MAX_UPLOAD_BYTES) throw new Error(TOO_BIG);
+
       // FormData(form) captures every named field -- text, select, radio,
       // hidden, checked checkboxes, and both file inputs -- in one call, so
       // this only needs to override the two files with their compressed
@@ -259,8 +280,9 @@
         showSendError();
         submitBtn.disabled = false;
       });
-    }).catch(function () {
-      showSendError();
+    }).catch(function (err) {
+      if (err && err.message === TOO_BIG) notice('warn', S.bigTitle, S.bigBody);
+      else showSendError();
       submitBtn.disabled = false;
     });
   });
@@ -386,7 +408,19 @@
   /* ---------- draft ---------- */
 
   var KEY = 'gc-intake-draft';
-  var SKIP = { condition: 1, website: 1, file_selfie: 1, file_rx: 1 };
+
+  /* Never written to disk. The health description and the files were always
+     excluded; the passport number joins them because it is the one field here
+     that identifies a person to a border officer, and a draft left on a shared
+     or family computer hands it to whoever opens the page next. It is eight
+     digits with a live hint counting them off beside the field -- cheap to
+     retype, and not worth leaving behind. */
+  var SKIP = { condition: 1, passport: 1, website: 1, file_selfie: 1, file_rx: 1 };
+
+  /* A draft is a convenience for finishing the form today, not a record. After
+     this it is deleted unread, so a half-filled form cannot sit in a browser
+     for months waiting to be read by someone else. */
+  var MAX_AGE_MS = 24 * 60 * 60 * 1000;
   var timer;
 
   function save() {
@@ -396,7 +430,8 @@
       if (f.type === 'radio' || f.type === 'checkbox') { if (f.checked) data[f.name] = f.value || true; }
       else data[f.name] = f.value;
     });
-    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { return; }
+    try { localStorage.setItem(KEY, JSON.stringify({ savedAt: Date.now(), data: data })); }
+    catch (e) { return; }
     if (savedEl) { savedEl.textContent = 'נשמר ✓'; savedEl.classList.add('is-ok'); }
   }
 
@@ -413,8 +448,17 @@
     var raw;
     try { raw = localStorage.getItem(KEY); } catch (e) { return; }
     if (!raw) return;
-    var data;
-    try { data = JSON.parse(raw); } catch (e) { return; }
+    var saved;
+    try { saved = JSON.parse(raw); } catch (e) { drop(); return; }
+
+    /* Anything without a timestamp was written by the version of this file
+       that stored the passport number and never expired. Its age is unknown,
+       so it is dropped rather than restored -- which also clears that number
+       out of the browsers that already have one. */
+    var fresh = saved && typeof saved.savedAt === 'number' && (Date.now() - saved.savedAt) < MAX_AGE_MS;
+    if (!fresh) { drop(); return; }
+
+    var data = saved.data || {};
     Object.keys(data).forEach(function (k) {
       var f = form.elements[k];
       if (!f) return;
@@ -437,9 +481,10 @@
      fails, and wiping a complete set of answers right after telling someone to
      "try again soon" would throw away exactly what they were asked to keep.
      The submit path calls this once a real pipeline confirms receipt. */
-  window.gcIntakeClearDraft = function () {
+  function drop() {
     try { localStorage.removeItem(KEY); } catch (e) {}
-  };
+  }
+  window.gcIntakeClearDraft = drop;
 })();
 
 /* ---- rail index ----------------------------------------------------------

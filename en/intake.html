@@ -171,7 +171,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <button type="button" aria-pressed="false">Inflammatory</button>
           </div>
           <p class="f"><label for="condition">What is troubling you, and what have you already tried?</label>
-            <textarea id="condition" name="condition" rows="5" required aria-describedby="cond-hint"
+            <textarea id="condition" name="condition" rows="5" required maxlength="5000" aria-describedby="cond-hint"
               placeholder="For example: lower back pain for two years, mostly after sitting for long periods. I have tried painkillers and physiotherapy, with only partial relief."></textarea>
             <small id="cond-hint">The more you say about what you have tried, the better grounded the assessment.</small></p>
           <p class="f"><label id="rx-lab">Do you hold a cannabis prescription or licence at home?</label>
