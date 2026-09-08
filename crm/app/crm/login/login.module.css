@@ -1,0 +1,544 @@
+.page {
+  --login-ink: #0b232d;
+  --login-deep: #061820;
+  --login-sea: #2d7d86;
+  --login-mint: #c8ded9;
+  --login-coral: #d77c55;
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: max(18px, env(safe-area-inset-top)) 18px
+    max(18px, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(
+      circle at 13% 8%,
+      rgba(45, 125, 134, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(145deg, #f8f5ee 0%, #eee8dc 100%);
+  color: var(--login-ink);
+  overflow: hidden;
+}
+
+.ambientOne,
+.ambientTwo {
+  position: absolute;
+  border: 1px solid rgba(45, 125, 134, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ambientOne {
+  width: min(78vw, 720px);
+  aspect-ratio: 1;
+  top: -48%;
+  right: -17%;
+  box-shadow:
+    0 0 0 80px rgba(45, 125, 134, 0.025),
+    0 0 0 160px rgba(45, 125, 134, 0.018);
+}
+
+.ambientTwo {
+  width: min(45vw, 430px);
+  aspect-ratio: 1;
+  bottom: -28%;
+  left: -9%;
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+  width: min(1050px, 100%);
+  min-height: min(720px, calc(100svh - 36px));
+  display: grid;
+  border: 1px solid rgba(11, 35, 45, 0.12);
+  background: rgba(255, 253, 248, 0.9);
+  box-shadow: 0 30px 90px rgba(6, 24, 32, 0.13);
+  overflow: hidden;
+}
+
+.brandPanel {
+  position: relative;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent),
+    var(--login-deep);
+  color: #fffdf8;
+  overflow: hidden;
+}
+
+.brandPanel::after {
+  content: "";
+  position: absolute;
+  width: 330px;
+  height: 330px;
+  left: -120px;
+  bottom: -180px;
+  border: 1px solid rgba(200, 222, 217, 0.12);
+  border-radius: 50%;
+  box-shadow: 0 0 0 58px rgba(200, 222, 217, 0.025);
+}
+
+.wordmark {
+  position: relative;
+  z-index: 2;
+  min-height: 48px;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brandMark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: var(--login-mint);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.wordmark > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+
+.wordmark strong {
+  font-size: 17px;
+  letter-spacing: -0.035em;
+}
+
+.wordmark small {
+  color: rgba(255, 253, 248, 0.54);
+  font-size: 10px;
+}
+
+.brandCopy {
+  position: relative;
+  z-index: 2;
+  margin-block: auto;
+  padding-block: 48px 26px;
+}
+
+.kicker,
+.formEyebrow {
+  margin: 0;
+  color: var(--login-mint);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.kicker span {
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+}
+
+.brandCopy h1 {
+  max-width: 510px;
+  margin: 18px 0 0;
+  font-size: clamp(38px, 10vw, 64px);
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.brandCopy > p:last-child {
+  max-width: 470px;
+  margin: 20px 0 0;
+  color: rgba(255, 253, 248, 0.62);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.routeVisual {
+  position: absolute;
+  inset: auto auto 72px 24px;
+  width: 130px;
+  height: 100px;
+  opacity: 0.74;
+}
+
+.routeCloud {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  color: rgba(200, 222, 217, 0.28);
+}
+
+.routeCloud svg {
+  width: 42px;
+  height: 42px;
+  stroke-width: 1;
+}
+
+.routeLine {
+  position: absolute;
+  inset: 54px 18px auto 15px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.3);
+  transform: rotate(11deg);
+}
+
+.routeOrigin,
+.routeDestination {
+  position: absolute;
+  bottom: 11px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.routeOrigin {
+  right: 4px;
+}
+
+.routeDestination {
+  left: 0;
+}
+
+.routePlane {
+  position: absolute;
+  right: 54px;
+  bottom: 23px;
+  color: var(--login-coral);
+  transform: rotate(-15deg);
+}
+
+.routePlane svg {
+  width: 20px;
+  height: 20px;
+}
+
+.privacyNote {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: rgba(255, 253, 248, 0.52);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.privacyNote svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
+.formPanel,
+.setupPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 34px 25px;
+  background: #fffdf8;
+}
+
+.formHeading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.lockIcon,
+.setupIcon {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #e4efec;
+  color: var(--login-sea);
+}
+
+.lockIcon svg,
+.setupIcon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.formEyebrow {
+  color: var(--login-sea);
+}
+
+.formHeading h2,
+.setupPanel h2 {
+  margin: 5px 0 0;
+  color: var(--login-deep);
+  font-size: clamp(30px, 8vw, 43px);
+  font-weight: 550;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.formIntro {
+  margin: 24px 0 0;
+  color: #617078;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.form {
+  display: grid;
+  gap: 19px;
+  margin-top: 27px;
+}
+
+.fieldGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.fieldGroup label {
+  color: #31464f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.inputShell {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-inline: 15px 9px;
+  border: 1px solid rgba(11, 35, 45, 0.2);
+  border-radius: 12px;
+  background: #fff;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.inputShell:focus-within {
+  border-color: var(--login-sea);
+  box-shadow: 0 0 0 3px rgba(45, 125, 134, 0.11);
+}
+
+.inputShell > svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  color: #7c8b90;
+}
+
+.inputShell input {
+  min-width: 0;
+  min-height: 50px;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--login-deep);
+  font-size: 15px;
+  direction: ltr;
+  text-align: left;
+}
+
+.inputShell:has(input[aria-invalid="true"]) {
+  border-color: #aa4f3a;
+}
+
+.passwordToggle {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #66777d;
+  cursor: pointer;
+}
+
+.passwordToggle:hover {
+  background: #edf3f1;
+  color: var(--login-sea);
+}
+
+.passwordToggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.fieldError,
+.errorMessage,
+.successMessage {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.fieldError,
+.errorMessage {
+  color: #923c2e;
+}
+
+.errorMessage,
+.successMessage {
+  margin-top: 18px;
+  padding: 11px 13px;
+  border-radius: 10px;
+}
+
+.errorMessage {
+  border: 1px solid rgba(146, 60, 46, 0.2);
+  background: #fff2ed;
+}
+
+.successMessage {
+  border: 1px solid rgba(45, 125, 134, 0.2);
+  background: #edf7f4;
+  color: #27656c;
+}
+
+.primaryAction {
+  min-height: 54px;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 19px;
+  border: 1px solid var(--login-deep);
+  border-radius: 999px;
+  background: var(--login-deep);
+  color: #fffdf8;
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 170ms ease,
+    border-color 170ms ease,
+    transform 170ms ease;
+}
+
+.primaryAction:hover:not(:disabled) {
+  border-color: var(--login-sea);
+  background: var(--login-sea);
+  transform: translateY(-1px);
+}
+
+.primaryAction:disabled,
+.passwordToggle:disabled,
+.inputShell input:disabled {
+  cursor: wait;
+  opacity: 0.66;
+}
+
+.primaryAction svg {
+  width: 18px;
+  height: 18px;
+}
+
+.spinner {
+  animation: spin 800ms linear infinite;
+}
+
+.supportNote {
+  margin: 21px 0 0;
+  color: #7c898e;
+  font-size: 10px;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.setupPanel {
+  align-items: flex-start;
+}
+
+.setupPanel .formEyebrow {
+  margin-top: 22px;
+}
+
+.setupPanel > p:not(.formEyebrow) {
+  max-width: 440px;
+  margin: 22px 0 27px;
+  color: #5e6f76;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.setupPanel small {
+  margin-top: 18px;
+  color: #849096;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 760px) {
+  .page {
+    padding: max(28px, env(safe-area-inset-top)) 28px
+      max(28px, env(safe-area-inset-bottom));
+  }
+
+  .shell {
+    min-height: min(680px, calc(100svh - 56px));
+    grid-template-columns: minmax(0, 1.08fr) minmax(350px, 0.92fr);
+    border-radius: 4px 4px 76px 4px;
+  }
+
+  .brandPanel {
+    min-height: 100%;
+    padding: 35px;
+  }
+
+  .brandCopy {
+    padding-block: 52px 102px;
+  }
+
+  .routeVisual {
+    bottom: 84px;
+    left: 34px;
+  }
+
+  .formPanel,
+  .setupPanel {
+    padding: clamp(42px, 6vw, 74px);
+  }
+}
+
+@media (max-height: 700px) and (min-width: 760px) {
+  .shell {
+    min-height: 620px;
+  }
+
+  .brandCopy {
+    padding-block: 34px 68px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryAction,
+  .spinner {
+    transition: none;
+    animation: none;
+  }
+}

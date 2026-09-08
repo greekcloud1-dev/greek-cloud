@@ -1,0 +1,29 @@
+name: CRM checks
+on:
+  pull_request:
+    paths: ['crm/**', 'lib/crm-sync*', 'api/submit.js', '.github/workflows/crm-checks.yml']
+  push:
+    branches: [main]
+    paths: ['crm/**', 'lib/crm-sync*', 'api/submit.js', '.github/workflows/crm-checks.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: crm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: crm/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm audit --prod --audit-level=high
+      - run: pnpm test
+      - run: pnpm build
