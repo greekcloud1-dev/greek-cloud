@@ -3,3 +3,5 @@ node_modules/
 .DS_Store
 Thumbs.db
 _tiers-preview.html
+.env*
+!.env.example

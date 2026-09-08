@@ -32,6 +32,7 @@
 
 import { put } from '@vercel/blob';
 import { Resend } from 'resend';
+import { crmContactPayload, syncCrmContact } from '../lib/crm-sync.js';
 
 function json(status, body) {
   return new Response(JSON.stringify(body), {
@@ -162,6 +163,9 @@ async function handleSubmit(request) {
     condition, rxExists, consents,
     selfiePath: selfieBlob.pathname,
     rxPath: rxBlob ? rxBlob.pathname : null,
+    // This durable intent is saved with the source record before optional sync.
+    // A failed bridge must never discard or expose the underlying private intake.
+    crmSync: { status: 'pending', version: 1 },
   };
 
   try {
@@ -176,6 +180,18 @@ async function handleSubmit(request) {
     return json(502, { ok: false, error: 'record_failed' });
   }
 
+  const crmResult = await syncCrmContact(crmContactPayload(record));
+  if (crmResult.status !== 'not_configured') {
+    try {
+      await put(`${base}/crm-delivery.json`, JSON.stringify(crmResult), {
+        access: 'private', addRandomSuffix: false, contentType: 'application/json',
+      });
+    } catch {
+      console.error('crm delivery receipt not saved', submissionId);
+    }
+    if (crmResult.status !== 'synced') console.error('crm sync pending', submissionId, crmResult.status);
+  }
+
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const { subject, text } = buildEmail(record);
@@ -186,7 +202,7 @@ async function handleSubmit(request) {
       text,
     });
   } catch (e) {
-    console.error('resend notify failed for', submissionId, e);
+    console.error('resend notify failed for', submissionId);
   }
 
   return json(200, { ok: true, submissionId });

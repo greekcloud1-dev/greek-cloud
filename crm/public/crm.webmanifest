@@ -1,0 +1,21 @@
+{
+  "name": "GreekCloud CRM",
+  "short_name": "GC CRM",
+  "description": "מערכת העבודה הפנימית של GreekCloud",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "/crm",
+  "scope": "/crm",
+  "display": "standalone",
+  "background_color": "#f5f1e8",
+  "theme_color": "#102731",
+  "icons": [
+    {
+      "src": "/crm-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
