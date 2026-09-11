@@ -33,14 +33,17 @@
 
   var t = isEn ? {
     title: 'About your privacy',
-    body: 'This site sets no tracking or advertising cookies. It stores only the display ' +
-          'preferences you choose, in your own browser. Details in the ',
+    body: 'This site sets no tracking or advertising cookies. It stores the display ' +
+          'preferences you choose and, on the request form, a one-day draft of your ' +
+          'destination, date and plan — in your own browser, never your identity ' +
+          'details or consents. Details in the ',
     policy: 'privacy policy',
     ok: 'Understood'
   } : {
     title: 'על הפרטיות שלכם',
-    body: 'האתר אינו מציב עוגיות מעקב או פרסום. הוא שומר רק את העדפות התצוגה שאתם בוחרים, ' +
-          'בדפדפן שלכם בלבד. פירוט ב',
+    body: 'האתר אינו מציב עוגיות מעקב או פרסום. הוא שומר את העדפות התצוגה שאתם בוחרים, ' +
+          'ובטופס הפנייה גם טיוטה ליום אחד של היעד, התאריך והמסלול — בדפדפן שלכם בלבד, ' +
+          'ולעולם לא פרטים מזהים או הסכמות. פירוט ב',
     policy: 'מדיניות הפרטיות',
     ok: 'הבנתי'
   };

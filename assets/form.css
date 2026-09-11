@@ -122,6 +122,15 @@
 .saved { font-size: 13px; font-weight: 700; color: var(--ink-faint); min-height: 1.4em; }
 .saved.is-ok { color: var(--sage); }
 
+/* Deleting the draft has to be as reachable as creating it was: a real
+   button in the flow, not a gesture hidden behind browser settings. */
+.draft-clear {
+  display: inline-block; margin: 4px 0 0; padding: 0; border: 0; background: none;
+  font: inherit; font-size: 13px; color: var(--ink-faint);
+  text-decoration: underline; cursor: pointer;
+}
+.draft-clear:hover, .draft-clear:focus-visible { color: var(--ink); }
+
 /* ---- symptom tags ---- */
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .tags button {

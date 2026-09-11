@@ -383,63 +383,6 @@
     target.scrollIntoView({ block: 'center', behavior: 'smooth' });
   });
 
-  /* ---------- draft ---------- */
-
-  var KEY = 'gc-intake-draft';
-  var SKIP = { condition: 1, website: 1, file_selfie: 1, file_rx: 1 };
-  var timer;
-
-  function save() {
-    var data = {};
-    [].forEach.call(form.elements, function (f) {
-      if (!f.name || SKIP[f.name] || f.type === 'file') return;
-      if (f.type === 'radio' || f.type === 'checkbox') { if (f.checked) data[f.name] = f.value || true; }
-      else data[f.name] = f.value;
-    });
-    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { return; }
-    if (savedEl) { savedEl.textContent = 'נשמר ✓'; savedEl.classList.add('is-ok'); }
-  }
-
-  function queueSave() {
-    if (savedEl) { savedEl.textContent = 'שומר…'; savedEl.classList.remove('is-ok'); }
-    clearTimeout(timer);
-    timer = setTimeout(save, 800);
-  }
-
-  form.addEventListener('input', queueSave);
-  form.addEventListener('blur', function () { clearTimeout(timer); save(); }, true);
-
-  (function restore() {
-    var raw;
-    try { raw = localStorage.getItem(KEY); } catch (e) { return; }
-    if (!raw) return;
-    var data;
-    try { data = JSON.parse(raw); } catch (e) { return; }
-    Object.keys(data).forEach(function (k) {
-      var f = form.elements[k];
-      if (!f) return;
-      if (f.length && f[0] && f[0].type === 'radio') {
-        [].forEach.call(f, function (r) { if (r.value === data[k]) r.checked = true; });
-      } else if (f.type === 'checkbox') { f.checked = !!data[k]; }
-      else if (f.type !== 'file') { f.value = data[k]; }
-    });
-    if (seg && segOut) {
-      [].forEach.call(seg.querySelectorAll('button'), function (x) {
-        x.setAttribute('aria-pressed', String(x.getAttribute('data-val') === segOut.value));
-      });
-    }
-    fillReview();
-    if (savedEl) { savedEl.textContent = 'נשמר ✓'; savedEl.classList.add('is-ok'); }
-  })();
-
-  /* The draft is cleared only on a genuinely successful send, never on the
-     submit event itself. While the form is closed for maintenance every submit
-     fails, and wiping a complete set of answers right after telling someone to
-     "try again soon" would throw away exactly what they were asked to keep.
-     The submit path calls this once a real pipeline confirms receipt. */
-  window.gcIntakeClearDraft = function () {
-    try { localStorage.removeItem(KEY); } catch (e) {}
-  };
 })();
 
 /* ---- rail index ----------------------------------------------------------

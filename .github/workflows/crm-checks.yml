@@ -1,10 +1,10 @@
 name: CRM checks
 on:
   pull_request:
-    paths: ['crm/**', 'lib/crm-sync*', 'api/submit.js', '.github/workflows/crm-checks.yml']
+    paths: ['crm/**', 'lib/crm-sync*', 'api/submit.js', 'assets/**', 'tests/**', '.github/workflows/crm-checks.yml']
   push:
     branches: [main]
-    paths: ['crm/**', 'lib/crm-sync*', 'api/submit.js', '.github/workflows/crm-checks.yml']
+    paths: ['crm/**', 'lib/crm-sync*', 'api/submit.js', 'assets/**', 'tests/**', '.github/workflows/crm-checks.yml']
 permissions:
   contents: read
 jobs:
