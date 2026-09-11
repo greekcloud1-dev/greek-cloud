@@ -448,4 +448,22 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://www.greekcloud.co.il/en/halkidiki.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.greekcloud.co.il/halkidiki.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.greekcloud.co.il/en/halkidiki.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.greekcloud.co.il/halkidiki.html"/>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.greekcloud.co.il/en/lefkada.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.greekcloud.co.il/lefkada.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.greekcloud.co.il/en/lefkada.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.greekcloud.co.il/lefkada.html"/>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
