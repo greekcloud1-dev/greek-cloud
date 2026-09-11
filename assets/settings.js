@@ -227,5 +227,31 @@
   panel.querySelector('.menu-close').addEventListener('click', function () { close(true); });
   scrim.addEventListener('click', function () { close(true); });
 
+  /* A link to a section of the page the reader is already on navigates without
+     a page load, so nothing closed the drawer: aria-expanded stayed true, the
+     body stayed scroll-locked, and the panel went on covering the very section
+     it had just jumped to. Focus follows the jump instead of returning to the
+     toggle -- that heading is what the reader asked for. */
+  panel.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.target === '_blank') return;
+
+    var url;
+    try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
+    var samePage = url.origin === location.origin &&
+                   url.pathname === location.pathname &&
+                   url.search === location.search;
+    if (!samePage || !url.hash) { close(false); return; }
+
+    close(false);
+    var target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+    if (!target) return;
+    // Headings are not focusable by default; -1 makes this one a focus target
+    // without adding it to the tab order. preventScroll leaves the positioning
+    // to the browser's own jump to the fragment.
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  });
+
   reflect();
 })();
