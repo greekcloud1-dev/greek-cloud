@@ -11,6 +11,7 @@ import type {
 import { getCrmAuthState, type CrmUser } from "./auth";
 import { createClient } from "@/lib/supabase/server";
 import type { CaseStage, LeadSource, ServiceKind } from "./types";
+import { buildWeeklyLeads } from "./weekly";
 
 export class CrmStoreError extends Error {
   constructor(
@@ -394,11 +395,10 @@ export async function loadCrmData() {
           firstResponses.length,
       )
     : null;
-  const daily = new Map<string, number>();
-  for (const row of caseRows) {
-    const date = dayFormat.format(new Date(str(row, "created_at")));
-    daily.set(date, (daily.get(date) ?? 0) + 1);
-  }
+  const dailyLeads = buildWeeklyLeads(
+    caseRows.map((row) => str(row, "created_at")),
+    now,
+  );
   return {
     clients,
     tasks,
@@ -454,9 +454,7 @@ export async function loadCrmData() {
         label,
         count: caseRows.filter((row) => row.stage === stage).length,
       })),
-      dailyLeads: [...daily.entries()]
-        .sort(([a], [b]) => a.localeCompare(b))
-        .map(([date, count]) => ({ date, label: date, count })),
+      dailyLeads,
       truncated: false,
     },
   };

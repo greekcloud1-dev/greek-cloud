@@ -231,6 +231,12 @@ export function CrmApp({ demo, user, integrations }: CrmAppProps) {
             client.phone,
             client.email,
             client.destination,
+            // The case number a person can actually read: it is on the card and
+            // in every notification link, so it is the first thing anyone types
+            // into this box. client.id is the row UUID, which nothing displays;
+            // it stayed searchable only because the demo fixtures use GC-style
+            // ids for both, which hid the gap until real rows appeared.
+            client.referenceNo,
             client.id,
             client.service,
           ]
@@ -1852,7 +1858,10 @@ export function CrmApp({ demo, user, integrations }: CrmAppProps) {
               className={styles.weeklyChart}
               aria-label="תרשים לידים חדשים בשבעת הימים האחרונים"
             >
-              {stats.dailyLeads?.length ? (
+              {/* The window is always seven days now, so length alone is no
+                  longer the question -- a week with no leads at all is still
+                  better said in words than as seven flat bars. */}
+              {stats.dailyLeads?.some((day) => day.count) ? (
                 stats.dailyLeads.map((day) => (
                   <div key={day.date}>
                     <span
