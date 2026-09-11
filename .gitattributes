@@ -1,0 +1,23 @@
+# Line endings must not depend on who checked the repo out.
+#
+# core.autocrlf=true on this machine gives the working copy CRLF, while a
+# Linux build checkout produces LF. That makes the *bytes* of the inline
+# <script> block in every page differ between environments — which is fine
+# today, but silently breaks the moment the CSP moves from 'unsafe-inline'
+# to a 'sha256-...' hash, because the hash would be computed over different
+# bytes than the ones served.
+#
+# Normalising here makes the served bytes deterministic and is a prerequisite
+# for that migration.
+
+* text=auto eol=lf
+
+# Binary assets must never be touched.
+*.png  binary
+*.webp binary
+*.jpg  binary
+*.jpeg binary
+*.ico  binary
+*.pdf  binary
+*.woff  binary
+*.woff2 binary

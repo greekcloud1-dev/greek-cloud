@@ -35,15 +35,23 @@
   /* --- BANDS -----------------------------------------------------------
      Sections alternate through these so the page has colour rhythm rather
      than one flat ground. Every band is a *ground*: all six must carry the
-     same ink tokens at 4.5:1, which is why they stay within a narrow
-     lightness range and vary in hue instead. --band-invert is the one
-     reversal, and it carries --on-invert rather than the ink tokens.
+     same ink tokens at 4.5:1, AND be told apart from each other.
+
+     The light bands were once spaced 0.005 apart in relative luminance,
+     which met the contrast rule but made every section read as the same
+     white. They now step ~0.05 apart across a 0.20 range, evenly, and the
+     binding constraint is --sage as a link colour on the darkest band
+     (--band-sage), which sits at 4.54:1. Do not lighten --sage or darken
+     any band further without re-running that check.
+
+     --band-invert is the one reversal, and it carries --on-invert rather
+     than the ink tokens.
   --------------------------------------------------------------------- */
-  --band-cream:   #FDFCF8;
-  --band-linen:   #F7F5F0;
-  --band-sage:    #ECF1E4;
-  --band-clay:    #F6EEE3;
-  --band-stone:   #EFEFE7;
+  --band-cream:   #FDFBF4;
+  --band-linen:   #F7F5EE;
+  --band-sage:    #DAE6CF;
+  --band-clay:    #F5E6D8;
+  --band-stone:   #EFEFE8;
   --band-invert:  #38472F;
   --on-invert:    #F2F0E6;
 
@@ -51,15 +59,18 @@
   --ink:          #2E3A28;   /* headings — deep sage-black */
   --ink-body:     #4A4740;
   --ink-soft:     #5F5B52;
-  --ink-faint:    #6C6860;
+  --ink-faint:    #68645C;
 
   /* --- lines --- */
-  --rule:         #E3DFD5;
-  --rule-strong:  #D2CCBC;
+  --rule:         #A3A199;
+  --rule-strong:  #908C81;
 
   /* --- brand --- */
-  --sage:         #5C704E;   /* one step darker than #5E7350: as a link colour on the
-                                stone band that read 4.49:1, just under the floor. */
+  --sage:         #576A4A;   /* LINK COLOUR, and the tightest constraint in the light
+                                theme. #5E7350 read 4.49:1 on the stone band; #5C704E
+                                fixed that but failed once the bands were separated
+                                properly. At #576A4A it clears 4.54:1 on --band-sage,
+                                the darkest ground it ever sits on. */
   --sage-deep:    #3A4A33;   /* TEXT ONLY. Inverts to a light tint in dark mode. */
   --sage-solid:   #3A4A33;   /* BACKGROUND ONLY. Must stay dark in both themes —
                                 it always carries near-white text on top. Splitting
@@ -68,13 +79,13 @@
   --sage-lift:    #748C63;
   --sage-wash:    #E9EEE2;
 
-  --clay:         #826342;   /* the second note: eyebrows, accents. Darkened from
+  --clay:         #7C5F3F;   /* the second note: eyebrows, accents. Darkened from
                                 #93704B, which read 4.14:1 on linen — under the 4.5
                                 floor for the 12.5px uppercase eyebrow it is used on. */
   --clay-wash:    #F3EBE0;
 
   /* --- semantic --- */
-  --warn:         #8A6A22;
+  --warn:         #7D601F;
   --warn-wash:    #F6EFDC;
   --stop:         #96503C;
   --stop-wash:    #F6E8E2;
@@ -100,25 +111,25 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper:        #14170F;
-    --surface:      #1D2118;
-    --surface-sunk: #232819;
-    --surface-warm: #262A1B;
+    --surface:      #31352D;
+    --surface-sunk: #35392C;
+    --surface-warm: #393C2F;
 
-    --band-cream:   #171B12;
+    --band-cream:   #181C13;
     --band-linen:   #14170F;
-    --band-sage:    #192115;
-    --band-clay:    #201C13;
-    --band-stone:   #1B1E17;
+    --band-sage:    #262D22;
+    --band-clay:    #29251D;
+    --band-stone:   #1E211A;
     --band-invert:  #26331F;
     --on-invert:    #EDF1E4;
 
     --ink:          #E8EDDF;
     --ink-body:     #C5CBB8;
-    --ink-soft:     #9AA18C;
-    --ink-faint:    #8B927E;
+    --ink-soft:     #B3B9A5;
+    --ink-faint:    #A1A797;
 
-    --rule:         #2C3122;
-    --rule-strong:  #3E4531;
+    --rule:         #4D5145;
+    --rule-strong:  #5E6453;
 
     --sage:         #A3BC88;
     --sage-deep:    #C0D4A8;
@@ -131,9 +142,9 @@
     --clay-wash:    #2B2419;
 
     --warn:         #D2AC5E;
-    --warn-wash:    #2C2617;
-    --stop:         #D3907B;
-    --stop-wash:    #2E1F1A;
+    --warn-wash:    #3E382A;
+    --stop:         #D59581;
+    --stop-wash:    #433631;
 
     --shadow-sm: 0 1px 2px rgba(0,0,0,.32);
     --shadow:    0 2px 5px rgba(0,0,0,.32), 0 16px 32px -18px rgba(0,0,0,.7);
@@ -143,25 +154,25 @@
 
 :root[data-theme="dark"] {
   --paper:        #14170F;
-  --surface:      #1D2118;
-  --surface-sunk: #232819;
-  --surface-warm: #262A1B;
+  --surface:      #31352D;
+  --surface-sunk: #35392C;
+  --surface-warm: #393C2F;
 
-  --band-cream:   #171B12;
+  --band-cream:   #181C13;
   --band-linen:   #14170F;
-  --band-sage:    #192115;
-  --band-clay:    #201C13;
-  --band-stone:   #1B1E17;
+  --band-sage:    #262D22;
+  --band-clay:    #29251D;
+  --band-stone:   #1E211A;
   --band-invert:  #26331F;
   --on-invert:    #EDF1E4;
 
   --ink:          #E8EDDF;
   --ink-body:     #C5CBB8;
-  --ink-soft:     #9AA18C;
-  --ink-faint:    #8B927E;
+  --ink-soft:     #B3B9A5;
+  --ink-faint:    #A1A797;
 
-  --rule:         #2C3122;
-  --rule-strong:  #3E4531;
+  --rule:         #4D5145;
+  --rule-strong:  #5E6453;
 
   --sage:         #A3BC88;
   --sage-deep:    #C0D4A8;
@@ -174,9 +185,9 @@
   --clay-wash:    #2B2419;
 
   --warn:         #D2AC5E;
-  --warn-wash:    #2C2617;
-  --stop:         #D3907B;
-  --stop-wash:    #2E1F1A;
+  --warn-wash:    #3E382A;
+  --stop:         #D59581;
+  --stop-wash:    #433631;
 
   --shadow-sm: 0 1px 2px rgba(0,0,0,.32);
   --shadow:    0 2px 5px rgba(0,0,0,.32), 0 16px 32px -18px rgba(0,0,0,.7);
@@ -373,7 +384,10 @@ section { padding-block: clamp(56px, 8vw, 100px); }
   font-size: 16px; line-height: 1.65;
   border: 1px solid var(--rule); background: var(--surface-warm);
 }
-.note-warn { background: var(--warn-wash); border-color: color-mix(in srgb, var(--warn) 32%, transparent); }
+/* 56%: the smallest mix whose composited edge clears 2.0:1 against every band
+   in BOTH themes. At the old 32% the light-mode edge fell to 1.37 on the sage
+   band -- a warning callout whose boundary you cannot see. */
+.note-warn { background: var(--warn-wash); border-color: color-mix(in srgb, var(--warn) 56%, transparent); }
 /* note-stop marks a legal/criminal-exposure warning, one level above
    note-warn. A filled tint at this strength read as a muddy, undifferentiated
    block in dark mode (--stop over --stop-wash sit too close in value). A

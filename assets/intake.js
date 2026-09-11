@@ -386,7 +386,16 @@
   /* ---------- draft ---------- */
 
   var KEY = 'gc-intake-draft';
-  var SKIP = { condition: 1, website: 1, file_selfie: 1, file_rx: 1 };
+
+  /* Never persisted to the device. `condition` is the health narrative and
+     `passport` is a government ID number: both are the kind of thing that
+     should not still be sitting in localStorage on a shared laptop weeks
+     later. Everything else is ordinary contact detail and is worth keeping so
+     a half-finished form survives a reload. */
+  var SKIP = { condition: 1, passport: 1, website: 1, file_selfie: 1, file_rx: 1 };
+
+  /* And what we do keep expires, so an abandoned draft does not live forever. */
+  var DRAFT_TTL_MS = 7 * 24 * 60 * 60 * 1000;
   var timer;
 
   function save() {
@@ -396,7 +405,7 @@
       if (f.type === 'radio' || f.type === 'checkbox') { if (f.checked) data[f.name] = f.value || true; }
       else data[f.name] = f.value;
     });
-    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { return; }
+    try { localStorage.setItem(KEY, JSON.stringify({ savedAt: Date.now(), data: data })); } catch (e) { return; }
     if (savedEl) { savedEl.textContent = 'נשמר ✓'; savedEl.classList.add('is-ok'); }
   }
 
@@ -413,8 +422,20 @@
     var raw;
     try { raw = localStorage.getItem(KEY); } catch (e) { return; }
     if (!raw) return;
-    var data;
-    try { data = JSON.parse(raw); } catch (e) { return; }
+    var parsed;
+    try { parsed = JSON.parse(raw); } catch (e) { return; }
+
+    // Older drafts were stored as a bare field map with no timestamp. Those
+    // predate the passport exclusion, so drop them rather than restoring them.
+    if (!parsed || typeof parsed !== 'object' || !parsed.savedAt || !parsed.data) {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      return;
+    }
+    if (Date.now() - parsed.savedAt > DRAFT_TTL_MS) {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      return;
+    }
+    var data = parsed.data;
     Object.keys(data).forEach(function (k) {
       var f = form.elements[k];
       if (!f) return;
