@@ -33,6 +33,7 @@
     under18:   'השירות מיועד לבגירים מגיל 18.',
     ageHigh:   'הגיל שהוזן אינו סביר.',
     invalid:   'הערך הזה לא תקין.',
+    passport:  'מספר הדרכון הוא 8 ספרות, ללא רווחים ובלי אותיות.',
     sending:   'שולחים בצורה מאובטחת…',
     downTitle: 'האתר בשיפוצים',
     downBody:  'השאלון מלא ותקין, אבל הטופס עדיין לא מקבל שליחות. ' +
@@ -50,6 +51,7 @@
     under18:   'The service is for adults aged 18 and over.',
     ageHigh:   'That age does not look right.',
     invalid:   'That value is not valid.',
+    passport:  'The passport number is 8 digits, with no spaces or letters.',
     sending:   'Sending securely…',
     downTitle: 'The site is under maintenance',
     downBody:  'Your answers are complete and valid, but the form is not accepting ' +
@@ -104,6 +106,10 @@
     if (field.validity.typeMismatch && field.type === 'email') return S.email;
     if (field.validity.rangeUnderflow) return S.under18;
     if (field.validity.rangeOverflow) return S.ageHigh;
+    /* The server has always required eight digits in both languages. Saying so
+       at the field beats a generic "not valid" on a number a person has just
+       copied off a document. */
+    if (field.name === 'passport') return S.passport;
     return S.invalid;
   }
 

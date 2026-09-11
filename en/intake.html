@@ -133,8 +133,9 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
                      required aria-describedby="fullname-hint">
               <small id="fullname-hint">For example: ISRAEL ISRAELI</small></p>
             <p class="f"><label for="passport">Passport number</label>
-              <input id="passport" name="passport" type="text" dir="ltr" required aria-describedby="passport-hint">
-              <small id="passport-hint">As printed in the passport, no spaces</small></p>
+              <input id="passport" name="passport" type="text" dir="ltr" inputmode="numeric"
+                     pattern="[0-9]{8}" maxlength="8" required aria-describedby="passport-hint">
+              <small id="passport-hint">8 digits, no spaces</small></p>
             <p class="f"><label for="age">Age</label>
               <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
               <small id="age-hint">The service is for adults aged 18 and over</small></p>

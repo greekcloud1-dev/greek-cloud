@@ -48,6 +48,80 @@ const PLAN_LABEL = {
 
 const CONSENT_FIELDS = ['c_age', 'c_terms', 'c_customs', 'c_nopromise', 'c_accuracy', 'c_liability'];
 
+/* The client already checks all of this. None of that reaches here: a request
+   can be posted straight to this URL, and before these rules an out-of-range
+   age, a value no dropdown offers, or a file that is not an image at all were
+   stored and emailed with a 200. Every rule below mirrors one the form shows,
+   so a person who fills the form honestly is never rejected by it.
+
+   The city lists are the option text of the two forms verbatim -- the selects
+   carry no value attributes, so the label is what gets posted. Adding a
+   destination means adding it in three places; that is the cost of not
+   accepting arbitrary text into a stored record. */
+const CITIES = new Set([
+  'אתונה', 'סלוניקי', 'כרתים', 'רודוס', 'קוס', 'סנטוריני', 'מיקונוס', 'קורפו',
+  'אחר / עדיין לא ידוע',
+  'Athens', 'Thessaloniki', 'Crete', 'Rhodes', 'Kos', 'Santorini', 'Mykonos',
+  'Corfu', 'Other / not yet decided',
+]);
+const RX_STATES = new Set(['no', 'yes', 'past']);
+
+/* Room for a long, careful description without accepting an unbounded body. */
+const MAX_CONDITION = 4000;
+const MAX_NAME = 80;
+const MAX_PHONE = 25;
+const MAX_EMAIL = 254;
+
+/* The form downscales images before upload, so a normal selfie arrives well
+   under this. The ceiling is here to bound what a direct caller can store. */
+const MAX_SELFIE_BYTES = 6 * 1024 * 1024;
+const MAX_RX_BYTES = 10 * 1024 * 1024;
+
+/* A declared content-type is whatever the caller typed. These are the first
+   bytes of the formats the form accepts, so the check is on the file itself. */
+const IMAGE_SIGNATURES = [
+  { type: 'image/jpeg', bytes: [0xff, 0xd8, 0xff] },
+  { type: 'image/png', bytes: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a] },
+  { type: 'image/gif', bytes: [0x47, 0x49, 0x46, 0x38] },
+  { type: 'image/webp', bytes: [0x52, 0x49, 0x46, 0x46] },  // RIFF....WEBP
+  { type: 'image/heic', bytes: [0x66, 0x74, 0x79, 0x70], offset: 4 },
+];
+const PDF_SIGNATURE = { type: 'application/pdf', bytes: [0x25, 0x50, 0x44, 0x46] };
+
+function matches(head, sig) {
+  const at = sig.offset || 0;
+  if (head.length < at + sig.bytes.length) return false;
+  return sig.bytes.every((b, i) => head[at + i] === b);
+}
+
+/* Returns the format actually found, or null. WEBP needs its second marker:
+   'RIFF' alone is also the head of a WAV file. */
+async function sniff(file, allowPdf) {
+  const head = new Uint8Array(await file.slice(0, 16).arrayBuffer());
+  if (allowPdf && matches(head, PDF_SIGNATURE)) return 'application/pdf';
+  for (const sig of IMAGE_SIGNATURES) {
+    if (!matches(head, sig)) continue;
+    if (sig.type === 'image/webp') {
+      const webp = [0x57, 0x45, 0x42, 0x50];
+      if (!webp.every((b, i) => head[8 + i] === b)) continue;
+    }
+    return sig.type;
+  }
+  return null;
+}
+
+/* An arrival date is optional, but a stored one has to be a real calendar
+   day the form could have produced: type="date" posts YYYY-MM-DD. */
+function validArrival(value) {
+  if (!value) return true;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return false;
+  if (date.toISOString().slice(0, 10) !== value) return false;   // rejects 2026-02-31
+  const year = date.getUTCFullYear();
+  return year >= 2020 && year <= 2100;
+}
+
 function buildEmail(record) {
   const isHe = record.locale === 'he';
   const plan = (PLAN_LABEL[isHe ? 'he' : 'en'])[record.plan] || record.plan;
@@ -123,16 +197,42 @@ async function handleSubmit(request) {
     if (!value) return json(400, { ok: false, error: `missing:${key}` });
   }
   if (plan !== 'standard' && plan !== 'vip') return json(400, { ok: false, error: 'invalid:plan' });
+  if (fullName.length > MAX_NAME) return json(400, { ok: false, error: 'invalid:full_name' });
   if (!/^\d{8}$/.test(passport)) return json(400, { ok: false, error: 'invalid:passport' });
+  /* The form offers 18-120 and the service is for adults. A string like "25abc"
+     or "1e3" must not pass as a number here just because it is non-empty. */
+  if (!/^\d{1,3}$/.test(age)) return json(400, { ok: false, error: 'invalid:age' });
+  const ageValue = Number(age);
+  if (ageValue < 18 || ageValue > 120) return json(400, { ok: false, error: 'invalid:age' });
+  if (email.length > MAX_EMAIL) return json(400, { ok: false, error: 'invalid:email' });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { ok: false, error: 'invalid:email' });
+  if (phone.length > MAX_PHONE || !/^[+()\d][\s()\-\d]{5,}$/.test(phone)) {
+    return json(400, { ok: false, error: 'invalid:phone' });
+  }
+  if (!CITIES.has(city)) return json(400, { ok: false, error: 'invalid:city' });
+  if (!validArrival(arrival)) return json(400, { ok: false, error: 'invalid:arrival' });
+  if (condition.length > MAX_CONDITION) return json(400, { ok: false, error: 'invalid:condition' });
+  if (!RX_STATES.has(rxExists)) return json(400, { ok: false, error: 'invalid:rx_exists' });
   for (const key of CONSENT_FIELDS) {
     if (!consents[key]) return json(400, { ok: false, error: `missing:${key}` });
   }
 
   const selfie = form.get('file_selfie');
   if (!(selfie instanceof File) || selfie.size === 0) return json(400, { ok: false, error: 'missing:file_selfie' });
+  if (selfie.size > MAX_SELFIE_BYTES) return json(413, { ok: false, error: 'too_large:file_selfie' });
+  /* Sniffed before any storage call: a rejected upload should cost nothing
+     and leave nothing behind. */
+  const selfieType = await sniff(selfie, false);
+  if (!selfieType) return json(400, { ok: false, error: 'invalid:file_selfie' });
+
   const rxFile = form.get('file_rx');
   const hasRx = rxFile instanceof File && rxFile.size > 0;
+  let rxType = null;
+  if (hasRx) {
+    if (rxFile.size > MAX_RX_BYTES) return json(413, { ok: false, error: 'too_large:file_rx' });
+    rxType = await sniff(rxFile, true);
+    if (!rxType) return json(400, { ok: false, error: 'invalid:file_rx' });
+  }
 
   const submissionId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${Math.random().toString(36).slice(2, 8)}`;
   const base = `submissions/${submissionId}`;
@@ -143,13 +243,13 @@ async function handleSubmit(request) {
     selfieBlob = await put(`${base}/selfie-${selfie.name || 'selfie.jpg'}`, selfie, {
       access: 'private',
       addRandomSuffix: false,
-      contentType: selfie.type || 'image/jpeg',
+      contentType: selfieType,
     });
     if (hasRx) {
       rxBlob = await put(`${base}/rx-${rxFile.name || 'prescription'}`, rxFile, {
         access: 'private',
         addRandomSuffix: false,
-        contentType: rxFile.type || 'application/octet-stream',
+        contentType: rxType,
       });
     }
   } catch (e) {
@@ -192,17 +292,39 @@ async function handleSubmit(request) {
     if (crmResult.status !== 'synced') console.error('crm sync pending', submissionId, crmResult.status);
   }
 
+  /* Resend reports a refused send as an `error` on the resolved result, not as
+     a throw, so awaiting inside a try/catch alone let a rejected address or an
+     unverified sender return 200 with nobody told. The visitor's answers are
+     already in Blob by now, so neither outcome fails the request -- but the
+     outcome is written next to the record, so an operator can find the
+     requests whose notification never went out instead of learning about it
+     from someone who never heard back. */
+  let notify;
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const { subject, text } = buildEmail(record);
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: 'GreekCloud <onboarding@resend.dev>',
       to: process.env.LEAD_NOTIFY_EMAIL,
       subject,
       text,
     });
+    notify = result && result.error
+      ? { status: 'failed', reason: result.error.name || 'provider_error' }
+      : { status: 'sent', id: result && result.data ? result.data.id : null };
   } catch (e) {
-    console.error('resend notify failed for', submissionId);
+    notify = { status: 'failed', reason: 'delivery_unconfirmed' };
+  }
+
+  if (notify.status !== 'sent') {
+    console.error('lead notification not delivered', submissionId, notify.reason);
+  }
+  try {
+    await put(`${base}/notify.json`, JSON.stringify(notify), {
+      access: 'private', addRandomSuffix: false, contentType: 'application/json',
+    });
+  } catch (e) {
+    console.error('notification receipt not saved', submissionId);
   }
 
   return json(200, { ok: true, submissionId });
