@@ -8,10 +8,10 @@
 <meta name="description" content="{{DESC}}">
 <meta name="robots" content="{{ROBOTS}}">
 <meta name="theme-color" content="#5E7350">
-<link rel="canonical" href="https://www.greekcloud.co.il/en/{{SLUG}}">
-<link rel="alternate" hreflang="he" href="https://www.greekcloud.co.il/{{HESLUG}}">
-<link rel="alternate" hreflang="en" href="https://www.greekcloud.co.il/en/{{SLUG}}">
-<link rel="alternate" hreflang="x-default" href="https://www.greekcloud.co.il/{{HESLUG}}">
+<link rel="canonical" href="https://greek-cloud.com/en/{{SLUG}}">
+<link rel="alternate" hreflang="he" href="https://greek-cloud.com/{{HESLUG}}">
+<link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/{{SLUG}}">
+<link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/{{HESLUG}}">
 
 <meta property="og:type" content="{{OGTYPE}}">
 <meta property="og:locale" content="en_US">
@@ -19,8 +19,8 @@
 <meta property="og:site_name" content="GreekCloud">
 <meta property="og:title" content="{{OGTITLE}}">
 <meta property="og:description" content="{{DESC}}">
-<meta property="og:url" content="https://www.greekcloud.co.il/en/{{SLUG}}">
-<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-en-plain.png">
+<meta property="og:url" content="https://greek-cloud.com/en/{{SLUG}}">
+<meta property="og:image" content="https://greek-cloud.com/assets/og-en-plain.png">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
