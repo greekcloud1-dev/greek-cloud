@@ -20,7 +20,11 @@
     "a1": "If the prescription is already in hand, yes — redeeming at a pharmacy takes minutes. If you have not started the process, one day is tight even on VIP and depends on working hours. Start before you fly.",
     "q2": "Can I redeem at the airport?",
     "a2": "Airport pharmacies do not necessarily dispense medical cannabis. Do not plan around it. Redeem in the city, where the choice is much wider.",
-    "nearby": ["thessaloniki", "santorini", "mykonos"]
+    "nearby": [
+      "thessaloniki",
+      "santorini",
+      "mykonos"
+    ]
   },
   "thessaloniki": {
     "title": "Medical Cannabis in Thessaloniki",
@@ -43,7 +47,11 @@
     "a1": "In Thessaloniki. Halkidiki is a dispersed resort region and pharmacy choice there is much narrower, especially off-season. The drive from the city takes one to two hours, and nobody wants to make it twice.",
     "q2": "Is the process different from Athens?",
     "a2": "No. The prescription is digital and valid at any licensed pharmacy in Greece. The only difference is how many pharmacies are available — Athens has more, but Thessaloniki has plenty.",
-    "nearby": ["athens", "corfu", "rhodes"]
+    "nearby": [
+      "athens",
+      "corfu",
+      "rhodes"
+    ]
   },
   "crete": {
     "title": "Medical Cannabis in Crete",
@@ -66,7 +74,11 @@
     "a1": "Elounda is in the east, so you would likely go to Agios Nikolaos or Heraklion. We do not keep a live address list and will not invent one — on the VIP plan we help locate a dispensing pharmacy near your accommodation, based on a real-time check.",
     "q2": "I land in Chania but I'm driving to Heraklion. Does it matter where I redeem?",
     "a2": "No. The prescription is valid at any licensed pharmacy in Greece. Redeem wherever is convenient, at any point in your trip.",
-    "nearby": ["santorini", "rhodes", "athens"]
+    "nearby": [
+      "santorini",
+      "rhodes",
+      "athens"
+    ]
   },
   "rhodes": {
     "title": "Medical Cannabis in Rhodes",
@@ -89,7 +101,11 @@
     "a1": "Faliraki is about 15 minutes from town, so it is not a problem. Villages further south — Lindos or Prasonisi — mean a much longer drive, and there it is worth planning the pharmacy visit for a day you are heading into town anyway.",
     "q2": "I'm arriving in February. Is everything closed?",
     "a2": "Not everything, but a lot. Rhodes Town operates year-round including pharmacies. In the coastal villages you will likely find very little open. Plan to redeem in town.",
-    "nearby": ["kos", "crete", "athens"]
+    "nearby": [
+      "kos",
+      "crete",
+      "athens"
+    ]
   },
   "kos": {
     "title": "Medical Cannabis in Kos",
@@ -112,14 +128,18 @@
     "a1": "Kardamena is about 25 minutes from Kos Town. The questionnaire and the review happen remotely from your phone, so the only trip required is the redemption itself. Combine it with a day you are going into town anyway.",
     "q2": "Can I take the ferry to Rhodes and redeem there?",
     "a2": "You can — the prescription is valid throughout Greece and the islands are connected by ferry. But there is no reason to: whatever is available in Rhodes is available in Kos Town.",
-    "nearby": ["rhodes", "athens", "mykonos"]
+    "nearby": [
+      "rhodes",
+      "athens",
+      "mykonos"
+    ]
   },
   "santorini": {
     "title": "Medical Cannabis in Santorini",
     "desc": "Medical cannabis prescriptions for visitors in Santorini: a small, expensive island, and why arranging everything in advance matters here.",
     "kind": "Island · Cyclades",
     "airport": "Santorini Airport (JTR)",
-    "flight": "Usually via Athens",
+    "flight": "Direct in season, otherwise via Athens",
     "lede": "Santorini is a small island built around luxury tourism. The infrastructure exists, but it is limited — and this is exactly where landing with a prescription already in hand is worth a day of your holiday.",
     "why": [
       "Fira and Oia concentrate the services",
@@ -129,20 +149,24 @@
     ],
     "local": "Pharmacies are concentrated in Fira, the island's capital. Oia and the other villages are far more limited. At peak season traffic on the main road is very slow, and a drive that should take 20 minutes can take an hour.",
     "tip": "The typical stay in Santorini is three or four nights. On that schedule, starting a medical process on the island is simply wasted effort — start before you fly.",
-    "season": "Santorini has the sharpest seasonality of any Greek island. Between May and September it is packed, prices peak and traffic is heavy. In winter many hotels and restaurants in Oia close entirely and Fira is the only fully functioning centre. There are few direct international flights — the usual route is via Athens by domestic flight or ferry.",
+    "season": "Santorini has the sharpest seasonality of any Greek island. Between May and September it is packed, prices peak and traffic is heavy. In winter many hotels and restaurants in Oia close entirely and Fira is the only fully functioning centre. Direct flights from Tel Aviv and much of Europe run in season, roughly May to October; off-season the usual route is via Athens by domestic flight or ferry.",
     "timing": "With three or four nights and a physician review window measured in days, the arithmetic does not work unless you start early. This is the destination where advance planning stops being a convenience and becomes the requirement.",
     "q1": "We only have two days in Santorini. Is it realistic?",
     "a1": "Only if the prescription is already in hand. With two days on the island, any process that begins after you land will finish after you have left. Start a week before and land ready.",
     "q2": "We're staying in Oia. Do we need to go to Fira?",
     "a2": "Most likely yes. Fira concentrates most services on the island, pharmacies included. The drive is short at normal times, but around sunset — when everyone is heading to Oia — it can be very slow. Plan for the morning.",
-    "nearby": ["mykonos", "crete", "athens"]
+    "nearby": [
+      "mykonos",
+      "crete",
+      "athens"
+    ]
   },
   "mykonos": {
     "title": "Medical Cannabis in Mykonos",
     "desc": "Medical cannabis prescriptions for visitors in Mykonos: what is available on the island, and what matters about where you can use it.",
     "kind": "Island · Cyclades",
     "airport": "Mykonos Airport (JMK)",
-    "flight": "Usually via Athens",
+    "flight": "Direct in season, otherwise via Athens",
     "lede": "Mykonos is an intense nightlife destination, and precisely because of that it is worth being exact about what is permitted: the prescription is valid, but it is not a licence to use anywhere.",
     "why": [
       "Chora, the port town, concentrates the services",
@@ -152,13 +176,17 @@
     ],
     "local": "Pharmacies are in Chora. Outside town, in the beach villages and club areas, there is no real infrastructure. At peak season the island is extremely crowded and nothing should be left to the last moment.",
     "tip": "A point worth emphasising here in particular: use is intended for private accommodation. Mykonos is a town of clubs and beaches, and the prescription does not cover use in public space — not on the beach, not in a club, not in the street.",
-    "season": "Mykonos runs at full intensity between May and October and quietens considerably in winter. There are few direct international flights and the route usually goes through Athens. In season the island is crowded, prices are high, and traffic between Chora and the beaches is slow. Off-season Chora keeps functioning but most nightlife closes.",
+    "season": "Mykonos runs at full intensity between May and October and quietens considerably in winter. Direct flights from Tel Aviv and much of Europe run in season, roughly May to October; the rest of the year the route goes through Athens. In season the island is crowded, prices are high, and traffic between Chora and the beaches is slow. Off-season Chora keeps functioning but most nightlife closes.",
     "timing": "Mykonos is a destination people visit briefly and at speed — the opposite of what running a medical process on location requires. A prescription arranged in advance is not a convenience here; it is the practical condition.",
     "q1": "Can I use it at the beach or in a club?",
     "a1": "No. This matters especially in Mykonos: the prescription permits possession and use in a medical context, in private accommodation. It does not cover public space — beach, club, bar or street. Enforcement in those places exists.",
     "q2": "I'm going from Mykonos to Santorini. Does the prescription still apply?",
     "a2": "Yes. The prescription is valid throughout Greece, and moving between islands is not a border crossing. Carry the prescription and your passport on the ferry as well.",
-    "nearby": ["santorini", "athens", "kos"]
+    "nearby": [
+      "santorini",
+      "athens",
+      "kos"
+    ]
   },
   "corfu": {
     "title": "Medical Cannabis in Corfu",
@@ -181,6 +209,10 @@
     "a1": "The end of it. Some resort villages are already starting to close, but Corfu Town is fully active. If you are travelling in October or later, plan to redeem in town rather than in a village.",
     "q2": "Is the process any different from the other islands?",
     "a2": "No. Same questionnaire, same physician, same digital prescription. The only difference is logistical — how far the pharmacy is from where you are staying.",
-    "nearby": ["thessaloniki", "athens", "crete"]
+    "nearby": [
+      "thessaloniki",
+      "athens",
+      "crete"
+    ]
   }
 }

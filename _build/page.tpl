@@ -19,7 +19,7 @@
 <meta property="og:title" content="{{OGTITLE}}">
 <meta property="og:description" content="{{DESC}}">
 <meta property="og:url" content="https://www.greekcloud.co.il/{{SLUG}}">
-<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-he.png">
+<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-he-plain.png">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">

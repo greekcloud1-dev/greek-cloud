@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>בדיקת התאמה למרשם קנאביס רפואי ביוון | GreekCloud</title>
-<meta name="description" content="שאלון קצר בעברית. רופא בעל רישיון יווני יבחן את הפנייה ויחליט באופן עצמאי. מילוי השאלון אינו מחייב.">
+<meta name="description" content="שאלון קצר בעברית לבדיקת התאמה למרשם קנאביס רפואי ביוון, כשלוש דקות. רופא בעל רישיון יווני בוחן את הפנייה ומחליט עצמאית. המילוי אינו מחייב ואינו כרוך בתשלום.">
 <meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#5E7350">
 <link rel="canonical" href="https://www.greekcloud.co.il/intake.html">
@@ -17,7 +17,7 @@
 <meta property="og:locale" content="he_IL">
 <meta property="og:site_name" content="GreekCloud">
 <meta property="og:title" content="בדיקת התאמה — GreekCloud">
-<meta property="og:description" content="שאלון קצר בעברית. רופא בעל רישיון יווני יבחן את הפנייה ויחליט באופן עצמאי. מילוי השאלון אינו מחייב.">
+<meta property="og:description" content="שאלון קצר בעברית לבדיקת התאמה למרשם קנאביס רפואי ביוון, כשלוש דקות. רופא בעל רישיון יווני בוחן את הפנייה ומחליט עצמאית. המילוי אינו מחייב ואינו כרוך בתשלום.">
 <meta property="og:url" content="https://www.greekcloud.co.il/intake.html">
 <meta property="og:image" content="https://www.greekcloud.co.il/assets/og-he-plain.png">
 
@@ -116,11 +116,11 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <label class="choice"><input type="radio" name="plan" value="standard" required><span>
               <b>סטנדרט · 289 ₪</b><small>מענה ראשוני תוך 24 שעות. תמיכת וואטסאפ בעברית.</small></span></label>
             <label class="choice"><input type="radio" name="plan" value="vip"><span>
-              <b>VIP · 379 ₪ <span class="tag tag-clay">הכי נבחר</span></b><small>מענה תוך כשעה. איש קשר אישי. ליווי בבית המרקחת.</small></span></label>
+              <b>VIP · 379 ₪ <span class="tag tag-clay">ליווי מלא</span></b><small>מענה תוך כשעה. איש קשר אישי. ליווי בבית המרקחת.</small></span></label>
           </div>
           <div class="note">
-            אין תשלום בשלב הזה — ממלאים, נבדקים, ורק אחר כך מסדירים את דמי השירות.
-            ההחלטה נתונה לרופא בלבד.
+            אין תשלום בטופס הזה. אחרי השליחה ניצור קשר בוואטסאפ להסדרת דמי השירות, עוד לפני
+            שהרופא בוחן את הפנייה. אם הרופא אינו מאשר — מלוא הסכום מוחזר. ההחלטה נתונה לרופא בלבד.
           </div>
         </section>
 
@@ -135,7 +135,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
               <small id="fullname-hint">לדוגמה: ISRAEL ISRAELI</small></p>
             <p class="f"><label for="passport">מספר דרכון</label>
               <input id="passport" name="passport" type="text" dir="ltr" inputmode="numeric"
-                     maxlength="8" required aria-describedby="passport-hint">
+                     maxlength="8" required autocomplete="off" spellcheck="false"
+                     aria-describedby="passport-hint">
               <small id="passport-hint">8 ספרות, ללא רווחים</small></p>
             <p class="f"><label for="age">גיל</label>
               <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
@@ -167,14 +168,13 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <p class="intro">כתבו בלשונכם. רופא קורא את זה, לא אלגוריתם.</p>
           <div class="tags" data-tags role="group" aria-label="נושאים נפוצים">
             <button type="button" aria-pressed="false">כאב כרוני</button>
-            <button type="button" aria-pressed="false">שינה</button>
-            <button type="button" aria-pressed="false">חרדה</button>
-            <button type="button" aria-pressed="false">מיגרנות</button>
+            <button type="button" aria-pressed="false">כאב נוירופתי</button>
+            <button type="button" aria-pressed="false">ספסטיות</button>
+            <button type="button" aria-pressed="false">בחילות מטיפול</button>
             <button type="button" aria-pressed="false">תיאבון</button>
-            <button type="button" aria-pressed="false">דלקתי</button>
           </div>
           <p class="f"><label for="condition">מה מטריד אתכם, ומה ניסיתם עד היום?</label>
-            <textarea id="condition" name="condition" rows="5" required aria-describedby="cond-hint"
+            <textarea id="condition" name="condition" rows="5" required autocomplete="off" spellcheck="false" aria-describedby="cond-hint"
               placeholder="לדוגמה: כאבי גב תחתון כבר שנתיים, בעיקר אחרי ישיבה ממושכת. ניסיתי משככי כאבים ופיזיותרפיה, עם הקלה חלקית בלבד."></textarea>
             <small id="cond-hint">ככל שתפרטו מה ניסיתם, ההערכה מבוססת יותר.</small></p>
           <p class="f"><label id="rx-lab">יש לכם מרשם או רישיון קנאביס בישראל?</label>
@@ -206,6 +206,13 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
               <span>אני מאשר/ת שגילי 18 ומעלה.</span></label>
             <label class="cbx"><input type="checkbox" name="c_terms" required>
               <span>קראתי ואני מסכים/ה ל<a href="/terms.html">תקנון ותנאי השימוש</a> ול<a href="/privacy.html">מדיניות הפרטיות</a>.</span></label>
+            <label class="cbx"><input type="checkbox" name="c_health" required>
+              <span>
+                <b>אני מסכים/ה במפורש שתעבדו את המידע הרפואי שאמסור</b>
+                ותעבירו אותו לרופא בעל רישיון יווני לצורך בחינת הפנייה, וכן לספקי התשתית
+                המפורטים ב<a href="/privacy.html">מדיניות הפרטיות</a>. אני יודע/ת שאני רשאי/ת
+                לחזור בי מההסכמה בכל עת.
+              </span></label>
             <label class="cbx"><input type="checkbox" name="c_customs" required>
               <span>הבנתי שאסור להוציא מוצרי קנאביס מיוון, ושהמרשם תקף בשטח יוון בלבד.</span></label>
             <label class="cbx"><input type="checkbox" name="c_nopromise" required>
@@ -255,7 +262,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           </fieldset>
 
           <button class="btn btn-primary submit" type="submit">שליחת הפנייה</button>
-          <p class="pay-note">אין תשלום באתר. ניצור קשר בוואטסאפ להמשך.</p>
+          <p class="pay-note">אין תשלום בטופס. ניצור קשר בוואטסאפ להסדרת דמי השירות, לפני בחינת הרופא.</p>
           <p class="form-status" role="status" aria-live="polite"></p>
         </section>
 
@@ -277,8 +284,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           </ol>
         </nav>
         <div class="rail-card rail-pay">
-          <b>אין תשלום באתר</b>
-          ממלאים, נבדקים, ורק אחר כך מסדירים את דמי השירות בוואטסאפ.
+          <b>התשלום לא עובר כאן</b>
+          דמי השירות מוסדרים בוואטסאפ אחרי השליחה, לפני בחינת הרופא. לא אושר — הכסף חוזר במלואו.
         </div>
         <div class="rail-card">
           <b>מה קורה עם הפרטים</b>
@@ -331,6 +338,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <ul>
           <li><a href="/#how">איך זה עובד</a></li>
           <li><a href="/#pricing">מחירים</a></li>
+          <li><a href="/pharmacy-prices.html">מחירים בבית המרקחת</a></li>
+          <li><a href="/pharmacies-greece.html">איך מממשים מרשם</a></li>
           <li><a href="/intake.html">בדיקת התאמה</a></li>
           <li><a href="/#faq">שאלות נפוצות</a></li>
         </ul>
@@ -339,14 +348,23 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <h4>מידע</h4>
         <ul>
           <li><a href="/guide.html">המדריך המלא</a></li>
+          <li><a href="/eligibility.html">מי מתאים למרשם</a></li>
+          <li><a href="/destinations.html">יעדים ביוון</a></li>
+          <li><a href="/remote-prescription.html">מרשם מרחוק לפני הטיסה</a></li>
+          <li><a href="/israeli-license-abroad.html">רישיון ישראלי בחו״ל</a></li>
+          <li><a href="/israeli-license-refused.html">נדחיתי לרישיון</a></li>
           <li><a href="/cannabis-in-greece.html">קנאביס ביוון — מה חוקי</a></li>
+          <li><a href="/penalties-greece.html">מה העונש ביוון</a></li>
           <li><a href="/fly-with-cannabis.html">הטסה: מה מותר ומה אסור</a></li>
           <li><a href="/cbd-in-greece.html">CBD ביוון</a></li>
+          <li><a href="/legal-updates.html">מה השתנה בחוק</a></li>
+          <li><a href="/glossary.html">מילון מונחים</a></li>
         </ul>
       </div>
       <div>
         <h4>משפטי</h4>
         <ul>
+          <li><a href="/about.html">מי אנחנו</a></li>
           <li><a href="/terms.html">תנאי שימוש</a></li>
           <li><a href="/privacy.html">מדיניות פרטיות</a></li>
           <li><a href="/refund.html">ביטולים והחזרים</a></li>

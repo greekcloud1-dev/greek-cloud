@@ -105,17 +105,23 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       "@id": "https://www.greekcloud.co.il/en/#faq",
       "mainEntity": [
         { "@type": "Question", "name": "Is medical cannabis legal in Greece?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Legislation regulating medical cannabis has been in place since 2017, and pharmacies began dispensing in February 2024. Use without a prescription remains an offence. Oversight sits with the National Organisation for Medicines (EOF)." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Legislation regulating medical cannabis has been in place since 2017, and pharmacies began dispensing in February 2024. Use without a prescription remains an offence, and recreational cannabis is not legal in Greece. Oversight sits with the National Organisation for Medicines (EOF)." } },
         { "@type": "Question", "name": "Do I need a medical cannabis licence from my own country?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. The process is governed by Greek law alone. A Greek-licensed physician performs a fresh, independent assessment, with no dependence on foreign documents." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The process is governed by Greek law alone. The Greek physician performs a fresh, independent assessment. People who have never held a licence anywhere can still be assessed." } },
         { "@type": "Question", "name": "Can I bring my own medical cannabis into Greece?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. A foreign licence or prescription is not valid in Greece, and bringing cannabis in without prior authorisation from the Greek medicines authority is prohibited. A notarised translation is not an authorisation." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "No. A foreign licence or prescription is not valid in Greece, and bringing cannabis in without prior authorisation from the Greek medicines authority is prohibited — with exposure beginning at customs. A notarised translation of a foreign document is not an authorisation and confers no status." } },
+        { "@type": "Question", "name": "How long does it take?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The questionnaire takes about three minutes. The physician's response time depends on your plan: on Standard, an initial reply within 24 hours and the prescription within 5 business days; on VIP, an initial reply in about an hour during working hours and the prescription within one business day. Starting before you fly is strongly recommended." } },
         { "@type": "Question", "name": "What if the physician does not approve?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The service fee is refunded in full. The medical decision rests with the physician alone, and submitting a request is no guarantee of approval." } },
-        { "@type": "Question", "name": "Can I take the product home with me?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. The prescription and products are valid inside Greece only. Taking cannabis across a border is a criminal offence in most destinations." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "The service fee is settled on WhatsApp after you send the questionnaire, before the physician reviews it. If they do not approve, the full amount is refunded with no cancellation charge. Full policy." } },
+        { "@type": "Question", "name": "How much does the product itself cost?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The pharmacy sets that price and it varies by product, concentration and location. It is not within our control and is not included in the service fee. You pay the pharmacy directly." } },
+        { "@type": "Question", "name": "Who decides the strength and quantity?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The physician alone, based on your situation and subject to Greek regulation. It is not a patient choice. The range available in pharmacies changes over time and between pharmacies." } },
+        { "@type": "Question", "name": "What happens to my medical information?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It is used solely to pass your request to the physician and have it reviewed. It is not sold and not shared with third parties for marketing. Full details in the privacy policy." } },
         { "@type": "Question", "name": "Are you doctors?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. GreekCloud is an administrative coordination service. We do not issue prescriptions, we are not a pharmacy, we do not sell or transport products, and we do not give medical advice." } }
+          "acceptedAnswer": { "@type": "Answer", "text": "No. GreekCloud is an administrative coordination service. We do not issue prescriptions, we are not a pharmacy, we do not sell or transport products, and we do not give medical advice. Every medical decision is made by a Greek-licensed physician." } }
       ]
     }
   ]
@@ -271,26 +277,30 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     <div class="wrap">
       <div class="sec-head" data-reveal>
         <p class="eyebrow">Eligibility</p>
-        <h2>I do not have a serious illness. Is there any point?</h2>
-        <p>Possibly. These are conditions physicians in Greece do assess in practice — not an eligibility list, not a criterion, and not a promise.</p>
+        <h2>Who this route fits — and who it does not</h2>
+        <p>Greece recognises five groups of indications, and cannabis is not a first-line therapy — it is considered where conventional treatments have not helped, were unsuitable or were not tolerated.</p>
       </div>
 
       <div class="grid g-2" style="align-items:start" data-reveal-group>
         <ul class="clean clay">
-          <li>Chronic pain and persistent back pain</li>
-          <li>Sleep disorders and insomnia</li>
-          <li>Anxiety and stress</li>
-          <li>Migraines and recurring headaches</li>
+          <li>Treatment-resistant chronic pain that has not responded to other therapies</li>
+          <li>Neuropathic pain — trigeminal neuralgia, post-herpetic pain, phantom limb pain</li>
         </ul>
         <ul class="clean clay">
-          <li>Muscle and joint pain</li>
-          <li>Appetite and digestive problems</li>
-          <li>Inflammatory conditions</li>
-          <li>Other conditions, at the physician's discretion</li>
+          <li>Spasticity in multiple sclerosis or spinal cord injury</li>
+          <li>Nausea and vomiting from chemotherapy, radiotherapy or HIV treatment</li>
+          <li>Appetite stimulation in palliative care</li>
+          <li>Inflammatory bowel disease — ulcerative colitis and Crohn's disease</li>
         </ul>
       </div>
 
-      <div class="note" style="margin-top:26px;max-width:78ch">
+      <div class="note note-warn" style="margin-top:26px;max-width:78ch">
+        <span class="nt">What is not on the list</span>
+        Sleep disorders, anxiety or migraine on their own are not recognised indications in Greece. Where they
+        accompany a condition that is on the list, they form part of the clinical picture the physician assesses
+        — but they are not grounds in their own right.
+      </div>
+      <div class="note" style="margin-top:14px;max-width:78ch">
         The decision is medical and rests with a Greek-licensed physician, based on an individual assessment
         and subject to Greek law. Meeting any item above does not guarantee approval. If the physician does
         not approve, the service fee is refunded in full.
@@ -329,7 +339,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 
       <div class="passes" data-reveal-group>
         <div class="pass">
-          <div class="strip"><span>STANDARD</span><span class="go">TLV → GRC</span></div>
+          <div class="strip"><span>STANDARD</span><span class="go">HOME → GRC</span></div>
           <div class="fields">
             <div><span class="k">PRESCRIPTION*</span><span class="v hot">Up to 5 business days</span></div>
             <div><span class="k">FIRST REPLY</span><span class="v">24 hours</span></div>
@@ -338,7 +348,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <div class="route"><span>QUESTIONNAIRE</span><span class="dash"><span class="plane"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></span></span><span>PRESCRIPTION</span></div>
             <ul>
               <li><svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg>Online questionnaire — three minutes</li>
-              <li><svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg>No Israeli licence or home prescription needed</li>
+              <li><svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg>No licence or home prescription needed</li>
               <li><svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg>Digital prescription in your passport name, if approved</li>
               <li><svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 10 4 4 8-8"/></svg>WhatsApp support throughout the process</li>
             </ul>
@@ -351,7 +361,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </div>
 
         <div class="pass feature">
-          <div class="strip"><span class="side"><span class="vip-name">VIP</span><span class="badge">MOST CHOSEN</span></span><span class="go">TLV → GRC</span></div>
+          <div class="strip"><span class="side"><span class="vip-name">VIP</span><span class="badge">FULL SUPPORT</span></span><span class="go">HOME → GRC</span></div>
           <div class="fields">
             <div><span class="k">PRESCRIPTION*</span><span class="v hot">Within 1 business day</span></div>
             <div><span class="k">FIRST REPLY</span><span class="v hot">About an hour</span></div>
@@ -396,8 +406,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </div>
 
       <div class="chips" data-reveal-group>
-        <span>Athens</span><span>Thessaloniki</span><span>Crete</span><span>Rhodes</span><span>Kos</span>
-        <span>Santorini</span><span>Mykonos</span><span>Corfu</span><span>Zakynthos</span><span>Halkidiki</span>
+        <a href="/en/athens.html"><span>Athens</span></a><a href="/en/thessaloniki.html"><span>Thessaloniki</span></a><a href="/en/crete.html"><span>Crete</span></a><a href="/en/rhodes.html"><span>Rhodes</span></a><a href="/en/kos.html"><span>Kos</span></a><a href="/en/santorini.html"><span>Santorini</span></a><a href="/en/mykonos.html"><span>Mykonos</span></a><a href="/en/corfu.html"><span>Corfu</span></a><span>Zakynthos</span><span>Halkidiki</span>
       </div>
 
       <div class="note note-stop" style="margin-top:30px;max-width:80ch">
@@ -448,15 +457,17 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <summary>How long does it take?</summary>
           <div class="a">
             The questionnaire takes about three minutes. The physician's response time depends on your plan:
-            about an hour during working hours on VIP, within 24 hours on Fast, and one to two weeks on Basic.
+            on Standard, an initial reply within 24 hours and the prescription within 5 business days; on VIP,
+            an initial reply in about an hour during working hours and the prescription within one business day.
             Starting before you fly is strongly recommended.
           </div>
         </details>
         <details>
           <summary>What if the physician does not approve?</summary>
           <div class="a">
-            The service fee is charged when you submit, before the physician decides. If they do not approve,
-            the full amount is refunded with no cancellation charge.
+            The service fee is settled on WhatsApp after you send the questionnaire, before the physician reviews it.
+            If they do not approve, the full amount is refunded with no cancellation charge.
+            <a href="/en/refund.html">Full policy</a>.
           </div>
         </details>
         <details>
@@ -520,6 +531,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <li><a href="/en/#how">How it works</a></li>
           <li><a href="/en/#pricing">Pricing</a></li>
           <li><a href="/en/intake.html">Check eligibility</a></li>
+          <li><a href="/en/pharmacy-prices.html">Pharmacy prices</a></li>
+          <li><a href="/en/pharmacies-greece.html">Redeeming at a pharmacy</a></li>
           <li><a href="/en/#faq">FAQ</a></li>
         </ul>
       </div>
@@ -527,7 +540,11 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <h4>Learn</h4>
         <ul>
           <li><a href="/en/guide.html">The full guide</a></li>
+          <li><a href="/en/eligibility.html">Who qualifies</a></li>
+          <li><a href="/en/destinations.html">Destinations in Greece</a></li>
+          <li><a href="/en/remote-prescription.html">Remote prescription</a></li>
           <li><a href="/en/cannabis-in-greece.html">Cannabis in Greece</a></li>
+          <li><a href="/en/penalties-greece.html">Penalties in Greece</a></li>
           <li><a href="/en/fly-with-cannabis.html">Flying with cannabis</a></li>
           <li><a href="/en/cbd-in-greece.html">CBD in Greece</a></li>
         </ul>
@@ -535,6 +552,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <div>
         <h4>Legal</h4>
         <ul>
+          <li><a href="/en/about.html">About us</a></li>
           <li><a href="/en/terms.html">Terms of use</a></li>
           <li><a href="/en/privacy.html">Privacy policy</a></li>
           <li><a href="/en/refund.html">Cancellations &amp; refunds</a></li>

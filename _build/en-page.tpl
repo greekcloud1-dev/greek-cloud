@@ -20,7 +20,7 @@
 <meta property="og:title" content="{{OGTITLE}}">
 <meta property="og:description" content="{{DESC}}">
 <meta property="og:url" content="https://www.greekcloud.co.il/en/{{SLUG}}">
-<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-en.png">
+<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-en-plain.png">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
