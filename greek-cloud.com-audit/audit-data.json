@@ -1,0 +1,213 @@
+{
+ "summary": {
+  "health_score": 83,
+  "business_type": "YMYL health + legal service (bilingual HE/EN), medical-cannabis prescription coordination for visitors to Greece",
+  "top_findings": [
+   "Six live indexable pages publish an internal 'to complete before publishing' block",
+   "Six live pages carry a visible 'not yet legally reviewed' banner whose own text says 'before publishing'",
+   "No legal entity, email, phone or postal address published anywhere indexable",
+   "refund.html directs users to write to an address that does not exist",
+   "fetchpriority=high is set on a 104.8 KB image that is not the LCP element"
+  ],
+  "quick_wins": [
+   "Move fetchpriority off logo-lg.webp — the LCP element is the h1",
+   "Content-hash asset filenames to allow immutable caching (currently max-age=3600)",
+   "Add legalName, address and contactPoint to Organization schema",
+   "Remove or noindex the six unfinished legal pages"
+  ]
+ },
+ "categories": [
+  {
+   "name": "Technical SEO",
+   "score": 95,
+   "what_works": [
+    "53/53 sitemap URLs return HTTP 200",
+    "Zero canonical errors; every page self-canonicalises to the correct apex host",
+    "Zero hreflang errors across 26 HE/EN pairs — all reciprocal, all with x-default",
+    "No orphan pages; correct lang/dir on every page",
+    "Full security header set: CSP, HSTS, COOP, CORP, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy",
+    "Brotli on HTML and CSS; proper 404",
+    "Domain migration complete: 976 references to the new domain, zero to the old one"
+   ],
+   "findings": [
+    {
+     "title": "Static assets cannot be cached long because filenames carry no content hash",
+     "severity": "Medium",
+     "description": "base.css, settings.css, a11y-widget.css, home.css and the JS files are served with max-age=3600. 61 pages share the same four stylesheets.",
+     "recommendation": "Content-hash the filenames, then serve max-age=31536000, immutable."
+    }
+   ]
+  },
+  {
+   "name": "Content Quality",
+   "score": 55,
+   "what_works": [
+    "Zero filler and zero AI-writing patterns detected on every page sampled",
+    "Median 944 words, minimum 465 — no thin content anywhere",
+    "Quality scores 77–95 across sampled pages",
+    "97 outbound citations across 21 authority domains"
+   ],
+   "findings": [
+    {
+     "title": "Internal 'to complete before publishing' blocks published on six indexable pages",
+     "severity": "Critical",
+     "description": "privacy.html, refund.html, terms.html and all three English counterparts are index,follow and publicly display an editorial to-do list. Verified live on the public domain.",
+     "recommendation": "Finish the pages, or set them to noindex until they are finished."
+    },
+    {
+     "title": "'Not yet legally reviewed' banner on live, indexable pages",
+     "severity": "Critical",
+     "description": "The same six pages carry a banner stating the document is a draft requiring review by a lawyer 'before publishing'. They were published.",
+     "recommendation": "Either complete the legal review and remove the banner, or noindex the pages."
+    },
+    {
+     "title": "No legal entity or contact method published anywhere indexable",
+     "severity": "Critical",
+     "description": "Sitewide search returns zero email addresses, zero telephone numbers and no postal address. about.html holds these but is noindex because its 16 placeholders are unfilled. For YMYL commerce this is a strong low-quality signal under Google's quality guidelines, and likely an Israeli consumer-law requirement for a trader taking payment.",
+     "recommendation": "Fill about.html, remove its noindex, and extend Organization schema."
+    },
+    {
+     "title": "Refund policy points to a non-existent address",
+     "severity": "Critical",
+     "description": "refund.html instructs users to send cancellation requests 'in writing to the address set out below'. No address is published — the to-do block sits there instead.",
+     "recommendation": "Publish a dedicated refund contact address."
+    }
+   ]
+  },
+  {
+   "name": "On-Page SEO",
+   "score": 98,
+   "what_works": [
+    "Zero issues across all 53 crawled pages",
+    "No missing or over-length titles; no missing or mis-sized descriptions",
+    "No duplicate titles or descriptions",
+    "Exactly one h1 per page; no heading-level skips"
+   ],
+   "findings": []
+  },
+  {
+   "name": "Schema / Structured Data",
+   "score": 85,
+   "what_works": [
+    "16 schema types in use, valid JSON-LD on every page, zero parse errors",
+    "FAQPage on 45 of 61 pages with 230 answers",
+    "Every FAQ answer matches its visible copy exactly"
+   ],
+   "findings": [
+    {
+     "title": "Organization schema publishes only name and url",
+     "severity": "High",
+     "description": "No legalName, taxID, address, contactPoint or sameAs — the operating entity is unidentifiable to search engines and AI answer engines.",
+     "recommendation": "Extend the Organization node once about.html entity details exist."
+    }
+   ]
+  },
+  {
+   "name": "Performance (CWV)",
+   "score": 82,
+   "what_works": [
+    "CLS 0",
+    "TTFB 311 ms",
+    "LCP 2008 ms — within the 2.5 s 'good' threshold",
+    "11 requests, 161.7 KB total transferred",
+    "Brotli compression; font-display:swap correctly set"
+   ],
+   "findings": [
+    {
+     "title": "fetchpriority=high on an image that is not the LCP element",
+     "severity": "High",
+     "description": "Measured live: the LCP element is the h1 text at 2008 ms. fetchpriority=high sits on logo-lg.webp, a 104.8 KB decorative image, so high priority competes with the CSS and fonts that actually gate the largest paint.",
+     "recommendation": "Remove fetchpriority from the logo.",
+     "status": "FIXED 2026-09-14 — attribute removed from logo-lg in 3 files"
+    },
+    {
+     "title": "Five render-blocking stylesheets in the head",
+     "severity": "Medium",
+     "description": "Four local stylesheets plus the Google Fonts request. FCP measured 2008 ms, just above the 1.8 s 'good' threshold.",
+     "recommendation": "Concatenate the local CSS or inline critical CSS."
+    }
+   ]
+  },
+  {
+   "name": "AI Search Readiness",
+   "score": 88,
+   "what_works": [
+    "llms.txt live and fully migrated to the new domain",
+    "GPTBot, ClaudeBot, PerplexityBot and Google-Extended explicitly allowed in robots.txt",
+    "97 outbound citations across 21 authority domains — EOF (29), gov.il (19), moh.gov.gr (11), EUDA, e-nomothesia.gr",
+    "230 FAQ answers at median 182 chars — good passage-level citability length",
+    "Machine-readable datePublished / dateModified throughout"
+   ],
+   "findings": [
+    {
+     "title": "No identifiable author or entity weakens citability",
+     "severity": "Medium",
+     "description": "AI answer engines prefer attributable sources. Author is an Organization with no verifiable identity, address or contact point.",
+     "recommendation": "Resolve together with the about.html entity work."
+    }
+   ]
+  },
+  {
+   "name": "Images",
+   "score": 88,
+   "what_works": [
+    "Alt text present on every img element sitewide",
+    "WebP with PNG fallback via picture element",
+    "WebP already near-optimally compressed - re-encoding at safe quality saves only 3-6%",
+    "logo-lg.webp is 640px into a 400px slot: correct for 2x retina, not oversized"
+   ],
+   "findings": [
+    {
+     "title": "logo.webp is 224px for a 70px slot in the header",
+     "severity": "Low",
+     "description": "The 224px asset serves both a 95px and a 70px slot. At 2x retina the 95px use justifies 190px, so it is only marginally over; the 70px use is 3.2x. A single srcset would cover both.",
+     "recommendation": "Optional: add srcset with a 140px variant for the smaller slot."
+    }
+   ]
+  }
+ ],
+ "action_plan": {
+  "phases": [
+   {
+    "name": "Phase 1: Critical Fixes",
+    "timeframe": "Before the next recrawl",
+    "items": [
+     "Remove or noindex the six unfinished legal pages",
+     "Resolve the legal-review banner — complete the review or noindex",
+     "Publish a legal entity and a contact method; fill about.html and un-noindex it",
+     "Give the refund policy a working address"
+    ]
+   },
+   {
+    "name": "Phase 2: High-Impact Improvements",
+    "timeframe": "Week 1",
+    "items": [
+     "Move fetchpriority off the non-LCP logo",
+     "Resize and srcset the logos — recovers most of 125 KB"
+    ]
+   },
+   {
+    "name": "Phase 3: Content & Authority",
+    "timeframe": "Weeks 2-3",
+    "items": [
+     "Content-hash assets for immutable caching",
+     "Reduce render-blocking CSS",
+     "Reconsider noindex on accessibility.html (IS 5568 expects it published)"
+    ]
+   },
+   {
+    "name": "Phase 4: Monitoring & Iteration",
+    "timeframe": "Ongoing",
+    "items": [
+     "Finish the four unaudited content-accuracy domains plus 19 deferred findings",
+     "Register in Google Search Console and Bing Webmaster Tools — no field data exists today",
+     "Take a drift baseline so future deploys can be diffed"
+    ]
+   }
+  ]
+ },
+ "artifacts": {
+  "findings_dir": "findings/",
+  "screenshots_dir": "screenshots/"
+ }
+}

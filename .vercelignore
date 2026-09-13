@@ -14,3 +14,6 @@ SECURITY-NOTES.md
 # earlier, ~2x heavier versions kept in the repo but not shipped. 401 KB saved.
 assets/og-he.png
 assets/og-en.png
+
+# Launch checklist lifted out of the published HTML. Internal.
+LAUNCH-TODO.md

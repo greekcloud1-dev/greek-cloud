@@ -342,60 +342,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/terms.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/terms.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/privacy.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/privacy.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/refund.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/refund.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/refund.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/refund.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/refund.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/refund.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/refund.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/refund.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
     <loc>https://greek-cloud.com/eligibility.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/eligibility.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/eligibility.html"/>
