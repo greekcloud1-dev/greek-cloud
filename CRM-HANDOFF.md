@@ -1,11 +1,34 @@
 # CRM handoff for Claude
 
-## Publication authorization update
+## Current state — 2026-09-14
 
-The owner has now requested publishing the CRM source and handoff documents to
-the public repository for Claude's review. Target branch: `codex/mobile-crm`,
-with a draft PR into `main`. This supersedes earlier pending-publication notes;
-it does not authorize merging, production deployment or cloud account changes.
+Single ownership. The owner asked Claude to take Codex's CRM as built and
+continue it alone, so the two-agent synchronization protocol in
+`CLAUDE-SYNC-HE.md` no longer applies; `CLAUDE-STATUS-HE.md` is the live
+status document and supersedes it. Work lives on `claude/adoring-feynman-hff8a6`.
+
+What changed since the Codex handoff below:
+
+- All eight verified findings in `QA-REPORT-2026-09-09-HE.md` are fixed, each
+  with a regression test. Two were reproduced before and after: the mobile
+  drawer in a real Chromium at 390x844, and the reminder-ownership bug against
+  the real migrations in an in-memory PostgreSQL.
+- New migration `202609110006_reminder_ownership.sql`. A fresh install now runs
+  **six** migrations in filename order, not five.
+- New files: `crm/lib/crm/weekly.ts` (the seven-day window, kept outside
+  `server-only` `store.ts` so it can be tested), `assets/intake-draft.js` (the
+  intake draft storage policy, split out for the same reason), and `tests/` at
+  the repository root for site-side tests.
+- `main` advanced seven commits in parallel and is now merged into the branch.
+  The site went live on `greek-cloud.com` with indexing enabled, and a separate
+  Claude session independently hardened `api/submit.js` and `assets/intake.js`
+  — the same two files this work had changed. The conflicts were resolved by
+  combining both sides; see `CLAUDE-STATUS-HE.md` for which side won where and
+  why. `crm/` itself had no conflicts: none of those seven commits touch it.
+
+Merge gate, set by the owner: do **not** merge to `main` as a technical
+milestone. Merge only once the CRM is actually wired to Supabase, Turnstile and
+mail/Telegram, deployed as its own project, and checked end to end.
 
 ## Security update — 2026-09-08
 
@@ -68,7 +91,9 @@ The progress indicator is completed tasks / all tasks, not medical readiness.
 ## Deployment and activation
 
 1. In `crm/`, install with `pnpm install --frozen-lockfile`, then `pnpm build`.
-2. Create Supabase project; apply all SQL migrations in filename order.
+2. Create Supabase project; apply all six SQL migrations in filename order. On an
+   existing install that already has 001-005, add `202609110006_reminder_ownership.sql`
+   alone rather than re-running everything.
 3. Disable public signups, invite the owner's auth account, and explicitly set its
    `crm_profiles.role='admin'` and `active=true`. Follow `crm/supabase/README.md`.
    Configure the invitation and recovery email templates described there. The
@@ -86,22 +111,33 @@ contact sample numbers. Public form submission returns unavailable when not set 
 
 ## Checks and known limits
 
-Latest local verification (2026-09-08): production build passes with account
-invitation/recovery routes included; all 13 tests pass. The repository app's
-mobile contact form advances to review, focuses the review heading, and disables
-submission without backend configuration. The mobile pages checked have no
-horizontal overflow. These are local checks, not a deployed acceptance test.
+Latest local verification (2026-09-14, after merging `main`): `pnpm typecheck`
+clean, `pnpm build` passes, and `pnpm test` from `crm/` reports **69 tests — 67
+passed, 0 failed, 2 skipped**. The two skips are the optional localhost HTTP
+tests, which need `CRM_TEST_ORIGIN` and a running server; everything else is
+isolated. Site-side tests now run in the same command: `crm/package.json` also
+points `node --test` at `../tests/*.test.mjs`, and `.github/workflows/crm-checks.yml`
+watches `assets/**` and `tests/**` as well.
 
-The repository's standalone CRM passed Next.js production build and TypeScript checks. Desktop and
-390px mobile browser checks covered case creation, payment status, task creation,
-flight editing and operational note display. Production persistence is not yet
-verified against a real Supabase project. Email/Telegram delivery has not been
-activated or tested against real recipients. The migrations now execute successfully
-on isolated PostgreSQL (PGlite) with a minimal Supabase Auth contract. Thirteen tests
-cover creation, contact reuse, website replay, inactive/anonymous access, privilege
-protection, immutable audit history, reminder deduplication, leases and bridge data
-boundaries. Run `pnpm test` from `crm/`. A real Supabase environment still needs
-auth/session and provider checks before activation.
+These are local checks, not a deployed acceptance test. Production persistence is
+still unverified against a real Supabase project, and email/Telegram delivery has
+never been activated or tested against real recipients.
+
+Coverage, by area: schema and RLS across all six migrations (creation, contact
+reuse, website replay, inactive/anonymous access, privilege protection, immutable
+audit history, reminder deduplication, delivery leases, bridge data boundaries);
+reminder ownership on handover; the seven-day analytics window; case search
+fields; session and logout cleanup; request protection; and, on the site side,
+the intake draft storage policy and `/api/submit` validation with stubbed
+providers. The migrations execute on isolated PostgreSQL (PGlite) with a minimal
+Supabase Auth contract.
+
+Two independent security reviews were run over this branch against `main` and
+found no HIGH or MEDIUM issues: one over the whole diff (CRM routes, libraries,
+RLS policies, SECURITY DEFINER functions, the website bridge), one specific to
+the hand-merged `api/submit.js`. A real Supabase environment still needs
+auth/session and provider checks before activation; neither review substitutes
+for that.
 
 Explicit SQL review fixes: qualified intake RETURNING column names; transactional
 assignment notifications; 15-minute default task reminders; stale assignment
@@ -119,9 +155,15 @@ Before significant growth, add server-side pagination and aggregate reporting.
 
 - Latest customer-perspective test: see `crm/INTAKE-VERIFICATION.md`. Synthetic
   intake is blocked by missing backend configuration (HTTP 503), not successfully
-  received. The flight review needs manual-input reproduction before acceptance.
-- Review the owner-authorized `codex/mobile-crm` publication separately from any
-  future production merge or deployment; verify the remote branch is available.
+  received. On the flight-date suspicion that file raises, the QA report's
+  follow-up found no bug under normal keyboard entry; it stays unconfirmed rather
+  than open.
+- Work continues on `claude/adoring-feynman-hff8a6`, which is merged up to date
+  with `main`. `codex/mobile-crm` is the original publication branch and is
+  historical now — do not build on it.
+- The site is live and indexed. Anything touching the repository root (`api/`,
+  `assets/`, the HTML pages) reaches real visitors on merge; `crm/` does not,
+  because it deploys as a separate project that is not connected yet.
 - Preserve Hebrew RTL and keyboard/focus behavior when changing dialogs.
 - Keep API contracts aligned with UI form validation and `crm-data.ts`.
 - Keep writes atomic when they create multiple related records.
