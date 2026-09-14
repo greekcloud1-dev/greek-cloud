@@ -1,7 +1,8 @@
 # GreekCloud — מרשם קנאביס רפואי ביוון לתיירים ישראלים
 
-> שירות תיאום דיגיטלי בעברית: שאלון מקוון קצר, בדיקה של רופא בעל רישיון יווני,
-> ואם הרופא מאשר — מרשם דיגיטלי על שם הדרכון, תקף בבתי מרקחת מורשים ברחבי יוון.
+> שירות תיאום דיגיטלי בעברית: שאלון מקוון קצר, ובדיקה של רופא בעל רישיון יווני שנעשית
+> מרחוק, עוד לפני הטיסה. אם הרופא מאשר — מרשם דיגיטלי על שם הדרכון, תקף בבתי מרקחת
+> מורשים ברחבי יוון. רק הניפוק עצמו מתבצע בשטח יוון.
 > לא נדרש רישיון קנאביס ישראלי ולא מרשם מהארץ. לא אושר — דמי השירות חוזרים במלואם.
 > GreekCloud מתאם את הפנייה לרופא בלבד: איננו רופאים, איננו בית מרקחת, איננו מנפיקים
 > מרשמים, ואיננו מוכרים, מספקים או משנעים מוצרי קנאביס.
@@ -11,7 +12,8 @@
 - חקיקה שמסדירה קנאביס רפואי ביוון קיימת מאז 2017. ניפוק בפועל בבתי מרקחת החל בפברואר 2024.
 - הפיקוח על התחום נתון לארגון הלאומי לתרופות היווני (EOF).
 - שימוש בקנאביס ללא מרשם רופא נותר עבירה ביוון.
-- רישיון או מרשם קנאביס ישראלי אינם תקפים ביוון. הנתיב החוקי הוא פנייה לרופא בעל רישיון יווני בשטח יוון.
+- רישיון או מרשם קנאביס ישראלי אינם תקפים ביוון. הנתיב החוקי הוא מרשם מרופא בעל רישיון יווני.
+  הבחינה נעשית מרחוק, עוד לפני הטיסה; רק הניפוק מתבצע בבית מרקחת מורשה ביוון.
 - הכנסת קנאביס ליוון ללא היתר מוקדם מרשות התרופות היוונית אסורה ועלולה להוביל להליך פלילי במכס.
 - המרשם והמוצרים תקפים בשטח יוון בלבד. הכנסת קנאביס לישראל ללא רישיון היא עבירה פלילית.
 - ההחלטה הרפואית נתונה לרופא בלבד. אין בפנייה כדי להבטיח אישור.
@@ -23,24 +25,36 @@
 
 ## עמודים — עברית
 
-- [דף הבית](https://www.greekcloud.co.il/): איך תייר ישראלי מקבל מרשם קנאביס רפואי ביוון — התהליך, המסלולים, המחירים ושאלות נפוצות.
-- [המדריך המלא](https://www.greekcloud.co.il/guide.html): מה חוקי ביוון, למה מה שיש לכם בארץ לא עוזר שם, מי נבחן, איך זה עובד בפועל, כמה זה עולה ומה אסור.
-- [קנאביס ביוון — מה חוקי ומה אסור](https://www.greekcloud.co.il/cannabis-in-greece.html): התמונה המשפטית הרחבה, מעבר למסלול הרפואי.
-- [להטיס קנאביס ליוון ובחזרה](https://www.greekcloud.co.il/fly-with-cannabis.html): למה רישיון ישראלי אינו היתר, למה תרגום נוטריוני אינו היתר, ומה קורה במכס.
-- [CBD ביוון](https://www.greekcloud.co.il/cbd-in-greece.html): עולם רגולטורי נפרד מהקנאביס הרפואי — מה מותר לקנות.
-- [בדיקת התאמה](https://www.greekcloud.co.il/intake.html): שאלון מקוון בעברית, כשלוש דקות.
+- [דף הבית](https://greek-cloud.com/): איך תייר ישראלי מקבל מרשם קנאביס רפואי ביוון — התהליך, המסלולים, המחירים ושאלות נפוצות.
+- [המדריך המלא](https://greek-cloud.com/guide.html): מה חוקי ביוון, למה מה שיש לכם בארץ לא עוזר שם, מי נבחן, איך זה עובד בפועל, כמה זה עולה ומה אסור.
+- [מי מתאים למרשם](https://greek-cloud.com/eligibility.html): ארבע קבוצות ההתוויות המוכרות ביוון, חמש ההתמחויות הרשאיות להנפיק מרשם ראשוני, ולמה קנאביס אינו טיפול קו ראשון. הפרעות שינה, חרדה ומיגרנה אינן התוויות עצמאיות.
+- [מרשם מרחוק, לפני הטיסה](https://greek-cloud.com/remote-prescription.html): למה לא צריך להגיע ליוון כדי להתחיל — מה נעשה מרחוק, מה חייב לקרות בשטח יוון, ומתי להתחיל לפי מועד הטיסה.
+- [קנאביס ביוון — מה חוקי ומה אסור](https://greek-cloud.com/cannabis-in-greece.html): התמונה המשפטית הרחבה, מעבר למסלול הרפואי.
+- [רישיון קנאביס ישראלי בחו״ל](https://greek-cloud.com/israeli-license-abroad.html): למה הרישיון הישראלי אינו תקף ביוון ואינו מתיר להוציא קנאביס מישראל — נוהל 110, סעיף 75 לאמנת שנגן, והפרכה של הטענה השיווקית שישראלים יכולים לטוס ליוון עם הקנאביס שלהם.
+- [נדחיתי לרישיון קנאביס רפואי](https://greek-cloud.com/israeli-license-refused.html): למה בקשות נדחות בישראל לפי נוהל 106, אילו מצבים אינם ברשימת ההתוויות, ולמה המסלול היווני אינו עוקף החלטה של משרד הבריאות.
+- [להטיס קנאביס ליוון ובחזרה](https://greek-cloud.com/fly-with-cannabis.html): למה רישיון ישראלי אינו היתר, למה תרגום נוטריוני אינו היתר, ומה קורה במכס.
+- [CBD ביוון](https://greek-cloud.com/cbd-in-greece.html): עולם רגולטורי נפרד מהקנאביס הרפואי — מה מותר לקנות.
+- [איך מממשים מרשם בלי ΑΜΚΑ](https://greek-cloud.com/pharmacies-greece.html): מאוגוסט 2024 מערכת המרשמים היוונית כוללת מסלול מטופל זר לפי דרכון, ולא לפי מספר ביטוח לאומי יווני. מספר הדרכון במרשם חייב להתאים לדרכון שמוצג בקופה. נדרש מכשיר אידוי בתקן CE לשימוש בשאיפה.
+- [כמה עולה בבית המרקחת](https://greek-cloud.com/pharmacy-prices.html): המחיר לגרם לפי צו המחירים הרשמי של משרד הבריאות היווני — 9.46 עד 12.85 אירו לגרם נכון ל-20.5.2026. המחיר נקבע ארצית וזהה בכל בית מרקחת, אינו מוחזר על ידי ביטוח, וכולל מע"מ 6%.
+- [מה העונש על קנאביס ביוון](https://greek-cloud.com/penalties-greece.html): חוק 4139/2013 — עד 5 חודשי מאסר לצריכה עצמית (סעיף 29), 8 שנים לפחות לסחר ולייבוא (סעיף 20). החוק היווני אינו קובע שום סף בגרמים; המספר "20 גרם" שמסתובב בעברית אינו קיים בחוק.
+- [מה השתנה בחוק](https://greek-cloud.com/legal-updates.html): יומן שינויים מתוארך — חוק 5302/2026 והודעת EOF ממאי 2026, תחילת הניפוק ביוון בפברואר 2024, ורפורמת המסלולים בישראל. כל שינוי עם תאריך, מקור וציון חוזק המקור.
+- [מילון מונחים](https://greek-cloud.com/glossary.html): EOF, נוהל 106, נוהל 110, אישור שנגן, חוק 5302/2026, בית מרקחת תורן — כל המונחים החוזרים, מוגדרים בקצרה.
+- [בדיקת התאמה](https://greek-cloud.com/intake.html): שאלון מקוון בעברית, כשלוש דקות.
 
 ## עמודים — לפי יעד
 
+- [מפת היעדים](https://greek-cloud.com/destinations.html): לאן יש טיסות ישירות מתל אביב ובאיזו תדירות, ומה שונה בין יבשת לאי. זקינטוס אינה ברשת הישירה.
+
+
 לכל יעד נמל תעופה אחר ופריסה אחרת של בתי מרקחת. המרשם עצמו תקף בכל יוון.
 
-- [אתונה](https://www.greekcloud.co.il/athens.html) · [סלוניקי](https://www.greekcloud.co.il/thessaloniki.html) · [כרתים](https://www.greekcloud.co.il/crete.html) · [רודוס](https://www.greekcloud.co.il/rhodes.html)
-- [סנטוריני](https://www.greekcloud.co.il/santorini.html) · [מיקונוס](https://www.greekcloud.co.il/mykonos.html) · [קוס](https://www.greekcloud.co.il/kos.html) · [קורפו](https://www.greekcloud.co.il/corfu.html)
+- [אתונה](https://greek-cloud.com/athens.html) · [סלוניקי](https://greek-cloud.com/thessaloniki.html) · [כרתים](https://greek-cloud.com/crete.html) · [רודוס](https://greek-cloud.com/rhodes.html)
+- [לפקדה](https://greek-cloud.com/lefkada.html) · [זקינטוס](https://greek-cloud.com/zakynthos.html) · [חלקידיקי](https://greek-cloud.com/halkidiki.html) · [סנטוריני](https://greek-cloud.com/santorini.html) · [מיקונוס](https://greek-cloud.com/mykonos.html) · [קוס](https://greek-cloud.com/kos.html) · [קורפו](https://greek-cloud.com/corfu.html)
 
 ## Pages — English
 
-- [Home](https://www.greekcloud.co.il/en/) · [Full guide](https://www.greekcloud.co.il/en/guide.html) · [Cannabis in Greece](https://www.greekcloud.co.il/en/cannabis-in-greece.html) · [Flying with cannabis](https://www.greekcloud.co.il/en/fly-with-cannabis.html) · [CBD in Greece](https://www.greekcloud.co.il/en/cbd-in-greece.html) · [Eligibility check](https://www.greekcloud.co.il/en/intake.html)
-- Destinations: [Athens](https://www.greekcloud.co.il/en/athens.html) · [Thessaloniki](https://www.greekcloud.co.il/en/thessaloniki.html) · [Crete](https://www.greekcloud.co.il/en/crete.html) · [Rhodes](https://www.greekcloud.co.il/en/rhodes.html) · [Santorini](https://www.greekcloud.co.il/en/santorini.html) · [Mykonos](https://www.greekcloud.co.il/en/mykonos.html) · [Kos](https://www.greekcloud.co.il/en/kos.html) · [Corfu](https://www.greekcloud.co.il/en/corfu.html)
+- [Home](https://greek-cloud.com/en/) · [Full guide](https://greek-cloud.com/en/guide.html) · [Remote prescription](https://greek-cloud.com/en/remote-prescription.html) · [Cannabis in Greece](https://greek-cloud.com/en/cannabis-in-greece.html) · [Flying with cannabis](https://greek-cloud.com/en/fly-with-cannabis.html) · [CBD in Greece](https://greek-cloud.com/en/cbd-in-greece.html) · [Eligibility check](https://greek-cloud.com/en/intake.html)
+- Destinations: [Athens](https://greek-cloud.com/en/athens.html) · [Thessaloniki](https://greek-cloud.com/en/thessaloniki.html) · [Crete](https://greek-cloud.com/en/crete.html) · [Rhodes](https://greek-cloud.com/en/rhodes.html) · [Santorini](https://greek-cloud.com/en/santorini.html) · [Mykonos](https://greek-cloud.com/en/mykonos.html) · [Kos](https://greek-cloud.com/en/kos.html) · [Corfu](https://greek-cloud.com/en/corfu.html)
 
 ## הערות לשימוש חוזר
 

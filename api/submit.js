@@ -46,7 +46,10 @@ const PLAN_LABEL = {
   en: { standard: 'Standard', vip: 'VIP' },
 };
 
-const CONSENT_FIELDS = ['c_age', 'c_terms', 'c_customs', 'c_nopromise', 'c_accuracy', 'c_liability'];
+// c_health is explicit consent to process special-category health data and
+// transfer it onward. It is separate from c_terms on purpose: bundling it into
+// a general terms box is precisely what makes such consent invalid.
+const CONSENT_FIELDS = ['c_age', 'c_terms', 'c_health', 'c_customs', 'c_nopromise', 'c_accuracy', 'c_liability'];
 
 /* The client already checks all of this. None of that reaches here: a request
    can be posted straight to this URL, and before these rules an out-of-range
@@ -66,46 +69,47 @@ const CITIES = new Set([
 ]);
 const RX_STATES = new Set(['no', 'yes', 'past']);
 
-/* Room for a long, careful description without accepting an unbounded body. */
-const MAX_CONDITION = 4000;
-const MAX_NAME = 80;
-const MAX_PHONE = 25;
-const MAX_EMAIL = 254;
-
-/* The form downscales images before upload, so a normal selfie arrives well
-   under this. The ceiling is here to bound what a direct caller can store. */
+/* Per-field length caps. `condition` is free text that goes into a stored
+   record and `city`/`plan` reach an email subject, so each is bounded rather
+   than left to grow into a multi-megabyte string. Vercel's serverless body
+   cap already sits below MAX_FILE_BYTES in normal operation; these are here
+   so the endpoint states its own contract rather than inheriting one. */
+const FIELD_MAX = {
+  full_name: 80, passport: 20, age: 3, email: 254, phone: 25,
+  city: 60, arrival: 32, condition: 4000, rx_exists: 16, locale: 2, plan: 16,
+};
 const MAX_SELFIE_BYTES = 6 * 1024 * 1024;
 const MAX_RX_BYTES = 10 * 1024 * 1024;
 
-/* A declared content-type is whatever the caller typed. These are the first
-   bytes of the formats the form accepts, so the check is on the file itself. */
-const IMAGE_SIGNATURES = [
-  { type: 'image/jpeg', bytes: [0xff, 0xd8, 0xff] },
-  { type: 'image/png', bytes: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a] },
-  { type: 'image/gif', bytes: [0x47, 0x49, 0x46, 0x38] },
-  { type: 'image/webp', bytes: [0x52, 0x49, 0x46, 0x46] },  // RIFF....WEBP
-  { type: 'image/heic', bytes: [0x66, 0x74, 0x79, 0x70], offset: 4 },
-];
-const PDF_SIGNATURE = { type: 'application/pdf', bytes: [0x25, 0x50, 0x44, 0x46] };
-
-function matches(head, sig) {
-  const at = sig.offset || 0;
-  if (head.length < at + sig.bytes.length) return false;
-  return sig.bytes.every((b, i) => head[at + i] === b);
-}
-
-/* Returns the format actually found, or null. WEBP needs its second marker:
+/* Accepted upload types, checked against the file's own leading bytes rather
+   than the client-declared MIME. The intake script canvas-converts images to
+   JPEG before sending, so a legitimate selfie arrives as JPEG; the rest of
+   this list covers a direct or unconverted upload. HEIC matters because it
+   is what an iPhone produces; WEBP needs its second marker checked too, since
    'RIFF' alone is also the head of a WAV file. */
+const MAGIC = [
+  { ext: 'jpg', mime: 'image/jpeg', test: (b) => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
+  { ext: 'png', mime: 'image/png', test: (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 },
+  {
+    ext: 'webp', mime: 'image/webp',
+    test: (b) => b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46
+      && b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50,
+  },
+  { ext: 'heic', mime: 'image/heic', test: (b) => b[4] === 0x66 && b[5] === 0x74 && b[6] === 0x79 && b[7] === 0x70 },
+  { ext: 'pdf', mime: 'application/pdf', test: (b) => b[0] === 0x25 && b[1] === 0x50 && b[2] === 0x44 && b[3] === 0x46 },
+];
+
+/* Returns { ext, mime } for the format actually found, or null. Sniffed
+   before any storage call: a rejected upload should cost nothing and leave
+   nothing behind. The client-supplied filename plays no part in the result
+   or in the storage key built from it later -- it is attacker-controlled,
+   and @vercel/blob only rejects the literal sequence "//" in a pathname, so
+   something like "../" would otherwise pass straight through. */
 async function sniff(file, allowPdf) {
   const head = new Uint8Array(await file.slice(0, 16).arrayBuffer());
-  if (allowPdf && matches(head, PDF_SIGNATURE)) return 'application/pdf';
-  for (const sig of IMAGE_SIGNATURES) {
-    if (!matches(head, sig)) continue;
-    if (sig.type === 'image/webp') {
-      const webp = [0x57, 0x45, 0x42, 0x50];
-      if (!webp.every((b, i) => head[8 + i] === b)) continue;
-    }
-    return sig.type;
+  for (const m of MAGIC) {
+    if (!allowPdf && m.ext === 'pdf') continue;
+    if (m.test(head)) return m;
   }
   return null;
 }
@@ -151,8 +155,63 @@ function buildEmail(record) {
   return { subject, text: lines.join('\n') };
 }
 
+/* --- best-effort rate limit ---------------------------------------------
+   This is a speed bump, not a wall, and it is important to be honest about
+   why: serverless instances are ephemeral and scale horizontally, so this
+   Map is per-instance. A distributed flood, or simply enough concurrency to
+   make Vercel spin up new instances, walks straight past it.
+
+   It is still worth having. It costs nothing, it survives within a warm
+   instance for the duration of a burst, and it stops the single most likely
+   case -- one script hammering the endpoint from one address.
+
+   The real control is a Vercel WAF / rate-limit rule in front of the
+   function, plus a spend limit on the project. Those are dashboard settings,
+   not code, and they belong in the operator's security notes.
+   --------------------------------------------------------------------- */
+const RATE_MAX = 5;                       // submissions per window, per address
+const RATE_WINDOW_MS = 60 * 60 * 1000;    // one hour
+const RATE_MAX_KEYS = 5000;               // bound the Map so it cannot grow unchecked
+const seen = new Map();
+
+function clientAddress(request) {
+  const fwd = request.headers.get('x-forwarded-for');
+  if (fwd) return fwd.split(',')[0].trim();
+  return request.headers.get('x-real-ip') || 'unknown';
+}
+
+function rateLimited(request) {
+  const key = clientAddress(request);
+  if (key === 'unknown') return false;     // never lock out everyone on a header quirk
+  const now = Date.now();
+
+  if (seen.size > RATE_MAX_KEYS) {
+    for (const [k, hits] of seen) {
+      if (!hits.some((t) => now - t < RATE_WINDOW_MS)) seen.delete(k);
+      if (seen.size <= RATE_MAX_KEYS) break;
+    }
+  }
+
+  const recent = (seen.get(key) || []).filter((t) => now - t < RATE_WINDOW_MS);
+  if (recent.length >= RATE_MAX) { seen.set(key, recent); return true; }
+  recent.push(now);
+  seen.set(key, recent);
+  return false;
+}
+
 async function handleSubmit(request) {
   if (request.method !== 'POST') return json(405, { ok: false, error: 'method_not_allowed' });
+
+  if (rateLimited(request)) {
+    return new Response(JSON.stringify({ ok: false, error: 'rate_limited' }), {
+      status: 429,
+      headers: {
+        'content-type': 'application/json',
+        'cache-control': 'no-store',
+        'retry-after': String(Math.ceil(RATE_WINDOW_MS / 1000)),
+      },
+    });
+  }
 
   const configured = Boolean(
     process.env.RESEND_API_KEY &&
@@ -169,12 +228,24 @@ async function handleSubmit(request) {
   }
 
   // Honeypot: a real visitor never fills this in. Answer as if it worked so
-  // whatever filled it does not learn its guess was wrong.
-  if (form.get('website')) return json(200, { ok: true });
+  // whatever filled it does not learn its guess was wrong -- which means the
+  // response has to be shaped exactly like a real success, submissionId and
+  // all. Returning a bare {ok:true} made the two trivially distinguishable and
+  // turned the honeypot into an oracle for finding the field name.
+  if (form.get('website')) {
+    return json(200, {
+      ok: true,
+      submissionId: `${new Date().toISOString().replace(/[:.]/g, '-')}-${crypto.randomUUID().replace(/-/g, '').slice(0, 16)}`,
+    });
+  }
 
+  // Strip control characters as well as trimming: `city` and `plan` reach an
+  // email subject, and a newline in a subject is worth refusing on principle
+  // even though Resend is a JSON API rather than SMTP.
   const str = (name) => {
     const v = form.get(name);
-    return typeof v === 'string' ? v.trim() : '';
+    if (typeof v !== 'string') return '';
+    return v.replace(/[ -]/g, ' ').trim();
   };
 
   const locale = str('locale') === 'en' ? 'en' : 'he';
@@ -192,26 +263,35 @@ async function handleSubmit(request) {
   const consents = {};
   for (const key of CONSENT_FIELDS) consents[key] = form.get(key) === 'on';
 
+  // Bound every free-text field before anything else looks at it. Over-long
+  // values are rejected outright rather than truncated, so nothing is
+  // silently altered.
+  const lengths = {
+    full_name: fullName, passport, age, email, phone,
+    city, arrival, condition, rx_exists: rxExists, locale, plan,
+  };
+  for (const [key, value] of Object.entries(lengths)) {
+    if (value && value.length > FIELD_MAX[key]) return json(400, { ok: false, error: `too_long:${key}` });
+  }
+
   const required = { plan, full_name: fullName, passport, age, email, phone, city, condition };
   for (const [key, value] of Object.entries(required)) {
     if (!value) return json(400, { ok: false, error: `missing:${key}` });
   }
   if (plan !== 'standard' && plan !== 'vip') return json(400, { ok: false, error: 'invalid:plan' });
-  if (fullName.length > MAX_NAME) return json(400, { ok: false, error: 'invalid:full_name' });
   if (!/^\d{8}$/.test(passport)) return json(400, { ok: false, error: 'invalid:passport' });
-  /* The form offers 18-120 and the service is for adults. A string like "25abc"
-     or "1e3" must not pass as a number here just because it is non-empty. */
+  /* The form offers 18-120 and the input carries min="18", but that is a
+     client hint -- storing a minor's health record because the check only
+     ever ran in the browser would be the worst version of this bug. A string
+     like "25abc" or "1e2" must not pass as a number just because Number()
+     parses it into something in range. */
   if (!/^\d{1,3}$/.test(age)) return json(400, { ok: false, error: 'invalid:age' });
   const ageValue = Number(age);
   if (ageValue < 18 || ageValue > 120) return json(400, { ok: false, error: 'invalid:age' });
-  if (email.length > MAX_EMAIL) return json(400, { ok: false, error: 'invalid:email' });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { ok: false, error: 'invalid:email' });
-  if (phone.length > MAX_PHONE || !/^[+()\d][\s()\-\d]{5,}$/.test(phone)) {
-    return json(400, { ok: false, error: 'invalid:phone' });
-  }
+  if (!/^[+()\d][\s()\-\d]{5,}$/.test(phone)) return json(400, { ok: false, error: 'invalid:phone' });
   if (!CITIES.has(city)) return json(400, { ok: false, error: 'invalid:city' });
   if (!validArrival(arrival)) return json(400, { ok: false, error: 'invalid:arrival' });
-  if (condition.length > MAX_CONDITION) return json(400, { ok: false, error: 'invalid:condition' });
   if (!RX_STATES.has(rxExists)) return json(400, { ok: false, error: 'invalid:rx_exists' });
   for (const key of CONSENT_FIELDS) {
     if (!consents[key]) return json(400, { ok: false, error: `missing:${key}` });
@@ -220,36 +300,41 @@ async function handleSubmit(request) {
   const selfie = form.get('file_selfie');
   if (!(selfie instanceof File) || selfie.size === 0) return json(400, { ok: false, error: 'missing:file_selfie' });
   if (selfie.size > MAX_SELFIE_BYTES) return json(413, { ok: false, error: 'too_large:file_selfie' });
-  /* Sniffed before any storage call: a rejected upload should cost nothing
-     and leave nothing behind. */
-  const selfieType = await sniff(selfie, false);
-  if (!selfieType) return json(400, { ok: false, error: 'invalid:file_selfie' });
+  const selfieKind = await sniff(selfie, false);
+  if (!selfieKind) return json(400, { ok: false, error: 'invalid:file_selfie' });
 
   const rxFile = form.get('file_rx');
   const hasRx = rxFile instanceof File && rxFile.size > 0;
-  let rxType = null;
+  let rxKind = null;
   if (hasRx) {
     if (rxFile.size > MAX_RX_BYTES) return json(413, { ok: false, error: 'too_large:file_rx' });
-    rxType = await sniff(rxFile, true);
-    if (!rxType) return json(400, { ok: false, error: 'invalid:file_rx' });
+    rxKind = await sniff(rxFile, true);
+    if (!rxKind) return json(400, { ok: false, error: 'invalid:file_rx' });
   }
 
-  const submissionId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${Math.random().toString(36).slice(2, 8)}`;
+  // The unguessable part of the storage path is the only thing separating one
+  // person's medical record from another's, so it comes from the CSPRNG
+  // rather than Math.random(), whose output is predictable from earlier draws.
+  const submissionId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${crypto.randomUUID().replace(/-/g, '').slice(0, 16)}`;
   const base = `submissions/${submissionId}`;
 
   let selfieBlob;
   let rxBlob = null;
   try {
-    selfieBlob = await put(`${base}/selfie-${selfie.name || 'selfie.jpg'}`, selfie, {
+    // Fixed names built from the type we detected, not the uploaded filename:
+    // that name is attacker-controlled, and @vercel/blob rejects only the
+    // literal sequence "//" in a pathname, so "../" would otherwise pass
+    // straight through into the storage key.
+    selfieBlob = await put(`${base}/selfie.${selfieKind.ext}`, selfie, {
       access: 'private',
       addRandomSuffix: false,
-      contentType: selfieType,
+      contentType: selfieKind.mime,
     });
     if (hasRx) {
-      rxBlob = await put(`${base}/rx-${rxFile.name || 'prescription'}`, rxFile, {
+      rxBlob = await put(`${base}/prescription.${rxKind.ext}`, rxFile, {
         access: 'private',
         addRandomSuffix: false,
-        contentType: rxType,
+        contentType: rxKind.mime,
       });
     }
   } catch (e) {
@@ -296,9 +381,9 @@ async function handleSubmit(request) {
      a throw, so awaiting inside a try/catch alone let a rejected address or an
      unverified sender return 200 with nobody told. The visitor's answers are
      already in Blob by now, so neither outcome fails the request -- but the
-     outcome is written next to the record, so an operator can find the
-     requests whose notification never went out instead of learning about it
-     from someone who never heard back. */
+     outcome is written next to the record (with the actual error attached on
+     a throw), so an operator can find the requests whose notification never
+     went out instead of learning about it from someone who never heard back. */
   let notify;
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
@@ -313,7 +398,7 @@ async function handleSubmit(request) {
       ? { status: 'failed', reason: result.error.name || 'provider_error' }
       : { status: 'sent', id: result && result.data ? result.data.id : null };
   } catch (e) {
-    notify = { status: 'failed', reason: 'delivery_unconfirmed' };
+    notify = { status: 'failed', reason: e && e.message ? e.message : 'delivery_unconfirmed' };
   }
 
   if (notify.status !== 'sent') {

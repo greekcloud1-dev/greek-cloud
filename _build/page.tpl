@@ -8,18 +8,18 @@
 <meta name="description" content="{{DESC}}">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="theme-color" content="#5E7350">
-<link rel="canonical" href="https://www.greekcloud.co.il/{{SLUG}}">
-<link rel="alternate" hreflang="he" href="https://www.greekcloud.co.il/{{SLUG}}">
-<link rel="alternate" hreflang="en" href="https://www.greekcloud.co.il/en/{{SLUG}}">
-<link rel="alternate" hreflang="x-default" href="https://www.greekcloud.co.il/{{SLUG}}">
+<link rel="canonical" href="https://greek-cloud.com/{{SLUG}}">
+<link rel="alternate" hreflang="he" href="https://greek-cloud.com/{{SLUG}}">
+<link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/{{SLUG}}">
+<link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/{{SLUG}}">
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="he_IL">
 <meta property="og:site_name" content="GreekCloud">
 <meta property="og:title" content="{{OGTITLE}}">
 <meta property="og:description" content="{{DESC}}">
-<meta property="og:url" content="https://www.greekcloud.co.il/{{SLUG}}">
-<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-he.png">
+<meta property="og:url" content="https://greek-cloud.com/{{SLUG}}">
+<meta property="og:image" content="https://greek-cloud.com/assets/og-he-plain.png">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">

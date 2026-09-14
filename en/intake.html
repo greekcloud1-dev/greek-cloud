@@ -8,10 +8,10 @@
 <meta name="description" content="A short questionnaire in English. A Greek-licensed physician reviews the request and decides independently. No commitment.">
 <meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#5E7350">
-<link rel="canonical" href="https://www.greekcloud.co.il/en/intake.html">
-<link rel="alternate" hreflang="he" href="https://www.greekcloud.co.il/intake.html">
-<link rel="alternate" hreflang="en" href="https://www.greekcloud.co.il/en/intake.html">
-<link rel="alternate" hreflang="x-default" href="https://www.greekcloud.co.il/intake.html">
+<link rel="canonical" href="https://greek-cloud.com/en/intake.html">
+<link rel="alternate" hreflang="he" href="https://greek-cloud.com/intake.html">
+<link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/intake.html">
+<link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/intake.html">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -19,8 +19,8 @@
 <meta property="og:site_name" content="GreekCloud">
 <meta property="og:title" content="Eligibility check — GreekCloud">
 <meta property="og:description" content="A short questionnaire in English. A Greek-licensed physician reviews the request and decides independently. No commitment.">
-<meta property="og:url" content="https://www.greekcloud.co.il/en/intake.html">
-<meta property="og:image" content="https://www.greekcloud.co.il/assets/og-en-plain.png">
+<meta property="og:url" content="https://greek-cloud.com/en/intake.html">
+<meta property="og:image" content="https://greek-cloud.com/assets/og-en-plain.png">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -55,9 +55,9 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 {
   "@context": "https://schema.org",
   "@graph": [
-    { "@type": "WebPage", "@id": "https://www.greekcloud.co.il/en/intake.html#webpage",
+    { "@type": "WebPage", "@id": "https://greek-cloud.com/en/intake.html#webpage",
       "name": "Eligibility check", "inLanguage": "en",
-      "isPartOf": { "@type": "WebSite", "url": "https://www.greekcloud.co.il/en/", "name": "GreekCloud" } }
+      "isPartOf": { "@type": "WebSite", "url": "https://greek-cloud.com/en/", "name": "GreekCloud" } }
   ]
 }
 </script>
@@ -115,11 +115,12 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <label class="choice"><input type="radio" name="plan" value="standard" required><span>
               <b>Standard &middot; &#8362;289</b><small>First reply within 24 hours. WhatsApp support.</small></span></label>
             <label class="choice"><input type="radio" name="plan" value="vip"><span>
-              <b>VIP &middot; &#8362;379 <span class="tag tag-clay">Most chosen</span></b><small>Reply in about an hour. A personal contact. Support at the pharmacy.</small></span></label>
+              <b>VIP &middot; &#8362;379 <span class="tag tag-clay">Full support</span></b><small>Reply in about an hour. A personal contact. Support at the pharmacy.</small></span></label>
           </div>
           <div class="note">
-            No payment at this stage — you fill this in, you are reviewed, and only then is the
-            service fee settled. The decision rests with the physician alone.
+            No payment is taken in this form. After you send it we reach out on WhatsApp to settle the
+            service fee, before the physician reviews the request. If the physician does not approve, the
+            full amount is refunded. The decision rests with the physician alone.
           </div>
         </section>
 
@@ -134,7 +135,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
               <small id="fullname-hint">For example: ISRAEL ISRAELI</small></p>
             <p class="f"><label for="passport">Passport number</label>
               <input id="passport" name="passport" type="text" dir="ltr" inputmode="numeric"
-                     pattern="[0-9]{8}" maxlength="8" required aria-describedby="passport-hint">
+                     pattern="[0-9]{8}" maxlength="8" required autocomplete="off" spellcheck="false"
+                     aria-describedby="passport-hint">
               <small id="passport-hint">8 digits, no spaces</small></p>
             <p class="f"><label for="age">Age</label>
               <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
@@ -166,14 +168,14 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <p class="intro">Write in your own words. A physician reads this, not an algorithm.</p>
           <div class="tags" data-tags role="group" aria-label="Common topics">
             <button type="button" aria-pressed="false">Chronic pain</button>
-            <button type="button" aria-pressed="false">Sleep</button>
-            <button type="button" aria-pressed="false">Anxiety</button>
-            <button type="button" aria-pressed="false">Migraines</button>
+            <button type="button" aria-pressed="false">Neuropathic pain</button>
+            <button type="button" aria-pressed="false">Spasticity</button>
+            <button type="button" aria-pressed="false">Treatment-related nausea</button>
             <button type="button" aria-pressed="false">Appetite</button>
-            <button type="button" aria-pressed="false">Inflammatory</button>
           </div>
           <p class="f"><label for="condition">What is troubling you, and what have you already tried?</label>
-            <textarea id="condition" name="condition" rows="5" required aria-describedby="cond-hint"
+            <textarea id="condition" name="condition" rows="5" required autocomplete="off" spellcheck="false"
+              aria-describedby="cond-hint"
               placeholder="For example: lower back pain for two years, mostly after sitting for long periods. I have tried painkillers and physiotherapy, with only partial relief."></textarea>
             <small id="cond-hint">The more you say about what you have tried, the better grounded the assessment.</small></p>
           <p class="f"><label id="rx-lab">Do you hold a cannabis prescription or licence at home?</label>
@@ -204,6 +206,13 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
               <span>I confirm that I am 18 or over.</span></label>
             <label class="cbx"><input type="checkbox" name="c_terms" required>
               <span>I have read and agree to the <a href="/en/terms.html">terms of use</a> and the <a href="/en/privacy.html">privacy policy</a>.</span></label>
+            <label class="cbx"><input type="checkbox" name="c_health" required>
+              <span>
+                <b>I explicitly consent to your processing the health information I provide</b>
+                and passing it to a Greek-licensed physician to review this request, and to the
+                infrastructure providers named in the <a href="/en/privacy.html">privacy policy</a>.
+                I understand I may withdraw this consent at any time.
+              </span></label>
             <label class="cbx"><input type="checkbox" name="c_customs" required>
               <span>I understand that taking cannabis products out of Greece is prohibited, and that the prescription is valid inside Greece only.</span></label>
             <label class="cbx"><input type="checkbox" name="c_nopromise" required>
@@ -254,7 +263,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           </fieldset>
 
           <button class="btn btn-primary submit" type="submit">Send request</button>
-          <p class="pay-note">No payment on the site. We will reach out on WhatsApp to continue.</p>
+          <p class="pay-note">No payment in this form. We reach out on WhatsApp to settle the service fee, before the review.</p>
           <p class="form-status" role="status" aria-live="polite"></p>
         </section>
 
@@ -276,8 +285,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           </ol>
         </nav>
         <div class="rail-card rail-pay">
-          <b>No payment on the site</b>
-          You fill this in, you are reviewed, and only then is the service fee settled on WhatsApp.
+          <b>Payment does not go through here</b>
+          The service fee is settled on WhatsApp after you send the form, before the review. Not approved, full refund.
         </div>
         <div class="rail-card">
           <b>What happens to your details</b>
@@ -331,6 +340,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <li><a href="/en/#how">How it works</a></li>
           <li><a href="/en/#pricing">Pricing</a></li>
           <li><a href="/en/intake.html">Check eligibility</a></li>
+          <li><a href="/en/pharmacy-prices.html">Pharmacy prices</a></li>
+          <li><a href="/en/pharmacies-greece.html">Redeeming at a pharmacy</a></li>
           <li><a href="/en/#faq">FAQ</a></li>
         </ul>
       </div>
@@ -338,7 +349,11 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <h4>Learn</h4>
         <ul>
           <li><a href="/en/guide.html">The full guide</a></li>
+          <li><a href="/en/eligibility.html">Who qualifies</a></li>
+          <li><a href="/en/destinations.html">Destinations in Greece</a></li>
+          <li><a href="/en/remote-prescription.html">Remote prescription</a></li>
           <li><a href="/en/cannabis-in-greece.html">Cannabis in Greece</a></li>
+          <li><a href="/en/penalties-greece.html">Penalties in Greece</a></li>
           <li><a href="/en/fly-with-cannabis.html">Flying with cannabis</a></li>
           <li><a href="/en/cbd-in-greece.html">CBD in Greece</a></li>
         </ul>
@@ -346,6 +361,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <div>
         <h4>Legal</h4>
         <ul>
+          <li><a href="/en/about.html">About us</a></li>
           <li><a href="/en/terms.html">Terms of use</a></li>
           <li><a href="/en/privacy.html">Privacy policy</a></li>
           <li><a href="/en/refund.html">Cancellations &amp; refunds</a></li>

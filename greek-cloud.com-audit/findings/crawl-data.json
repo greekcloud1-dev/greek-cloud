@@ -1,0 +1,2233 @@
+[
+ {
+  "url": "https://greek-cloud.com/",
+  "status": 200,
+  "title": "מרשם קנאביס רפואי ביוון לישראלים | GreekCloud",
+  "desc": "שאלון בעברית, בדיקה של רופא בעל רישיון יווני, ואם אושר — מרשם דיגיטלי תקף בבתי מרקחת ביוון. בלי רישיון ישראלי. לא אושר, הכסף חוזר.",
+  "canonical": "https://greek-cloud.com/",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "מרשם קנאביס רפואי ביוון.בלי רישיון ישראלי."
+  ],
+  "h2count": 7,
+  "words": 1120,
+  "schemas": [
+   "Answer",
+   "Audience",
+   "Country",
+   "FAQPage",
+   "Offer",
+   "Organization",
+   "Question",
+   "Service",
+   "WebSite"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 3,
+  "imgs_no_alt": 0,
+  "bytes": 39069,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/",
+  "status": 200,
+  "title": "Medical Cannabis Prescription in Greece | GreekCloud",
+  "desc": "A short questionnaire, review by a Greek-licensed physician, and if approved, a digital prescription valid at pharmacies across Greece. No foreign licence needed.",
+  "canonical": "https://greek-cloud.com/en/",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical cannabis in Greece.No licence from&nbsp;home."
+  ],
+  "h2count": 7,
+  "words": 1360,
+  "schemas": [
+   "Answer",
+   "Audience",
+   "Country",
+   "FAQPage",
+   "Offer",
+   "Organization",
+   "Question",
+   "Service",
+   "WebSite"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 3,
+  "imgs_no_alt": 0,
+  "bytes": 32979,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/guide.html",
+  "status": 200,
+  "title": "המדריך המלא לקנאביס רפואי ביוון | GreekCloud",
+  "desc": "כל מה שתייר ישראלי צריך לדעת: מה חוקי ביוון, מי יכול לקבל מרשם, איך התהליך עובד, כמה זה עולה, ומה אסור בתכלית האיסור.",
+  "canonical": "https://greek-cloud.com/guide.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי ביוון: המדריך המלא לתייר הישראלי"
+  ],
+  "h2count": 13,
+  "words": 1469,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/guide.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/guide.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/guide.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 35989,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/guide.html",
+  "status": 200,
+  "title": "Medical Cannabis in Greece: The Complete Guide | GreekCloud",
+  "desc": "Everything a visitor needs: what is legal in Greece, who gets assessed, how the process works, what it costs, and what is strictly prohibited.",
+  "canonical": "https://greek-cloud.com/en/guide.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical cannabis in Greece: the complete guide for visitors"
+  ],
+  "h2count": 13,
+  "words": 1817,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/guide.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/guide.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/guide.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 28522,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/remote-prescription.html",
+  "status": 200,
+  "title": "מרשם קנאביס יווני מרחוק — עוד לפני הטיסה | GreekCloud",
+  "desc": "לא צריך להגיע ליוון כדי להתחיל. רופא בעל רישיון יווני בוחן את הפנייה מרחוק, עוד לפני הטיסה, ורק הניפוק מתבצע בבית מרקחת מורשה ביוון. איך זה עובד ומה זה משנה.",
+  "canonical": "https://greek-cloud.com/remote-prescription.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "מרשם קנאביס ביוון מרחוק: איך מקבלים אותו לפני הטיסה"
+  ],
+  "h2count": 10,
+  "words": 1060,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/remote-prescription.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/remote-prescription.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/remote-prescription.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 27644,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/pharmacy-prices.html",
+  "status": 200,
+  "title": "כמה עולה קנאביס רפואי ביוון — מחירון רשמי 2026 | GreekCloud",
+  "desc": "המחיר לגרם בבית מרקחת ביוון נע בין 9.46 ל-12.85 אירו, לפי צו המחירים של משרד הבריאות היווני מ-20 במאי 2026. המחיר זהה בכל בית מרקחת, ואינו מוחזר על ידי ביטוח.",
+  "canonical": "https://greek-cloud.com/pharmacy-prices.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "כמה עולה קנאביס רפואי בבית מרקחת ביוון?"
+  ],
+  "h2count": 11,
+  "words": 1128,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/pharmacy-prices.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/pharmacy-prices.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/pharmacy-prices.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 29548,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/pharmacies-greece.html",
+  "status": 200,
+  "title": "בתי מרקחת ביוון — איך מממשים מרשם בלי ΑΜΚΑ | GreekCloud",
+  "desc": "תייר בלי מספר ביטוח לאומי יווני יכול לקבל ולממש מרשם: מאוגוסט 2024 יש במערכת המרשמים היוונית מסלול ייעודי למטופל זר, לפי דרכון. מה קורה בקופה, ומה חייב להתאים.",
+  "canonical": "https://greek-cloud.com/pharmacies-greece.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "בתי מרקחת ביוון: איך תייר מממש מרשם בלי ΑΜΚΑ"
+  ],
+  "h2count": 10,
+  "words": 1184,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/pharmacies-greece.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/pharmacies-greece.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/pharmacies-greece.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 30495,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/remote-prescription.html",
+  "status": 200,
+  "title": "Do You Need to Be in Greece for a Prescription? | GreekCloud",
+  "desc": "You do not need to be in Greece to start. A Greek-licensed physician reviews the request remotely before you fly; only the dispensing happens at a Greek pharmacy.",
+  "canonical": "https://greek-cloud.com/en/remote-prescription.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Do you need to be in Greece? How a remote prescription works"
+  ],
+  "h2count": 10,
+  "words": 1327,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/remote-prescription.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/remote-prescription.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/remote-prescription.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 23778,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/israeli-license-abroad.html",
+  "status": 200,
+  "title": "רישיון קנאביס ישראלי בחו״ל — תקף ביוון? | GreekCloud",
+  "desc": "רישיון קנאביס רפואי ישראלי אינו תקף ביוון, ואינו מתיר להוציא קנאביס מישראל. מה באמת אומרות הפקודה ונוהל 110, למה אישור שנגן לא רלוונטי לישראלים, ומה כן עובד.",
+  "canonical": "https://greek-cloud.com/israeli-license-abroad.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "יש לי רישיון קנאביס רפואי ישראלי. מה הוא שווה ביוון?"
+  ],
+  "h2count": 10,
+  "words": 1214,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/israeli-license-abroad.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/israeli-license-abroad.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 30419,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/israeli-license-refused.html",
+  "status": 200,
+  "title": "נדחיתי לרישיון קנאביס רפואי — מה האפשרויות | GreekCloud",
+  "desc": "למה בקשות לרישיון קנאביס רפואי בישראל נדחות, מה נוהל 106 באמת דורש, אילו מצבים כלל אינם ברשימת ההתוויות, ומה המשמעות של סירוב ישראלי כשנוסעים ליוון.",
+  "canonical": "https://greek-cloud.com/israeli-license-refused.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "נדחיתי לרישיון קנאביס רפואי בישראל. מה האפשרויות?"
+  ],
+  "h2count": 10,
+  "words": 1163,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/israeli-license-refused.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/israeli-license-refused.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 29930,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/glossary.html",
+  "status": 200,
+  "title": "מילון מונחים — קנאביס רפואי ביוון | GreekCloud",
+  "desc": "מה זה EOF, נוהל 106, אישור שנגן, בית מרקחת תורן, חוק 5302/2026 ותפרחת. כל המונחים שחוזרים בדיונים על קנאביס רפואי ביוון, מוסברים בשורה או שתיים.",
+  "canonical": "https://greek-cloud.com/glossary.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "מילון מונחים: קנאביס רפואי ביוון"
+  ],
+  "h2count": 7,
+  "words": 671,
+  "schemas": [
+   "BreadcrumbList",
+   "DefinedTerm",
+   "DefinedTermSet",
+   "ListItem"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/glossary.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/glossary.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 24910,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/legal-updates.html",
+  "status": 200,
+  "title": "מה השתנה בחוק — קנאביס רפואי ביוון ובישראל | GreekCloud",
+  "desc": "יומן שינויים מתוארך: חוק 5302/2026 והודעת EOF ממאי 2026, תחילת הניפוק בבתי מרקחת ביוון, ורפורמת שני המסלולים בישראל. כל שינוי עם תאריך ומקור.",
+  "canonical": "https://greek-cloud.com/legal-updates.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "מה השתנה בחוק, ומתי"
+  ],
+  "h2count": 9,
+  "words": 867,
+  "schemas": [
+   "Article",
+   "BreadcrumbList",
+   "ListItem",
+   "Organization"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/legal-updates.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/legal-updates.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 22195,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/penalties-greece.html",
+  "status": 200,
+  "title": "מה העונש על קנאביס ביוון — חוק 4139/2013 | GreekCloud",
+  "desc": "החזקה לצריכה עצמית ביוון: עד חמישה חודשי מאסר לפי סעיף 29. אין שום סף של גרמים בחוק — המספר 20 גרם שמסתובב בעברית פשוט לא קיים. מה כן כתוב, ומה זה אומר לתייר.",
+  "canonical": "https://greek-cloud.com/penalties-greece.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "מה העונש על קנאביס ביוון"
+  ],
+  "h2count": 10,
+  "words": 1286,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/penalties-greece.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/penalties-greece.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/penalties-greece.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 31132,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/cannabis-in-greece.html",
+  "status": 200,
+  "title": "קנאביס ביוון — מה חוקי ומה אסור | GreekCloud",
+  "desc": "שלושה מסלולים משפטיים נפרדים ביוון: מרשם רפואי, שימוש לפנאי, וקנבוס תעשייתי. מה רלוונטי לתייר ישראלי ומה השתנה.",
+  "canonical": "https://greek-cloud.com/cannabis-in-greece.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס ביוון: מה חוקי, מה אסור, ומה באמצע"
+  ],
+  "h2count": 10,
+  "words": 945,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/cannabis-in-greece.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/cannabis-in-greece.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/cannabis-in-greece.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 26422,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/cannabis-in-greece.html",
+  "status": 200,
+  "title": "Cannabis in Greece — What Is Legal | GreekCloud",
+  "desc": "Three separate legal tracks in Greece: medical prescription, recreational use, and industrial hemp. What is relevant to a visitor and what changed.",
+  "canonical": "https://greek-cloud.com/en/cannabis-in-greece.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Cannabis in Greece: what is legal, what is not, and what sits between"
+  ],
+  "h2count": 10,
+  "words": 1186,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/cannabis-in-greece.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/cannabis-in-greece.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/cannabis-in-greece.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 22679,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/fly-with-cannabis.html",
+  "status": 200,
+  "title": "להטיס קנאביס ליוון ובחזרה — מה מותר | GreekCloud",
+  "desc": "למה רישיון קנאביס ישראלי אינו תקף ביוון, למה תרגום נוטריוני אינו היתר, מה קורה במכס בשני הכיוונים, ומהו הנתיב החוקי היחיד שפתוח לתייר הישראלי.",
+  "canonical": "https://greek-cloud.com/fly-with-cannabis.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "להטיס קנאביס ליוון או ממנה: התשובה הקצרה היא לא"
+  ],
+  "h2count": 9,
+  "words": 1131,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/fly-with-cannabis.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/fly-with-cannabis.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/fly-with-cannabis.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 28150,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/fly-with-cannabis.html",
+  "status": 200,
+  "title": "Flying With Cannabis To and From Greece | GreekCloud",
+  "desc": "Why a foreign licence is not valid in Greece, why a notarised translation is not an authorisation, and the only lawful route for a visitor.",
+  "canonical": "https://greek-cloud.com/en/fly-with-cannabis.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Flying cannabis into Greece or out of it: the short answer is no"
+  ],
+  "h2count": 9,
+  "words": 1170,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/fly-with-cannabis.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/fly-with-cannabis.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/fly-with-cannabis.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 21428,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/cbd-in-greece.html",
+  "status": 200,
+  "title": "CBD ביוון 2026 — מה נאסר, ומה עדיין מותר | GreekCloud",
+  "desc": "חוק 5302/2026 אסר ביוון מכירה קמעונאית של תפרחת קנבוס, בכל ריכוז THC. מה זה אומר לתייר הישראלי, מה עדיין מותר לקנות, ומה ההבדל מקנאביס רפואי במרשם.",
+  "canonical": "https://greek-cloud.com/cbd-in-greece.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "CBD ביוון 2026: מה נאסר, ומה עדיין מותר לקנות"
+  ],
+  "h2count": 9,
+  "words": 902,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/cbd-in-greece.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/cbd-in-greece.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/cbd-in-greece.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 24829,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/cbd-in-greece.html",
+  "status": 200,
+  "title": "CBD in Greece 2026 — What Law 5302 Banned | GreekCloud",
+  "desc": "Law 5302/2026 banned retail sale of hemp flower in Greece at any THC level. What is still legal to buy, and how CBD differs from a medical cannabis prescription.",
+  "canonical": "https://greek-cloud.com/en/cbd-in-greece.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "CBD in Greece 2026: what Law 5302 banned, and what you can still buy"
+  ],
+  "h2count": 9,
+  "words": 1089,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/cbd-in-greece.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/cbd-in-greece.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/cbd-in-greece.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 20974,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/destinations.html",
+  "status": 200,
+  "title": "יעדים ביוון — לאן יש טיסות ישירות מתל אביב | GreekCloud",
+  "desc": "כל היעדים ביוון עם טיסות ישירות מתל אביב, לפי תדירות חודשית מדודה. איפה יש בתי מרקחת, מה שונה בין יבשת לאי, ולמה המרשם תקף בכולם.",
+  "canonical": "https://greek-cloud.com/destinations.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "לאן ביוון יש טיסות ישירות מתל אביב"
+  ],
+  "h2count": 6,
+  "words": 595,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ItemList",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/destinations.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/destinations.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/destinations.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 22853,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/athens.html",
+  "status": 200,
+  "title": "קנאביס רפואי באתונה — מרשם ובתי מרקחת לישראלים | GreekCloud",
+  "desc": "מרשם קנאביס רפואי באתונה לתייר הישראלי: הרופא בוחן מרחוק עוד לפני הטיסה, והמימוש בבית מרקחת מורשה בעיר. בלי רישיון ישראלי. כמה זמן זה לוקח ומה להביא.",
+  "canonical": "https://greek-cloud.com/athens.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי באתונה — לתיירים ישראלים"
+  ],
+  "h2count": 7,
+  "words": 903,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/athens.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/athens.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/athens.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 23334,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/athens.html",
+  "status": 200,
+  "title": "Medical Cannabis in Athens for Travellers | GreekCloud",
+  "desc": "Medical cannabis prescriptions for visitors in Athens: how the process works, where to redeem, and what to expect when you land in the capital.",
+  "canonical": "https://greek-cloud.com/en/athens.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical Cannabis in Athens — for visitors"
+  ],
+  "h2count": 6,
+  "words": 588,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/athens.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/athens.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/athens.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 14501,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/thessaloniki.html",
+  "status": 200,
+  "title": "קנאביס רפואי בסלוניקי — מרשם ובתי מרקחת | GreekCloud",
+  "desc": "מרשם קנאביס רפואי בסלוניקי לתייר הישראלי: מה שונה מאתונה, איפה מממשים את המרשם, ולמה כדאי להתחיל לפני הטיסה גם כשהטיסה קצרה. בלי רישיון ישראלי.",
+  "canonical": "https://greek-cloud.com/thessaloniki.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי בסלוניקי — לתיירים ישראלים"
+  ],
+  "h2count": 7,
+  "words": 849,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/thessaloniki.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/thessaloniki.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/thessaloniki.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 23020,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/halkidiki.html",
+  "status": 200,
+  "title": "קנאביס רפואי בחלקידיקי — מרשם ובתי מרקחת | GreekCloud",
+  "desc": "מרשם קנאביס רפואי לתיירים ישראלים בחלקידיקי: אין שדה תעופה באזור, מגיעים דרך סלוניקי, ובתי המרקחת פרוסים בשלושת חצאי האיים. מה שחשוב לדעת על שעות הקיץ ועל הר אתוס.",
+  "canonical": "https://greek-cloud.com/halkidiki.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי בחלקידיקי — לתיירים ישראלים"
+  ],
+  "h2count": 9,
+  "words": 991,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/halkidiki.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/halkidiki.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/halkidiki.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 27218,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/lefkada.html",
+  "status": 200,
+  "title": "קנאביס רפואי בלפקדה — מרשם ובתי מרקחת | GreekCloud",
+  "desc": "מרשם קנאביס רפואי לתיירים ישראלים בלפקדה: נוחתים בפרבזה, ולפקדה מחוברת ליבשת בגשר — האי היווני היחיד שמגיעים אליו בכביש. מה זה אומר על איסוף המרשם.",
+  "canonical": "https://greek-cloud.com/lefkada.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי בלפקדה ובפרבזה — לתיירים ישראלים"
+  ],
+  "h2count": 8,
+  "words": 892,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/lefkada.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/lefkada.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/lefkada.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 24386,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/zakynthos.html",
+  "status": 200,
+  "title": "קנאביס רפואי בזקינטוס — מרשם ובתי מרקחת | GreekCloud",
+  "desc": "אין טיסות ישירות מתל אביב לזקינטוס, בניגוד למה שכתוב באתרים רבים. איך באמת מגיעים, איפה בתי המרקחת, ולמה מחוץ לשעות הפעילות יש באי בית מרקחת תורן אחד בלבד.",
+  "canonical": "https://greek-cloud.com/zakynthos.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי בזקינטוס — לתיירים ישראלים"
+  ],
+  "h2count": 6,
+  "words": 858,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/zakynthos.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/zakynthos.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 24082,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/thessaloniki.html",
+  "status": 200,
+  "title": "Medical Cannabis in Thessaloniki for Travellers | GreekCloud",
+  "desc": "Medical cannabis prescriptions for visitors in Thessaloniki: how it works in Greece's second city, and what differs from Athens.",
+  "canonical": "https://greek-cloud.com/en/thessaloniki.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical Cannabis in Thessaloniki — for visitors"
+  ],
+  "h2count": 6,
+  "words": 529,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/thessaloniki.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/thessaloniki.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/thessaloniki.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 14359,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/crete.html",
+  "status": 200,
+  "title": "קנאביס רפואי בכרתים — מרשם ובתי מרקחת לישראלים | GreekCloud",
+  "desc": "מרשם קנאביס רפואי בכרתים לתייר הישראלי: מה שונה באי הגדול ביוון, איפה כדאי לממש את המרשם, וכמה זמן לתכנן בין הרקליון לחאניה. בלי רישיון ישראלי.",
+  "canonical": "https://greek-cloud.com/crete.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי בכרתים — לתיירים ישראלים"
+  ],
+  "h2count": 7,
+  "words": 877,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/crete.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/crete.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/crete.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 23186,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/crete.html",
+  "status": 200,
+  "title": "Medical Cannabis in Crete for Travellers | GreekCloud",
+  "desc": "Medical cannabis prescriptions for visitors in Crete: what is different on Greece's largest island, and where it makes sense to redeem.",
+  "canonical": "https://greek-cloud.com/en/crete.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical Cannabis in Crete — for visitors"
+  ],
+  "h2count": 6,
+  "words": 557,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/crete.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/crete.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/crete.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 14359,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/rhodes.html",
+  "status": 200,
+  "title": "קנאביס רפואי ברודוס — מרשם ובתי מרקחת לישראלים | GreekCloud",
+  "desc": "מרשם קנאביס רפואי ברודוס לתייר הישראלי: איך זה עובד באי, מה משתנה בעונה הנמוכה, ואיפה מממשים את המרשם. הרופא בוחן מרחוק, עוד לפני הטיסה.",
+  "canonical": "https://greek-cloud.com/rhodes.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי ברודוס — לתיירים ישראלים"
+  ],
+  "h2count": 8,
+  "words": 988,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/rhodes.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/rhodes.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/rhodes.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 25352,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/rhodes.html",
+  "status": 200,
+  "title": "Medical Cannabis in Rhodes for Travellers | GreekCloud",
+  "desc": "Medical cannabis prescriptions for visitors in Rhodes: how it works on the island, and what to know about seasonality.",
+  "canonical": "https://greek-cloud.com/en/rhodes.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical Cannabis in Rhodes — for visitors"
+  ],
+  "h2count": 6,
+  "words": 524,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/rhodes.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/rhodes.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/rhodes.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 14184,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/kos.html",
+  "status": 200,
+  "title": "קנאביס רפואי בקוס — מרשם ובתי מרקחת לישראלים | GreekCloud",
+  "desc": "מרשם קנאביס רפואי בקוס לתייר הישראלי: אי קטן, מרחקים קצרים, ומה זה אומר לגבי מימוש המרשם. הרופא בוחן מרחוק לפני הטיסה, בלי רישיון ישראלי.",
+  "canonical": "https://greek-cloud.com/kos.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי בקוס — לתיירים ישראלים"
+  ],
+  "h2count": 8,
+  "words": 967,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/kos.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/kos.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/kos.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 24858,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/kos.html",
+  "status": 200,
+  "title": "Medical Cannabis in Kos for Travellers | GreekCloud",
+  "desc": "Medical cannabis prescriptions for visitors in Kos: a small island, short distances, and what that means in practice.",
+  "canonical": "https://greek-cloud.com/en/kos.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical Cannabis in Kos — for visitors"
+  ],
+  "h2count": 6,
+  "words": 534,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/kos.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/kos.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/kos.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 14078,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/santorini.html",
+  "status": 200,
+  "title": "קנאביס רפואי בסנטוריני — מרשם ובתי מרקחת | GreekCloud",
+  "desc": "מרשם קנאביס רפואי בסנטוריני לתייר הישראלי: אי קטן ויקר, פריסת בתי מרקחת מצומצמת, ולמה כדאי לנחות כשהמרשם כבר ביד. בלי רישיון ישראלי.",
+  "canonical": "https://greek-cloud.com/santorini.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי בסנטוריני — לתיירים ישראלים"
+  ],
+  "h2count": 7,
+  "words": 851,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/santorini.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/santorini.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/santorini.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 22989,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/santorini.html",
+  "status": 200,
+  "title": "Medical Cannabis in Santorini for Travellers | GreekCloud",
+  "desc": "Medical cannabis prescriptions for visitors in Santorini: a small, expensive island, and why arranging everything in advance matters here.",
+  "canonical": "https://greek-cloud.com/en/santorini.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical Cannabis in Santorini — for visitors"
+  ],
+  "h2count": 6,
+  "words": 559,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/santorini.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/santorini.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/santorini.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 14394,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/mykonos.html",
+  "status": 200,
+  "title": "קנאביס רפואי במיקונוס — מרשם ובתי מרקחת | GreekCloud",
+  "desc": "מרשם קנאביס רפואי במיקונוס לתייר הישראלי: מה זמין באי, איפה מממשים את המרשם, ומה חשוב לדעת על שימוש שם. הרופא בוחן מרחוק, עוד לפני הטיסה.",
+  "canonical": "https://greek-cloud.com/mykonos.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי במיקונוס — לתיירים ישראלים"
+  ],
+  "h2count": 7,
+  "words": 837,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/mykonos.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/mykonos.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/mykonos.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 22794,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/mykonos.html",
+  "status": 200,
+  "title": "Medical Cannabis in Mykonos for Travellers | GreekCloud",
+  "desc": "Medical cannabis prescriptions for visitors in Mykonos: what is available on the island, and what matters about where you can use it.",
+  "canonical": "https://greek-cloud.com/en/mykonos.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical Cannabis in Mykonos — for visitors"
+  ],
+  "h2count": 6,
+  "words": 555,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/mykonos.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/mykonos.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/mykonos.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 14405,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/corfu.html",
+  "status": 200,
+  "title": "קנאביס רפואי בקורפו — מרשם ובתי מרקחת לישראלים | GreekCloud",
+  "desc": "מרשם קנאביס רפואי בקורפו לתייר הישראלי: מה שונה בים היוני מהאיים האגאיים, איפה מממשים את המרשם, ולמה עדיף לסדר הכל לפני הטיסה.",
+  "canonical": "https://greek-cloud.com/corfu.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "קנאביס רפואי בקורפו — לתיירים ישראלים"
+  ],
+  "h2count": 8,
+  "words": 979,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/corfu.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/corfu.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/corfu.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 25014,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/corfu.html",
+  "status": 200,
+  "title": "Medical Cannabis in Corfu for Travellers | GreekCloud",
+  "desc": "Medical cannabis prescriptions for visitors in Corfu: a green island in the Ionian, and how it differs from the Aegean islands.",
+  "canonical": "https://greek-cloud.com/en/corfu.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical Cannabis in Corfu — for visitors"
+  ],
+  "h2count": 6,
+  "words": 526,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/corfu.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/corfu.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/corfu.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 14036,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/terms.html",
+  "status": 200,
+  "title": "תנאי שימוש | GreekCloud",
+  "desc": "תנאי השימוש בשירות התיאום של GreekCloud: מה השירות כולל ומה הוא איננו, אופן התשלום, גבולות האחריות, הדין החל וסמכות השיפוט. לבגירים מגיל 18 בלבד.",
+  "canonical": "https://greek-cloud.com/terms.html",
+  "robots": "index, follow",
+  "h1": [
+   "תנאי שימוש"
+  ],
+  "h2count": 9,
+  "words": 494,
+  "schemas": [
+   "WebPage",
+   "WebSite"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/terms.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/terms.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/terms.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 14390,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/terms.html",
+  "status": 200,
+  "title": "Terms of Use | GreekCloud",
+  "desc": "Terms for the GreekCloud coordination service: what it covers, what it is not, payment, liability and governing law.",
+  "canonical": "https://greek-cloud.com/en/terms.html",
+  "robots": "index, follow",
+  "h1": [
+   "Terms of Use"
+  ],
+  "h2count": 9,
+  "words": 614,
+  "schemas": [
+   "WebPage",
+   "WebSite"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/terms.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/terms.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/terms.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 11781,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/privacy.html",
+  "status": 200,
+  "title": "מדיניות פרטיות | GreekCloud",
+  "desc": "איזה מידע GreekCloud אוסף בשאלון, למה הוא נדרש, למי הוא מועבר, כמה זמן הוא נשמר, ומה הזכויות שלכם לפי חוק הגנת הפרטיות. כולל טיפול במידע רפואי ובתמונה.",
+  "canonical": "https://greek-cloud.com/privacy.html",
+  "robots": "index, follow",
+  "h1": [
+   "מדיניות פרטיות"
+  ],
+  "h2count": 8,
+  "words": 582,
+  "schemas": [
+   "WebPage",
+   "WebSite"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/privacy.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/privacy.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/privacy.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 16024,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/privacy.html",
+  "status": 200,
+  "title": "Privacy Policy | GreekCloud",
+  "desc": "What GreekCloud collects, why, who it is passed to, how long it is kept, and your rights under the Israeli Privacy Protection Law.",
+  "canonical": "https://greek-cloud.com/en/privacy.html",
+  "robots": "index, follow",
+  "h1": [
+   "Privacy Policy"
+  ],
+  "h2count": 8,
+  "words": 633,
+  "schemas": [
+   "WebPage",
+   "WebSite"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/privacy.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/privacy.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/privacy.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 12161,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/refund.html",
+  "status": 200,
+  "title": "ביטולים והחזרים | GreekCloud",
+  "desc": "מתי נגבים דמי השירות, מתי מגיע החזר מלא, כמה, ואיך מבקשים אותו — כולל מה קורה אם הרופא אינו מאשר, וזכות הביטול לפי חוק הגנת הצרכן.",
+  "canonical": "https://greek-cloud.com/refund.html",
+  "robots": "index, follow",
+  "h1": [
+   "ביטולים והחזרים"
+  ],
+  "h2count": 5,
+  "words": 465,
+  "schemas": [
+   "WebPage",
+   "WebSite"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/refund.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/refund.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/refund.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 13986,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/refund.html",
+  "status": 200,
+  "title": "Cancellations and Refunds | GreekCloud",
+  "desc": "When the service fee is charged, when it is refunded in full, how much, and how to request it, including what happens if the physician does not approve the request.",
+  "canonical": "https://greek-cloud.com/en/refund.html",
+  "robots": "index, follow",
+  "h1": [
+   "Cancellations and Refunds"
+  ],
+  "h2count": 5,
+  "words": 627,
+  "schemas": [
+   "WebPage",
+   "WebSite"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/refund.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/refund.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/refund.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 12068,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/eligibility.html",
+  "status": 200,
+  "title": "מי מתאים למרשם קנאביס רפואי ביוון | GreekCloud",
+  "desc": "חמש קבוצות ההתוויות המוכרות ביוון, אילו מומחים רשאים להנפיק מרשם ראשוני, ולמה קנאביס אינו טיפול קו ראשון. מה נמצא ברשימה — ומה בהחלט לא.",
+  "canonical": "https://greek-cloud.com/eligibility.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "מי מתאים למרשם קנאביס רפואי ביוון"
+  ],
+  "h2count": 10,
+  "words": 1257,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ItemList",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/eligibility.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/eligibility.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/eligibility.html"
+   ]
+  ],
+  "lang": "he",
+  "dir": "rtl",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 32150,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/destinations.html",
+  "status": 200,
+  "title": "Where to Redeem a Prescription in Greece | GreekCloud",
+  "desc": "A Greek prescription works at any licensed pharmacy in the country. What changes by destination is pharmacy density, distance and season — ten compared.",
+  "canonical": "https://greek-cloud.com/en/destinations.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Where to redeem a prescription in Greece"
+  ],
+  "h2count": 9,
+  "words": 1185,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ItemList",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/destinations.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/destinations.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/destinations.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 24123,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/penalties-greece.html",
+  "status": 200,
+  "title": "Cannabis Penalties in Greece: Law 4139/2013 | GreekCloud",
+  "desc": "Possession for personal use in Greece carries up to five months under Article 29. There is no gram threshold in the law, and no 2026 act legalised dispensaries.",
+  "canonical": "https://greek-cloud.com/en/penalties-greece.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Cannabis penalties in Greece"
+  ],
+  "h2count": 10,
+  "words": 1685,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/penalties-greece.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/penalties-greece.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/penalties-greece.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 26990,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/eligibility.html",
+  "status": 200,
+  "title": "Who Qualifies for Medical Cannabis in Greece | GreekCloud",
+  "desc": "Greece recognises five groups of indications, and cannabis is not first-line. The full criteria, which specialties may prescribe, and what is not on the list.",
+  "canonical": "https://greek-cloud.com/en/eligibility.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Who qualifies for medical cannabis in Greece"
+  ],
+  "h2count": 10,
+  "words": 1606,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ItemList",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/eligibility.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/eligibility.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/eligibility.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 28089,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/pharmacy-prices.html",
+  "status": 200,
+  "title": "Medical Cannabis Prices in Greece 2026 | GreekCloud",
+  "desc": "Official per-gram prices by strain and pack size, set centrally by the Health Ministry. Identical at every pharmacy, and not reimbursed.",
+  "canonical": "https://greek-cloud.com/en/pharmacy-prices.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical cannabis prices in Greece"
+  ],
+  "h2count": 11,
+  "words": 1289,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/pharmacy-prices.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/pharmacy-prices.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/pharmacy-prices.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 23201,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/pharmacies-greece.html",
+  "status": 200,
+  "title": "Redeeming a Prescription Without an AMKA | GreekCloud",
+  "desc": "Greece has had a foreign-patient route in its e-prescription system since August 2024. How the pharmacy identifies you by passport, and what to bring.",
+  "canonical": "https://greek-cloud.com/en/pharmacies-greece.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Redeeming a prescription in Greece without an AMKA"
+  ],
+  "h2count": 10,
+  "words": 1498,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/pharmacies-greece.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/pharmacies-greece.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/pharmacies-greece.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 25094,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/halkidiki.html",
+  "status": 200,
+  "title": "Medical Cannabis in Halkidiki for Visitors | GreekCloud",
+  "desc": "Halkidiki has no airport of its own. You arrive through Thessaloniki and drive, and the distance to your peninsula is what decides where to redeem a prescription.",
+  "canonical": "https://greek-cloud.com/en/halkidiki.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical cannabis in Halkidiki — for visitors"
+  ],
+  "h2count": 7,
+  "words": 937,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/halkidiki.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/halkidiki.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/halkidiki.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 19661,
+  "x_robots": null
+ },
+ {
+  "url": "https://greek-cloud.com/en/lefkada.html",
+  "status": 200,
+  "title": "Medical Cannabis in Lefkada for Visitors | GreekCloud",
+  "desc": "Lefkada is the only Greek island you can drive to. That road connection is exactly what makes redeeming a prescription simpler here than on any other island.",
+  "canonical": "https://greek-cloud.com/en/lefkada.html",
+  "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+  "h1": [
+   "Medical cannabis in Lefkada — for visitors"
+  ],
+  "h2count": 7,
+  "words": 944,
+  "schemas": [
+   "Answer",
+   "Article",
+   "BreadcrumbList",
+   "FAQPage",
+   "ListItem",
+   "Organization",
+   "Question"
+  ],
+  "schema_errors": [],
+  "hreflang": [
+   [
+    "he",
+    "https://greek-cloud.com/lefkada.html"
+   ],
+   [
+    "en",
+    "https://greek-cloud.com/en/lefkada.html"
+   ],
+   [
+    "x-default",
+    "https://greek-cloud.com/lefkada.html"
+   ]
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "imgs": 2,
+  "imgs_no_alt": 0,
+  "bytes": 18796,
+  "x_robots": null
+ }
+]

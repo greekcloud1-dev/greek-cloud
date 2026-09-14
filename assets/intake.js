@@ -294,7 +294,6 @@
   var form = document.querySelector('[data-intake]');
   if (!form) return;
 
-  var savedEl = document.querySelector('[data-saved]');
   var seg     = form.querySelector('[data-seg]');
   var segOut  = form.querySelector('#rx-exists');
 
@@ -389,6 +388,14 @@
     target.scrollIntoView({ block: 'center', behavior: 'smooth' });
   });
 
+  /* The draft (what is kept, for how long, and how it is cleared) lives in
+     assets/intake-draft.js, loaded right after this file. It used to live
+     here; a parallel fix on main reintroduced a version of it inline that
+     still kept full_name, phone, email and every signed consent (only
+     passport and condition were excluded) -- precisely the exposure QA-01
+     was about. The version in intake-draft.js keeps only the three fields
+     that identify nobody (city, arrival, plan) and is exercised by
+     tests/intake-draft.test.mjs; that is the one in force. */
 })();
 
 /* ---- rail index ----------------------------------------------------------

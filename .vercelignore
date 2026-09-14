@@ -1,0 +1,22 @@
+# Build sources, not site output. These are the fragments the shipped HTML is
+# generated from; serving them would expose duplicate copies of every page at
+# /_build/*.frag.html for no benefit.
+_build/
+
+# Local tooling and scratch
+.gitignore
+_tiers-preview.html
+
+# Internal notes, not site content
+SECURITY-NOTES.md
+
+# Superseded social previews. Every page uses the -plain variants; these are the
+# earlier, ~2x heavier versions kept in the repo but not shipped. 401 KB saved.
+assets/og-he.png
+assets/og-en.png
+
+# Launch checklist lifted out of the published HTML. Internal.
+LAUNCH-TODO.md
+
+# SEO audit artefacts. Internal working documents, not site content.
+greek-cloud.com-audit/

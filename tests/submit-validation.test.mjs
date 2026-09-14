@@ -66,7 +66,7 @@ const VALID = {
   locale: 'he', plan: 'standard', full_name: 'TEST VISITOR', passport: '12345678',
   age: '41', email: 'test@example.test', phone: '+972-50-0000000', city: 'אתונה',
   arrival: '2026-09-16', condition: 'test condition text', rx_exists: 'no',
-  c_age: 'on', c_terms: 'on', c_customs: 'on', c_nopromise: 'on',
+  c_age: 'on', c_terms: 'on', c_health: 'on', c_customs: 'on', c_nopromise: 'on',
   c_accuracy: 'on', c_liability: 'on',
 };
 
@@ -140,14 +140,14 @@ test('rejects a prescription file that is neither image nor PDF', async () => {
 test('accepts a real PDF prescription and stores its true type', async () => {
   const res = await post({}, { rx: new File([PDF], 'rx.pdf', { type: 'application/octet-stream' }) });
   assert.equal(res.status, 200);
-  const rx = calls.puts.find((p) => p.path.includes('/rx-'));
+  const rx = calls.puts.find((p) => p.path.includes('/prescription.'));
   assert.ok(rx);
   assert.equal(rx.opts.contentType, 'application/pdf', 'the sniffed type wins over the claim');
 });
 
 test('stores the selfie under its sniffed type, not the declared one', async () => {
   await post({}, { selfie: new File([JPEG], 'selfie.png', { type: 'image/png' }) });
-  const selfie = calls.puts.find((p) => p.path.includes('/selfie-'));
+  const selfie = calls.puts.find((p) => p.path.includes('/selfie.'));
   assert.equal(selfie.opts.contentType, 'image/jpeg');
 });
 
@@ -182,12 +182,15 @@ test('an error returned by the mail provider is recorded, not swallowed', async 
   assert.equal(notify.reason, 'validation_error');
 });
 
-test('a thrown send is recorded as failed too', async () => {
+test('a thrown send is recorded as failed, with the actual error kept', async () => {
   sendThrows = true;
   await post();
   const notify = JSON.parse(calls.puts.find((p) => p.path.endsWith('/notify.json')).body);
   assert.equal(notify.status, 'failed');
-  assert.equal(notify.reason, 'delivery_unconfirmed');
+  // The real error message is kept rather than a generic placeholder, so an
+  // operator reading notify.json can tell a network failure from a rejected
+  // address without also having function logs open.
+  assert.equal(notify.reason, 'network');
 });
 
 test('a delivered send is recorded as sent', async () => {
