@@ -1386,6 +1386,22 @@
   font-weight: 700;
 }
 
+/* "עדכון טיסה" sits on the dark flight card, where the shell's own
+   `.crmShell button { color: inherit }` reset outranks `.secondaryButton`
+   (0,1,1 beats 0,1,0). The button therefore inherited the card's white text
+   onto its near-white background and rendered as an empty white pill at about
+   1.03:1 -- invisible. A ghost button belongs on this card anyway: it reads as
+   part of the surface instead of punching a white hole in it. */
+.detailFlight .secondaryButton {
+  border-color: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.detailFlight .secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
 /* Submitted by the customer, not confirmed by anyone. Sits below the flight
    facts and reads dimmer than them on purpose: an estimated arrival date must
    not look like a booked flight. */

@@ -140,6 +140,13 @@ export const initialClients: ClientCase[] = [
     phoneLink: "972522345678",
     email: "omer@example.com",
     destination: "סלוניקי",
+    /* The one demo case that came through the website bridge, so it is the one
+       carrying what the visitor submitted on the public form. A case opened by
+       staff or through /request has none of these, which is why the other
+       fixtures leave them out rather than inventing values. */
+    intakePlan: "VIP",
+    intakeArrival: "5 בספטמבר",
+    contactLocale: "עברית",
     service: "ליווי לקראת הנסיעה",
     source: "האתר",
     owner: "רותם",
