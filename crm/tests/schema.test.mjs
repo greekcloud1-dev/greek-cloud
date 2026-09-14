@@ -292,18 +292,92 @@ test("website bridge replay returns the same case", async () => {
   const run = () =>
     asRole("service_role", null, () =>
       db.query(
-        "select crm_ingest_website_contact('test-submission-001','Website Contact','+972500000003','website@example.com','Athens') as id",
+        "select crm_ingest_website_contact('test-submission-001','Website Contact','+972500000003','website@example.com','Athens','vip','2026-10-01','en') as id",
       ),
     );
   const first = (await run()).rows[0].id;
   assert.equal((await run()).rows[0].id, first);
   const saved = (
-    await db.query("select destination,flight_at from crm_cases where id=$1", [
-      first,
-    ])
+    await db.query(
+      "select destination,flight_at,intake_plan,intake_arrival_on,contact_id from crm_cases where id=$1",
+      [first],
+    )
   ).rows[0];
   assert.equal(saved.destination, "Athens");
+  assert.equal(saved.intake_plan, "vip");
+  assert.equal(
+    new Date(saved.intake_arrival_on).toISOString().slice(0, 10),
+    "2026-10-01",
+  );
+  // The submitted arrival date is an estimate, not a booked flight. Writing it
+  // into flight_at would start the reminder countdowns against a guess.
   assert.equal(saved.flight_at, null);
+  assert.equal(
+    (
+      await db.query("select locale from crm_contacts where id=$1", [
+        saved.contact_id,
+      ])
+    ).rows[0].locale,
+    "en",
+  );
+});
+
+test("the bridge still accepts a submission with no plan, date or language", async () => {
+  const id = (
+    await asRole("service_role", null, () =>
+      db.query(
+        "select crm_ingest_website_contact('test-submission-002','Sparse Contact','+972500000004','sparse@example.com','Crete',null,null,null) as id",
+      ),
+    )
+  ).rows[0].id;
+  const saved = (
+    await db.query(
+      "select destination,intake_plan,intake_arrival_on from crm_cases where id=$1",
+      [id],
+    )
+  ).rows[0];
+  assert.equal(saved.destination, "Crete");
+  assert.equal(saved.intake_plan, null);
+  assert.equal(saved.intake_arrival_on, null);
+});
+
+test("the bridge refuses a plan or language it does not recognise", async () => {
+  for (const [plan, locale] of [
+    ["platinum", "he"],
+    ["vip", "fr"],
+  ]) {
+    await assert.rejects(
+      asRole("service_role", null, () =>
+        db.query(
+          "select crm_ingest_website_contact('test-submission-003','Bad Values','+972500000005','bad@example.com','Kos',$1,null,$2)",
+          [plan, locale],
+        ),
+      ),
+      /Invalid website contact/,
+      `${plan}/${locale} must be refused`,
+    );
+  }
+});
+
+test("a site deployment predating the new fields still gets its intake in", async () => {
+  // The three additions default to null, so a five-argument call from an older
+  // site build records the contact rather than failing every intake.
+  const id = (
+    await asRole("service_role", null, () =>
+      db.query(
+        "select crm_ingest_website_contact('test-submission-004','Old Signature','+972500000006','old@example.com','Rhodes') as id",
+      ),
+    )
+  ).rows[0].id;
+  const saved = (
+    await db.query(
+      "select destination,intake_plan,intake_arrival_on from crm_cases where id=$1",
+      [id],
+    )
+  ).rows[0];
+  assert.equal(saved.destination, "Rhodes");
+  assert.equal(saved.intake_plan, null);
+  assert.equal(saved.intake_arrival_on, null);
 });
 
 test("agents cannot promote themselves and audit rows cannot be edited", async () => {

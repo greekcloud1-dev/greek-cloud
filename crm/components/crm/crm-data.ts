@@ -35,6 +35,11 @@ export type ClientCase = {
   phoneLink: string;
   email: string;
   destination: string;
+  /* Submitted on the public website form and carried across the bridge. Empty
+     for cases opened by staff or through /request, which never collect them. */
+  intakePlan?: string;
+  intakeArrival?: string;
+  contactLocale?: string;
   service: string;
   source: string;
   owner: string;

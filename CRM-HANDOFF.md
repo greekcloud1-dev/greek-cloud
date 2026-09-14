@@ -13,8 +13,17 @@ What changed since the Codex handoff below:
   with a regression test. Two were reproduced before and after: the mobile
   drawer in a real Chromium at 390x844, and the reminder-ownership bug against
   the real migrations in an in-memory PostgreSQL.
-- New migration `202609110006_reminder_ownership.sql`. A fresh install now runs
-  **six** migrations in filename order, not five.
+- Two new migrations, `202609110006_reminder_ownership.sql` and
+  `202609140007_website_bridge_operational_fields.sql`. A fresh install now runs
+  **seven** migrations in filename order, not five.
+- The website bridge carries the rest of the intake's operational fields. It
+  sent five; it now sends eight, adding the plan bought (`standard`/`vip`), the
+  estimated arrival date and the submission language. Before this, every website
+  lead landed as a generic case with no way to tell a VIP purchase from a
+  standard one, no trip date, and nothing marking an English speaker. The
+  forbidden set is unchanged and unchanged in principle: no health description,
+  passport, age, prescription answer, files or Blob paths. See
+  `CRM-INTEGRATION.md` for the field-by-field mapping.
 - New files: `crm/lib/crm/weekly.ts` (the seven-day window, kept outside
   `server-only` `store.ts` so it can be tested), `assets/intake-draft.js` (the
   intake draft storage policy, split out for the same reason), and `tests/` at
@@ -91,9 +100,10 @@ The progress indicator is completed tasks / all tasks, not medical readiness.
 ## Deployment and activation
 
 1. In `crm/`, install with `pnpm install --frozen-lockfile`, then `pnpm build`.
-2. Create Supabase project; apply all six SQL migrations in filename order. On an
-   existing install that already has 001-005, add `202609110006_reminder_ownership.sql`
-   alone rather than re-running everything.
+2. Create Supabase project; apply all seven SQL migrations in filename order. On
+   an existing install, add only the ones it is missing rather than re-running
+   everything: `202609110006_reminder_ownership.sql` and
+   `202609140007_website_bridge_operational_fields.sql` are the recent additions.
 3. Disable public signups, invite the owner's auth account, and explicitly set its
    `crm_profiles.role='admin'` and `active=true`. Follow `crm/supabase/README.md`.
    Configure the invitation and recovery email templates described there. The
@@ -102,8 +112,13 @@ The progress indicator is completed tasks / all tasks, not medical readiness.
 4. Add environment variables from `crm/.env.example` to the separate CRM project.
 5. Enable email with verified sender and Telegram with bot/chat; follow
    `crm/NOTIFICATION-SETUP.md`. Cron endpoint requires a server-only secret.
-6. Configure the optional site bridge only after the CRM is reachable over HTTPS.
-7. Check a test contact end-to-end before using real customer records.
+6. Configure the optional site bridge only after the CRM is reachable over HTTPS
+   **and step 3's admin is active**. Every incoming lead is assigned to an active
+   staff member; with none, intake fails with "No active CRM user is available
+   for lead assignment" and the website request stays pending.
+7. Check a test contact end-to-end before using real customer records. The bridge
+   path is verified in `crm/tests/schema.test.mjs` and `lib/crm-sync.test.js`
+   against the real SQL, but neither exercises a real Supabase instance.
 
 Missing Supabase credentials intentionally show sample data with a persistent
 demo banner. Demo edits disappear on refresh; demo phone/WhatsApp links do not

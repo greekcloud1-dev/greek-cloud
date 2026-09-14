@@ -117,8 +117,12 @@ schema.
 
 ## 6. Data and mobile security notes
 
-Read `../SECURITY-HANDOFF.md` before activation. Apply the additive
-`202609080005_security_hardening.sql` migration after 001–004. Both Turnstile keys
+Read `../SECURITY-HANDOFF.md` before activation. Apply the additive migrations
+after 001–004 in order: `202609080005_security_hardening.sql`,
+`202609110006_reminder_ownership.sql` (routes flight and task reminders to
+whoever currently holds the case) and
+`202609140007_website_bridge_operational_fields.sql` (carries plan, estimated
+arrival date and submission language across the website bridge). Both Turnstile keys
 are now required for public intake. Configure NEXT_PUBLIC_SITE_URL as the exact
 CRM origin; authentication actions reject absent/untrusted origins. This does
 not replace Supabase Auth rate limits, session/MFA policy or a shared edge throttle.

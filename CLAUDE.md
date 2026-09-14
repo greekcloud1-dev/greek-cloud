@@ -19,7 +19,11 @@ Vercel project's root directory to `crm`. Use a separate project for the CRM.
 The CRM holds operational contacts, cases, tasks, flight timing, manual payment
 status and audit history. It must not receive medical descriptions, passport
 numbers, selfies, prescriptions, uploaded files or private Blob URLs from the site.
-The optional website bridge sends only explicitly listed operational fields.
+The optional website bridge sends only explicitly listed operational fields:
+submission id, name, phone, email, destination, plan, estimated arrival date and
+locale. Adding a field there means deciding it is operational rather than medical
+or identifying, and changing `lib/crm-sync.js`, the strict schema in
+`crm/app/api/integrations/website/route.ts` and the SQL function together.
 
 Use `crm/.env.example` for variable names. Never commit credentials. Missing
 Supabase configuration means a clearly marked temporary demo, not live storage.

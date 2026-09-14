@@ -1369,6 +1369,27 @@ export function CrmApp({ demo, user, integrations }: CrmAppProps) {
                     עדכון טיסה
                   </button>
                 </div>
+                {/* What the customer actually wrote on the public form, kept
+                    visually apart from the flight facts above: the arrival date
+                    is their estimate, not a confirmed flight time, and reading
+                    the two as one line is exactly the mistake to avoid. Absent
+                    entirely for cases that did not come from that form. */}
+                {(selectedClient.intakePlan ||
+                  selectedClient.intakeArrival ||
+                  selectedClient.contactLocale) && (
+                  <p className={styles.intakeFacts}>
+                    <span>מהטופס באתר:</span>
+                    {selectedClient.intakePlan && (
+                      <span>מסלול {selectedClient.intakePlan}</span>
+                    )}
+                    {selectedClient.intakeArrival && (
+                      <span>הגעה משוערת {selectedClient.intakeArrival}</span>
+                    )}
+                    {selectedClient.contactLocale && (
+                      <span>שפת הפנייה: {selectedClient.contactLocale}</span>
+                    )}
+                  </p>
+                )}
                 <div className={styles.readinessBlock}>
                   <div>
                     <span>השלמת משימות התיק</span>

@@ -43,6 +43,16 @@ const services: Record<ServiceKind, string> = {
   document_translation: "תרגום מסמכים",
   other: "אחר",
 };
+/* Carried across the website bridge. Only cases that came from the public
+   intake form have these, so an unknown key is an empty label, never "אחר". */
+const plans: Record<string, string> = {
+  standard: "סטנדרט",
+  vip: "VIP",
+};
+const localeLabels: Record<string, string> = {
+  he: "עברית",
+  en: "אנגלית",
+};
 const sources: Record<LeadSource, string> = {
   website: "האתר",
   whatsapp: "וואטסאפ",
@@ -191,7 +201,7 @@ export async function loadCrmData() {
     loadRows((from, to) =>
       supabase
         .from("crm_contacts")
-        .select("id,full_name,phone_e164,email,preferred_channel")
+        .select("id,full_name,phone_e164,email,preferred_channel,locale")
         .order("id")
         .range(from, to),
     ),
@@ -325,6 +335,14 @@ export async function loadCrmData() {
       phoneLink: str(contact, "phone_e164").replace(/^\+/, ""),
       email: str(contact, "email"),
       destination: str(row, "destination", "טרם נקבע"),
+      /* What the customer submitted on the public form, carried across the
+         bridge. Absent on cases created by staff or through /request, which is
+         why each falls back to nothing rather than to a placeholder. */
+      intakePlan: plans[str(row, "intake_plan")] ?? "",
+      intakeArrival: str(row, "intake_arrival_on")
+        ? dateFormat.format(new Date(`${str(row, "intake_arrival_on")}T12:00:00Z`))
+        : "",
+      contactLocale: localeLabels[str(contact, "locale")] ?? "",
       service: services[str(row, "service") as ServiceKind] ?? "אחר",
       source: sources[str(row, "source") as LeadSource] ?? "אחר",
       owner: owner ? str(owner, "display_name") : "ללא שיוך",

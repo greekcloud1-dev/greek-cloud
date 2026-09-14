@@ -1386,6 +1386,26 @@
   font-weight: 700;
 }
 
+/* Submitted by the customer, not confirmed by anyone. Sits below the flight
+   facts and reads dimmer than them on purpose: an estimated arrival date must
+   not look like a booked flight. */
+.intakeFacts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 9px;
+}
+
+.intakeFacts > span:first-child {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75);
+}
+
 .readinessBlock {
   display: grid;
   gap: 8px;

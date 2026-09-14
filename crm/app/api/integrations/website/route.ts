@@ -7,6 +7,10 @@ import { readLimitedJson } from "@/lib/request/protection";
 export const runtime = "nodejs";
 
 // Only this allowlist may cross from the site's private intake into the CRM.
+// .strict() is load-bearing: an unrecognised key is a rejected request, not a
+// silently ignored one, so a field that was never agreed to cannot arrive here
+// by accident. The health description, passport number, age, prescription
+// answer and file paths are absent by design and must stay absent.
 const websiteContactSchema = z
   .object({
     submissionId: z.string().regex(/^[A-Za-z0-9_-]{8,100}$/),
@@ -18,6 +22,14 @@ const websiteContactSchema = z
       .refine((value) => /^\+[1-9]\d{7,14}$/.test(value)),
     email: z.email().max(320),
     destination: z.string().trim().min(1).max(120),
+    plan: z.enum(["standard", "vip"]).nullish(),
+    // A calendar day, not an instant: this is the arrival date the visitor
+    // estimated, and it never becomes the case's flight time on its own.
+    arrivalOn: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .nullish(),
+    locale: z.enum(["he", "en"]).nullish(),
   })
   .strict();
 
@@ -62,6 +74,9 @@ export async function POST(request: Request) {
         p_phone_e164: contact.phone,
         p_email: contact.email,
         p_destination: contact.destination,
+        p_plan: contact.plan ?? null,
+        p_arrival_on: contact.arrivalOn ?? null,
+        p_locale: contact.locale ?? null,
       },
     );
     if (error || typeof data !== "string")
