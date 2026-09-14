@@ -40,6 +40,19 @@ export type ClientCase = {
   intakePlan?: string;
   intakeArrival?: string;
   contactLocale?: string;
+  /* The full public-intake submission, including health information. Present
+     only on cases that came from the website form, and never editable: it is a
+     record of what the customer wrote. */
+  intakePassport?: string;
+  intakeAge?: string;
+  intakeCondition?: string;
+  intakeRxState?: string;
+  intakeConsents?: string[];
+  /* Names the website's copy of the uploaded files. The bytes never reach the
+     CRM; these let it ask the website for a short-lived link. */
+  submissionId?: string;
+  selfieFile?: string;
+  rxFile?: string;
   service: string;
   source: string;
   owner: string;
@@ -147,6 +160,27 @@ export const initialClients: ClientCase[] = [
     intakePlan: "VIP",
     intakeArrival: "5 בספטמבר",
     contactLocale: "עברית",
+    /* Demo values only. Deliberately obvious as fixtures -- a plausible-looking
+       passport number or health narrative in sample data is the kind of thing
+       that ends up quoted somewhere as if it were real. */
+    intakePassport: "00000000",
+    intakeAge: "41",
+    intakeRxState: "לא",
+    intakeCondition:
+      "נתוני דוגמה בלבד. כאן מופיע התיאור שהלקוח כתב בטופס, כלשונו, עם כפתור העתקה.",
+    intakeConsents: [
+      "גיל 18+",
+      "תקנון ומדיניות פרטיות",
+      "עיבוד מידע רפואי",
+      "איסור הוצאה מיוון",
+      "ההחלטה נתונה לרופא",
+      "נכונות הפרטים",
+      "הגבלת אחריות",
+    ],
+    submissionId: "demo-submission-0000",
+    selfieFile: "selfie.jpg",
+    // No rxFile: this demo case has no prescription upload, so the button for
+    // it is absent rather than present and broken.
     service: "ליווי לקראת הנסיעה",
     source: "האתר",
     owner: "רותם",

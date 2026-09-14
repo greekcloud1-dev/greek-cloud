@@ -1402,6 +1402,165 @@
   background: rgba(255, 255, 255, 0.16);
 }
 
+/* The submitted form, set apart from the operational contact details above it:
+   those are working fields, this is a record of what the customer wrote. */
+.intakeRecord {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--crm-line);
+}
+
+.intakeFiles {
+  display: grid;
+  gap: 8px;
+  padding: 12px 0 2px;
+}
+
+.intakeFileButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.intakeFiles .intakeFileButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--crm-line);
+  border-radius: 10px;
+  background: var(--crm-white);
+  color: var(--crm-ink);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.intakeFiles .intakeFileButton:hover:not(:disabled) {
+  border-color: var(--crm-ink);
+}
+
+.intakeFiles .intakeFileButton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.intakeFileNote {
+  margin: 0;
+  color: var(--crm-muted);
+  font-size: 10px;
+}
+
+.intakeFileError {
+  margin: 0;
+  color: #96503c;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.spin {
+  animation: crm-spin 900ms linear infinite;
+}
+
+@keyframes crm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Someone who has asked for less motion still needs to know it is working, so
+   the icon stays put and the disabled state carries the message instead. */
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
+}
+
+/* --- copyable fields ------------------------------------------------------
+   A row of label / value / copy button. The button is always rendered rather
+   than revealed on hover: hover does not exist on the phones this is used on,
+   and a control that appears only on hover is one a touch user never finds. */
+/* Label on its own line, then the value and its button side by side. A
+   three-column row (label | value | button) looked tidier in a wide mock and
+   fell apart here: this section sits in the narrower of two columns, and a
+   phone number was wrapping across three lines to make room for a label it was
+   already beside. Stacking costs one line and survives any width. */
+.copyField,
+.copyFieldBlock {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 3px 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--crm-line);
+}
+
+.copyFieldBlock .copyFieldValue {
+  grid-column: 1 / -1;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.copyFieldLabel {
+  grid-column: 1 / -1;
+  color: var(--crm-muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.copyFieldValue {
+  min-width: 0;
+  color: var(--crm-ink);
+  font-size: 12px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* The shell's `.crmShell button { color: inherit }` reset outranks a lone
+   class, which is what left the flight card's button white on white. Pairing
+   the parent with the button beats it on specificity, so these colours hold
+   without another !important. */
+.copyField .copyFieldButton,
+.copyFieldBlock .copyFieldButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  /* 32px tall, and the row padding above carries the rest of the touch target
+     past 44px without making the list loose. */
+  min-height: 32px;
+  padding: 0 9px;
+  border: 1px solid var(--crm-line);
+  border-radius: 9px;
+  background: var(--crm-white);
+  color: var(--crm-muted);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copyField .copyFieldButton:hover,
+.copyFieldBlock .copyFieldButton:hover {
+  color: var(--crm-ink);
+  border-color: var(--crm-ink);
+}
+
+/* Confirmation has to survive being read at a glance, so it is a colour and a
+   word, not a colour alone. */
+.copyField .copyFieldButton[data-state="copied"],
+.copyFieldBlock .copyFieldButton[data-state="copied"] {
+  border-color: #2f7a5b;
+  color: #2f7a5b;
+}
+
+.copyField .copyFieldButton[data-state="failed"],
+.copyFieldBlock .copyFieldButton[data-state="failed"] {
+  border-color: #96503c;
+  color: #96503c;
+}
+
 /* Submitted by the customer, not confirmed by anyone. Sits below the flight
    facts and reads dimmer than them on purpose: an estimated arrival date must
    not look like a booked flight. */

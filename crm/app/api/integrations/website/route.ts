@@ -6,11 +6,14 @@ import { readLimitedJson } from "@/lib/request/protection";
 
 export const runtime = "nodejs";
 
-// Only this allowlist may cross from the site's private intake into the CRM.
-// .strict() is load-bearing: an unrecognised key is a rejected request, not a
-// silently ignored one, so a field that was never agreed to cannot arrive here
-// by accident. The health description, passport number, age, prescription
-// answer and file paths are absent by design and must stay absent.
+// The allowlist that may cross from the site's intake into the CRM. At the
+// owner's decision this now includes the health description, passport and age;
+// see migration 008 and CLAUDE.md.
+//
+// .strict() is still load-bearing: an unrecognised key is a rejected request,
+// not a silently ignored one, so a field nobody decided on cannot arrive by
+// accident. What must never appear here is file content or any Blob URL or
+// token -- only basenames travel, and the website serves the files itself.
 const websiteContactSchema = z
   .object({
     submissionId: z.string().regex(/^[A-Za-z0-9_-]{8,100}$/),
@@ -30,6 +33,23 @@ const websiteContactSchema = z
       .regex(/^\d{4}-\d{2}-\d{2}$/)
       .nullish(),
     locale: z.enum(["he", "en"]).nullish(),
+    passport: z.string().trim().max(20).nullish(),
+    age: z.number().int().min(0).max(120).nullish(),
+    condition: z.string().trim().max(4000).nullish(),
+    rxState: z.enum(["no", "yes", "past"]).nullish(),
+    // Which boxes were ticked, as submitted. Booleans only: this is a record of
+    // what was agreed to, not a place for the site to pass arbitrary structure.
+    consents: z.record(z.string().max(40), z.boolean()).nullish(),
+    // Basenames, never paths or URLs. The pattern is the same one the CRM
+    // column enforces, so a value shaped like a path is rejected here first.
+    selfieFile: z
+      .string()
+      .regex(/^[a-z]+\.[a-z0-9]{2,5}$/)
+      .nullish(),
+    rxFile: z
+      .string()
+      .regex(/^[a-z]+\.[a-z0-9]{2,5}$/)
+      .nullish(),
   })
   .strict();
 
@@ -77,6 +97,13 @@ export async function POST(request: Request) {
         p_plan: contact.plan ?? null,
         p_arrival_on: contact.arrivalOn ?? null,
         p_locale: contact.locale ?? null,
+        p_passport: contact.passport ?? null,
+        p_age: contact.age ?? null,
+        p_condition: contact.condition ?? null,
+        p_rx_state: contact.rxState ?? null,
+        p_consents: contact.consents ?? {},
+        p_selfie_file: contact.selfieFile ?? null,
+        p_rx_file: contact.rxFile ?? null,
       },
     );
     if (error || typeof data !== "string")

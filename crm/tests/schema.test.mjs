@@ -359,6 +359,93 @@ test("the bridge refuses a plan or language it does not recognise", async () => 
   }
 });
 
+test("the full submission is stored, and the files are named but not held", async () => {
+  const id = (
+    await asRole("service_role", null, () =>
+      db.query(
+        `select crm_ingest_website_contact(
+           'test-submission-005','Full Record','+972500000007','full@example.com','אתונה',
+           'standard','2026-11-02','he',
+           '87654321', 41::smallint, 'health narrative text', 'past',
+           '{"c_health":true,"c_terms":true}'::jsonb,
+           'selfie.jpg','prescription.pdf'
+         ) as id`,
+      ),
+    )
+  ).rows[0].id;
+
+  const intake = (
+    await db.query("select * from crm_case_intake where case_id=$1", [id])
+  ).rows[0];
+  assert.equal(intake.passport, "87654321");
+  assert.equal(intake.age, 41);
+  assert.equal(intake.condition, "health narrative text");
+  assert.equal(intake.rx_state, "past");
+  assert.deepEqual(intake.consents, { c_health: true, c_terms: true });
+
+  // Basenames only. A storage path or URL here would mean the CRM could reach
+  // the file on its own, which is the thing the signed-link design avoids.
+  assert.equal(intake.selfie_file, "selfie.jpg");
+  assert.equal(intake.rx_file, "prescription.pdf");
+  for (const value of [intake.selfie_file, intake.rx_file]) {
+    assert.ok(!value.includes("/"), "never a path");
+    assert.ok(!value.startsWith("http"), "never a URL");
+  }
+});
+
+test("the intake table refuses a stored value the column rules forbid", async () => {
+  const caseId = (
+    await db.query("select case_id from crm_website_receipts where submission_id='test-submission-005'")
+  ).rows[0].case_id;
+  for (const [column, value] of [
+    ["selfie_file", "submissions/x/selfie.jpg"],
+    ["rx_file", "https://example.com/x.pdf"],
+    ["rx_state", "maybe"],
+    ["age", 400],
+  ]) {
+    await assert.rejects(
+      db.query(`update crm_case_intake set ${column}=$1 where case_id=$2`, [value, caseId]),
+      /violates check constraint/,
+      `${column}=${value}`,
+    );
+  }
+});
+
+test("staff can read the intake record but cannot rewrite what was submitted", async () => {
+  const caseId = (
+    await db.query("select case_id from crm_website_receipts where submission_id='test-submission-005'")
+  ).rows[0].case_id;
+
+  const visible = await asRole("authenticated", agent, () =>
+    db.query("select condition from crm_case_intake where case_id=$1", [caseId]),
+  );
+  assert.equal(visible.rows[0].condition, "health narrative text");
+
+  // It records what the customer wrote; a correction belongs in a case note.
+  await assert.rejects(
+    asRole("authenticated", agent, () =>
+      db.query("update crm_case_intake set condition='rewritten' where case_id=$1", [caseId]),
+    ),
+    /permission denied/,
+  );
+  await assert.rejects(
+    asRole("authenticated", agent, () =>
+      db.query("delete from crm_case_intake where case_id=$1", [caseId]),
+    ),
+    /permission denied/,
+  );
+});
+
+test("an anonymous caller cannot read a health narrative", async () => {
+  // Refused at the grant, before RLS is even consulted: anon holds no
+  // privilege on this table at all, which is a stronger answer than an empty
+  // result and matches how every other CRM table treats anon.
+  await assert.rejects(
+    asRole("anon", null, () => db.query("select * from crm_case_intake")),
+    /permission denied/,
+  );
+});
+
 test("a site deployment predating the new fields still gets its intake in", async () => {
   // The three additions default to null, so a five-argument call from an older
   // site build records the contact rather than failing every intake.

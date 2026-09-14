@@ -42,6 +42,8 @@ import {
   type PaymentStatus,
 } from "./crm-data";
 import { useCrmData } from "./use-crm-data";
+import { CopyField } from "./CopyField";
+import { IntakeFiles } from "./IntakeFiles";
 import { signOutFromCrm } from "@/app/crm/auth/actions";
 import {
   WHATSAPP_TEMPLATES,
@@ -1503,6 +1505,65 @@ export function CrmApp({ demo, user, integrations }: CrmAppProps) {
                       </dd>
                     </div>
                   </dl>
+
+                  {/* Everything the customer submitted on the public form,
+                      every value copyable. Present only on cases that came
+                      through the website bridge; a case opened by staff has
+                      nothing to show here and the block does not render. */}
+                  {(selectedClient.intakePassport ||
+                    selectedClient.intakeCondition ||
+                    selectedClient.selfieFile) && (
+                    <div className={styles.intakeRecord}>
+                      <div className={styles.sectionTitle}>
+                        <span>מהטופס באתר</span>
+                        <h3 id="intake-heading">הפנייה כפי שנשלחה</h3>
+                      </div>
+                      <CopyField
+                        label="שם מלא"
+                        value={selectedClient.name}
+                      />
+                      <CopyField label="טלפון" value={selectedClient.phone} />
+                      <CopyField label="אימייל" value={selectedClient.email} />
+                      <CopyField
+                        label="מספר דרכון"
+                        value={selectedClient.intakePassport ?? ""}
+                      />
+                      <CopyField
+                        label="גיל"
+                        value={selectedClient.intakeAge ?? ""}
+                      />
+                      <CopyField
+                        label="יעד"
+                        value={selectedClient.destination}
+                      />
+                      <CopyField
+                        label="מסלול"
+                        value={selectedClient.intakePlan ?? ""}
+                      />
+                      <CopyField
+                        label="הגעה משוערת"
+                        value={selectedClient.intakeArrival ?? ""}
+                      />
+                      <CopyField
+                        label="מרשם קיים"
+                        value={selectedClient.intakeRxState ?? ""}
+                      />
+                      <CopyField
+                        label="תיאור המצב"
+                        value={selectedClient.intakeCondition ?? ""}
+                        block
+                      />
+                      {selectedClient.intakeConsents?.length ? (
+                        <CopyField
+                          label="הסכמות"
+                          value={selectedClient.intakeConsents.join(", ")}
+                          display={selectedClient.intakeConsents.join(" · ")}
+                          block
+                        />
+                      ) : null}
+                      <IntakeFiles client={selectedClient} />
+                    </div>
+                  )}
                 </section>
 
                 <section

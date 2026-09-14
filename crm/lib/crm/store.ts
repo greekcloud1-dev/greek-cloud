@@ -53,6 +53,29 @@ const localeLabels: Record<string, string> = {
   he: "עברית",
   en: "אנגלית",
 };
+const rxStates: Record<string, string> = {
+  no: "לא",
+  yes: "כן",
+  past: "היה בעבר",
+};
+/* The consent boxes, in the order the form presents them. Only the ones the
+   customer actually ticked are listed: an unticked box is not a fact worth
+   reporting, and the form refuses to submit without all of them anyway. */
+const consentNames: Record<string, string> = {
+  c_age: "גיל 18+",
+  c_terms: "תקנון ומדיניות פרטיות",
+  c_health: "עיבוד מידע רפואי",
+  c_customs: "איסור הוצאה מיוון",
+  c_nopromise: "ההחלטה נתונה לרופא",
+  c_accuracy: "נכונות הפרטים",
+  c_liability: "הגבלת אחריות",
+};
+function consentLabels(value: unknown): string[] {
+  if (!value || typeof value !== "object") return [];
+  return Object.entries(value as Record<string, unknown>)
+    .filter(([, ticked]) => ticked === true)
+    .map(([key]) => consentNames[key] ?? key);
+}
 const sources: Record<LeadSource, string> = {
   website: "האתר",
   whatsapp: "וואטסאפ",
@@ -184,6 +207,8 @@ export async function loadCrmData() {
   const [
     caseRows,
     contactRows,
+    intakeRows,
+    receiptRows,
     taskRows,
     activityRows,
     notificationRows,
@@ -203,6 +228,27 @@ export async function loadCrmData() {
         .from("crm_contacts")
         .select("id,full_name,phone_e164,email,preferred_channel,locale")
         .order("id")
+        .range(from, to),
+    ),
+    /* The full public-intake submission, including the health narrative. Its
+       own table so it stays separable from the operational record -- see
+       migration 008. Read-only: RLS grants select and nothing else. */
+    loadRows((from, to) =>
+      supabase
+        .from("crm_case_intake")
+        .select(
+          "case_id,passport,age,condition,rx_state,consents,selfie_file,rx_file",
+        )
+        .order("case_id")
+        .range(from, to),
+    ),
+    /* Maps a case to the website submission that created it. The website needs
+       that id to mint a signed link for the selfie or prescription. */
+    loadRows((from, to) =>
+      supabase
+        .from("crm_website_receipts")
+        .select("submission_id,case_id")
+        .order("submission_id")
         .range(from, to),
     ),
     loadRows((from, to) =>
@@ -254,6 +300,10 @@ export async function loadCrmData() {
   const now = Date.now();
   const contacts = new Map(contactRows.map((row) => [str(row, "id"), row]));
   const profiles = new Map(profileRows.map((row) => [str(row, "id"), row]));
+  const intakes = new Map(intakeRows.map((row) => [str(row, "case_id"), row]));
+  const submissions = new Map(
+    receiptRows.map((row) => [str(row, "case_id"), str(row, "submission_id")]),
+  );
   const caseTasks = new Map<string, Row[]>();
   for (const row of taskRows) {
     const id = str(row, "case_id");
@@ -267,6 +317,7 @@ export async function loadCrmData() {
   const clients: ClientCase[] = caseRows.map((row) => {
     const id = str(row, "id");
     const contact = contacts.get(str(row, "contact_id")) ?? {};
+    const intake = intakes.get(id) ?? {};
     const owner = profiles.get(str(row, "owner_id"));
     const timeline = caseActivities.get(id) ?? [];
     const openTasks = (caseTasks.get(id) ?? []).filter(
@@ -343,6 +394,18 @@ export async function loadCrmData() {
         ? dateFormat.format(new Date(`${str(row, "intake_arrival_on")}T12:00:00Z`))
         : "",
       contactLocale: localeLabels[str(contact, "locale")] ?? "",
+      /* The full submission. Present only on cases that came from the public
+         form, and read-only: it records what the customer actually wrote. */
+      intakePassport: str(intake, "passport"),
+      intakeAge: intake.age == null ? "" : String(intake.age),
+      intakeCondition: str(intake, "condition"),
+      intakeRxState: rxStates[str(intake, "rx_state")] ?? "",
+      intakeConsents: consentLabels(intake.consents),
+      /* The website holds the files; these name them so the CRM can ask for a
+         short-lived link. Useless on their own. */
+      submissionId: submissions.get(id) ?? "",
+      selfieFile: str(intake, "selfie_file"),
+      rxFile: str(intake, "rx_file"),
       service: services[str(row, "service") as ServiceKind] ?? "אחר",
       source: sources[str(row, "source") as LeadSource] ?? "אחר",
       owner: owner ? str(owner, "display_name") : "ללא שיוך",

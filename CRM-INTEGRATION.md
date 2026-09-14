@@ -23,11 +23,34 @@ constructed field by field — eight of them, as of migration 007:
 | `plan` | `crm_cases.intake_plan` | `standard` or `vip` — which tier was bought |
 | `arrivalOn` | `crm_cases.intake_arrival_on` | A date, **not** `flight_at`; see below |
 | `locale` | `crm_contacts.locale` | `he` or `en` — answer them in it |
+| `passport`, `age`, `condition`, `rxState`, `consents` | `crm_case_intake` | The full submission, per the owner's decision of 2026-09-14 |
+| `selfieFile`, `rxFile` | `crm_case_intake` | Basenames only — see "Files" below |
 
-It does not transmit passport, age, health description, the existing-prescription
-answer, prescriptions, selfies, file paths or download URLs. The receiving schema
-is `.strict()`, so an unrecognised key is a rejected request rather than a
-silently accepted one.
+The receiving schema is `.strict()`, so an unrecognised key is a rejected
+request rather than a silently accepted one, and the payload in
+`lib/crm-sync.js` is an explicit list rather than a spread.
+
+### Files stay on the website
+
+The selfie and the prescription are **not** copied into the CRM. Only their
+basenames cross, and a basename grants nothing on its own.
+
+When a staff member opens one, the CRM posts to its own
+`/api/crm/intake-file`, which checks they are active staff, confirms through
+their own RLS-scoped client that the case really carries that file, and returns
+a URL to the website's `api/intake-file.js` signed with a shared secret and good
+for five minutes. The signature covers the submission id, which file, the
+basename and the expiry together, so a link cannot be edited into a link for
+another case. The website streams the bytes with `no-store` and never exposes a
+Blob URL.
+
+Two environment variables, the same value on both projects:
+`INTAKE_FILE_SECRET` (32+ characters, server-only) and `INTAKE_FILE_ORIGIN`
+(the website's origin). Unset, the file buttons say viewing is not configured
+and the rest of the case is unaffected.
+
+This means health data lives in the CRM but the files do not, so retention and
+deletion for the files remain a single problem on the website side.
 
 **Approximate arrival is not flight time.** `intake_arrival_on` is a calendar
 date the visitor estimated; `flight_at` is a confirmed instant that drives the
