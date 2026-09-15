@@ -7,20 +7,26 @@
 
      1. Reject anything that fails the honeypot or server-side validation --
         the client already validates, but a request can reach here directly.
-     2. Store the selfie (required), the existing-prescription file
-        (optional), and a JSON record of every field in Vercel Blob, under
-        one private, unguessable path per submission. This IS the durable
-        copy of the request; nothing here is disposable.
-     3. Email a notification through Resend. That email is deliberately thin:
-        plan, city, arrival date, name, and a submission id. It never
-        contains the health description or the files. The full record lives
-        only in Blob, which is why step 2 has to succeed before step 3 is
-        attempted -- a notification about a request that was not actually
-        saved would be worse than no notification.
+     2. Upload the selfie (required) and the existing-prescription file
+        (optional) to a private Supabase bucket.
+     3. File the submission in the CRM through the authenticated bridge. That
+        call is what makes the submission real; its result decides the reply.
+     4. Email a thin notification through Resend: plan, city, arrival date,
+        name and a submission id, never the health description or the files.
 
-   A failed step 3 does not fail the request: the person's answers are
-   already safe in Blob by then, and the operator can still find them by
-   browsing Storage even if the email never arrives.
+   Storage is Supabase, singular and deliberately so. An earlier version kept
+   the files and a record.json in Vercel Blob while the case lived in the CRM,
+   which meant erasing a customer took two jobs in two systems -- and a miss in
+   either leaves a face photo behind after somebody asked to be forgotten.
+
+   Blob is still here, but only as a holding area. Nothing is written to it
+   when the normal path works. If Supabase or the bridge refuses, the whole
+   submission is parked under `unreceived/` with the reason and the visitor is
+   told it is pending rather than received. That directory existing at all is
+   the alert. See lib/intake-store.js.
+
+   A failed step 4 does not fail the request: the submission is already filed
+   in the CRM by then, and the failure is recorded rather than swallowed.
 
    Runs on the Node.js runtime, not Edge: @vercel/blob and resend both reach
    for Node built-ins (node:stream, node:net, node:zlib and friends) that the
@@ -33,6 +39,7 @@
 import { put } from '@vercel/blob';
 import { Resend } from 'resend';
 import { crmContactPayload, syncCrmContact } from '../lib/crm-sync.js';
+import { intakeStorageConfigured, putIntakeFile } from '../lib/intake-store.js';
 
 function json(status, body) {
   return new Response(JSON.stringify(body), {
@@ -318,27 +325,28 @@ async function handleSubmit(request) {
   const submissionId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${crypto.randomUUID().replace(/-/g, '').slice(0, 16)}`;
   const base = `submissions/${submissionId}`;
 
-  let selfieBlob;
-  let rxBlob = null;
-  try {
-    // Fixed names built from the type we detected, not the uploaded filename:
-    // that name is attacker-controlled, and @vercel/blob rejects only the
-    // literal sequence "//" in a pathname, so "../" would otherwise pass
-    // straight through into the storage key.
-    selfieBlob = await put(`${base}/selfie.${selfieKind.ext}`, selfie, {
-      access: 'private',
-      addRandomSuffix: false,
-      contentType: selfieKind.mime,
-    });
-    if (hasRx) {
-      rxBlob = await put(`${base}/prescription.${rxKind.ext}`, rxFile, {
-        access: 'private',
-        addRandomSuffix: false,
-        contentType: rxKind.mime,
-      });
+  /* --- store the submission ---------------------------------------------
+     Supabase is the store. Blob is the holding area for when it refuses, and
+     is otherwise never written to at all -- see lib/intake-store.js for why
+     that distinction is the whole point of this design. */
+  let selfiePath = null;
+  let rxPath = null;
+  let storageError = null;
+  if (intakeStorageConfigured()) {
+    try {
+      selfiePath = await putIntakeFile(
+        submissionId, `selfie.${selfieKind.ext}`, selfie, selfieKind.mime,
+      );
+      if (hasRx) {
+        rxPath = await putIntakeFile(
+          submissionId, `prescription.${rxKind.ext}`, rxFile, rxKind.mime,
+        );
+      }
+    } catch (e) {
+      storageError = e && e.message ? e.message : 'storage_unavailable';
     }
-  } catch (e) {
-    return json(502, { ok: false, error: 'upload_failed' });
+  } else {
+    storageError = 'storage_not_configured';
   }
 
   const record = {
@@ -346,44 +354,59 @@ async function handleSubmit(request) {
     receivedAt: new Date().toISOString(),
     locale, plan, fullName, passport, age, email, phone, city, arrival,
     condition, rxExists, consents,
-    selfiePath: selfieBlob.pathname,
-    rxPath: rxBlob ? rxBlob.pathname : null,
-    // This durable intent is saved with the source record before optional sync.
-    // A failed bridge must never discard or expose the underlying private intake.
-    crmSync: { status: 'pending', version: 1 },
+    selfiePath,
+    rxPath,
   };
 
-  try {
-    await put(`${base}/record.json`, JSON.stringify(record, null, 2), {
-      access: 'private',
-      addRandomSuffix: false,
-      contentType: 'application/json',
-    });
-  } catch (e) {
-    // The files are already saved even if the record write fails, but without
-    // it they are hard to find, so this IS fatal -- unlike the email below.
-    return json(502, { ok: false, error: 'record_failed' });
-  }
+  /* The bridge is what actually files the submission, so its result decides
+     whether this request succeeded. Unlike before, there is no separate
+     durable copy to fall back on by design -- there is a holding area. */
+  const crmResult = storageError
+    ? { status: 'skipped', code: storageError }
+    : await syncCrmContact(crmContactPayload(record));
 
-  const crmResult = await syncCrmContact(crmContactPayload(record));
-  if (crmResult.status !== 'not_configured') {
+  if (crmResult.status !== 'synced') {
+    /* Park the whole thing where an operator will find it. `unreceived/`
+       existing at all is the alert: nothing is written there when the normal
+       path works. The files ride along as base64 because there is nowhere
+       else left to put them -- this branch means storage refused. */
+    const parked = {
+      submissionId,
+      parkedAt: new Date().toISOString(),
+      reason: storageError ?? `bridge_${crmResult.status}:${crmResult.code ?? ''}`,
+      record,
+    };
     try {
-      await put(`${base}/crm-delivery.json`, JSON.stringify(crmResult), {
+      await put(`unreceived/${submissionId}/record.json`, JSON.stringify(parked, null, 2), {
         access: 'private', addRandomSuffix: false, contentType: 'application/json',
       });
-    } catch {
-      console.error('crm delivery receipt not saved', submissionId);
+      if (storageError) {
+        await put(`unreceived/${submissionId}/selfie.${selfieKind.ext}`, selfie, {
+          access: 'private', addRandomSuffix: false, contentType: selfieKind.mime,
+        });
+        if (hasRx) {
+          await put(`unreceived/${submissionId}/prescription.${rxKind.ext}`, rxFile, {
+            access: 'private', addRandomSuffix: false, contentType: rxKind.mime,
+          });
+        }
+      }
+      console.error('submission parked for recovery', submissionId, parked.reason);
+    } catch (e) {
+      /* Both stores are refusing. Saying "received" now would be a lie, and
+         the visitor can still reach us another way -- which is what the
+         maintenance message on the form already tells them. */
+      console.error('submission could not be stored anywhere', submissionId, parked.reason);
+      return json(503, { ok: false, error: 'not_stored' });
     }
-    if (crmResult.status !== 'synced') console.error('crm sync pending', submissionId, crmResult.status);
+    return json(202, { ok: true, submissionId, pending: true });
   }
 
   /* Resend reports a refused send as an `error` on the resolved result, not as
      a throw, so awaiting inside a try/catch alone let a rejected address or an
-     unverified sender return 200 with nobody told. The visitor's answers are
-     already in Blob by now, so neither outcome fails the request -- but the
-     outcome is written next to the record (with the actual error attached on
-     a throw), so an operator can find the requests whose notification never
-     went out instead of learning about it from someone who never heard back. */
+     unverified sender return 200 with nobody told. The submission is filed in
+     the CRM by now, so neither outcome fails the request -- but a failed
+     notification is recorded on the case rather than only in a log nobody
+     reads. */
   let notify;
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
@@ -402,14 +425,22 @@ async function handleSubmit(request) {
   }
 
   if (notify.status !== 'sent') {
-    console.error('lead notification not delivered', submissionId, notify.reason);
-  }
-  try {
-    await put(`${base}/notify.json`, JSON.stringify(notify), {
-      access: 'private', addRandomSuffix: false, contentType: 'application/json',
-    });
-  } catch (e) {
-    console.error('notification receipt not saved', submissionId);
+    /* The case is already in the CRM, so nobody loses the submission over a
+       failed email -- which is a real change from when Blob was the only copy
+       and the email was the only prompt to go look. It still gets a receipt:
+       the failure mode this guards against (quota exhausted, sender
+       unverified, key rotated) is silent, and an operator should be able to
+       see which requests went unannounced. The receipt carries an id and a
+       reason and no personal data, so it is not a second copy of anything. */
+    console.error('lead notification not delivered', submissionId, notify.reason, 'case', crmResult.caseId);
+    try {
+      await put(`notify-failed/${submissionId}.json`, JSON.stringify({
+        submissionId, caseId: crmResult.caseId, failedAt: new Date().toISOString(),
+        reason: notify.reason,
+      }), { access: 'private', addRandomSuffix: false, contentType: 'application/json' });
+    } catch {
+      console.error('notification receipt not saved', submissionId);
+    }
   }
 
   return json(200, { ok: true, submissionId });

@@ -23,6 +23,7 @@ register(
     export async function resolve(spec, ctx, next) {
       if (spec === '@vercel/blob') return { url: 'stub:blob', shortCircuit: true, format: 'module' };
       if (spec === 'resend') return { url: 'stub:resend', shortCircuit: true, format: 'module' };
+      if (spec.endsWith('/intake-store.js')) return { url: 'stub:store', shortCircuit: true, format: 'module' };
       return next(spec, ctx);
     }
     export async function load(url, ctx, next) {
@@ -34,6 +35,11 @@ register(
         format: 'module', shortCircuit: true,
         source: "export class Resend { constructor() { this.emails = { send: (...a) => globalThis.__stub.send(...a) }; } }",
       };
+      if (url === 'stub:store') return {
+        format: 'module', shortCircuit: true,
+        source: "export const intakeStorageConfigured = () => true;"
+              + "export const putIntakeFile = (...a) => globalThis.__stub.upload(...a);",
+      };
       return next(url, ctx);
     }
   `),
@@ -41,6 +47,12 @@ register(
 );
 
 globalThis.__stub = {
+  /* Supabase Storage is where files go now; Blob only catches failures. */
+  upload: async (submissionId, name, file, contentType) => {
+    const path = `submissions/${submissionId}/${name}`;
+    calls.puts.push({ path, opts: { contentType } });
+    return path;
+  },
   put: async (path, body, opts) => {
     calls.puts.push({ path, body, opts });
     return { pathname: path };
@@ -51,6 +63,12 @@ globalThis.__stub = {
     return sendResult;
   },
 };
+
+/* The bridge is the step that files a submission, so it has to succeed for a
+   request to be reported as received. */
+process.env.CRM_INGEST_URL = 'https://crm.example.test/api/integrations/website';
+process.env.CRM_INGEST_SECRET = 'x'.repeat(40);
+globalThis.fetch = async () => Response.json({ ok: true, caseId: 'case-test' });
 
 process.env.RESEND_API_KEY = 'test';
 process.env.BLOB_READ_WRITE_TOKEN = 'test';
@@ -96,7 +114,14 @@ test('a well-formed request is still accepted and stored', async () => {
   const body = await res.json();
   assert.equal(body.ok, true);
   assert.ok(body.submissionId);
-  assert.ok(calls.puts.some((p) => p.path.endsWith('/record.json')));
+  assert.ok(
+    calls.puts.some((p) => p.path.endsWith('/selfie.jpg')),
+    'the selfie reached storage',
+  );
+  assert.ok(
+    !calls.puts.some((p) => p.path.startsWith('unreceived/')),
+    'nothing was parked: the normal path succeeded',
+  );
   assert.equal(calls.sends.length, 1);
 });
 
@@ -175,27 +200,27 @@ test('an error returned by the mail provider is recorded, not swallowed', async 
   const res = await post();
 
   assert.equal(res.status, 200, 'the request itself still succeeds: the record is safe');
-  const receipt = calls.puts.find((p) => p.path.endsWith('/notify.json'));
+  const receipt = calls.puts.find((p) => p.path.startsWith('notify-failed/'));
   assert.ok(receipt, 'the outcome is written next to the record');
   const notify = JSON.parse(receipt.body);
-  assert.equal(notify.status, 'failed');
   assert.equal(notify.reason, 'validation_error');
 });
 
 test('a thrown send is recorded as failed, with the actual error kept', async () => {
   sendThrows = true;
   await post();
-  const notify = JSON.parse(calls.puts.find((p) => p.path.endsWith('/notify.json')).body);
-  assert.equal(notify.status, 'failed');
-  // The real error message is kept rather than a generic placeholder, so an
-  // operator reading notify.json can tell a network failure from a rejected
-  // address without also having function logs open.
+  const notify = JSON.parse(calls.puts.find((p) => p.path.startsWith('notify-failed/')).body);
+  // The real error is kept rather than a generic placeholder, so an operator
+  // can tell a network failure from a rejected address without also having
+  // function logs open.
   assert.equal(notify.reason, 'network');
+  assert.equal(notify.caseId, 'case-test', 'the receipt points at the case');
 });
 
-test('a delivered send is recorded as sent', async () => {
+test('a delivered send leaves no failure receipt behind', async () => {
   await post();
-  const notify = JSON.parse(calls.puts.find((p) => p.path.endsWith('/notify.json')).body);
-  assert.equal(notify.status, 'sent');
-  assert.equal(notify.id, 'email_test');
+  assert.ok(
+    !calls.puts.some((p) => p.path.startsWith('notify-failed/')),
+    'a receipt is written only when something actually failed',
+  );
 });

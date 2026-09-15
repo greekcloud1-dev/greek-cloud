@@ -13,17 +13,19 @@ What changed since the Codex handoff below:
   with a regression test. Two were reproduced before and after: the mobile
   drawer in a real Chromium at 390x844, and the reminder-ownership bug against
   the real migrations in an in-memory PostgreSQL.
-- Two new migrations, `202609110006_reminder_ownership.sql` and
-  `202609140007_website_bridge_operational_fields.sql`. A fresh install now runs
-  **seven** migrations in filename order, not five.
-- The website bridge carries the rest of the intake's operational fields. It
-  sent five; it now sends eight, adding the plan bought (`standard`/`vip`), the
-  estimated arrival date and the submission language. Before this, every website
-  lead landed as a generic case with no way to tell a VIP purchase from a
-  standard one, no trip date, and nothing marking an English speaker. The
-  forbidden set is unchanged and unchanged in principle: no health description,
-  passport, age, prescription answer, files or Blob paths. See
-  `CRM-INTEGRATION.md` for the field-by-field mapping.
+- Four new migrations (006-009). A fresh install now runs **nine** in filename
+  order, not five.
+- The website bridge carries the whole submission, not five operational fields:
+  plan, estimated arrival date, language, and — at the owner's explicit decision
+  of 2026-09-14 — passport, age, the health description, the prescription answer
+  and the recorded consents. `CLAUDE.md` records that decision; an earlier rule
+  there forbade it, and was changed on purpose.
+- Storage is one system. The files moved from Vercel Blob into a private
+  Supabase bucket in the CRM's own project, so a case and its files share one
+  backup and one deletion. Blob remains configured as a holding area that is
+  written to only when Supabase or the bridge refuses, so an outage never loses
+  a submission. See `CRM-INTEGRATION.md` for the field mapping and the failure
+  behaviour.
 - New files: `crm/lib/crm/weekly.ts` (the seven-day window, kept outside
   `server-only` `store.ts` so it can be tested), `assets/intake-draft.js` (the
   intake draft storage policy, split out for the same reason), and `tests/` at
@@ -100,10 +102,13 @@ The progress indicator is completed tasks / all tasks, not medical readiness.
 ## Deployment and activation
 
 1. In `crm/`, install with `pnpm install --frozen-lockfile`, then `pnpm build`.
-2. Create Supabase project; apply all seven SQL migrations in filename order. On
+2. Create Supabase project; apply all nine SQL migrations in filename order. On
    an existing install, add only the ones it is missing rather than re-running
-   everything: `202609110006_reminder_ownership.sql` and
-   `202609140007_website_bridge_operational_fields.sql` are the recent additions.
+   everything: `202609110006_reminder_ownership.sql`,
+   `202609140007_website_bridge_operational_fields.sql`,
+   `202609140008_intake_full_record.sql` and `202609150009_intake_storage.sql`
+   are the recent additions. The last one creates the private `intake` bucket
+   the website uploads to, so apply it before configuring the website.
 3. Disable public signups, invite the owner's auth account, and explicitly set its
    `crm_profiles.role='admin'` and `active=true`. Follow `crm/supabase/README.md`.
    Configure the invitation and recovery email templates described there. The

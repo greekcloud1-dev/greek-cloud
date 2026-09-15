@@ -22,16 +22,28 @@ full public-intake submission: passport number, age, the health description,
 the existing-prescription answer and the recorded consents. An earlier rule here
 forbade that; it was changed deliberately, not forgotten. Do not "restore" it.
 
-Two things still do not cross, and reinstating either would be a mistake:
+Storage is one system, deliberately. The files live in a private Supabase
+bucket in the same project as the CRM database, so a case and its files are one
+row and one prefix under one backup and — the reason that actually decided it —
+**one deletion**. An earlier design kept the files and a `record.json` in Vercel
+Blob while the case lived in Supabase; erasing a customer then took two jobs in
+two systems, and a miss in either leaves a face photo behind after somebody
+asked to be forgotten.
 
-- **File bytes.** The selfie and the prescription stay in the website's private
-  Blob storage. The CRM stores only their basenames and mints a five-minute
-  signed link through `api/intake-file.js` when a staff member asks. Copying the
-  files into the CRM would mean a face photo and a prescription living in two
-  systems, where deleting one does not delete the other.
-- **Blob URLs or tokens.** Nothing durable in the CRM database grants access to
-  a file. `lib/crm-sync.js` reduces a stored path to its basename and drops
-  anything that is not one.
+What that means in practice, and must not be undone:
+
+- **Blob is a holding area, not a store.** Nothing is written to it when the
+  normal path works. If Supabase or the bridge refuses, the submission is
+  parked under `unreceived/` with the reason and the visitor is told it is
+  pending rather than received — so no one is ever lost to an outage. That
+  prefix existing at all is the alert. See `lib/intake-store.js`.
+- **The website holds a Storage-scoped key and nothing more.** It must never
+  hold a key that can read the CRM database: if the public site is compromised,
+  the blast radius should be the files, not every customer. That is why the
+  record still travels through the authenticated bridge, which the CRM owns.
+- **No Blob URL, signed URL or token is ever stored.** Only object paths cross,
+  and the CRM signs one for five minutes when a staff member opens a file.
+  `lib/crm-sync.js` drops anything that is not a path inside the intake prefix.
 
 The bridge payload is an explicit list, never a spread. Adding a field means
 changing `lib/crm-sync.js`, the strict schema in

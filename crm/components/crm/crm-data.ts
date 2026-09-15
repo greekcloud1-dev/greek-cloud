@@ -48,8 +48,8 @@ export type ClientCase = {
   intakeCondition?: string;
   intakeRxState?: string;
   intakeConsents?: string[];
-  /* Names the website's copy of the uploaded files. The bytes never reach the
-     CRM; these let it ask the website for a short-lived link. */
+  /* Object paths in the private intake bucket. Set only when the submission
+     carried that file; the server signs one on demand. */
   submissionId?: string;
   selfieFile?: string;
   rxFile?: string;
@@ -178,7 +178,7 @@ export const initialClients: ClientCase[] = [
       "הגבלת אחריות",
     ],
     submissionId: "demo-submission-0000",
-    selfieFile: "selfie.jpg",
+    selfieFile: "submissions/demo-submission-0000/selfie.jpg",
     // No rxFile: this demo case has no prescription upload, so the button for
     // it is absent rather than present and broken.
     service: "ליווי לקראת הנסיעה",

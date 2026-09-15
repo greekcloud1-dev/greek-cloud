@@ -12,8 +12,8 @@ export const runtime = "nodejs";
 //
 // .strict() is still load-bearing: an unrecognised key is a rejected request,
 // not a silently ignored one, so a field nobody decided on cannot arrive by
-// accident. What must never appear here is file content or any Blob URL or
-// token -- only basenames travel, and the website serves the files itself.
+// accident. What must never appear here is file content or any signed
+// URL -- only object paths travel, and a path grants nothing on its own.
 const websiteContactSchema = z
   .object({
     submissionId: z.string().regex(/^[A-Za-z0-9_-]{8,100}$/),
@@ -40,15 +40,16 @@ const websiteContactSchema = z
     // Which boxes were ticked, as submitted. Booleans only: this is a record of
     // what was agreed to, not a place for the site to pass arbitrary structure.
     consents: z.record(z.string().max(40), z.boolean()).nullish(),
-    // Basenames, never paths or URLs. The pattern is the same one the CRM
-    // column enforces, so a value shaped like a path is rejected here first.
-    selfieFile: z
+    /* Object paths inside the private intake bucket, never URLs. The pattern
+       matches the column constraint, and the SQL function additionally checks
+       that a path sits under this submission's own prefix. */
+    selfiePath: z
       .string()
-      .regex(/^[a-z]+\.[a-z0-9]{2,5}$/)
+      .regex(/^submissions\/[A-Za-z0-9_-]{8,100}\/[a-z]+\.[a-z0-9]{2,5}$/)
       .nullish(),
-    rxFile: z
+    rxPath: z
       .string()
-      .regex(/^[a-z]+\.[a-z0-9]{2,5}$/)
+      .regex(/^submissions\/[A-Za-z0-9_-]{8,100}\/[a-z]+\.[a-z0-9]{2,5}$/)
       .nullish(),
   })
   .strict();
@@ -102,8 +103,8 @@ export async function POST(request: Request) {
         p_condition: contact.condition ?? null,
         p_rx_state: contact.rxState ?? null,
         p_consents: contact.consents ?? {},
-        p_selfie_file: contact.selfieFile ?? null,
-        p_rx_file: contact.rxFile ?? null,
+        p_selfie_path: contact.selfiePath ?? null,
+        p_rx_path: contact.rxPath ?? null,
       },
     );
     if (error || typeof data !== "string")

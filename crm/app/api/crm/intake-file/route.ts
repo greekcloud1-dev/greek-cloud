@@ -1,4 +1,3 @@
-import { createHmac } from "node:crypto";
 import { z } from "zod";
 import { getCrmAuthState } from "@/lib/crm/auth";
 import { createClient } from "@/lib/supabase/server";
@@ -6,29 +5,24 @@ import { readLimitedJson } from "@/lib/request/protection";
 
 export const runtime = "nodejs";
 
-/* Mints a short-lived link to one file of a public intake.
+/* A short-lived link to one file of a public intake.
    ---------------------------------------------------------------------------
-   The website keeps the selfie and the prescription; the CRM never holds the
-   bytes. This route turns "an active staff member opened this case" into a
-   link that works for a few minutes and then does not.
+   The files live in the same Supabase project as the case, in a private
+   bucket, so this signs a path with Supabase's own signing rather than the
+   hand-rolled HMAC an earlier version needed when the files sat in another
+   system. Less code, and the part that has to be right is maintained by
+   somebody else.
 
-   The secret is shared with the website and never reaches the browser: the URL
-   is built here, server-side, and only the finished URL is returned. The
-   signature covers the submission id, which file, the basename and the expiry,
-   so a returned link cannot be edited into a link for a different case.
+   Everything is done through the caller's own RLS-scoped client. A staff
+   member who cannot read a case cannot read its intake row, so they cannot
+   learn the path, so they cannot sign it -- the authorisation is the same one
+   that governs the rest of the CRM rather than a second one invented here. */
 
-   Authorisation is checked twice on purpose. First that the caller is active
-   staff at all, then that the case they named really carries the file they
-   asked for -- read through their own RLS-scoped client, so a staff member who
-   cannot see a case cannot mint a link to its photo either. */
-
-const LINK_TTL_MS = 5 * 60 * 1000;
+const LINK_TTL_SECONDS = 300;
+const BUCKET = "intake";
 
 const requestSchema = z
-  .object({
-    caseId: z.uuid(),
-    file: z.enum(["selfie", "rx"]),
-  })
+  .object({ caseId: z.uuid(), file: z.enum(["selfie", "rx"]) })
   .strict();
 
 function reply(status: number, body: Record<string, unknown>) {
@@ -39,16 +33,6 @@ function reply(status: number, body: Record<string, unknown>) {
 }
 
 export async function POST(request: Request) {
-  const secret = process.env.INTAKE_FILE_SECRET;
-  const base = process.env.INTAKE_FILE_ORIGIN;
-  if (!secret || secret.length < 32 || !base) {
-    return reply(503, { error: "not_configured" });
-  }
-
-  /* The same gate the rest of the CRM uses. "setup" means no Supabase is
-     configured at all, which is a different answer from "you are not signed
-     in" and worth keeping distinct. getCrmAuthState only reports
-     "authenticated" for a profile that is an active admin or agent. */
   const auth = await getCrmAuthState();
   if (auth.status === "setup") return reply(503, { error: "not_configured" });
   if (auth.status !== "authenticated") return reply(401, { error: "unauthorized" });
@@ -63,36 +47,25 @@ export async function POST(request: Request) {
   if (!parsed.success) return reply(400, { error: "invalid_request" });
   const { caseId, file } = parsed.data;
 
-  /* Their own client, so row-level security decides what they can see. A case
-     they cannot read comes back empty and they get the same answer as if the
-     file did not exist. */
   const supabase = await createClient();
-  const { data: receipt } = await supabase
-    .from("crm_website_receipts")
-    .select("submission_id")
-    .eq("case_id", caseId)
-    .maybeSingle();
   const { data: intake } = await supabase
     .from("crm_case_intake")
-    .select("selfie_file,rx_file")
+    .select("selfie_path,rx_path")
     .eq("case_id", caseId)
     .maybeSingle();
 
-  const submissionId = receipt?.submission_id;
-  const name = file === "selfie" ? intake?.selfie_file : intake?.rx_file;
-  if (!submissionId || !name) return reply(404, { error: "no_file" });
+  const path = file === "selfie" ? intake?.selfie_path : intake?.rx_path;
+  // A case they cannot see reads as a case with no file. Same answer either
+  // way, so this does not become a way to test whether a case exists.
+  if (!path) return reply(404, { error: "no_file" });
 
-  const expires = Date.now() + LINK_TTL_MS;
-  const signature = createHmac("sha256", secret)
-    .update([submissionId, file, name, String(expires)].join("\n"))
-    .digest("hex");
+  const { data, error } = await supabase.storage
+    .from(BUCKET)
+    .createSignedUrl(path, LINK_TTL_SECONDS);
+  if (error || !data?.signedUrl) return reply(503, { error: "sign_failed" });
 
-  const url = new URL("/api/intake-file", base);
-  url.searchParams.set("sid", submissionId);
-  url.searchParams.set("f", file);
-  url.searchParams.set("n", name);
-  url.searchParams.set("exp", String(expires));
-  url.searchParams.set("sig", signature);
-
-  return reply(200, { url: url.toString(), expiresAt: new Date(expires).toISOString() });
+  return reply(200, {
+    url: data.signedUrl,
+    expiresAt: new Date(Date.now() + LINK_TTL_SECONDS * 1000).toISOString(),
+  });
 }

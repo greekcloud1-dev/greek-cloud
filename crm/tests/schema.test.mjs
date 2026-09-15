@@ -26,12 +26,28 @@ async function asRole(role, userId, action) {
 
 before(async () => {
   await db.exec(`
-    create schema auth; create schema extensions;
+    create schema auth; create schema extensions; create schema storage;
     create role anon; create role authenticated; create role service_role bypassrls;
-    grant usage on schema public, auth, extensions to anon, authenticated, service_role;
+    grant usage on schema public, auth, extensions, storage to anon, authenticated, service_role;
     create table auth.users(id uuid primary key, email text, raw_user_meta_data jsonb default '{}');
     create function auth.uid() returns uuid language sql stable as
       $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
+    -- The small part of Supabase Storage the migrations actually touch: a
+    -- bucket registry and the object table whose RLS decides who may read a
+    -- file. Enough to exercise the policies; not a storage implementation.
+    create table storage.buckets(id text primary key, name text not null, public boolean not null default false);
+    create table storage.objects(
+      id uuid primary key default gen_random_uuid(),
+      bucket_id text not null references storage.buckets(id),
+      name text not null,
+      created_at timestamptz not null default now(),
+      unique (bucket_id, name)
+    );
+    alter table storage.objects enable row level security;
+    revoke all on storage.objects from anon, authenticated;
+    grant select on storage.objects to authenticated;
+    grant all on storage.objects to service_role;
+    grant select on storage.buckets to authenticated, service_role;
   `);
   const directory = new URL("../supabase/migrations/", import.meta.url);
   for (const file of (await readdir(directory))
@@ -368,7 +384,8 @@ test("the full submission is stored, and the files are named but not held", asyn
            'standard','2026-11-02','he',
            '87654321', 41::smallint, 'health narrative text', 'past',
            '{"c_health":true,"c_terms":true}'::jsonb,
-           'selfie.jpg','prescription.pdf'
+           'submissions/test-submission-005/selfie.jpg',
+           'submissions/test-submission-005/prescription.pdf'
          ) as id`,
       ),
     )
@@ -383,12 +400,12 @@ test("the full submission is stored, and the files are named but not held", asyn
   assert.equal(intake.rx_state, "past");
   assert.deepEqual(intake.consents, { c_health: true, c_terms: true });
 
-  // Basenames only. A storage path or URL here would mean the CRM could reach
-  // the file on its own, which is the thing the signed-link design avoids.
-  assert.equal(intake.selfie_file, "selfie.jpg");
-  assert.equal(intake.rx_file, "prescription.pdf");
-  for (const value of [intake.selfie_file, intake.rx_file]) {
-    assert.ok(!value.includes("/"), "never a path");
+  // Paths inside the private bucket. The CRM signs these on demand; they are
+  // not URLs and grant nothing on their own.
+  assert.equal(intake.selfie_path, "submissions/test-submission-005/selfie.jpg");
+  assert.equal(intake.rx_path, "submissions/test-submission-005/prescription.pdf");
+  for (const value of [intake.selfie_path, intake.rx_path]) {
+    assert.ok(value.startsWith("submissions/"), "inside the intake prefix");
     assert.ok(!value.startsWith("http"), "never a URL");
   }
 });
@@ -398,8 +415,8 @@ test("the intake table refuses a stored value the column rules forbid", async ()
     await db.query("select case_id from crm_website_receipts where submission_id='test-submission-005'")
   ).rows[0].case_id;
   for (const [column, value] of [
-    ["selfie_file", "submissions/x/selfie.jpg"],
-    ["rx_file", "https://example.com/x.pdf"],
+    ["selfie_path", "../../etc/passwd"],
+    ["rx_path", "https://example.com/x.pdf"],
     ["rx_state", "maybe"],
     ["age", 400],
   ]) {

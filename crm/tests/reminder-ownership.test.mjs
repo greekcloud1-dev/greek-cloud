@@ -57,12 +57,28 @@ async function inAppRecipients(event) {
 
 before(async () => {
   await db.exec(`
-    create schema auth; create schema extensions;
+    create schema auth; create schema extensions; create schema storage;
     create role anon; create role authenticated; create role service_role bypassrls;
-    grant usage on schema public, auth, extensions to anon, authenticated, service_role;
+    grant usage on schema public, auth, extensions, storage to anon, authenticated, service_role;
     create table auth.users(id uuid primary key, email text, raw_user_meta_data jsonb default '{}');
     create function auth.uid() returns uuid language sql stable as
       $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
+    -- The small part of Supabase Storage the migrations actually touch: a
+    -- bucket registry and the object table whose RLS decides who may read a
+    -- file. Enough to exercise the policies; not a storage implementation.
+    create table storage.buckets(id text primary key, name text not null, public boolean not null default false);
+    create table storage.objects(
+      id uuid primary key default gen_random_uuid(),
+      bucket_id text not null references storage.buckets(id),
+      name text not null,
+      created_at timestamptz not null default now(),
+      unique (bucket_id, name)
+    );
+    alter table storage.objects enable row level security;
+    revoke all on storage.objects from anon, authenticated;
+    grant select on storage.objects to authenticated;
+    grant all on storage.objects to service_role;
+    grant select on storage.buckets to authenticated, service_role;
   `);
   const directory = new URL("../supabase/migrations/", import.meta.url);
   for (const file of (await readdir(directory)).filter((n) => n.endsWith(".sql")).sort()) {

@@ -237,7 +237,7 @@ export async function loadCrmData() {
       supabase
         .from("crm_case_intake")
         .select(
-          "case_id,passport,age,condition,rx_state,consents,selfie_file,rx_file",
+          "case_id,passport,age,condition,rx_state,consents,selfie_path,rx_path",
         )
         .order("case_id")
         .range(from, to),
@@ -401,11 +401,12 @@ export async function loadCrmData() {
       intakeCondition: str(intake, "condition"),
       intakeRxState: rxStates[str(intake, "rx_state")] ?? "",
       intakeConsents: consentLabels(intake.consents),
-      /* The website holds the files; these name them so the CRM can ask for a
-         short-lived link. Useless on their own. */
+      /* Object paths in the private bucket. The case view asks the server to
+         sign one when a staff member opens it; a path on its own opens
+         nothing. */
       submissionId: submissions.get(id) ?? "",
-      selfieFile: str(intake, "selfie_file"),
-      rxFile: str(intake, "rx_file"),
+      selfieFile: str(intake, "selfie_path"),
+      rxFile: str(intake, "rx_path"),
       service: services[str(row, "service") as ServiceKind] ?? "אחר",
       source: sources[str(row, "source") as LeadSource] ?? "אחר",
       owner: owner ? str(owner, "display_name") : "ללא שיוך",
