@@ -102,19 +102,22 @@ The progress indicator is completed tasks / all tasks, not medical readiness.
 ## Deployment and activation
 
 1. In `crm/`, install with `pnpm install --frozen-lockfile`, then `pnpm build`.
-2. Create Supabase project, then apply the schema. On a **new, empty** project
-   the simplest route is `crm/supabase/schema-complete.sql`: paste the whole
-   file into the SQL Editor and run it once. It is generated from the migration
-   files in order, so it is the same thing in one paste; regenerate it rather
-   than editing it. On an existing project, apply the individual migrations you
-   are missing instead -- re-running the combined script is not safe. In
-   filename order. On
-   an existing install, add only the ones it is missing rather than re-running
-   everything: `202609110006_reminder_ownership.sql`,
+2. Create the Supabase project, then apply the schema.
+
+   On a **new, empty** project: paste `crm/supabase/schema-complete.sql` into
+   the SQL Editor and run it once. It is generated from the migration files in
+   filename order, so it is the same thing in a single paste. Regenerate it
+   rather than editing it, or the two will disagree.
+
+   On a project that **already has some of this**: apply the individual files
+   from `crm/supabase/migrations/` that it is missing, in filename order.
+   Re-running the combined script is not safe. The recent additions are
+   `202609110006_reminder_ownership.sql`,
    `202609140007_website_bridge_operational_fields.sql`,
-   `202609140008_intake_full_record.sql` and `202609150009_intake_storage.sql`
-   are the recent additions. The last one creates the private `intake` bucket
-   the website uploads to, so apply it before configuring the website.
+   `202609140008_intake_full_record.sql` and `202609150009_intake_storage.sql`.
+
+   Either way, 009 creates the private `intake` bucket the website uploads to,
+   so the schema must be applied before the website is configured.
 3. Disable public signups, invite the owner's auth account, and explicitly set its
    `crm_profiles.role='admin'` and `active=true`. Follow `crm/supabase/README.md`.
    Configure the invitation and recovery email templates described there. The
