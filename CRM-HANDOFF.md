@@ -1,42 +1,105 @@
 # CRM handoff for Claude
 
-## Current state — 2026-09-15
+## Current state — 2026-09-15 (end of day)
 
-The CRM has a live Supabase project: `greekcloud-crm` (project ref
-`yeviskibnwoaamcsxphb`, org "greekcloud1-dev's", region `eu-central-1`, free
-tier). All ten migrations are applied and verified against it (`list_tables`
-shows the 12 `crm_` tables; `storage.buckets` has the private `intake` bucket;
-`crm_ingest_website_contact` has the 15-argument signature from migration 009).
-A tenth migration, `202609150010_trigger_function_execute_revoke.sql`, closes
-a gap the live security advisor found: four trigger-only functions were still
-callable via RPC by `anon`/`authenticated` because Supabase grants EXECUTE to
-those roles by default independently of `revoke ... from public` — migration
-002's revoke of the same functions never actually took effect for that reason.
-After the fix, `get_advisors(type: security)` shows only `crm_is_active_staff`
-and `crm_is_admin` as anon/authenticated-callable, which is intentional: the
-client calls them to check session status. `schema-complete.sql` was
-regenerated to include migration 010 and re-verified against PGlite
-(`crm/tests/schema.test.mjs`, part of the 86-test suite, all passing).
+Almost everything from the morning's checklist is done and actually running
+in production infrastructure, not just planned. What's below is what changed
+today, in the order a maintainer would want to verify it.
+
+**Supabase project**: live, `greekcloud-crm` (ref `yeviskibnwoaamcsxphb`, org
+"greekcloud1-dev's", region `eu-central-1`, free tier), all ten migrations
+applied and verified (see the `2026-09-15` entry below for the migration-010
+security fix). Admin account is active: the owner's auth user
+(`greekcloud1@gmail.com`) was invited, confirmed, and its `crm_profiles` row
+now has `role='admin'`, `active=true`, `telegram_chat_id` set. Public signup
+is disabled (Authentication → Sign In / Providers → "Allow new users to sign
+up" is off).
+
+**CRM deployed**: a new Vercel project `greekcloud-crm` (org `greekcloud`,
+GitHub repo `greekcloud1-dev/greek-cloud`, Root Directory `crm`, framework
+Next.js) tracks this branch for Production and is live at
+`greekcloud-crm.vercel.app`. It shows the real invite-only login screen, not
+the demo banner, so its Supabase env vars are correct. Vercel Cron is
+configured (`crm/vercel.json`, every 5 minutes) to call
+`/api/cron/crm-notifications`; Vercel injects `Authorization: Bearer
+<CRON_SECRET>` automatically for its own cron calls once `CRON_SECRET` is set
+on the project, which it is.
+
+**Telegram is wired**: bot `@GreekCloudCRM_bot` was created via BotFather,
+its token is `TELEGRAM_BOT_TOKEN` on the CRM project, `TELEGRAM_CHAT_ID` is
+set as the shared default, and the owner's own `crm_profiles.telegram_chat_id`
+is set to their personal chat id (obtained by messaging the bot once and
+reading `getUpdates`). Not yet verified end-to-end because the storage
+blocker below prevents a real case from ever reaching the notification
+queue — do that check together once storage is fixed.
+
+**Website ↔ CRM bridge**: both Vercel projects (`greek-cloud` root and
+`greekcloud-crm`) have matching `CRM_INGEST_SECRET`, and the root project has
+`CRM_INGEST_URL` pointing at the CRM's `/api/integrations/website`. Both are
+set on Production and Preview.
+
+**Not working yet — the one real blocker**: the website's Supabase Storage
+upload. The design intent (see `CLAUDE.md`) is that the public website must
+never hold a key that can read the CRM database, only upload files. Since
+every current Supabase API key (publishable or secret) grants full
+project-wide access and bypasses RLS, `lib/intake-store.js` was rewritten to
+use the S3 protocol instead (Storage → S3 Connection → access keys), which is
+the only credential type Supabase actually scopes to Storage. That rewrite
+went through two real bugs, both found and fixed by an actual end-to-end
+submission against the live project rather than by the test suite (which
+stubs storage and never touches the network):
+
+1. Handing a `File`'s own stream straight to `PutObjectCommand` failed with
+   "Unable to calculate hash for flowing readable stream" — a stream can only
+   be read once, but the SDK needs to re-read it to checksum it. Fixed by
+   buffering the file into a `Uint8Array` first (commit `287a505`).
+2. After that, every upload failed with `SignatureDoesNotMatch` — including
+   from a fresh key pair, from a second fresh key pair, from Node directly
+   with `@aws-sdk/client-s3`, and from `curl --aws-sigv4` completely outside
+   any of this repo's code. All three independently computed a well-formed
+   SigV4 request (confirmed with `curl -v`: correct host, region
+   `eu-central-1`, canonical request, `sb-project-ref` header on the
+   response proving it reached the right project's gateway) and all three
+   got the same clean `SignatureDoesNotMatch` XML error back. Toggling
+   "S3 protocol connection" off and back on (Storage → S3 Connection) did not
+   help. A guess that the SDK's newer default checksum header
+   (`x-amz-checksum-crc32`) was the culprit was tried
+   (`requestChecksumCalculation: 'WHEN_REQUIRED'`, commit `67ba856`) and
+   did not fix it either — worth keeping since it can only help, but it
+   was not the actual cause.
+
+   This now looks like a Supabase-side issue with this project's S3 gateway,
+   not something fixable from application code. **Next step: contact
+   Supabase support with the project ref and mention that S3-protocol
+   requests get `SignatureDoesNotMatch` for freshly generated access keys
+   even when verified independently with `curl --aws-sigv4`**, or try again
+   after some time in case it is a propagation delay on a newly created
+   project. Until this is resolved, every real submission is safely parked
+   in Vercel Blob under `unreceived/` rather than lost or silently dropped —
+   confirmed by three real end-to-end POSTs to `/api/submit` on the live
+   preview deployment, all returning `202 pending` with the submission
+   correctly parked.
+
+- New S3 access keys currently on file (both fail identically, kept for
+  reference/rotation): `website-root-storage-only`
+  (`b07690882ba1b2f595be22ca9ec79ecb`) and `website-root-storage-only-v2`
+  (`339613fa7076aca5725bfd7bbfd7a3de`). Both projects' env vars
+  (`SUPABASE_STORAGE_KEY_ID` / `SUPABASE_STORAGE_KEY`) currently hold the v2
+  pair.
+- Not yet done because of the above: a real end-to-end submission that
+  actually reaches the CRM as a case (the bridge, Telegram, and email paths
+  are all wired but unverified against a real payload).
+- Resend and Cloudflare Turnstile were not configured this session — no
+  logged-in access to either account was available in this browser. The
+  root website's own `/api/submit` does not require Turnstile (only the
+  CRM's own public form does, per `crm/.env.example`); Resend's
+  `RESEND_API_KEY` already exists on the root Vercel project from before,
+  reused for email — the CRM project does not yet have its own.
 
 Project URL: `https://yeviskibnwoaamcsxphb.supabase.co`. The anon/publishable
 key is not secret and can be fetched again with the Supabase MCP
 `get_publishable_keys` tool, or from the dashboard, when configuring
 `crm/.env` — see `crm/.env.example` for the variable names.
-
-Not yet done, and requiring the owner directly (no one else should hold the
-owner's password or mint a key that reads customer data on their behalf):
-
-- Disable public signup, invite the owner's own auth account, and set
-  `crm_profiles.role='admin'`, `active=true` for it. `crm/supabase/README.md`
-  has the exact steps.
-- Mint a Storage-scoped (not service_role) API key in the Supabase dashboard
-  for the website's `SUPABASE_STORAGE_KEY` — this key must not be able to read
-  any CRM table, only the `intake` bucket. The Supabase MCP toolset used here
-  does not expose scoped-key creation, so this is a manual dashboard step.
-- Configure environment variables on both Vercel projects (CRM and the
-  website root) per `crm/.env.example` and the deployment steps below.
-- Deploy `crm/` as its own Vercel project, then run one real end-to-end
-  submission before treating any of this as live.
 
 ## Earlier state — 2026-09-14
 
