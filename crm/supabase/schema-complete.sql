@@ -27,7 +27,6 @@
 -- ==========================================================================
 -- 202609040001_crm.sql
 -- ==========================================================================
-
 -- GreekCloud CRM foundation.
 -- This schema intentionally stores operational data only. It has no columns or
 -- storage buckets for medical records, passport data, uploaded documents, or
@@ -1317,10 +1316,10 @@ comment on table public.crm_activities is
 comment on table public.crm_event_outbox is
   'Transactional notification events. Process with a server-only service role worker.';
 
+
 -- ==========================================================================
 -- 202609060002_crm_staff_operations.sql
 -- ==========================================================================
-
 -- Authenticated staff operations. Run after the CRM foundation migration.
 alter table public.crm_cases add column destination text
   check (destination is null or char_length(destination) <= 120);
@@ -1501,10 +1500,11 @@ grant execute on function public.crm_staff_create_case(
   text, text, public.crm_service_kind, public.crm_lead_source, text, timestamptz, text
 ) to authenticated;
 
+
+
 -- ==========================================================================
 -- 202609060003_crm_notifications.sql
 -- ==========================================================================
-
 -- Durable operational reminders. No customer names, phone numbers, task titles,
 -- medical details or message bodies are copied into external deliveries.
 alter table public.crm_notifications
@@ -1822,10 +1822,11 @@ grant execute on function public.crm_prepare_notifications(integer) to service_r
 grant execute on function public.crm_claim_notification_deliveries(boolean, boolean, boolean, integer) to service_role;
 grant execute on function public.crm_finish_notification_delivery(uuid, uuid, boolean, text, text, boolean, integer) to service_role;
 
+
+
 -- ==========================================================================
 -- 202609070004_website_bridge.sql
 -- ==========================================================================
-
 -- Minimal, idempotent bridge from the existing website's durable private intake.
 -- No file identifiers, Blob URLs, passport or medical fields are accepted.
 create table public.crm_website_receipts (
@@ -1877,10 +1878,10 @@ $$;
 revoke all on function public.crm_ingest_website_contact(text,text,text,text,text) from public, anon, authenticated;
 grant execute on function public.crm_ingest_website_contact(text,text,text,text,text) to service_role;
 
+
 -- ==========================================================================
 -- 202609080005_security_hardening.sql
 -- ==========================================================================
-
 -- Enforce integrity at the direct PostgREST boundary, not only in Next.js.
 revoke insert (metadata) on public.crm_activities from authenticated;
 drop policy crm_activities_insert_staff on public.crm_activities;
@@ -2170,10 +2171,12 @@ begin
 end;
 $$;
 
+
+
+
 -- ==========================================================================
 -- 202609110006_reminder_ownership.sql
 -- ==========================================================================
-
 -- Route reminders to whoever holds the case now.
 --
 -- A flight or task reminder was keyed by the case and the flight time alone,
@@ -2457,7 +2460,6 @@ $$;
 -- ==========================================================================
 -- 202609140007_website_bridge_operational_fields.sql
 -- ==========================================================================
-
 -- Carry the rest of the website intake's OPERATIONAL fields across the bridge.
 --
 -- The bridge sent five fields: submission id, name, phone, email and city.
@@ -2570,10 +2572,10 @@ revoke all on function public.crm_ingest_website_contact(text,text,text,text,tex
 grant execute on function public.crm_ingest_website_contact(text,text,text,text,text,text,date,text)
   to service_role;
 
+
 -- ==========================================================================
 -- 202609140008_intake_full_record.sql
 -- ==========================================================================
-
 -- Carry the full intake record into the CRM, at the owner's explicit decision.
 --
 -- Until now the bridge was an operational-fields-only boundary: the health
@@ -2720,10 +2722,10 @@ grant select on table public.crm_website_receipts to authenticated;
 create policy crm_website_receipts_select_staff on public.crm_website_receipts
 for select to authenticated using (public.crm_is_active_staff());
 
+
 -- ==========================================================================
 -- 202609150009_intake_storage.sql
 -- ==========================================================================
-
 -- One storage system instead of two.
 --
 -- The selfie and the prescription used to live in the website's Vercel Blob
@@ -2869,3 +2871,31 @@ revoke all on function public.crm_ingest_website_contact(
 grant execute on function public.crm_ingest_website_contact(
   text,text,text,text,text,text,date,text,text,smallint,text,text,jsonb,text,text
 ) to service_role;
+
+
+-- ==========================================================================
+-- 202609150010_trigger_function_execute_revoke.sql
+-- ==========================================================================
+-- Close a gap the Supabase security advisor found after migration 009: four
+-- trigger-only functions from the foundation migration were left executable
+-- directly via PostgREST RPC by anon/authenticated, unlike the other trigger
+-- functions migration 202609060002 already locked down the same way.
+--
+-- These are SECURITY DEFINER but only meaningful inside a trigger (they read
+-- `new`/`old`), so a direct RPC call errors out rather than doing anything --
+-- this is not a privilege escalation, just an unnecessary exposed surface.
+-- Revoking EXECUTE does not affect trigger firing: the executor invokes
+-- trigger functions directly, not through a role's EXECUTE grant.
+revoke all on function public.crm_record_case_activity() from public, anon, authenticated;
+revoke all on function public.crm_record_task_activity() from public, anon, authenticated;
+revoke all on function public.crm_seed_notification_preferences() from public, anon, authenticated;
+revoke all on function public.crm_sync_auth_user_profile() from public, anon, authenticated;
+
+-- Migration 202609060002 revoked these same four from PUBLIC, but Supabase
+-- grants EXECUTE to anon/authenticated by default privilege independently of
+-- the PUBLIC pseudo-role, so that revoke never actually covered them -- the
+-- live security advisor still listed all four as callable. Closing that here.
+revoke all on function public.crm_record_contact_edit() from public, anon, authenticated;
+revoke all on function public.crm_record_contact_time() from public, anon, authenticated;
+revoke all on function public.crm_record_extra_case_changes() from public, anon, authenticated;
+revoke all on function public.crm_record_task_reopened() from public, anon, authenticated;

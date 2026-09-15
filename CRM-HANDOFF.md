@@ -1,6 +1,44 @@
 # CRM handoff for Claude
 
-## Current state — 2026-09-14
+## Current state — 2026-09-15
+
+The CRM has a live Supabase project: `greekcloud-crm` (project ref
+`yeviskibnwoaamcsxphb`, org "greekcloud1-dev's", region `eu-central-1`, free
+tier). All ten migrations are applied and verified against it (`list_tables`
+shows the 12 `crm_` tables; `storage.buckets` has the private `intake` bucket;
+`crm_ingest_website_contact` has the 15-argument signature from migration 009).
+A tenth migration, `202609150010_trigger_function_execute_revoke.sql`, closes
+a gap the live security advisor found: four trigger-only functions were still
+callable via RPC by `anon`/`authenticated` because Supabase grants EXECUTE to
+those roles by default independently of `revoke ... from public` — migration
+002's revoke of the same functions never actually took effect for that reason.
+After the fix, `get_advisors(type: security)` shows only `crm_is_active_staff`
+and `crm_is_admin` as anon/authenticated-callable, which is intentional: the
+client calls them to check session status. `schema-complete.sql` was
+regenerated to include migration 010 and re-verified against PGlite
+(`crm/tests/schema.test.mjs`, part of the 86-test suite, all passing).
+
+Project URL: `https://yeviskibnwoaamcsxphb.supabase.co`. The anon/publishable
+key is not secret and can be fetched again with the Supabase MCP
+`get_publishable_keys` tool, or from the dashboard, when configuring
+`crm/.env` — see `crm/.env.example` for the variable names.
+
+Not yet done, and requiring the owner directly (no one else should hold the
+owner's password or mint a key that reads customer data on their behalf):
+
+- Disable public signup, invite the owner's own auth account, and set
+  `crm_profiles.role='admin'`, `active=true` for it. `crm/supabase/README.md`
+  has the exact steps.
+- Mint a Storage-scoped (not service_role) API key in the Supabase dashboard
+  for the website's `SUPABASE_STORAGE_KEY` — this key must not be able to read
+  any CRM table, only the `intake` bucket. The Supabase MCP toolset used here
+  does not expose scoped-key creation, so this is a manual dashboard step.
+- Configure environment variables on both Vercel projects (CRM and the
+  website root) per `crm/.env.example` and the deployment steps below.
+- Deploy `crm/` as its own Vercel project, then run one real end-to-end
+  submission before treating any of this as live.
+
+## Earlier state — 2026-09-14
 
 Single ownership. The owner asked Claude to take Codex's CRM as built and
 continue it alone, so the two-agent synchronization protocol in
