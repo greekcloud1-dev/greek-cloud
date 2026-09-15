@@ -4,21 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!--
-  ============================================================================
-  NOINDEX UNTIL COMPLETED.
-  This page carries [[…]] placeholders and cannot be indexed as it stands.
-  Fill in every [[…]] below, then:
-    1. change the robots meta on the next line to "index, follow, max-image-preview:large, max-snippet:-1"
-    2. delete the "להשלמה לפני פרסום" note near the foot of the page
-    3. fill legalName / address / contactPoint / sameAs in the Organization JSON-LD
-    4. add /about.html and /en/about.html to sitemap.xml and llms.txt
-    5. add the contact details to the sitewide footer
-  ============================================================================
--->
 <title>מי אנחנו, ומה אנחנו לא | GreekCloud</title>
 <meta name="description" content="מי עומד מאחורי GreekCloud, מה השירות עושה בפועל, מה הוא במפורש איננו — לא רופאים, לא בית מרקחת, לא מנפיקי מרשמים — ואיך אפשר ליצור איתנו קשר.">
-<meta name="robots" content="noindex, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="theme-color" content="#5E7350">
 <link rel="canonical" href="https://greek-cloud.com/about.html">
 <link rel="alternate" hreflang="he" href="https://greek-cloud.com/about.html">
@@ -74,6 +62,12 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       "availableLanguage": ["he", "en"],
       "legalName": "Greek Cloud",
       "taxID": "3234567",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "יגאל אלון 2",
+        "addressLocality": "תל אביב",
+        "addressCountry": "IL"
+      },
       "logo": {
         "@type": "ImageObject",
         "url": "https://greek-cloud.com/assets/logo.png",
@@ -84,6 +78,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         "@type": "ContactPoint",
         "contactType": "customer support",
         "email": "1greek.cloud@gmail.com",
+        "telephone": "+972-52-366-0427",
         "availableLanguage": ["he", "en"]
       }]
     },
@@ -94,7 +89,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       "name": "מי אנחנו, ומה אנחנו לא",
       "inLanguage": "he",
       "datePublished": "2026-09-04",
-      "dateModified": "2026-09-04",
+      "dateModified": "2026-09-15",
       "mainEntity": { "@id": "https://greek-cloud.com/#org" },
       "publisher": { "@id": "https://greek-cloud.com/#org" }
     },
@@ -109,13 +104,9 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 }
 </script>
 <!--
-  legalName / taxID / contactPoint.email are filled in above.
-  TODO when the details exist, still add to the Organization node:
-    "foundingDate": "[[YYYY-MM-DD]]",
-    "address": { "@type": "PostalAddress", "streetAddress": "[[רחוב ומספר]]",
-                 "addressLocality": "[[עיר]]", "addressCountry": "IL" },
-    and to the existing contactPoint object: "telephone": "[[+972…]]" (WhatsApp number)
-    "sameAs": ["[[Instagram]]", "[[Facebook]]", "[[TikTok]]"] — once those accounts are connected
+  legalName / taxID / address / contactPoint (email + telephone) are filled in above.
+  TODO once the social accounts are connected, add to the Organization node:
+    "sameAs": ["[[Instagram]]", "[[Facebook]]", "[[TikTok]]"]
 -->
 <script type="speculationrules">
 {"prerender":[{"where":{"href_matches":"/intake.html"},"eagerness":"moderate"}],
@@ -281,8 +272,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <p class="eyebrow">06</p>
       <h2>מי אחראי על התוכן</h2>
       <p>
-        התוכן באתר נכתב ומתוחזק על ידי <strong>[[שם האחראי/ת על התוכן]]</strong>,
-        <strong>[[תפקיד]]</strong>.
+        התוכן באתר נכתב ומתוחזק על ידי <strong>צוות GreekCloud</strong>.
       </p>
       <p>
         הפניות הרפואיות נבחנות על ידי רופא בעל רישיון יווני. GreekCloud אינה מעסיקה את הרופא
@@ -297,27 +287,14 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <h2>יצירת קשר ופרטי הישות</h2>
       <div class="city-facts" style="margin-top:22px">
         <div><span class="k">שם הישות</span><span class="v">Greek Cloud, ח.פ. 3234567</span></div>
-        <div><span class="k">כתובת רשומה</span><span class="v">[[רחוב, עיר]]</span></div>
+        <div><span class="k">כתובת רשומה</span><span class="v">יגאל אלון 2, תל אביב</span></div>
         <div><span class="k">דוא&quot;ל</span><span class="v"><a href="mailto:1greek.cloud@gmail.com">1greek.cloud@gmail.com</a></span></div>
-        <div><span class="k">וואטסאפ</span><span class="v">[[מספר]]</span></div>
-        <div><span class="k">שעות מענה</span><span class="v">[[ימים ושעות]]</span></div>
-      </div>
-
-      <div class="note note-warn" style="margin-top:28px">
-        <span class="nt">להשלמה לפני פרסום</span>
-        העמוד הזה מסומן <bdi dir="ltr">noindex</bdi> עד שכל השדות למטה יושלמו. אחרי ההשלמה יש
-        להחליף את תגית ה־robots, למחוק את ההערה הזאת, ולמלא את צומת ה־Organization בסכמה.
-        <ul class="clean" style="margin-top:10px">
-          <li>כתובת רשומה</li>
-          <li>מספר וואטסאפ</li>
-          <li>שעות מענה</li>
-          <li>שם ותפקיד של האחראי/ת על התוכן</li>
-          <li>קישורים לפרופילים ברשתות, ל־<bdi dir="ltr">sameAs</bdi></li>
-        </ul>
+        <div><span class="k">וואטסאפ</span><span class="v"><a href="https://wa.me/972523660427">052-366-0427</a></span></div>
+        <div><span class="k">שעות מענה</span><span class="v">א׳–ה׳ 10:00–19:00, ו׳ 10:00–13:00</span></div>
       </div>
 
       <p class="updated">
-        עודכן לאחרונה: <time datetime="2026-09-04">ספטמבר 2026</time>.
+        עודכן לאחרונה: <time datetime="2026-09-15">ספטמבר 2026</time>.
       </p>
     </div>
   </section>
