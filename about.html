@@ -72,12 +72,20 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       "description": "שירות תיאום דיגיטלי בעברית לתיירים ישראלים המבקשים מרשם קנאביס רפואי ביוון. איננו רופאים, איננו בית מרקחת, ואיננו מנפיקים מרשמים.",
       "areaServed": { "@type": "Country", "name": "Greece" },
       "availableLanguage": ["he", "en"],
+      "legalName": "Greek Cloud",
+      "taxID": "3234567",
       "logo": {
         "@type": "ImageObject",
         "url": "https://greek-cloud.com/assets/logo.png",
         "width": 224,
         "height": 224
-      }
+      },
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "1greek.cloud@gmail.com",
+        "availableLanguage": ["he", "en"]
+      }]
     },
     {
       "@type": "AboutPage",
@@ -101,16 +109,13 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 }
 </script>
 <!--
-  TODO when the details exist, add to the Organization node above:
-    "legalName": "[[שם הישות המשפטית המלא]]",
-    "taxID": "[[ח.פ. / עוסק מורשה]]",
+  legalName / taxID / contactPoint.email are filled in above.
+  TODO when the details exist, still add to the Organization node:
     "foundingDate": "[[YYYY-MM-DD]]",
     "address": { "@type": "PostalAddress", "streetAddress": "[[רחוב ומספר]]",
                  "addressLocality": "[[עיר]]", "addressCountry": "IL" },
-    "contactPoint": [{ "@type": "ContactPoint", "contactType": "customer support",
-                       "email": "[[כתובת דוא\"ל]]", "telephone": "[[+972…]]",
-                       "availableLanguage": ["he","en"] }],
-    "sameAs": ["[[Instagram]]", "[[Facebook]]", "[[LinkedIn]]"]
+    and to the existing contactPoint object: "telephone": "[[+972…]]" (WhatsApp number)
+    "sameAs": ["[[Instagram]]", "[[Facebook]]", "[[TikTok]]"] — once those accounts are connected
 -->
 <script type="speculationrules">
 {"prerender":[{"where":{"href_matches":"/intake.html"},"eagerness":"moderate"}],
@@ -291,9 +296,9 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <p class="eyebrow">07</p>
       <h2>יצירת קשר ופרטי הישות</h2>
       <div class="city-facts" style="margin-top:22px">
-        <div><span class="k">שם הישות</span><span class="v">[[שם מלא ו־ח.פ.]]</span></div>
+        <div><span class="k">שם הישות</span><span class="v">Greek Cloud, ח.פ. 3234567</span></div>
         <div><span class="k">כתובת רשומה</span><span class="v">[[רחוב, עיר]]</span></div>
-        <div><span class="k">דוא&quot;ל</span><span class="v">[[כתובת דוא&quot;ל]]</span></div>
+        <div><span class="k">דוא&quot;ל</span><span class="v"><a href="mailto:1greek.cloud@gmail.com">1greek.cloud@gmail.com</a></span></div>
         <div><span class="k">וואטסאפ</span><span class="v">[[מספר]]</span></div>
         <div><span class="k">שעות מענה</span><span class="v">[[ימים ושעות]]</span></div>
       </div>
@@ -303,9 +308,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         העמוד הזה מסומן <bdi dir="ltr">noindex</bdi> עד שכל השדות למטה יושלמו. אחרי ההשלמה יש
         להחליף את תגית ה־robots, למחוק את ההערה הזאת, ולמלא את צומת ה־Organization בסכמה.
         <ul class="clean" style="margin-top:10px">
-          <li>שם הישות המשפטית ומספר ח.פ. / עוסק מורשה</li>
           <li>כתובת רשומה</li>
-          <li>כתובת דוא&quot;ל ליצירת קשר ומספר וואטסאפ</li>
+          <li>מספר וואטסאפ</li>
           <li>שעות מענה</li>
           <li>שם ותפקיד של האחראי/ת על התוכן</li>
           <li>קישורים לפרופילים ברשתות, ל־<bdi dir="ltr">sameAs</bdi></li>
