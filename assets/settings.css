@@ -88,7 +88,20 @@
 }
 
 .menu-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.menu-top .t { font-family: var(--f-anchor); font-size: 19px; color: var(--ink); }
+.menu-top .t { font-family: var(--f-anchor); font-size: 19px; color: var(--ink); margin-inline-end: auto; }
+
+/* ---- social row ----
+   Sits between the title and the close button, so it reads on open before
+   anything else in the drawer. */
+.menu-social { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.menu-social a {
+  width: 32px; height: 32px; flex-shrink: 0; display: grid; place-items: center;
+  border-radius: 50%; background: var(--sage-solid); color: var(--on-solid);
+  transition: transform .14s ease, background-color .14s ease;
+}
+.menu-social a:hover { background: #2C3A26; transform: translateY(-1px); }
+.menu-social a svg { width: 16px; height: 16px; }
+@media (max-width: 340px) { .menu-social a { width: 28px; height: 28px; } .menu-social a svg { width: 14px; height: 14px; } }
 .menu-close {
   width: 36px; height: 36px; display: grid; place-items: center;
   background: none; border: 1px solid var(--rule); border-radius: 50%;
