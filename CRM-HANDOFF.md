@@ -102,7 +102,13 @@ The progress indicator is completed tasks / all tasks, not medical readiness.
 ## Deployment and activation
 
 1. In `crm/`, install with `pnpm install --frozen-lockfile`, then `pnpm build`.
-2. Create Supabase project; apply all nine SQL migrations in filename order. On
+2. Create Supabase project, then apply the schema. On a **new, empty** project
+   the simplest route is `crm/supabase/schema-complete.sql`: paste the whole
+   file into the SQL Editor and run it once. It is generated from the migration
+   files in order, so it is the same thing in one paste; regenerate it rather
+   than editing it. On an existing project, apply the individual migrations you
+   are missing instead -- re-running the combined script is not safe. In
+   filename order. On
    an existing install, add only the ones it is missing rather than re-running
    everything: `202609110006_reminder_ownership.sql`,
    `202609140007_website_bridge_operational_fields.sql`,
