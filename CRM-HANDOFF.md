@@ -1,5 +1,64 @@
 # CRM handoff for Claude
 
+## Current state — 2026-09-17 (later): root-site Telegram/email, verified live
+
+The `greekcloud-crm` Production deployment described as stuck below is still
+stuck — that has not changed and needs the owner's own look at the Vercel
+dashboard. On the owner's explicit instruction to stop chasing that platform
+issue and ship a working notification path instead, the same thin
+lead-notification (Telegram + email) was added directly to the root
+`greek-cloud` project's own `/api/submit.js`, which is known to deploy
+normally. This duplicates the CRM's own notification pipeline once that
+project is unstuck; that overlap is intentional, not a bug — two independent
+paths to the same phone beat zero.
+
+**Setup done:** a real Telegram bot (`GreekCloudCRM_bot`, chat "GreekCloud CRM
+Notifications") was created via BotFather; its token and the chat id are set
+as `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` on the `greek-cloud` Vercel
+project, scoped to both Production and to Preview-for-this-branch (never
+written to a commit or this doc — dashboard-only, per standing instruction).
+The branch's own commit with this code (`2e5579c`) had already auto-deployed
+to this branch's Preview five hours before the env vars existed, so a fresh
+`Redeploy` of that exact same commit/branch was triggered from the
+Deployments list (not the generic "Redeploy" dialog off Environment
+Variables, which defaults to the most recent deployment of any branch and
+has to be pointed at the right one by row-level "..." → Redeploy instead) —
+because Vercel bakes env vars into a deployment at build time, so the vars
+would not have applied to the already-existing build.
+
+**Real end-to-end result, this session, against the redeployed Preview:**
+a genuine multipart `/api/submit` POST (`submissionId`
+`2026-09-17T12-06-32-342Z-8f024ecef5184e71`) returned `200 {ok:true}`. The
+runtime trace for that request shows outgoing calls to Supabase, the CRM's
+own ingest endpoint, `api.resend.com/emails` and
+`api.telegram.org/bot***/sendMessage`, with zero Warning/Error/Fatal console
+lines — meaning neither notification path threw. The Telegram message
+**was independently confirmed** by opening the bot's own chat in Telegram
+Web: the exact submission id and content arrived, timestamped 15:06.
+
+**The email did not arrive anywhere** — checked the target inbox, its Spam
+label, and Trash directly by Gmail search; nothing from `resend.dev` exists
+in that mailbox at all, ever. The Resend API call itself did not error (no
+`console.error` was logged, and the code logs one on any email failure), so
+this is not a code bug in `sendTelegramNotification`'s sibling email path —
+it is the send from `onboarding@resend.dev` (Resend's shared sandbox sending
+domain) either being silently dropped by Gmail before Spam filtering, or a
+sandbox-mode recipient restriction on the Resend side that returns success
+without actually queuing delivery. Diagnosing further needs the Resend
+dashboard's own email log (`resend.com/emails`), which needs the account
+owner to sign in — not something to do through browser automation with
+stored credentials. **Open item:** either verify a real sending domain in
+Resend (the standing fix for "mail lands in spam until domain is verified"
+noted elsewhere in this repo, except this case is worse — it does not even
+reach Spam), or have the owner check `resend.com/emails` for this
+submission's delivery status.
+
+**Bottom line for the owner:** Telegram notifications on every new lead are
+live and confirmed working right now on this branch's Preview deployment.
+Email notifications are wired identically but not confirmed delivered —
+Telegram is the reliable channel until the Resend sending domain is sorted
+out.
+
 ## Current state — 2026-09-17
 
 Corrects the 2026-09-15 entry below: the storage blocker described there as
