@@ -1,6 +1,104 @@
 # CRM handoff for Claude
 
-## Current state — 2026-09-15 (end of day)
+## Current state — 2026-09-17
+
+Corrects the 2026-09-15 entry below: the storage blocker described there as
+"a Supabase-side issue" was not one. Both real bugs found since have now been
+fixed and verified with an actual end-to-end submission — but only on the
+**preview** deployment of this branch, not on the live `greek-cloud.com`
+domain. That distinction matters and is explained at the end of this entry.
+
+**Bug 1 — `SignatureDoesNotMatch` (fixed): manual transcription, not Supabase.**
+Every access-key value used up to 2026-09-15 had been read off the Supabase
+dashboard (screenshot or accessibility text) and re-typed or pasted into
+Vercel by hand. That step was silently corrupting the value. The fix was to
+stop reading the value at all: generate a fresh key pair
+(`website-root-storage-only-v4`, access key id
+`c484558b5a64f0870168ca035bb99d58`), use Supabase's own **Copy** button, and
+paste directly into Vercel — verified afterward with an independent
+`curl --aws-sigv4` request, which returned a clean `200` immediately. Even
+with copy/paste, the browser automation used to enter these values had a
+separate, reproducible quirk — pasted or typed secrets sometimes gained one
+extra leading character — so every paste into a Vercel value field was
+visually re-checked (and corrected) before saving. `website-root-storage-only`
+and `-v2` (the two dead keys from 2026-09-15) are superseded; only v4 is live
+now, on both `greek-cloud` (Production and Preview) and used directly by
+`lib/intake-store.js`.
+
+**Bug 2 — the website→CRM bridge silently never fired (fixed).** With
+storage working, `/api/submit` was returning a clean `200 {ok:true}` with no
+`pending` flag — the code's own signal for "the CRM confirmed the case" — yet
+`crm_website_receipts` stayed empty and `greekcloud-crm`'s own request logs
+showed zero traffic. Two independent things were wrong at once:
+
+1. `CRM_INGEST_URL` on `greek-cloud` pointed at a stale/incorrect address, not
+   the CRM project's actual current domain
+   (`https://greekcloud-crm.vercel.app/api/integrations/website`), and
+   `CRM_INGEST_SECRET` was not guaranteed to be byte-identical between the two
+   projects. Root cause traced by calling the CRM's ingest endpoint directly
+   with `curl`: a wrong secret returns `401` from the CRM itself before it
+   ever touches Supabase — and Supabase's own request logs (via the `query_logs`
+   MCP tool, which reports within a couple of seconds) confirmed zero calls
+   ever reached Supabase's REST API in that window. Fixed by generating one
+   fresh 48-hex-char secret and setting the same value, plus the corrected
+   URL, on both projects (`greek-cloud`: Production and Preview;
+   `greekcloud-crm`: Production).
+2. Even after that, the CRM's own call to Supabase started returning `401`
+   (visible in Supabase's logs as a request straight to
+   `/rest/v1/rpc/crm_ingest_website_contact`) or, once the CRM's
+   `SUPABASE_SECRET_KEY` was re-copied cleanly from the Supabase dashboard,
+   `503 intake_not_confirmed`. The RPC function itself worked fine when called
+   directly over SQL — so PostgREST (Supabase's REST layer) simply hadn't
+   reloaded its schema cache after the migrations were applied through the
+   Supabase MCP tool rather than the CLI, which normally sends that reload
+   notice automatically. Running `NOTIFY pgrst, 'reload schema';` once fixed
+   it immediately, confirmed by the same `curl` call now returning
+   `{"ok":true,"caseId":"…"}`.
+
+**Real end-to-end verification, done properly this time.** A same-shape
+`multipart/form-data` POST to `/api/submit` — full name, passport, age, real
+selfie bytes, health description, all seven consents — produced, in order:
+a `200 {ok:true}` with no `pending` flag; a file at
+`submissions/<id>/selfie.jpg` in the private `intake` bucket (confirmed to
+exist with a direct signed `HEAD` request, not just recorded as a path); a row
+in `crm_contacts`, `crm_cases` and `crm_case_intake` with every field matching
+what was submitted; and a queued `crm_notifications` / `crm_event_outbox` row
+(`new_case`, in-app, visible to the assigned staff member) recording that a
+case and a callback task were created. This was repeated twice for confidence
+(case ids `3d2678be…`, `a2add7cb…`), including once after a clean redeploy, to
+rule out a fluke.
+
+**Why this ran on preview, not `greek-cloud.com`, and what that means.** The
+`greek-cloud` Vercel project's Production deployment tracks the `main`
+branch. `main` does not contain this branch's work at all —
+`lib/intake-store.js` and `lib/crm-sync.js` do not exist there, and
+`api/submit.js` on `main` is still the older Blob+Resend-only version that
+never talks to Supabase or the CRM. That is correct and expected: the owner's
+merge gate (below) has not been met yet, so this work was never merged, by
+design. It also means every fix above — the storage keys, the bridge URL and
+secret — only takes effect once this branch reaches production; they are
+already set on both Production and Preview scopes so no further environment
+work is needed at merge time. The actual test therefore ran against this
+branch's own preview deployment
+(`greek-cloud-git-claude-adoring-feynman-hff8a6-greekcloud.vercel.app`),
+redeployed once during this session so it would pick up the corrected
+Preview-scoped environment variables — which is exactly the "or preview"
+alternative the original task allowed for step 6.
+
+**Still open — the notification cron is not actually registered.**
+`crm/vercel.json` defines a `*/5 * * * *` cron for
+`/api/cron/crm-notifications`, but `greekcloud-crm`'s Cron Jobs settings page
+shows the empty "get started" state, not a registered job. Vercel's Hobby
+plan only allows a cron to run once per day at minimum — a 5-minute schedule
+is silently rejected at deploy time on this plan. The in-app notification
+step of the pipeline is verified (see above); the email/Telegram delivery
+step, which depends on this cron actually running, is not. Either upgrade the
+Vercel plan, change the schedule to something Hobby allows (once daily, or
+call the endpoint from an external scheduler on a shorter interval), or accept
+in-app-only notifications for now — this needs the owner's decision, not a
+default pick.
+
+## Earlier state — 2026-09-15 (end of day)
 
 Almost everything from the morning's checklist is done and actually running
 in production infrastructure, not just planned. What's below is what changed
