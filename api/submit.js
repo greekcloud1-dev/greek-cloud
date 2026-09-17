@@ -11,7 +11,8 @@
         (optional) to a private Supabase bucket.
      3. File the submission in the CRM through the authenticated bridge. That
         call is what makes the submission real; its result decides the reply.
-     4. Email a thin notification through Resend: plan, city, arrival date,
+     4. Email a thin notification through Resend, and, if configured, send
+        the same thin notification to Telegram: plan, city, arrival date,
         name and a submission id, never the health description or the files.
 
    Storage is Supabase, singular and deliberately so. An earlier version kept
@@ -131,6 +132,40 @@ function validArrival(value) {
   if (date.toISOString().slice(0, 10) !== value) return false;   // rejects 2026-02-31
   const year = date.getUTCFullYear();
   return year >= 2020 && year <= 2100;
+}
+
+/* Root-cause note (2026-09-17): the CRM's own email/Telegram pipeline
+   (crm/lib/notifications) lives in the separate greekcloud-crm Vercel
+   project, and that project's Production deployment is stuck two commits
+   behind -- pushes and a manually created deploy hook both accepted the
+   trigger but never produced a new build, for reasons that need the
+   account owner's own look at the Vercel dashboard (see CRM-HANDOFF.md).
+   Sending the same thin notification directly from here, on a project that
+   is known to deploy normally, means a lead is never silently unannounced
+   while that is sorted out. This duplicates effort with the CRM pipeline
+   once it is live again; that is the point, not a bug -- two independent
+   paths to the same phone are better than zero. */
+async function sendTelegramNotification(record) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return { status: 'skipped', reason: 'telegram_not_configured' };
+
+  const { subject, text } = buildEmail(record);
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text: `${subject}\n\n${text}` }),
+      signal: AbortSignal.timeout(10_000),
+    });
+    const payload = await response.json().catch(() => null);
+    if (!response.ok || !payload?.ok) {
+      return { status: 'failed', reason: `telegram_${payload?.error_code ?? response.status}` };
+    }
+    return { status: 'sent', id: payload.result?.message_id ?? null };
+  } catch (e) {
+    return { status: 'failed', reason: e && e.message ? e.message : 'delivery_unconfirmed' };
+  }
 }
 
 function buildEmail(record) {
@@ -424,7 +459,9 @@ async function handleSubmit(request) {
     notify = { status: 'failed', reason: e && e.message ? e.message : 'delivery_unconfirmed' };
   }
 
-  if (notify.status !== 'sent') {
+  const telegramNotify = await sendTelegramNotification(record);
+
+  if (notify.status !== 'sent' || telegramNotify.status === 'failed') {
     /* The case is already in the CRM, so nobody loses the submission over a
        failed email -- which is a real change from when Blob was the only copy
        and the email was the only prompt to go look. It still gets a receipt:
@@ -432,11 +469,16 @@ async function handleSubmit(request) {
        unverified, key rotated) is silent, and an operator should be able to
        see which requests went unannounced. The receipt carries an id and a
        reason and no personal data, so it is not a second copy of anything. */
-    console.error('lead notification not delivered', submissionId, notify.reason, 'case', crmResult.caseId);
+    console.error(
+      'lead notification not delivered', submissionId,
+      'email:', notify.status, notify.reason,
+      'telegram:', telegramNotify.status, telegramNotify.reason,
+      'case', crmResult.caseId,
+    );
     try {
       await put(`notify-failed/${submissionId}.json`, JSON.stringify({
         submissionId, caseId: crmResult.caseId, failedAt: new Date().toISOString(),
-        reason: notify.reason,
+        email: notify, telegram: telegramNotify,
       }), { access: 'private', addRandomSuffix: false, contentType: 'application/json' });
     } catch {
       console.error('notification receipt not saved', submissionId);
