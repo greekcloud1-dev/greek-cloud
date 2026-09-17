@@ -38,26 +38,36 @@ Web: the exact submission id and content arrived, timestamped 15:06.
 
 **The email did not arrive anywhere** — checked the target inbox, its Spam
 label, and Trash directly by Gmail search; nothing from `resend.dev` exists
-in that mailbox at all, ever. The Resend API call itself did not error (no
-`console.error` was logged, and the code logs one on any email failure), so
-this is not a code bug in `sendTelegramNotification`'s sibling email path —
-it is the send from `onboarding@resend.dev` (Resend's shared sandbox sending
-domain) either being silently dropped by Gmail before Spam filtering, or a
-sandbox-mode recipient restriction on the Resend side that returns success
-without actually queuing delivery. Diagnosing further needs the Resend
-dashboard's own email log (`resend.com/emails`), which needs the account
-owner to sign in — not something to do through browser automation with
-stored credentials. **Open item:** either verify a real sending domain in
-Resend (the standing fix for "mail lands in spam until domain is verified"
-noted elsewhere in this repo, except this case is worse — it does not even
-reach Spam), or have the owner check `resend.com/emails` for this
-submission's delivery status.
+in that mailbox at all, ever, across every submission this project has ever
+sent. Yet the owner's own Resend dashboard (`resend.com/emails`, checked
+after they signed in themselves — not something done with stored
+credentials) shows every one of them, including this session's test, as
+`Sent` → **`Delivered`**: Resend's own event log says Gmail's mail server
+accepted the message at the SMTP level. Root cause confirmed on
+`resend.com/domains`: **the account has never added or verified a sending
+domain — "No domains yet."** Every email this project has ever sent went out
+as `onboarding@resend.dev`, Resend's shared sandbox address with no SPF/DKIM
+alignment to anything GreekCloud owns. Gmail accepting the message and then
+discarding it without a Spam-folder trace is a known behavior toward exactly
+this kind of unauthenticated shared-domain sender — not a bug in this
+codebase's email path, which never threw an error because, as far as Resend
+is concerned, the send succeeded.
+
+**Open item, for the owner specifically (needs their own DNS/registrar
+access):** add a domain in Resend (`resend.com/domains` → Add domain) for a
+domain they actually control, add the DNS records Resend gives back at
+whichever registrar holds that domain, wait for verification, then change
+the `from` address in `api/submit.js`'s `sendResendNotification`-equivalent
+call away from `onboarding@resend.dev` to an address on that verified
+domain. Until that is done, every email this system sends will keep showing
+"Delivered" in Resend while never reaching an actual inbox.
 
 **Bottom line for the owner:** Telegram notifications on every new lead are
 live and confirmed working right now on this branch's Preview deployment.
-Email notifications are wired identically but not confirmed delivered —
-Telegram is the reliable channel until the Resend sending domain is sorted
-out.
+Email notifications are wired identically and Resend reports them as
+delivered, but they are confirmed to never actually reach the inbox because
+no sending domain has ever been verified on this Resend account — Telegram
+is the only reliable channel until that DNS work is done.
 
 ## Current state — 2026-09-17
 
