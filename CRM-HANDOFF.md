@@ -13,8 +13,8 @@ Every access-key value used up to 2026-09-15 had been read off the Supabase
 dashboard (screenshot or accessibility text) and re-typed or pasted into
 Vercel by hand. That step was silently corrupting the value. The fix was to
 stop reading the value at all: generate a fresh key pair
-(`website-root-storage-only-v4`, access key id
-`c484558b5a64f0870168ca035bb99d58`), use Supabase's own **Copy** button, and
+(`website-root-storage-only-v4` in Supabase's Storage → S3 Connection →
+Access keys), use Supabase's own **Copy** button, and
 paste directly into Vercel — verified afterward with an independent
 `curl --aws-sigv4` request, which returned a clean `200` immediately. Even
 with copy/paste, the browser automation used to enter these values had a
