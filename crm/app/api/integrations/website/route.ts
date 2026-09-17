@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { normalizeRequestPhone } from "@/lib/request/schema";
 import { readLimitedJson } from "@/lib/request/protection";
+import { dispatchCrmNotifications } from "@/lib/notifications/dispatch";
 
 export const runtime = "nodejs";
 
@@ -109,6 +110,15 @@ export async function POST(request: Request) {
     );
     if (error || typeof data !== "string")
       return reply(503, { error: "intake_not_confirmed" });
+    // Best-effort: send the new-lead alert immediately rather than depending
+    // solely on the cron schedule. A failure here never changes the response
+    // -- the case is already filed, and the event this just queued is picked
+    // up by any later run (cron or another lead's immediate dispatch) too.
+    try {
+      await dispatchCrmNotifications();
+    } catch {
+      // Swallowed on purpose; see comment above.
+    }
     return reply(200, { ok: true, caseId: data });
   } catch {
     return reply(503, { error: "intake_unavailable" });

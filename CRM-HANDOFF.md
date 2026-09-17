@@ -85,18 +85,36 @@ redeployed once during this session so it would pick up the corrected
 Preview-scoped environment variables — which is exactly the "or preview"
 alternative the original task allowed for step 6.
 
-**Still open — the notification cron is not actually registered.**
-`crm/vercel.json` defines a `*/5 * * * *` cron for
-`/api/cron/crm-notifications`, but `greekcloud-crm`'s Cron Jobs settings page
-shows the empty "get started" state, not a registered job. Vercel's Hobby
-plan only allows a cron to run once per day at minimum — a 5-minute schedule
-is silently rejected at deploy time on this plan. The in-app notification
-step of the pipeline is verified (see above); the email/Telegram delivery
-step, which depends on this cron actually running, is not. Either upgrade the
-Vercel plan, change the schedule to something Hobby allows (once daily, or
-call the endpoint from an external scheduler on a shorter interval), or accept
-in-app-only notifications for now — this needs the owner's decision, not a
-default pick.
+**Bug 3 — the notification cron was never actually registered (fixed a
+different way).** `crm/vercel.json` defines a `*/5 * * * *` cron for
+`/api/cron/crm-notifications`, and `greekcloud-crm`'s Cron Jobs settings page
+showed the empty "get started" state instead of a registered job. Not a
+Vercel-plan restriction as first assumed — the real cause was that
+`greekcloud-crm`'s Production deployment was still building from commit
+`287a505`, from *before* `crm/vercel.json` was added to this branch. Every
+later commit had only ever reached this project's Preview environment; a plain
+"Redeploy" from the dashboard rebuilds the *same* commit with new settings, so
+it could not pick up the newer one either.
+
+Rather than fight Vercel's dashboard for a way to promote a specific commit
+(there was no existing deployment of a later commit on this project to
+promote, and creating a standing deploy hook was more standing surface than
+the task called for), the fix folds the owner's own preference: **a new lead
+now fires its own notification attempt immediately**, in the same request that
+files the case (`dispatchCrmNotifications()` called right after
+`crm_ingest_website_contact` succeeds in
+`app/api/integrations/website/route.ts`, best-effort — a failure there never
+changes the response to the website). The claim-with-a-token design in
+`crm_claim_notification_deliveries` already makes this safe to call from
+multiple places at once, so it costs nothing to also keep the 5-minute cron
+for whatever a lead's own request does not catch (a transient provider error,
+a flight-countdown reminder unrelated to intake). Whether the cron itself
+ends up registered is now a nice-to-have, not a dependency — check the Cron
+Jobs settings page after the next Production deploy out of curiosity, but
+notifications no longer wait on it. Email/Telegram delivery itself — as
+opposed to the case and the in-app notification, both already verified above —
+still needs one more real submission after this deploys, to confirm the owner
+actually receives it.
 
 ## Earlier state — 2026-09-15 (end of day)
 
