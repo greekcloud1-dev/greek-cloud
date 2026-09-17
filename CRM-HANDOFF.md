@@ -1,5 +1,53 @@
 # CRM handoff for Claude
 
+## Current state — 2026-09-18: Gmail replaces Resend, confirmed delivered
+
+The email gap described in the 2026-09-17 entry below is closed. Following
+the owner's own instruction to stop relying on a third-party sending domain,
+`api/submit.js` no longer uses Resend at all -- it sends through nodemailer
+over the operator's own Gmail account (`greek-cloud` commit `7e071ca`). Two
+independent emails go out per submission: a confirmation to the applicant by
+name, and a separate thin summary to the operator, alongside the existing
+Telegram notification. `RESEND_API_KEY` has been removed from the Vercel
+project entirely (dead weight once the code stopped calling it).
+
+**The operator's own mailbox changed too**, from `greekcloud1@gmail.com` to
+`1greek.cloud@gmail.com` (the new address is both the sending account and
+the one that receives the operator-summary email). `LEAD_NOTIFY_EMAIL` was
+updated to the new address on Vercel (Production and Preview). Setting this
+up required, on the new account specifically: enabling 2-Step Verification
+(Google will not offer App Passwords without it -- attempting
+`myaccount.google.com/apppasswords` beforehand fails with a generic "this
+setting isn't available" error that has nothing to do with permissions or
+account type, purely 2FA being off) and then generating an app password
+under that name, stored only as `GMAIL_APP_PASSWORD` on Vercel, never in
+chat or a commit.
+
+**Real end-to-end verification, done against a fresh redeploy of this exact
+commit** (a plain `git push` deploy predates env var changes taking effect
+on Vercel -- env vars are baked in at build time, so a deployment made
+before `GMAIL_APP_PASSWORD` existed would not have picked it up; the fix
+each time is a `Redeploy` of that specific commit from the Deployments list,
+not the generic dialog off Environment Variables, which defaults to
+whichever branch most recently deployed and has to be pointed at the right
+one manually). A real multipart `/api/submit` POST against the redeployed
+Preview (submission id
+`2026-09-17T21-02-25-200Z-3ff9bf5c882c422a`) produced, within the same
+request: the CRM case filed normally, a Telegram message in the bot chat,
+and -- checked directly in the Gmail web UI for `1greek.cloud@gmail.com`,
+not inferred from a provider dashboard -- **both emails sitting in the
+Inbox**, not Spam: "הבקשה שלך התקבלה בהצלחה · GreekCloud" to the applicant
+and "פנייה חדשה · סטנדרט · אתונה" to the operator. This is the first time in
+this whole notification effort that a delivery claim was confirmed by
+reading the actual destination mailbox rather than trusting a provider's
+"sent" or "delivered" status.
+
+**Bottom line for the owner:** Telegram and both Gmail notifications are all
+now confirmed live and landing in the Inbox, on this branch's Preview
+deployment. Nothing about the underlying stuck `greekcloud-crm` Production
+deployment (below) has changed -- that is still a separate, unresolved
+platform issue.
+
 ## Current state — 2026-09-17 (later): root-site Telegram/email, verified live
 
 The `greekcloud-crm` Production deployment described as stuck below is still
