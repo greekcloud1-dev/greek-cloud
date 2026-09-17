@@ -1,0 +1,51 @@
+/* ==========================================================================
+   GreekCloud — floating WhatsApp button
+   Anchored to the inline-end edge (the LEFT in Hebrew, the RIGHT in
+   English), the opposite corner from the accessibility FAB in
+   a11y-widget.css, so the two floating buttons never collide.
+   ========================================================================== */
+
+/* The 96px bottom offset matches a11y-fab's own estimate for clearing the
+   first-visit privacy notice bar (see notice.js) — a fixed generous
+   guess, not a measurement, kept identical on both sides on purpose. */
+.wa-fab {
+  position: fixed; z-index: 84;
+  inset-inline-end: 18px; inset-block-end: 96px;
+  width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #25D366; color: #fff;
+  box-shadow: var(--shadow-lg);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+.wa-fab:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 14px 32px -10px rgba(0,0,0,.4); }
+.wa-fab:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
+.wa-fab svg { width: 30px; height: 30px; }
+@media (prefers-reduced-motion: reduce) { .wa-fab { transition: none; } .wa-fab:hover { transform: none; } }
+
+/* A gentle, looping attention ring. Purely decorative, so it is the first
+   thing dropped for reduced motion rather than something users have to
+   fight to stop. */
+@media (prefers-reduced-motion: no-preference) {
+  .wa-fab::before {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background: #25D366; opacity: .55;
+    animation: wa-ping 2.6s cubic-bezier(.2,.7,.3,1) infinite;
+  }
+  @keyframes wa-ping {
+    0%   { transform: scale(1); opacity: .45; }
+    70%  { transform: scale(1.55); opacity: 0; }
+    100% { transform: scale(1.55); opacity: 0; }
+  }
+}
+
+@media (max-width: 480px) {
+  .wa-fab { width: 50px; height: 50px; inset-inline-end: 14px; inset-block-end: 88px; }
+  .wa-fab svg { width: 26px; height: 26px; }
+}
+
+/* Same treatment as the menu and a11y FABs: keep it legible under the
+   inverted/greyscale contrast filters instead of going untouched. */
+html.a11y-contrast-invert .wa-fab { filter: invert(1) hue-rotate(180deg); }
+html.a11y-contrast-mono .wa-fab { filter: grayscale(1); }
+
+@media print { .wa-fab { display: none !important; } }
