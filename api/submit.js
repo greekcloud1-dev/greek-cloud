@@ -11,9 +11,12 @@
         (optional) to a private Supabase bucket.
      3. File the submission in the CRM through the authenticated bridge. That
         call is what makes the submission real; its result decides the reply.
-     4. Email a thin notification through Resend, and, if configured, send
-        the same thin notification to Telegram: plan, city, arrival date,
-        name and a submission id, never the health description or the files.
+     4. Through Gmail (the operator's own mailbox, via an app password --
+        see GMAIL_APP_PASSWORD below): confirm receipt to the applicant by
+        name, and separately notify the operator with a thin summary (plan,
+        city, arrival date, name, submission id -- never the health
+        description or the files). The same thin summary also goes to
+        Telegram if configured.
 
    Storage is Supabase, singular and deliberately so. An earlier version kept
    the files and a record.json in Vercel Blob while the case lived in the CRM,
@@ -29,16 +32,17 @@
    A failed step 4 does not fail the request: the submission is already filed
    in the CRM by then, and the failure is recorded rather than swallowed.
 
-   Runs on the Node.js runtime, not Edge: @vercel/blob and resend both reach
-   for Node built-ins (node:stream, node:net, node:zlib and friends) that the
-   Edge runtime does not provide, and an Edge build fails outright on them.
+   Runs on the Node.js runtime, not Edge: @vercel/blob and nodemailer's SMTP
+   transport both reach for Node built-ins (node:stream, node:net, node:tls
+   and friends) that the Edge runtime does not provide, and an Edge build
+   fails outright on them.
    The `export default { fetch }` shape is the Web-standard signature Vercel's
    Node runtime supports, so request.formData() and Response still work
    exactly as written.
    ========================================================================== */
 
 import { put } from '@vercel/blob';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import { crmContactPayload, syncCrmContact } from '../lib/crm-sync.js';
 import { intakeStorageConfigured, putIntakeFile } from '../lib/intake-store.js';
 
@@ -150,7 +154,7 @@ async function sendTelegramNotification(record) {
   const chatId = process.env.TELEGRAM_CHAT_ID;
   if (!token || !chatId) return { status: 'skipped', reason: 'telegram_not_configured' };
 
-  const { subject, text } = buildEmail(record);
+  const { subject, text } = buildOwnerEmail(record);
   try {
     const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
@@ -168,7 +172,7 @@ async function sendTelegramNotification(record) {
   }
 }
 
-function buildEmail(record) {
+function buildOwnerEmail(record) {
   const isHe = record.locale === 'he';
   const plan = (PLAN_LABEL[isHe ? 'he' : 'en'])[record.plan] || record.plan;
 
@@ -195,6 +199,96 @@ function buildEmail(record) {
   ];
 
   return { subject, text: lines.join('\n') };
+}
+
+/* Sent to the applicant themselves, from the operator's own mailbox -- a
+   plain confirmation that their submission arrived, addressed to them by
+   name. Deliberately thinner than the owner email: no plan/city/arrival
+   summary, since the applicant already knows what they submitted. */
+function buildLeadConfirmationEmail(record) {
+  const isHe = record.locale === 'he';
+
+  const subject = isHe
+    ? 'GreekCloud · הבקשה שלך התקבלה בהצלחה'
+    : 'GreekCloud · your request was received';
+
+  const lines = isHe ? [
+    `שלום ${record.fullName},`,
+    '',
+    'הבקשה שלך במערכת GreekCloud התקבלה בהצלחה ונמצאת כעת בטיפול.',
+    `מזהה פנייה: ${record.submissionId}`,
+    '',
+    'ניצור איתך קשר בהמשך עם עדכון.',
+    '',
+    'GreekCloud',
+  ] : [
+    `Hi ${record.fullName},`,
+    '',
+    'Your GreekCloud request was received successfully and is now being processed.',
+    `Submission ID: ${record.submissionId}`,
+    '',
+    'We will follow up with an update soon.',
+    '',
+    'GreekCloud',
+  ];
+
+  return { subject, text: lines.join('\n') };
+}
+
+/* Gmail, not a transactional-email provider: the operator asked for the
+   confirmation and the lead notice to come from their own mailbox, the one
+   they already read, rather than a third-party sending domain. Requires a
+   Google Account app password (only issuable once 2-Step Verification is
+   on) -- see GMAIL_APP_PASSWORD in the operator's own setup notes; that
+   value is a credential like any other and is never printed or committed.
+   The transport is cached across invocations on a warm serverless
+   instance, since building a fresh SMTP connection pool per request would
+   throw away the whole point of keep-alive. */
+let cachedGmailTransport = null;
+function gmailTransport() {
+  if (!cachedGmailTransport) {
+    cachedGmailTransport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.LEAD_NOTIFY_EMAIL,
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
+    });
+  }
+  return cachedGmailTransport;
+}
+
+/* Two independent sends, not one email with the operator cc'd: the
+   applicant and the operator get different content, and one recipient
+   rejecting or bouncing must never take the other down with it. */
+async function sendGmailNotifications(record) {
+  if (!process.env.GMAIL_APP_PASSWORD) {
+    const skipped = { status: 'skipped', reason: 'gmail_not_configured' };
+    return { owner: skipped, lead: skipped };
+  }
+
+  const transport = gmailTransport();
+  const from = `GreekCloud <${process.env.LEAD_NOTIFY_EMAIL}>`;
+
+  let owner;
+  try {
+    const { subject, text } = buildOwnerEmail(record);
+    await transport.sendMail({ from, to: process.env.LEAD_NOTIFY_EMAIL, subject, text });
+    owner = { status: 'sent' };
+  } catch (e) {
+    owner = { status: 'failed', reason: e && e.message ? e.message : 'delivery_unconfirmed' };
+  }
+
+  let lead;
+  try {
+    const { subject, text } = buildLeadConfirmationEmail(record);
+    await transport.sendMail({ from, to: record.email, subject, text });
+    lead = { status: 'sent' };
+  } catch (e) {
+    lead = { status: 'failed', reason: e && e.message ? e.message : 'delivery_unconfirmed' };
+  }
+
+  return { owner, lead };
 }
 
 /* --- best-effort rate limit ---------------------------------------------
@@ -256,7 +350,7 @@ async function handleSubmit(request) {
   }
 
   const configured = Boolean(
-    process.env.RESEND_API_KEY &&
+    process.env.GMAIL_APP_PASSWORD &&
     process.env.BLOB_READ_WRITE_TOKEN &&
     process.env.LEAD_NOTIFY_EMAIL
   );
@@ -282,8 +376,8 @@ async function handleSubmit(request) {
   }
 
   // Strip control characters as well as trimming: `city` and `plan` reach an
-  // email subject, and a newline in a subject is worth refusing on principle
-  // even though Resend is a JSON API rather than SMTP.
+  // email subject sent over real SMTP now, where a newline is a header
+  // injection primitive, not just a cosmetic glitch.
   const str = (name) => {
     const v = form.get(name);
     if (typeof v !== 'string') return '';
@@ -436,49 +530,29 @@ async function handleSubmit(request) {
     return json(202, { ok: true, submissionId, pending: true });
   }
 
-  /* Resend reports a refused send as an `error` on the resolved result, not as
-     a throw, so awaiting inside a try/catch alone let a rejected address or an
-     unverified sender return 200 with nobody told. The submission is filed in
-     the CRM by now, so neither outcome fails the request -- but a failed
-     notification is recorded on the case rather than only in a log nobody
-     reads. */
-  let notify;
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const { subject, text } = buildEmail(record);
-    const result = await resend.emails.send({
-      from: 'GreekCloud <onboarding@resend.dev>',
-      to: process.env.LEAD_NOTIFY_EMAIL,
-      subject,
-      text,
-    });
-    notify = result && result.error
-      ? { status: 'failed', reason: result.error.name || 'provider_error' }
-      : { status: 'sent', id: result && result.data ? result.data.id : null };
-  } catch (e) {
-    notify = { status: 'failed', reason: e && e.message ? e.message : 'delivery_unconfirmed' };
-  }
-
+  const { owner: ownerMail, lead: leadMail } = await sendGmailNotifications(record);
   const telegramNotify = await sendTelegramNotification(record);
 
-  if (notify.status !== 'sent' || telegramNotify.status === 'failed') {
+  if (ownerMail.status === 'failed' || leadMail.status === 'failed' || telegramNotify.status === 'failed') {
     /* The case is already in the CRM, so nobody loses the submission over a
        failed email -- which is a real change from when Blob was the only copy
        and the email was the only prompt to go look. It still gets a receipt:
-       the failure mode this guards against (quota exhausted, sender
-       unverified, key rotated) is silent, and an operator should be able to
-       see which requests went unannounced. The receipt carries an id and a
-       reason and no personal data, so it is not a second copy of anything. */
+       the failure mode this guards against (app password revoked, Gmail
+       rate limit, a bounced applicant address) is silent, and an operator
+       should be able to see which requests went unannounced. The receipt
+       carries statuses and reasons and no personal data beyond the
+       applicant's own address already implied by the case itself. */
     console.error(
       'lead notification not delivered', submissionId,
-      'email:', notify.status, notify.reason,
+      'ownerEmail:', ownerMail.status, ownerMail.reason,
+      'leadEmail:', leadMail.status, leadMail.reason,
       'telegram:', telegramNotify.status, telegramNotify.reason,
       'case', crmResult.caseId,
     );
     try {
       await put(`notify-failed/${submissionId}.json`, JSON.stringify({
         submissionId, caseId: crmResult.caseId, failedAt: new Date().toISOString(),
-        email: notify, telegram: telegramNotify,
+        ownerEmail: ownerMail, leadEmail: leadMail, telegram: telegramNotify,
       }), { access: 'private', addRandomSuffix: false, contentType: 'application/json' });
     } catch {
       console.error('notification receipt not saved', submissionId);
