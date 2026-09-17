@@ -123,24 +123,30 @@
   panel.setAttribute('aria-modal', 'true');
   panel.setAttribute('aria-label', t.title);
 
-  // Placeholder destinations until the real profiles/number are connected —
-  // "#" so the icons render and sit in place without sending anyone anywhere
-  // broken. Swap each href (and the mailto: address if it changes) when the
-  // accounts are ready; nothing else about this markup needs to change.
+  // A null href means that account does not exist yet, and the icon is left
+  // out rather than rendered pointing at "#". An icon that is visibly there
+  // and does nothing when tapped reads as a broken site, which costs more
+  // trust than the missing icon buys. Fill an href in and its icon comes
+  // back on its own; nothing else here needs to change.
+  var waMessage = isEn
+    ? 'Hi, I have a question about GreekCloud'
+    : 'היי, יש לי שאלה לגבי GreekCloud';
   var SOCIAL = [
     ['mailto:1greek.cloud@gmail.com', isEn ? 'Email' : 'מייל',
       '<path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/>'],
-    ['#', 'WhatsApp',
+    ['https://wa.me/972523660427?text=' + encodeURIComponent(waMessage), 'WhatsApp',
       '<path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M8.5 8.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.4.8 1.6 2 2.4 2.4.2.1.3 0 .5-.1l.6-.6c.1-.1.3-.2.5-.1l1.7.8c.3.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.9.4-1.9.2-3.1-.5-1.6-.9-2.9-2.2-3.8-3.8-.7-1.2-.9-2.2-.5-3.1z" fill="var(--surface)" stroke="none"/>'],
-    ['#', 'Facebook',
+    [null, 'Facebook',
       '<path d="M15 8.5h2V5h-2c-2.2 0-4 1.8-4 4v2H9v3h2v6h3v-6h2.2l.8-3H14V9c0-.3.2-.5.5-.5H15z"/>'],
-    ['#', 'TikTok',
+    [null, 'TikTok',
       '<path d="M14 3v10.2a2.3 2.3 0 1 1-2-2.28V8.8a5 5 0 1 0 5 5V9.8c1 .7 2.1 1.1 3.3 1.1V8.7c-1.6 0-3-.9-3.6-2.2A5 5 0 0 1 16.4 4H14z"/>'],
-    ['#', 'Instagram',
+    [null, 'Instagram',
       '<rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6" fill="var(--surface)" stroke="none"/><circle cx="16.2" cy="7.8" r="1.1" fill="var(--surface)" stroke="none"/>']
   ];
-  var socialHtml = '<div class="menu-social">' + SOCIAL.map(function (s) {
-    var external = s[0].indexOf('#') !== 0 && s[0].indexOf('mailto:') !== 0;
+  var socialHtml = '<div class="menu-social">' + SOCIAL.filter(function (s) {
+    return s[0];
+  }).map(function (s) {
+    var external = s[0].indexOf('mailto:') !== 0;
     return '<a href="' + s[0] + '" aria-label="' + s[1] + '"' +
       (external ? ' target="_blank" rel="noopener"' : '') + '>' +
       '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.4" ' +
