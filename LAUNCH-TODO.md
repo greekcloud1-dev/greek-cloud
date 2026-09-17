@@ -3,58 +3,44 @@
 These blocks were rendering publicly on indexable pages. They are tracked here
 instead. This file is excluded from deployment via .vercelignore.
 
-## privacy.html
+Updated 2026-09-17: entity details, retention period and jurisdiction supplied
+by the owner and written into privacy/refund/terms (HE+EN). noindex removed
+from those six pages. What is left below is genuinely still open.
 
-- [ ] שם הישות המשפטית ומספר ח.פ. / עוסק מורשה
-- [ ] כתובת דוא"ל ייעודית לפניות בנושא פרטיות
-- [ ] תקופת שמירת המידע המדויקת (מספר חודשים או שנים), ובאיזה סעיף דין היא מעוגנת
-- [ ] האם המאגר רשום ברשם מאגרי המידע, ומספר הרישום אם כן
-- [ ] שם מנהל המאגר / הגורם האחראי על אבטחת המידע
-- [ ] זהות מעבד המידע החיצוני, אם קיים (למשל ספק אחסון או CRM), והמדינה שבה הוא פועל
+## Resolved
 
-## refund.html
+- [x] Legal entity name + company/licensed-dealer number — Greek Cloud, 3234567
+- [x] Registered address — יגאל אלון 2, תל אביב / 2 Yigal Alon St, Tel Aviv
+- [x] Contact email — 1greek.cloud@gmail.com (used for privacy, refund and
+      terms enquiries alike — a single shared inbox, not separate addresses)
+- [x] Contact phone — +972-52-366-0427
+- [x] Retention period — 3 months from the close of the request (privacy.html)
+- [x] Jurisdiction district — Tel Aviv (terms.html)
+- [x] External data processors — already disclosed in privacy.html: Vercel
+      (EU/Frankfurt, full submission) and Resend (US, name/city/route/date/id
+      only)
+- [x] Cancellation fee — resolved by relying on the statutory cap (5% of the
+      transaction price or ₪100, whichever is lower) rather than a separate
+      house policy; already stated in refund.html
+- [x] Postal address for a cancellation notice — not offered as a channel;
+      email is the sole stated route, which the Consumer Protection Law permits
 
-- [ ] כתובת דוא"ל ייעודית לבקשות ביטול והחזר
-- [ ] לוח הזמנים בפועל לביצוע החזר (ימי עסקים), ושמו של אמצעי הסליקה
-- [ ] האם נגבים דמי ביטול, ובאיזה שיעור, או שההחלטה היא לוותר עליהם
-- [ ] כתובת למשלוח הודעת ביטול בדואר, אם נדרשת
+## Still open
 
-## terms.html
-
-- [ ] שם הישות המשפטית ומספר ח.פ. / עוסק מורשה
-- [ ] כתובת רשומה
-- [ ] מחוז השיפוט לצורך סעיף דין וסמכות שיפוט
-- [ ] כתובת דוא"ל ליצירת קשר
-- [ ] מספר טלפון או ערוץ תמיכה רשמי
-
-## accessibility.html
-
-- [ ] שם רכז/ת הנגישות — נדרש לגוף ציבורי או למעסיק 25 עובדים ומעלה. אחרת, די בדרך פנייה ייעודית.
-- [ ] כתובת דוא"ל ייעודית לפניות נגישות
-- [ ] מספר טלפון
-- [ ] שם הישות המשפטית ומספר רישום
-- [ ] תאריך בדיקת הנגישות האחרונה על ידי מורשה נגישות
-
-## en/privacy.html
-
-- [ ] Registered legal entity name and company / licensed-dealer number
-- [ ] Dedicated email address for privacy enquiries
-- [ ] Exact retention period (months or years) and the legal provision it rests on
-- [ ] Whether the database is registered with the Israeli Database Registrar, and the registration number if so
-- [ ] Name of the database manager / person responsible for information security
-- [ ] Identity of any external data processor (e.g. hosting or CRM provider) and the country it operates in
-
-## en/refund.html
-
-- [ ] Dedicated email address for cancellation and refund requests
-- [ ] Actual refund turnaround (business days) and the name of the payment processor
-- [ ] Whether a cancellation fee is charged and at what rate, or the decision to waive it
-- [ ] Postal address for a cancellation notice, if required
-
-## en/terms.html
-
-- [ ] Registered legal entity name and company / licensed-dealer number
-- [ ] Registered address
-- [ ] Judicial district for the jurisdiction clause
-- [ ] Contact email address
-- [ ] Phone number or official support channel
+- [ ] `about.html` `sameAs`: Instagram / Facebook / TikTok links — cosmetic,
+      not a launch blocker (owner said "links to follow")
+- [ ] Whether the database is registered with the Israeli Database Registrar,
+      and the registration number if so — not stated either way on the site;
+      confirm before this becomes a real question (e.g. a regulator enquiry)
+- [ ] Name of the database manager / person responsible for information
+      security
+- [ ] Refund turnaround in business days and the name of the payment
+      processor — refund.html currently relies on the statutory period
+      rather than naming a specific day count or processor; fine as published,
+      but worth tightening once a processor is chosen
+- [ ] `accessibility.html` — still `noindex`. Separate from the three legal
+      pages above. Needs: accessibility coordinator name (required once the
+      business has 25+ employees; a dedicated contact channel suffices below
+      that), a dedicated accessibility email, phone, entity name + registration
+      number, and the date of the last accessibility audit by a certified
+      accessibility auditor.
