@@ -85,36 +85,41 @@ redeployed once during this session so it would pick up the corrected
 Preview-scoped environment variables — which is exactly the "or preview"
 alternative the original task allowed for step 6.
 
-**Bug 3 — the notification cron was never actually registered (fixed a
-different way).** `crm/vercel.json` defines a `*/5 * * * *` cron for
+**Bug 3 — the notification cron was never actually registered.**
+`crm/vercel.json` defines a `*/5 * * * *` cron for
 `/api/cron/crm-notifications`, and `greekcloud-crm`'s Cron Jobs settings page
 showed the empty "get started" state instead of a registered job. Not a
-Vercel-plan restriction as first assumed — the real cause was that
-`greekcloud-crm`'s Production deployment was still building from commit
-`287a505`, from *before* `crm/vercel.json` was added to this branch. Every
-later commit had only ever reached this project's Preview environment; a plain
-"Redeploy" from the dashboard rebuilds the *same* commit with new settings, so
-it could not pick up the newer one either.
+Vercel-plan restriction as first assumed — the real cause is that
+`greekcloud-crm`'s Production deployment is still building from commit
+`287a505`, from *before* `crm/vercel.json` was added to this branch.
 
-Rather than fight Vercel's dashboard for a way to promote a specific commit
-(there was no existing deployment of a later commit on this project to
-promote, and creating a standing deploy hook was more standing surface than
-the task called for), the fix folds the owner's own preference: **a new lead
-now fires its own notification attempt immediately**, in the same request that
+**Fix applied in code, not yet live — a separate platform blocker.** The code
+fix follows the owner's own preference regardless of the cron: a new lead now
+fires its own notification attempt immediately, in the same request that
 files the case (`dispatchCrmNotifications()` called right after
 `crm_ingest_website_contact` succeeds in
 `app/api/integrations/website/route.ts`, best-effort — a failure there never
 changes the response to the website). The claim-with-a-token design in
-`crm_claim_notification_deliveries` already makes this safe to call from
-multiple places at once, so it costs nothing to also keep the 5-minute cron
-for whatever a lead's own request does not catch (a transient provider error,
-a flight-countdown reminder unrelated to intake). Whether the cron itself
-ends up registered is now a nice-to-have, not a dependency — check the Cron
-Jobs settings page after the next Production deploy out of curiosity, but
-notifications no longer wait on it. Email/Telegram delivery itself — as
-opposed to the case and the in-app notification, both already verified above —
-still needs one more real submission after this deploys, to confirm the owner
-actually receives it.
+`crm_claim_notification_deliveries` already makes this safe to run alongside
+the cron, so the cron stays in place as a catch-all once it, too, is live.
+This is committed and pushed (`d66c471`).
+
+It has **not reached Production**, and not for lack of trying: two plain
+`git push`es to this branch and one manually created Vercel deploy hook
+(`production-sync`, still present in the CRM project's Git settings, targeting
+this branch — POST to it to retry) all completed successfully at the API
+level, yet none produced a new deployment, or even a failed/skipped one, for
+this project. The project's own Activity log shows every push to `main`
+triggering a deployment on schedule, but nothing at all for this branch since
+the `287a505` build two days ago — not a code or a git problem, since the
+identical commits build fine as `greek-cloud`'s own preview (see the
+verification above). This needs the owner's own look at the Vercel dashboard
+(a stuck build queue, a quota, or a setting only visible with full account
+access are the likely candidates) or a fresh redeploy attempt once whatever
+that is clears. Until then: the case, its intake data and the in-app
+notification are all confirmed working end to end (above); the immediate
+email/Telegram send is written and pushed but unverified, because there is no
+live deployment yet to verify it against.
 
 ## Earlier state — 2026-09-15 (end of day)
 
