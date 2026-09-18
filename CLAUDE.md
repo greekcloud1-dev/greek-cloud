@@ -138,9 +138,21 @@ safe; if it fails, the fix is the content, not the check.
 
 ---
 
-## 6. Git
+## 6. Git and deployment
 
-- **Never push to `main`.** Every change goes through a pull request.
+- **`main` is the Vercel production branch.** Merging a pull request *is* the
+  deploy to greek-cloud.com. There is no separate deploy step to gate, so the
+  merge button is the gate.
+- **Never push to `main`.** Every change goes through a pull request, and only
+  the owner merges it. Never merge your own PR, never enable auto-merge, never
+  run `vercel deploy` or any equivalent.
+- **Every PR body opens with a `## Live-site impact` block** stating, from the
+  diff rather than from intent, what a visitor would see change, which pages are
+  affected, and whether indexable content changed. "Nothing" is a perfectly good
+  answer and is the expected one for a tooling change. This block is what the
+  owner reads before deciding to merge — see `seo/routines/README.md`.
+- A branch other than `main` gets a Vercel *preview* deployment, not the live
+  domain. Useful for review; still not the site.
 - Verify the branch and the remote before every commit — concurrent sessions can
   switch HEAD silently:
   `git branch --show-current && git remote get-url origin`

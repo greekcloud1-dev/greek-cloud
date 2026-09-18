@@ -21,14 +21,39 @@ a PR, and editable without touching a cron schedule.
 2. **Never push to `main`.** Work on a branch named `seo/<routine>-<date>` and
    open a pull request. If there is nothing to change, say so and open nothing —
    an empty PR is noise.
-3. **`npm run check` and `npm run check:dup` must pass** before opening a PR.
+
+   `main` is the Vercel production branch, so merging a PR *is* the deploy to
+   greek-cloud.com. Only the owner merges. A routine never merges its own PR,
+   never enables auto-merge, and never runs a deploy command.
+
+3. **Every PR body opens with a Live-site impact block**, before anything else,
+   in exactly this shape:
+
+   ```
+   ## Live-site impact
+
+   What a visitor would see change: <plain sentences, or "nothing">
+   Pages affected: <paths, or "none">
+   Indexable content changed: <yes/no>
+   ```
+
+   Write it from the diff, not from intent. A change to a `<title>`, a meta
+   description, visible copy, a heading, a link, or JSON-LD **is** live-site
+   impact. A change confined to `scripts/`, `seo/`, `CLAUDE.md` or `.github/` is
+   not — those are excluded from the deployment in `.vercelignore`. If the two
+   halves are mixed, say so and list which files fall on which side.
+
+   This block is the thing the owner reads before deciding to merge. It is not a
+   summary of the work; it is the answer to "what happens to my site if I press
+   the button".
+4. **`npm run check` and `npm run check:dup` must pass** before opening a PR.
    If a check fails, the content is wrong, not the check.
-4. **Never invent a fact.** No review counts, no refusal rates, no first-hand
+5. **Never invent a fact.** No review counts, no refusal rates, no first-hand
    detail about a place. If a task needs something only a human can supply, write
    it into `seo/backlog.md` as `blocked` and move on.
-5. **Write findings to `seo/reports/YYYY-MM-DD-<routine>.md`** and keep durable
+6. **Write findings to `seo/reports/YYYY-MM-DD-<routine>.md`** and keep durable
    state under `seo/state/`.
-6. **Report honestly.** If a step could not run — a missing credential, a site
+7. **Report honestly.** If a step could not run — a missing credential, a site
    that would not respond — say which step, and why, in the PR body. Never
    present a skipped check as a passed one.
 
