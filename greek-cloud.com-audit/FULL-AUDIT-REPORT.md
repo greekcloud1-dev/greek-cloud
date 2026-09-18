@@ -47,7 +47,14 @@ CTA and navigation, which is ordinary site boilerplate.
 The same eight pages in English ran 525–590 words and had no pharmacy section at
 all — the practical half of the page simply did not exist in English. They now carry
 the same table and practicalities plus two place-specific FAQ entries each, and run
-814–906 words.
+801–895 words.
+
+First pass introduced a second problem: the "process" paragraph pasted into all
+eight pages was word-for-word identical, missing the per-city variation ("not only
+in Athens", "not only in Crete"...) the Hebrew version had all along. That held
+shared-sentence overlap at 34.1–38% — higher than the page lengths justified.
+Fixed by inserting the same variation and folding two sentences into one; overlap
+is now 31.7–35.1%, in the same range as the Hebrew pages.
 
 ### C3 — The accessibility statement was unpublished and carried a false claim · FIXED
 
