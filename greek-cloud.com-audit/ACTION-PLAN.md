@@ -1,42 +1,79 @@
-# Action Plan — greek-cloud.com
+# Action plan — greek-cloud.com
 
-Ordered by what costs you rankings and trust soonest.
+Updated 18 September 2026. Everything in the previous plan is either done or
+restated below with what actually changed.
 
-## Phase 1 — Critical (do before Google recrawls)
+## Done in this pass
 
-1. **Remove the "to complete before publishing" blocks from the six live legal pages**
-   `privacy.html`, `refund.html`, `terms.html` + `/en/` counterparts. Either finish them or set
-   the three to `noindex` until they are finished. Right now an internal to-do list is public.
-2. **Decide the legal-review banner.** Same six pages say the document has not been reviewed and
-   should be reviewed *"before publishing"*. Either the review happened (remove the banner) or it
-   did not (noindex the pages).
-3. **Publish a contact method and a legal entity.** Fill the 16 placeholders in `about.html`,
-   remove its `noindex`, and add `legalName`, `taxID`, `address`, `contactPoint` and `sameAs` to
-   the `Organization` schema. This is the single biggest E-E-A-T lever on the site.
-4. **Give the refund policy a working address** — it currently points to one that does not exist.
+| | what | evidence |
+|---|---|---|
+| 1 | Eight near-duplicate city pages deduplicated and given place-specific tables and FAQs | shared prose 52–58% → 30–38% |
+| 2 | English city pages brought to parity | 525–590 → 814–906 words |
+| 3 | Fonts self-hosted, three stylesheets merged, LCP faces preloaded | render block 1730ms → ~30ms; LCP mobile 3.26s → 2.0s; CLS 0.055 → 0.003 |
+| 4 | Full legal entity published in homepage schema; every Article linked to it | Organization fields 5 → 14; 44/44 Articles gained `image` |
+| 5 | Accessibility statements published, stale claim removed, contact route added | both now indexable, in sitemap and llms.txt |
+| 6 | Trailing-slash duplicates redirected | `/athens.html/` 200 → 308 |
+| 7 | `llms.txt` completed | 42 → 57 of 57 indexable pages |
+| 8 | Heading-level skip closed on all 61 pages | footer `h4` → `h3` |
+| 9 | `twitter:card` added to 34 pages; 7 meta descriptions trimmed under 160 | on-page audit clean |
+| 10 | Em-dash density cut | 11.95 → 4.95 per 1000 words |
+| 11 | Sitemap submitted to Search Console; 57 URLs to IndexNow | GSC status Success, 57 discovered; IndexNow HTTP 202 |
 
-Items 1–2 and 4 are edits I can make. Item 3 needs entity details only you have.
+## Phase 1 — the trust gap (highest remaining value)
 
-## Phase 2 — High impact (week 1)
+12. **Collect and publish reviews.** The site has none and the schema has no
+    `Review` or `AggregateRating`. medtouristgr.com shows 21 Trustpilot reviews.
+    On a YMYL service where a stranger hands over a passport number and a health
+    description, this is the widest gap between the two sites and the cheapest to
+    close. Ask past customers; publish what they say; mark it up.
 
-5. **Move `fetchpriority="high"` off `logo-lg.webp`.** The LCP element is the `<h1>`; the
-   attribute is currently helping a decorative image compete with the CSS that gates LCP.
-6. **Resize the logos.** 224px serving a 70px slot, 640px serving 400px. Export at the rendered
-   sizes (2× for retina) and add `width`/`height` + `srcset`. Recovers most of 125 KB.
+13. **Decide the authorship question.** Every content page is authored by the
+    organisation. Google's YMYL guidance favours a named person with verifiable
+    credentials. Either name the person who researches and writes this material,
+    with their background, or add a named medical or legal reviewer who has
+    actually reviewed it. Do not invent one; an unnamed but honest page beats a
+    fabricated byline.
 
-## Phase 3 — Optimisation (weeks 2–3)
+14. **Fill `sameAs`** once the Instagram, Facebook and TikTok accounts exist.
 
-7. **Content-hash the asset filenames** (`base.a1b2c3.css`) and raise cache to
-   `max-age=31536000, immutable`. Currently one hour across 61 pages.
-8. **Reduce render-blocking CSS** — four local stylesheets could be concatenated, or critical CSS
-   inlined.
-9. **Reconsider `noindex` on `accessibility.html`** — Israeli IS 5568 expects it to be published.
+## Phase 2 — content depth
 
-## Phase 4 — Ongoing
+15. **Give the eight city pages something first-hand.** They now carry genuine
+    local facts, but nothing that could only be written by someone who had been
+    there. A photograph of an actual pharmacy front, a named street, the real
+    duty-rota board — any of these separates the page from a template.
 
-10. **Finish the four unaudited content-accuracy domains** — Greek criminal law, pricing/pharmacy
-    operations, CBD/hemp thresholds, schema-vs-body — plus the 19 deferred low-confidence findings.
-    This is a different axis from SEO health and two major factual errors were already found.
-11. **Register the site in Google Search Console and Bing Webmaster Tools.** No Google credentials
-    are configured, so this audit has no field data — no CrUX, no indexation status, no queries.
-12. **Take a drift baseline** so future deploys can be diffed against today's state.
+16. **Translate the four strongest Hebrew-only pages.** `legal-updates.html` is
+    the most citable page on the site and has no English version;
+    `israeli-license-abroad.html`, `israeli-license-refused.html` and
+    `glossary.html` are also Hebrew-only. See `findings/geo.md`.
+
+17. **Turn four prose pages into tables.** `cannabis-in-greece`,
+    `penalties-greece`, `eligibility` and `fly-with-cannabis` each state in
+    paragraphs exactly the data an assistant would rather cite from a table.
+
+18. **A human editing pass on structure.** The vocabulary is clean; the habits are
+    not. Repeated binary contrasts at paragraph ends, and four consecutive
+    headings in the same negation shape on `remote-prescription.html`. Listed per
+    file with line numbers in `findings/content.md`.
+
+## Phase 3 — measurement
+
+19. **Check Search Console in a week.** Performance data was still processing on
+    18 September. Watch: how many of the 57 URLs get indexed, which queries
+    surface, and whether any city page is flagged as a duplicate despite the
+    dedup.
+
+20. **Set up Bing Webmaster Tools.** The IndexNow key is deployed and submissions
+    are being accepted, but there is no console to read the results in.
+
+21. **Take a drift baseline** so the next deploy can be diffed against today.
+
+## Phase 4 — legal and operational loose ends
+
+22. Confirm whether the database is registered with the Israeli Database
+    Registrar, and state it either way.
+23. Commission a certified accessibility-expert review and manual screen-reader
+    testing; both are currently declared as open limitations on the statement.
+24. Name the payment processor and a refund turnaround in business days on
+    `refund.html`, which currently relies on the statutory period.
