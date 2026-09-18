@@ -13,11 +13,6 @@
       "permanent": true
     },
     {
-      "source": "/en",
-      "destination": "/en/",
-      "permanent": true
-    },
-    {
       "source": "/(.*).html/",
       "destination": "/$1.html",
       "permanent": true
