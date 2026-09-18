@@ -134,7 +134,7 @@
   var SOCIAL = [
     ['mailto:1greek.cloud@gmail.com', isEn ? 'Email' : 'מייל',
       '<path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/>'],
-    ['https://wa.me/972523660427?text=' + encodeURIComponent(waMessage), 'WhatsApp',
+    ['https://wa.me/972523656528?text=' + encodeURIComponent(waMessage), 'WhatsApp',
       '<path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M8.5 8.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.4.8 1.6 2 2.4 2.4.2.1.3 0 .5-.1l.6-.6c.1-.1.3-.2.5-.1l1.7.8c.3.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.9.4-1.9.2-3.1-.5-1.6-.9-2.9-2.2-3.8-3.8-.7-1.2-.9-2.2-.5-3.1z" fill="var(--surface)" stroke="none"/>'],
     [null, 'Facebook',
       '<path d="M15 8.5h2V5h-2c-2.2 0-4 1.8-4 4v2H9v3h2v6h3v-6h2.2l.8-3H14V9c0-.3.2-.5.5-.5H15z"/>'],

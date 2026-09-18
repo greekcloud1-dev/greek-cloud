@@ -16,7 +16,7 @@
 
   var a = document.createElement('a');
   a.className = 'wa-fab';
-  a.href = 'https://wa.me/972523660427?text=' + encodeURIComponent(message);
+  a.href = 'https://wa.me/972523656528?text=' + encodeURIComponent(message);
   a.target = '_blank';
   a.rel = 'noopener';
   a.setAttribute('aria-label', label);
