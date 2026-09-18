@@ -349,8 +349,13 @@ async function handleSubmit(request) {
     });
   }
 
+  // GMAIL_APP_PASSWORD is deliberately not required here. sendGmailNotifications
+  // already treats a missing or failing Gmail credential as best-effort and
+  // skips it without throwing -- that is the whole point of notification being
+  // step 4, after the submission is already filed. Gating intake itself on
+  // Gmail would mean an expired app password or a Gmail outage turns away
+  // every real customer even though Supabase and the CRM bridge are fine.
   const configured = Boolean(
-    process.env.GMAIL_APP_PASSWORD &&
     process.env.BLOB_READ_WRITE_TOKEN &&
     process.env.LEAD_NOTIFY_EMAIL
   );
@@ -381,7 +386,7 @@ async function handleSubmit(request) {
   const str = (name) => {
     const v = form.get(name);
     if (typeof v !== 'string') return '';
-    return v.replace(/[ -]/g, ' ').trim();
+    return v.replace(/[\x00-\x1f\x7f]/g, ' ').trim();
   };
 
   const locale = str('locale') === 'en' ? 'en' : 'he';

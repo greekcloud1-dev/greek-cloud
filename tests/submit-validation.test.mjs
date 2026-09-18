@@ -15,14 +15,16 @@ import { pathToFileURL } from 'node:url';
 /* Two collaborators reach the network. A tiny loader hook swaps them for
    recorders, so nothing here leaves the process. */
 const calls = { puts: [], sends: [] };
-let sendResult = { data: { id: 'email_test' }, error: null };
-let sendThrows = false;
+// nodemailer's sendMail only ever throws on failure -- there is no
+// Resend-style non-throwing { error } result -- so failure is modeled as
+// which recipient's send should throw, or 'both'.
+let failSend = null; // null | 'owner' | 'lead' | 'both'
 
 register(
   'data:text/javascript,' + encodeURIComponent(`
     export async function resolve(spec, ctx, next) {
       if (spec === '@vercel/blob') return { url: 'stub:blob', shortCircuit: true, format: 'module' };
-      if (spec === 'resend') return { url: 'stub:resend', shortCircuit: true, format: 'module' };
+      if (spec === 'nodemailer') return { url: 'stub:nodemailer', shortCircuit: true, format: 'module' };
       if (spec.endsWith('/intake-store.js')) return { url: 'stub:store', shortCircuit: true, format: 'module' };
       return next(spec, ctx);
     }
@@ -31,9 +33,9 @@ register(
         format: 'module', shortCircuit: true,
         source: "export const put = (...a) => globalThis.__stub.put(...a);",
       };
-      if (url === 'stub:resend') return {
+      if (url === 'stub:nodemailer') return {
         format: 'module', shortCircuit: true,
-        source: "export class Resend { constructor() { this.emails = { send: (...a) => globalThis.__stub.send(...a) }; } }",
+        source: "export default { createTransport: () => ({ sendMail: (...a) => globalThis.__stub.send(...a) }) };",
       };
       if (url === 'stub:store') return {
         format: 'module', shortCircuit: true,
@@ -59,8 +61,10 @@ globalThis.__stub = {
   },
   send: async (msg) => {
     calls.sends.push(msg);
-    if (sendThrows) throw new Error('network');
-    return sendResult;
+    const isOwnerSend = msg.to === process.env.LEAD_NOTIFY_EMAIL;
+    const shouldFail = failSend === 'both' || (failSend === 'owner' && isOwnerSend) || (failSend === 'lead' && !isOwnerSend);
+    if (shouldFail) throw new Error('network');
+    return { messageId: 'email_test' };
   },
 };
 
@@ -70,7 +74,7 @@ process.env.CRM_INGEST_URL = 'https://crm.example.test/api/integrations/website'
 process.env.CRM_INGEST_SECRET = 'x'.repeat(40);
 globalThis.fetch = async () => Response.json({ ok: true, caseId: 'case-test' });
 
-process.env.RESEND_API_KEY = 'test';
+process.env.GMAIL_APP_PASSWORD = 'test';
 process.env.BLOB_READ_WRITE_TOKEN = 'test';
 process.env.LEAD_NOTIFY_EMAIL = 'ops@example.test';
 
@@ -104,8 +108,7 @@ function post(overrides = {}, files = {}) {
 beforeEach(() => {
   calls.puts.length = 0;
   calls.sends.length = 0;
-  sendResult = { data: { id: 'email_test' }, error: null };
-  sendThrows = false;
+  failSend = null;
 });
 
 test('a well-formed request is still accepted and stored', async () => {
@@ -122,7 +125,7 @@ test('a well-formed request is still accepted and stored', async () => {
     !calls.puts.some((p) => p.path.startsWith('unreceived/')),
     'nothing was parked: the normal path succeeded',
   );
-  assert.equal(calls.sends.length, 1);
+  assert.equal(calls.sends.length, 2, 'two independent Gmail sends: the operator and the applicant');
 });
 
 /* QA-02 — every rule the form shows is now enforced behind it. */
@@ -194,26 +197,31 @@ test('an alphanumeric passport is refused in both locales', async () => {
   }
 });
 
-/* QA-04 — a refused send arrives as a value, not a throw. */
+/* QA-04 — one recipient's send failing is recorded, not swallowed, and does
+   not take the other recipient's send down with it: owner and applicant are
+   two independent sendMail calls in two independent try/catch blocks. */
 test('an error returned by the mail provider is recorded, not swallowed', async () => {
-  sendResult = { data: null, error: { name: 'validation_error', message: 'from unverified' } };
+  failSend = 'owner';
   const res = await post();
 
   assert.equal(res.status, 200, 'the request itself still succeeds: the record is safe');
   const receipt = calls.puts.find((p) => p.path.startsWith('notify-failed/'));
   assert.ok(receipt, 'the outcome is written next to the record');
   const notify = JSON.parse(receipt.body);
-  assert.equal(notify.reason, 'validation_error');
+  assert.equal(notify.ownerEmail.status, 'failed');
+  assert.equal(notify.ownerEmail.reason, 'network');
+  assert.equal(notify.leadEmail.status, 'sent', 'the applicant email is independent of the operator one');
 });
 
 test('a thrown send is recorded as failed, with the actual error kept', async () => {
-  sendThrows = true;
+  failSend = 'both';
   await post();
   const notify = JSON.parse(calls.puts.find((p) => p.path.startsWith('notify-failed/')).body);
   // The real error is kept rather than a generic placeholder, so an operator
   // can tell a network failure from a rejected address without also having
   // function logs open.
-  assert.equal(notify.reason, 'network');
+  assert.equal(notify.ownerEmail.reason, 'network');
+  assert.equal(notify.leadEmail.reason, 'network');
   assert.equal(notify.caseId, 'case-test', 'the receipt points at the case');
 });
 

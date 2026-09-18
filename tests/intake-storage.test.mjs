@@ -29,7 +29,7 @@ register(
     encodeURIComponent(`
     export async function resolve(spec, ctx, next) {
       if (spec === '@vercel/blob') return { url: 'stub:blob', shortCircuit: true, format: 'module' };
-      if (spec === 'resend') return { url: 'stub:resend', shortCircuit: true, format: 'module' };
+      if (spec === 'nodemailer') return { url: 'stub:nodemailer', shortCircuit: true, format: 'module' };
       if (spec.endsWith('/intake-store.js')) return { url: 'stub:store', shortCircuit: true, format: 'module' };
       if (spec.endsWith('/crm-sync.js')) return { url: 'stub:sync', shortCircuit: true, format: 'module' };
       return next(spec, ctx);
@@ -37,8 +37,8 @@ register(
     export async function load(url, ctx, next) {
       if (url === 'stub:blob') return { format: 'module', shortCircuit: true,
         source: "export const put = (...a) => globalThis.__s.put(...a);" };
-      if (url === 'stub:resend') return { format: 'module', shortCircuit: true,
-        source: "export class Resend { constructor() { this.emails = { send: (...a) => globalThis.__s.send(...a) }; } }" };
+      if (url === 'stub:nodemailer') return { format: 'module', shortCircuit: true,
+        source: "export default { createTransport: () => ({ sendMail: (...a) => globalThis.__s.send(...a) }) };" };
       if (url === 'stub:store') return { format: 'module', shortCircuit: true,
         source: "export const intakeStorageConfigured = () => globalThis.__s.configured();"
               + "export const putIntakeFile = (...a) => globalThis.__s.upload(...a);" };
@@ -71,11 +71,11 @@ globalThis.__s = {
   },
   send: async (msg) => {
     calls.sends.push(msg);
-    return { data: { id: "email_1" }, error: null };
+    return { messageId: "email_1" };
   },
 };
 
-process.env.RESEND_API_KEY = "test";
+process.env.GMAIL_APP_PASSWORD = "test";
 process.env.BLOB_READ_WRITE_TOKEN = "test";
 process.env.LEAD_NOTIFY_EMAIL = "ops@example.test";
 
@@ -115,7 +115,7 @@ test("the normal path writes to Supabase only -- Blob is never touched", async (
   assert.match(calls.uploads[0], /^submissions\/.+\/selfie\.jpg$/);
   assert.deepEqual(calls.blobPuts, [], "nothing was duplicated into Blob");
   assert.equal(calls.bridge.length, 1, "the record was filed through the bridge");
-  assert.equal(calls.sends.length, 1);
+  assert.equal(calls.sends.length, 2, "two independent Gmail sends: the operator and the applicant");
 });
 
 test("when storage refuses, the submission is parked rather than lost", async () => {
