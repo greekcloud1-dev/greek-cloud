@@ -1,0 +1,133 @@
+/* ==========================================================================
+   GreekCloud — thank-you page
+   ==========================================================================
+
+   The page a visitor lands on after the intake form accepts a submission.
+   Everything is built from the tokens in base.css, so both themes and all
+   six accessibility contrast modes follow without a second set of values.
+
+   The one literal colour is the WhatsApp green. The brand green (#25D366)
+   carries white text at about 2:1, so it is used only for the glyph, which
+   is a logo and exempt. The button uses WhatsApp's dark brand green, which
+   clears 7:1 against white and sits closer to this palette anyway.
+   ========================================================================== */
+
+:root {
+  --wa:      #075E54;
+  --wa-lift: #0A7A6C;
+  --wa-glyph:#25D366;
+  --wa-wash: #E6F2EE;
+}
+
+:root[data-theme="dark"] { --wa-wash: #1B2A25; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --wa-wash: #1B2A25; }
+}
+
+/* ---- 1. confirmation hero ---------------------------------------------- */
+
+/* Extra room at the bottom: the WhatsApp card is pulled up into this band and
+   must not crowd the reference chip. */
+.ty-hero { text-align: center; padding-block: clamp(46px, 8vw, 88px) clamp(96px, 12vw, 150px); }
+.ty-hero .wrap { max-width: 62ch; }
+
+.ty-seal { width: clamp(84px, 9vw, 96px); height: clamp(84px, 9vw, 96px); margin: 0 auto 24px; display: block; }
+.ty-seal circle, .ty-seal path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.ty-seal circle { stroke: color-mix(in srgb, var(--on-invert) 38%, transparent); stroke-width: 2; }
+.ty-seal path   { stroke: var(--on-invert); stroke-width: 3.2; }
+
+/* Drawn only when motion is welcome. Without the animation the mark is
+   simply already there -- never invisible, same rule anim.js follows. */
+@media (prefers-reduced-motion: no-preference) {
+  html.has-anim .ty-seal circle { stroke-dasharray: 176; stroke-dashoffset: 176; animation: ty-ring .7s cubic-bezier(.22,.61,.36,1) forwards; }
+  html.has-anim .ty-seal path   { stroke-dasharray: 40;  stroke-dashoffset: 40;  animation: ty-check .45s cubic-bezier(.22,.61,.36,1) .5s forwards; }
+}
+@keyframes ty-ring  { to { stroke-dashoffset: 0; } }
+@keyframes ty-check { to { stroke-dashoffset: 0; } }
+
+.ty-hero h1 { margin: 0 0 14px; }
+.ty-hero .lede { color: color-mix(in srgb, var(--on-invert) 88%, transparent); margin-inline: auto; }
+
+/* Reference chip. Hidden until the script finds an id, so a visitor who
+   opens the page directly is never shown an empty box. */
+.ty-ref { display: inline-flex; align-items: center; gap: 10px; margin-top: 24px; padding: 9px 16px;
+  border-radius: var(--radius-pill); background: color-mix(in srgb, var(--on-invert) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--on-invert) 26%, transparent); font-size: 14px; }
+.ty-ref[hidden] { display: none; }
+.ty-ref .k { color: color-mix(in srgb, var(--on-invert) 72%, transparent); }
+.ty-ref .v { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 700;
+  letter-spacing: .09em; color: var(--on-invert); }
+
+/* ---- 2. WhatsApp card --------------------------------------------------- */
+
+/* The band above is dark and the card is lifted into it: the overlap is what
+   makes this read as the page's one action rather than a box further down.
+   The negative margin is clamped so a phone gets a smaller lift than a desktop
+   -- on a narrow screen a deep overlap eats the hero instead of layering on it. */
+.ty-wa-band { padding-top: 0; }
+.ty-wa { max-width: 70ch; margin-inline: auto; margin-top: clamp(-88px, -7vw, -40px);
+  position: relative; z-index: 1; background: var(--surface);
+  border: 1px solid var(--rule); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+  padding: clamp(30px, 5vw, 48px) clamp(24px, 4.5vw, 46px);
+  text-align: center; overflow: hidden; }
+
+/* A whisper of green at the top edge so the card reads as "the WhatsApp one"
+   before any text is read. */
+.ty-wa::before { content: ""; position: absolute; inset-inline: 0; top: 0; height: 4px;
+  background: linear-gradient(to left, var(--wa-glyph), var(--wa)); }
+
+.ty-wa-mark { width: 74px; height: 74px; margin: 0 auto 20px; border-radius: 50%;
+  background: var(--wa-wash); display: grid; place-items: center; }
+.ty-wa-mark svg { width: 40px; height: 40px; display: block; }
+
+.ty-wa h2 { margin: 0 0 12px; }
+.ty-wa p { color: var(--ink-body); margin: 0 auto 10px; max-width: 46ch; }
+
+/* Wide by default rather than hugging its label: this is the one thing the
+   page is asking the visitor to do. */
+.ty-wa-btn { display: inline-flex; align-items: center; justify-content: center; gap: 11px;
+  margin-top: 24px; width: min(100%, 34ch); padding: 17px 30px; border-radius: var(--radius-pill);
+  background: var(--wa); color: #FFFFFF; font-weight: 800; font-size: 17.5px;
+  font-family: var(--f-work); text-decoration: none; box-shadow: var(--shadow);
+  transition: background .18s ease, transform .18s ease, box-shadow .18s ease; }
+.ty-wa-btn:hover { background: var(--wa-lift); color: #FFFFFF; text-decoration: none;
+  transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+.ty-wa-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .ty-wa-btn { transition: none; }
+  .ty-wa-btn:hover { transform: none; }
+}
+
+.ty-wa-num { margin-top: 14px; font-size: 14.5px; color: var(--ink-faint); }
+.ty-wa-num a { color: var(--ink-soft); }
+
+/* ---- 3. what happens next ----------------------------------------------- */
+
+.ty-steps { list-style: none; margin: 0 auto; padding: 0; max-width: 62ch;
+  display: grid; gap: 4px; counter-reset: ty; }
+.ty-step { counter-increment: ty; display: grid; grid-template-columns: auto 1fr; gap: 16px;
+  align-items: start; padding: 18px 0; }
+.ty-step + .ty-step { border-top: 1px dashed var(--rule); }
+
+.ty-step .n { inline-size: 34px; block-size: 34px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--sage-solid); color: var(--on-solid); font-family: var(--f-anchor); font-size: 15px;
+  line-height: 1; }
+.ty-step .n::before { content: counter(ty); }
+.ty-step h3 { margin: 0 0 5px; font-size: 17px; }
+.ty-step p { margin: 0; color: var(--ink-body); font-size: 15.5px; }
+
+/* ---- 4. while you wait --------------------------------------------------- */
+
+.ty-next { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px;
+  margin-top: 26px; }
+.ty-card { display: block; padding: 22px; border-radius: var(--radius); background: var(--surface);
+  border: 1px solid var(--rule); text-decoration: none; box-shadow: var(--shadow-sm);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.ty-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--ink-faint);
+  text-decoration: none; }
+.ty-card .t { display: block; font-family: var(--f-anchor); font-size: 17px; color: var(--ink); margin-bottom: 6px; }
+.ty-card .d { display: block; font-size: 14.5px; color: var(--ink-soft); line-height: 1.5; }
+@media (prefers-reduced-motion: reduce) {
+  .ty-card { transition: none; }
+  .ty-card:hover { transform: none; }
+}

@@ -163,7 +163,7 @@
   function showDown() { notice('warn', S.downTitle, S.downBody); }
   function showSendError() { notice('warn', S.errTitle, S.errBody); }
 
-  function showSent() {
+  function showSent(submissionId) {
     notice('ok', S.sentTitle, S.sentBody);
     // Nothing left to correct after a real send: freeze the form so a second
     // tap of "back" plus "submit" can't fire a duplicate request.
@@ -172,6 +172,18 @@
     });
     var payNote = form.querySelector('.pay-note');
     if (payNote) payNote.hidden = true;
+
+    /* Hand the reference to the thank-you page through sessionStorage rather
+       than the URL: it is a storage key, and a query string would put it in
+       referrers, history and any log that records URLs.
+
+       The inline notice above still renders first and the redirect is
+       replace(), not assign(): "back" from the thank-you page must not return
+       to a filled-in form that would happily submit itself a second time. If
+       the redirect is blocked for any reason, the visitor is left on the
+       notice, which already tells them the request was received. */
+    try { if (submissionId) sessionStorage.setItem('gc-last-submission', submissionId); } catch (e) {}
+    window.location.replace(HE ? '/thank-you.html' : '/en/thank-you.html');
   }
 
   /* ---------- image compression ----------
@@ -252,8 +264,11 @@
           // purpose -- there is nothing left to correct after a real send.
           // Re-enabling it in a shared "finally" below would undo exactly
           // that, so success returns early instead of falling through to it.
-          showSent();
+          // Clear the draft before leaving: showSent() redirects, and a draft
+          // left behind would refill the form for the next visitor on a
+          // shared machine.
           if (window.gcIntakeClearDraft) window.gcIntakeClearDraft();
+          showSent(body.submissionId);
           return;
         }
         showSendError();
