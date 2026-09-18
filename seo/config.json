@@ -1,0 +1,78 @@
+{
+  "site": {
+    "origin": "https://greek-cloud.com",
+    "gscProperty": "sc-domain:greek-cloud.com",
+    "languages": ["he", "en"],
+    "defaultLanguage": "he",
+    "indexNowKey": "657aba77224ced8ed594032ef5f33f71"
+  },
+
+  "competitors": [
+    {
+      "domain": "medtouristgr.com",
+      "role": "primary",
+      "note": "Same model, ~50 sitemap URLs, localised for Israelis at /he/medical-cannabis-greece, prices EUR 22/31/39. Owns the AI-citation territory. Benchmark strategy against this one."
+    },
+    {
+      "domain": "canaflight.com",
+      "role": "watch-only",
+      "note": "Ranks for nothing, not even its own brand name. Registration runs to July 2027. Never plan around it disappearing and never treat it as the incumbent."
+    },
+    {
+      "domain": "relieftime.com",
+      "role": "watch-only",
+      "note": "Greek doctor consult at about EUR 8. Relevant only to the pricing objection."
+    }
+  ],
+
+  "headTerms": {
+    "he": [
+      "מרשם קנאביס רפואי ביוון",
+      "קנאביס רפואי ביוון",
+      "קנביס רפואי ביוון",
+      "רישיון קנאביס ביוון",
+      "קנאביס רפואי לתיירים יוון",
+      "לטוס עם קנאביס ליוון",
+      "בית מרקחת קנאביס יוון",
+      "מחיר קנאביס רפואי יוון"
+    ],
+    "en": [
+      "medical cannabis greece prescription",
+      "medical cannabis greece tourist",
+      "cannabis pharmacy greece",
+      "greek cannabis prescription remote"
+    ]
+  },
+
+  "thresholds": {
+    "maxPairOverlap": 0.45,
+    "maxSharedPages": 5,
+    "widespreadMinWords": 35,
+    "metaDescriptionMax": 160,
+    "titleMax": 65,
+    "positionDropAlert": 3,
+    "impressionsDropPct": 30,
+    "lcpMs": 2500,
+    "inpMs": 200,
+    "cls": 0.1
+  },
+
+  "routines": {
+    "timezone": "Asia/Jerusalem",
+    "activeDays": "sun-thu",
+    "note": "The owner is unreachable Friday and Saturday. Nothing is scheduled to land then."
+  },
+
+  "credentials": {
+    "required": {
+      "GOOGLE_SERVICE_ACCOUNT_JSON": "Search Console Search Analytics, URL Inspection, Indexing API. Free. Create a service account in Google Cloud and add its client_email as a user on the GSC property.",
+      "GOOGLE_API_KEY": "PageSpeed Insights v5 and CrUX field data. Free, 25k requests/day.",
+      "BING_WEBMASTER_API_KEY": "Bing Webmaster Tools. Free. Settings > API access. Without it IndexNow submissions are accepted but unreadable."
+    },
+    "deliberatelyAbsent": {
+      "GA4": "The CSP blocks third-party connections and assets/notice.js promises visitors there are no analytics. Measurement comes from Search Console instead.",
+      "DATAFORSEO": "Paid. Not connected. seo-dataforseo stays idle until it is.",
+      "AHREFS": "Paid. Not connected."
+    }
+  }
+}
