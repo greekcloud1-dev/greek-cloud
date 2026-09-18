@@ -20,3 +20,13 @@ LAUNCH-TODO.md
 
 # SEO audit artefacts. Internal working documents, not site content.
 greek-cloud.com-audit/
+
+# SEO automation tooling. House rules, check scripts, routine runbooks and the
+# vendored skills the scheduled agents use. All internal working material, and
+# all of it would otherwise be fetchable at its own path. Same reasoning as
+# greek-cloud.com-audit/ above.
+CLAUDE.md
+scripts/
+seo/
+.claude/
+.github/
