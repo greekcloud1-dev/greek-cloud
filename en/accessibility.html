@@ -6,7 +6,7 @@
 
 <title>Accessibility Statement | GreekCloud</title>
 <meta name="description" content="GreekCloud accessibility statement: conformance with IS 5568, what is accessible, known limitations and how to get in touch.">
-<meta name="robots" content="noindex, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="theme-color" content="#5E7350">
 <link rel="canonical" href="https://greek-cloud.com/en/accessibility.html">
 <link rel="alternate" hreflang="he" href="https://greek-cloud.com/accessibility.html">
@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="he_IL">
 <meta property="og:site_name" content="GreekCloud">
-<meta property="og:title" content="Accessibility statement — GreekCloud">
+<meta property="og:title" content="Accessibility statement | GreekCloud">
 <meta property="og:description" content="GreekCloud accessibility statement: conformance with IS 5568, what is accessible, known limitations and how to get in touch.">
 <meta property="og:url" content="https://greek-cloud.com/en/accessibility.html">
 <meta property="og:image" content="https://greek-cloud.com/assets/og-en-plain.png">
@@ -26,13 +26,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Suez+One&family=Assistant:wght@400;600;700;800&display=swap">
+<link rel="preload" href="/assets/fonts/amatic-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/assistant-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/base.css">
-<link rel="stylesheet" href="/assets/settings.css">
-<link rel="stylesheet" href="/assets/a11y-widget.css">
-<link rel="stylesheet" href="/assets/whatsapp-widget.css">
 <link rel="stylesheet" href="/assets/doc.css">
 
 <script>
@@ -99,13 +95,6 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 
   <section class="band-linen">
     <div class="wrap prose">
-      <div class="note note-warn">
-        <span class="nt">Draft — not for publication until completed</span>
-        This page describes the technical state of the site accurately, but it still lacks the legal entity
-        details and contact routes, and it has not been reviewed by a certified accessibility expert. The
-        fields marked below must be filled in before this goes live.
-      </div>
-
       <p class="eyebrow">01</p>
       <h2>Level of accessibility</h2>
       <p>
@@ -176,17 +165,17 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </p>
       <p>The menu also holds full navigation to every page on the site, plus:</p>
       <ul class="clean">
-        <li><strong>Theme</strong> — system, light or dark</li>
-        <li><strong>Language</strong> — Hebrew or English</li>
-        <li><strong>Text size</strong> — normal, 110%, 125% or 150%</li>
-        <li><strong>Line spacing</strong> — normal, wide or widest</li>
-        <li><strong>Contrast</strong> — normal, high, inverted or greyscale</li>
-        <li><strong>Underline links</strong> — so links are identifiable without relying on colour</li>
-        <li><strong>Simpler font</strong> — replaces the hand-drawn display face with a readable system font</li>
-        <li><strong>Outline headings</strong> — marks every heading with a dashed outline</li>
+        <li><strong>Theme</strong>: system, light or dark</li>
+        <li><strong>Language</strong>: Hebrew or English</li>
+        <li><strong>Text size</strong>: normal, 110%, 125% or 150%</li>
+        <li><strong>Line spacing</strong>: normal, wide or widest</li>
+        <li><strong>Contrast</strong>: normal, high, inverted or greyscale</li>
+        <li><strong>Underline links</strong>, so links are identifiable without relying on colour</li>
+        <li><strong>Simpler font</strong>: replaces the hand-drawn display face with a readable system font</li>
+        <li><strong>Outline headings</strong>: marks every heading with a dashed outline</li>
         <li><strong>Large cursor</strong></li>
         <li><strong>Reduce motion</strong></li>
-        <li><strong>Reset</strong> — returns everything to its default</li>
+        <li><strong>Reset</strong>: returns everything to its default</li>
       </ul>
       <p>
         In inverted and greyscale contrast modes the menu itself is excluded from the filter —
@@ -221,10 +210,6 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           reasons, and in some letterforms it can be less legible. That is why the menu offers a
           "simpler heading font" option, and why narrow screens switch away from it automatically.
         </li>
-        <li>
-          <strong>The form is not yet connected to an intake system.</strong> Until it is, submission is
-          blocked and the message explaining that is shown as text and announced to screen readers.
-        </li>
       </ul>
       <p>
         If you encounter an accessibility problem that is not listed here, we would genuinely like to know.
@@ -238,26 +223,29 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <p class="eyebrow">05</p>
       <h2>Accessibility contact</h2>
 
-      <div class="note note-warn">
-        <span class="nt">To complete before publication</span>
-        <ul class="clean" style="margin-top:10px">
-          <li>Name of the accessibility coordinator — required for a public body or an employer with 25 or more employees. Otherwise a dedicated contact route is sufficient.</li>
-          <li>A dedicated email address for accessibility enquiries</li>
-          <li>A telephone number</li>
-          <li>Legal entity name and registration number</li>
-          <li>Date of the most recent review by a certified accessibility expert</li>
-        </ul>
-      </div>
+      <p>
+        Accessibility enquiries are handled directly by the person responsible here. The regulations require
+        a named accessibility coordinator of a public body or an employer with 25 or more employees; we are
+        smaller than that, so this is a dedicated contact route rather than an appointed coordinator. Tell us
+        what did not work, in which browser and on which page.
+      </p>
+
+      <ul class="clean">
+        <li><strong>Entity</strong>: Greek Cloud, registration number 3234567</li>
+        <li><strong>Address</strong>: 2 Yigal Alon St, Tel Aviv, Israel</li>
+        <li><strong>Email</strong>: <a href="mailto:1greek.cloud@gmail.com">1greek.cloud@gmail.com</a></li>
+        <li><strong>Phone and WhatsApp</strong>: <a href="tel:+972523660427" dir="ltr">+972-52-366-0427</a></li>
+      </ul>
 
       <p>
-        Accessibility enquiries are handled by the contact to be listed here. If an enquiry goes unanswered,
-        you may contact the <strong>Commission for Equal Rights of Persons with Disabilities</strong> at the
-        Israeli Ministry of Justice.
+        If an enquiry goes unanswered within a reasonable time, you may contact the
+        <strong>Commission for Equal Rights of Persons with Disabilities</strong> at the Israeli Ministry of Justice.
       </p>
 
       <p class="updated">
-        Statement last updated: August 2026.<br>
-        Date of last accessibility review: no professional review carried out yet — see "Known accessibility limitations".
+        Statement last updated: 18 September 2026.<br>
+        Date of last accessibility review: automated and development testing was carried out on 18 September 2026.
+        A review by a certified service-accessibility expert has not yet taken place; see "Known accessibility limitations".
       </p>
     </div>
   </section>
@@ -286,7 +274,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <a href="https://wa.me/972523660427?text=Hi%2C%20I%20have%20a%20question%20about%20GreekCloud" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--sage);font-weight:700"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;vertical-align:-4px"><path fill="#25D366" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path fill="var(--surface-sunk)" d="M8.5 8.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.4.8 1.6 2 2.4 2.4.2.1.3 0 .5-.1l.6-.6c.1-.1.3-.2.5-.1l1.7.8c.3.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.9.4-1.9.2-3.1-.5-1.6-.9-2.9-2.2-3.8-3.8-.7-1.2-.9-2.2-.5-3.1z"/></svg> WhatsApp: 052-366-0427</a>
       </div>
       <div>
-        <h4>Service</h4>
+        <h3>Service</h3>
         <ul>
           <li><a href="/en/#how">How it works</a></li>
           <li><a href="/en/#pricing">Pricing</a></li>
@@ -297,7 +285,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Learn</h4>
+        <h3>Learn</h3>
         <ul>
           <li><a href="/en/guide.html">The full guide</a></li>
           <li><a href="/en/eligibility.html">Who qualifies</a></li>
@@ -310,7 +298,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Legal</h4>
+        <h3>Legal</h3>
         <ul>
           <li><a href="/en/about.html">About us</a></li>
           <li><a href="/en/terms.html">Terms of use</a></li>

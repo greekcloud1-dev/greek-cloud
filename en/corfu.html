@@ -26,13 +26,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Suez+One&family=Assistant:wght@400;600;700;800&display=swap">
+<link rel="preload" href="/assets/fonts/amatic-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/assistant-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/base.css">
-<link rel="stylesheet" href="/assets/settings.css">
-<link rel="stylesheet" href="/assets/a11y-widget.css">
-<link rel="stylesheet" href="/assets/whatsapp-widget.css">
 <link rel="stylesheet" href="/assets/doc.css">
 
 <script>
@@ -56,19 +52,23 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 {
   "@context": "https://schema.org",
   "@graph": [
+    { "@type": "Organization", "@id": "https://greek-cloud.com/#org", "name": "GreekCloud", "legalName": "Greek Cloud", "taxID": "3234567", "url": "https://greek-cloud.com/", "email": "1greek.cloud@gmail.com", "telephone": "+972-52-366-0427", "address": { "@type": "PostalAddress", "streetAddress": "2 Yigal Alon St", "addressLocality": "Tel Aviv", "addressCountry": "IL" }, "logo": { "@type": "ImageObject", "url": "https://greek-cloud.com/assets/logo.png", "width": 224, "height": 224 } },
     { "@type": "Article",
       "@id": "https://greek-cloud.com/en/corfu.html#article",
       "headline": "Medical Cannabis in Corfu", "description": "Medical cannabis prescriptions for visitors in Corfu: a green island in the Ionian, and how it differs from the Aegean islands.", "inLanguage": "en",
       "datePublished": "2026-08-31",
       "dateModified": "2026-09-03",
-      "author": { "@type": "Organization", "name": "GreekCloud", "url": "https://greek-cloud.com/" },
-      "publisher": { "@type": "Organization", "name": "GreekCloud" },
+      "author": { "@id": "https://greek-cloud.com/#org" },
+      "publisher": { "@id": "https://greek-cloud.com/#org" },
+      "image": "https://greek-cloud.com/assets/og-en-plain.png",
       "mainEntityOfPage": "https://greek-cloud.com/en/corfu.html" },
     { "@type": "FAQPage",
       "@id": "https://greek-cloud.com/en/corfu.html#faq",
       "mainEntity": [
         { "@type": "Question", "name": "We're arriving in October. Is it still season?", "acceptedAnswer": { "@type": "Answer", "text": "The end of it. Some resort villages are already starting to close, but Corfu Town is fully active. If you are travelling in October or later, plan to redeem in town rather than in a village." } },
-        { "@type": "Question", "name": "Is the process any different from the other islands?", "acceptedAnswer": { "@type": "Answer", "text": "No. Same questionnaire, same physician, same digital prescription. The only difference is logistical — how far the pharmacy is from where you are staying." } }
+        { "@type": "Question", "name": "Is the process any different from the other islands?", "acceptedAnswer": { "@type": "Answer", "text": "No. Same questionnaire, same physician, same digital prescription. The only difference is logistical — how far the pharmacy is from where you are staying." } },
+        { "@type": "Question", "name": "I am staying in Sidari or Kassiopi. How far is that?", "acceptedAnswer": { "@type": "Answer", "text": "Most licensed pharmacies are in Corfu town and its immediate surroundings. The island is long, and 40 to 60 minutes to town from the north or the south is not unusual." } },
+        { "@type": "Question", "name": "Does Corfu work outside the season?", "acceptedAnswer": { "@type": "Answer", "text": "Corfu town runs as a full town all year, unlike the resort villages. The rainy season lasts from November to March, and direct flights are seasonal." } }
       ] },
     { "@type": "BreadcrumbList",
       "itemListElement": [
@@ -109,7 +109,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/en/">Home</a> &rsaquo; Corfu</nav>
       <p class="eyebrow">Island · Ionian Sea</p>
-      <h1>Medical Cannabis in Corfu — for visitors</h1>
+      <h1>Medical Cannabis in Corfu for visitors</h1>
       <p class="lede">Corfu is unlike the Greek islands most visitors picture: green, wetter, and with a working old town that operates all year round.</p>
       <div class="city-facts" style="margin-top:30px">
         <div><span class="k">Airport</span><span class="v">Corfu Airport (CFU)</span></div>
@@ -129,7 +129,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <li>A relatively large island with dispersed infrastructure</li>
         <li>Close to Albania and the mainland by ferry</li>
       </ul>
-      <p>Most licensed pharmacies are in Corfu Town and its immediate surroundings. The island is elongated, and villages in the north and south are far — a 40 to 60 minute drive into town is not unusual. If you are staying in Sidari or Kassiopi, factor that in.</p>
+      <p>Most licensed pharmacies are in Corfu Town and its immediate surroundings. The island is elongated, and villages in the north and south are far, a 40 to 60 minute drive into town is not unusual. If you are staying in Sidari or Kassiopi, factor that in.</p>
       <div class="note"><span class="nt">Local tip</span>Corfu is wetter than the other islands and its season is shorter. Outside the summer months direct flights thin out and the route goes through Athens.</div>
     </div>
   </section>
@@ -163,6 +163,50 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     </div>
   </section>
 
+  <section id="pharmacy" class="band-linen">
+    <div class="wrap prose">
+      <p class="eyebrow">At the pharmacy</p>
+      <h2>Redeeming in Corfu</h2>
+      <p>
+        <strong>Redemption itself is short: you walk into a licensed pharmacy, show your passport,
+        and the pharmacist retrieves the digital prescription from the system.</strong>
+        This is the only step in the whole process that requires you to be physically in Greece.
+        <a href="/en/pharmacies-greece.html">How redemption works without a Greek social security number</a>.
+      </p>
+
+      <div class="t-scroll" style="margin:16px 0 22px">
+        <table>
+          <caption>What to know about redeeming a prescription in Corfu</caption>
+          <tbody>
+            <tr><th scope="row">Getting there</th><td>Corfu (CFU), seasonal direct flights</td></tr>
+            <tr><th scope="row">Where the pharmacies are</th><td>Corfu town and its immediate surroundings</td></tr>
+            <tr><th scope="row">Drive from the resort areas</th><td>40 to 60 minutes from Sidari, Kassiopi and the south</td></tr>
+            <tr><th scope="row">Out of season</th><td>Corfu town runs as a full town all year; the resort villages do not</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Bring your passport, the digital prescription and a means of payment.
+        <a href="/en/pharmacies-greece.html#counter">What is checked at the counter, and why the passport number has to match exactly</a>.
+      </p>
+
+      <h3>Opening hours</h3>
+      <p>
+        Hours are set regionally rather than nationally, the afternoon break is a local custom rather
+        than a binding rule, and on Sundays and overnight only duty pharmacies are open.
+        <a href="/en/pharmacies-greece.html#hours">The full rule, and how to find a duty pharmacy</a>.
+      </p>
+
+      <div class="note">
+        <span class="nt">On the cost</span>
+        The product is paid for at the pharmacy and is not included in the service fee. The prescription
+        can be redeemed for up to 30 days from issue, inside Greece.
+        <a href="/en/pharmacy-prices.html">The price list by strain</a>.
+      </div>
+    </div>
+  </section>
+
   <section class="band-stone">
     <div class="wrap">
       <div class="sec-head" data-reveal>
@@ -172,6 +216,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <div class="faq" data-reveal>
         <details open><summary>We're arriving in October. Is it still season?</summary><div class="a">The end of it. Some resort villages are already starting to close, but Corfu Town is fully active. If you are travelling in October or later, plan to redeem in town rather than in a village.</div></details>
         <details><summary>Is the process any different from the other islands?</summary><div class="a">No. Same questionnaire, same physician, same digital prescription. The only difference is logistical — how far the pharmacy is from where you are staying.</div></details>
+        <details><summary>I am staying in Sidari or Kassiopi. How far is that?</summary><div class="a">Most licensed pharmacies are in Corfu town and its immediate surroundings. The island is long, and 40 to 60 minutes to town from the north or the south is not unusual.</div></details>
+        <details><summary>Does Corfu work outside the season?</summary><div class="a">Corfu town runs as a full town all year, unlike the resort villages. The rainy season lasts from November to March, and direct flights are seasonal.</div></details>
       </div>
     </div>
   </section>
@@ -184,6 +230,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <p>One digital prescription, any licensed pharmacy in Greece.</p>
       </div>
       <div class="next-up" data-reveal-group>
+        <a href="/en/lefkada.html"><span class="t">Lefkada</span><span class="d">Island · Ionian</span></a>
         <a href="/en/thessaloniki.html"><span class="t">Thessaloniki</span><span class="d">City · Northern Greece</span></a>
         <a href="/en/athens.html"><span class="t">Athens</span><span class="d">Capital · Mainland</span></a>
         <a href="/en/crete.html"><span class="t">Crete</span><span class="d">Island · Largest in Greece</span></a>
@@ -214,7 +261,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <a href="https://wa.me/972523660427?text=Hi%2C%20I%20have%20a%20question%20about%20GreekCloud" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--sage);font-weight:700"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;vertical-align:-4px"><path fill="#25D366" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path fill="var(--surface-sunk)" d="M8.5 8.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.4.8 1.6 2 2.4 2.4.2.1.3 0 .5-.1l.6-.6c.1-.1.3-.2.5-.1l1.7.8c.3.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.9.4-1.9.2-3.1-.5-1.6-.9-2.9-2.2-3.8-3.8-.7-1.2-.9-2.2-.5-3.1z"/></svg> WhatsApp: 052-366-0427</a>
       </div>
       <div>
-        <h4>Service</h4>
+        <h3>Service</h3>
         <ul>
           <li><a href="/en/#how">How it works</a></li>
           <li><a href="/en/#pricing">Pricing</a></li>
@@ -225,7 +272,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Learn</h4>
+        <h3>Learn</h3>
         <ul>
           <li><a href="/en/guide.html">The full guide</a></li>
           <li><a href="/en/eligibility.html">Who qualifies</a></li>
@@ -238,7 +285,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Legal</h4>
+        <h3>Legal</h3>
         <ul>
           <li><a href="/en/about.html">About us</a></li>
           <li><a href="/en/terms.html">Terms of use</a></li>

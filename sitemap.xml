@@ -2,112 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://greek-cloud.com/</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/"/>
-    <lastmod>2026-09-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/"/>
-    <lastmod>2026-09-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/guide.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/guide.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/guide.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/guide.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://greek-cloud.com/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/about.html"/>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/en/guide.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/guide.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/guide.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/guide.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://greek-cloud.com/accessibility.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/accessibility.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/accessibility.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/accessibility.html"/>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/remote-prescription.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/remote-prescription.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/remote-prescription.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/remote-prescription.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/pharmacy-prices.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/pharmacy-prices.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/pharmacy-prices.html"/>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/pharmacies-greece.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/pharmacies-greece.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/pharmacies-greece.html"/>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/remote-prescription.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/remote-prescription.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/remote-prescription.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/remote-prescription.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/israeli-license-abroad.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/israeli-license-abroad.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/israeli-license-abroad.html"/>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/israeli-license-refused.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/israeli-license-refused.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/israeli-license-refused.html"/>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/glossary.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/glossary.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/glossary.html"/>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/legal-updates.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/legal-updates.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/legal-updates.html"/>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/penalties-greece.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/penalties-greece.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/penalties-greece.html"/>
-    <lastmod>2026-09-05</lastmod>
+    <loc>https://greek-cloud.com/athens.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/athens.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/athens.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/athens.html"/>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -116,120 +33,25 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/cannabis-in-greece.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/cannabis-in-greece.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/cannabis-in-greece.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/cannabis-in-greece.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/cannabis-in-greece.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/cannabis-in-greece.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/cannabis-in-greece.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/fly-with-cannabis.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/fly-with-cannabis.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/fly-with-cannabis.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/fly-with-cannabis.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/fly-with-cannabis.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/fly-with-cannabis.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/fly-with-cannabis.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/fly-with-cannabis.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://greek-cloud.com/cbd-in-greece.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/cbd-in-greece.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/cbd-in-greece.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/cbd-in-greece.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/en/cbd-in-greece.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/cbd-in-greece.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/cbd-in-greece.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/cbd-in-greece.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-    <url>
-    <loc>https://greek-cloud.com/destinations.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/destinations.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/destinations.html"/>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-<url>
-    <loc>https://greek-cloud.com/athens.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/athens.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/athens.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/athens.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/athens.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/athens.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/athens.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/athens.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/thessaloniki.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/thessaloniki.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/thessaloniki.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/thessaloniki.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/halkidiki.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/halkidiki.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/halkidiki.html"/>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/lefkada.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/lefkada.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/lefkada.html"/>
-    <lastmod>2026-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/zakynthos.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/zakynthos.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/zakynthos.html"/>
-    <lastmod>2026-09-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/thessaloniki.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/thessaloniki.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/thessaloniki.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/thessaloniki.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://greek-cloud.com/corfu.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/corfu.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/corfu.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/corfu.html"/>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -238,71 +60,112 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/crete.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/crete.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/crete.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/en/crete.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/crete.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/crete.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/crete.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/rhodes.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/rhodes.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/rhodes.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/rhodes.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://greek-cloud.com/destinations.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/destinations.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/destinations.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/destinations.html"/>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/en/rhodes.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/rhodes.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/rhodes.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/rhodes.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://greek-cloud.com/eligibility.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/eligibility.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/eligibility.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/eligibility.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/fly-with-cannabis.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/fly-with-cannabis.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/fly-with-cannabis.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/fly-with-cannabis.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/glossary.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/glossary.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/glossary.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/guide.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/guide.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/halkidiki.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/halkidiki.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/halkidiki.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/halkidiki.html"/>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/israeli-license-abroad.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/israeli-license-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/israeli-license-abroad.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/israeli-license-refused.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/israeli-license-refused.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/israeli-license-refused.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://greek-cloud.com/kos.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/kos.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/kos.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/kos.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/en/kos.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/kos.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/kos.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/kos.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://greek-cloud.com/lefkada.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/lefkada.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/lefkada.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/lefkada.html"/>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/santorini.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/santorini.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/santorini.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/santorini.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/santorini.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/santorini.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/santorini.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/santorini.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://greek-cloud.com/legal-updates.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/legal-updates.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/legal-updates.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
@@ -310,141 +173,43 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/mykonos.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/mykonos.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/mykonos.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/en/mykonos.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/mykonos.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/mykonos.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/mykonos.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/corfu.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/corfu.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/corfu.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/corfu.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/corfu.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/corfu.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/corfu.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/corfu.html"/>
-    <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/eligibility.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/eligibility.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/eligibility.html"/>
-    <lastmod>2026-09-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/destinations.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/destinations.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/destinations.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/destinations.html"/>
-    <lastmod>2026-09-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/penalties-greece.html</loc>
+    <loc>https://greek-cloud.com/penalties-greece.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/penalties-greece.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/penalties-greece.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/penalties-greece.html"/>
-    <lastmod>2026-09-07</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/en/eligibility.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/eligibility.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/eligibility.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/eligibility.html"/>
-    <lastmod>2026-09-10</lastmod>
+    <loc>https://greek-cloud.com/pharmacies-greece.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/pharmacies-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/pharmacies-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/pharmacies-greece.html"/>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/en/pharmacy-prices.html</loc>
+    <loc>https://greek-cloud.com/pharmacy-prices.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/pharmacy-prices.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/pharmacy-prices.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/pharmacy-prices.html"/>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/pharmacies-greece.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/pharmacies-greece.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/pharmacies-greece.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/pharmacies-greece.html"/>
-    <lastmod>2026-09-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/halkidiki.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/halkidiki.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/halkidiki.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/halkidiki.html"/>
-    <lastmod>2026-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/lefkada.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/lefkada.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/lefkada.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/lefkada.html"/>
-    <lastmod>2026-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/about.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/about.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/about.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/about.html"/>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/about.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/about.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/about.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/about.html"/>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://greek-cloud.com/privacy.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/privacy.html"/>
-    <lastmod>2026-09-17</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://greek-cloud.com/en/privacy.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/privacy.html"/>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -453,7 +218,240 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/refund.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/refund.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/refund.html"/>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/remote-prescription.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/remote-prescription.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/remote-prescription.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/remote-prescription.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/rhodes.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/rhodes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/rhodes.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/rhodes.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/santorini.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/santorini.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/santorini.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/santorini.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/terms.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/terms.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/thessaloniki.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/thessaloniki.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/thessaloniki.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/thessaloniki.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/zakynthos.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/zakynthos.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/zakynthos.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/about.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/accessibility.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/accessibility.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/accessibility.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/accessibility.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/athens.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/athens.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/athens.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/athens.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/cannabis-in-greece.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/cannabis-in-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/cannabis-in-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/cannabis-in-greece.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/cbd-in-greece.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/cbd-in-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/cbd-in-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/cbd-in-greece.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/corfu.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/corfu.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/corfu.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/corfu.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/crete.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/crete.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/crete.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/crete.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/destinations.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/destinations.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/destinations.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/destinations.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/eligibility.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/eligibility.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/eligibility.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/eligibility.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/fly-with-cannabis.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/fly-with-cannabis.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/fly-with-cannabis.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/fly-with-cannabis.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/guide.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/guide.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/guide.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/halkidiki.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/halkidiki.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/halkidiki.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/halkidiki.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/kos.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/kos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/kos.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/kos.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/lefkada.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/lefkada.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/lefkada.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/lefkada.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/mykonos.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/mykonos.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/mykonos.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/mykonos.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/penalties-greece.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/penalties-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/penalties-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/penalties-greece.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/pharmacies-greece.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/pharmacies-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/pharmacies-greece.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/pharmacies-greece.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/pharmacy-prices.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/pharmacy-prices.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/pharmacy-prices.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/pharmacy-prices.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/privacy.html"/>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -462,26 +460,53 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/refund.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/refund.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/refund.html"/>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://greek-cloud.com/terms.html</loc>
-    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/terms.html"/>
-    <lastmod>2026-09-17</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://greek-cloud.com/en/remote-prescription.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/remote-prescription.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/remote-prescription.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/remote-prescription.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/rhodes.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/rhodes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/rhodes.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/rhodes.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/santorini.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/santorini.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/santorini.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/santorini.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://greek-cloud.com/en/terms.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/terms.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/terms.html"/>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://greek-cloud.com/en/thessaloniki.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://greek-cloud.com/thessaloniki.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://greek-cloud.com/en/thessaloniki.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://greek-cloud.com/thessaloniki.html"/>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

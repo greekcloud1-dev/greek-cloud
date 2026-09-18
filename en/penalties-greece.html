@@ -26,13 +26,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Suez+One&family=Assistant:wght@400;600;700;800&display=swap">
+<link rel="preload" href="/assets/fonts/amatic-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/assistant-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/base.css">
-<link rel="stylesheet" href="/assets/settings.css">
-<link rel="stylesheet" href="/assets/a11y-widget.css">
-<link rel="stylesheet" href="/assets/whatsapp-widget.css">
 <link rel="stylesheet" href="/assets/doc.css">
 
 <script>
@@ -56,6 +52,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 {
   "@context": "https://schema.org",
   "@graph": [
+    { "@type": "Organization", "@id": "https://greek-cloud.com/#org", "name": "GreekCloud", "legalName": "Greek Cloud", "taxID": "3234567", "url": "https://greek-cloud.com/", "email": "1greek.cloud@gmail.com", "telephone": "+972-52-366-0427", "address": { "@type": "PostalAddress", "streetAddress": "2 Yigal Alon St", "addressLocality": "Tel Aviv", "addressCountry": "IL" }, "logo": { "@type": "ImageObject", "url": "https://greek-cloud.com/assets/logo.png", "width": 224, "height": 224 } },
     {
       "@type": "Article",
       "@id": "https://greek-cloud.com/en/penalties-greece.html#article",
@@ -64,8 +61,9 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       "inLanguage": "en",
       "datePublished": "2026-09-07",
       "dateModified": "2026-09-07",
-      "author": { "@type": "Organization", "name": "GreekCloud", "url": "https://greek-cloud.com/" },
-      "publisher": { "@type": "Organization", "name": "GreekCloud" },
+      "author": { "@id": "https://greek-cloud.com/#org" },
+      "publisher": { "@id": "https://greek-cloud.com/#org" },
+      "image": "https://greek-cloud.com/assets/og-en-plain.png",
       "mainEntityOfPage": "https://greek-cloud.com/en/penalties-greece.html"
     },
     {
@@ -131,7 +129,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <h1>Cannabis penalties in Greece</h1>
       <p class="lede">
         The governing statute is <strong>Law 4139/2013</strong>, still in force in 2026. This page sets out
-        what it actually says — and, just as importantly, what it does <em>not</em> say, because several of
+        what it actually says, and, just as importantly, what it does <em>not</em> say, because several of
         the most widely repeated claims in English about cannabis in Greece are not in the law at all.
       </p>
       <nav class="toc" aria-label="Table of contents">
@@ -158,7 +156,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <h2>Possession for personal use</h2>
       <p>
         <strong>Up to five months' imprisonment.</strong> Article 29(1) of Law 4139/2013 provides that
-        possession, procurement or use of narcotics for exclusively personal use — and cultivation of
+        possession, procurement or use of narcotics for exclusively personal use, and cultivation of
         cannabis plants in a number or area justified only for personal use — is punishable by imprisonment
         of up to five months.
       </p>
@@ -199,7 +197,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         frequency of use, the duration of use, the daily dose and the particular needs of that user. It is
         decided <strong>case by case</strong>, by the prosecutor and the court.
       </p>
-      <h3>Greek law did once have thresholds — and they were different numbers</h3>
+      <h3>Greek law did once have thresholds, and they were different numbers</h3>
       <p>
         Law 3459/2006 did contain figures: 1.5 g of heroin or cocaine, <strong>50 g of raw cannabis</strong>
         and <strong>5 g of processed cannabis</strong>. That provision was repealed outright by Article
@@ -224,8 +222,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <ul class="clean clay">
         <li>
           <strong>"Greece passed a Cannabis Regulation Act in March 2026 opening dispensaries to adults."</strong>
-          No such statute exists. The real 2026 legislation is Law 5302/2026, which ran the opposite way —
-          a total ban on the retail sale — and on purchase and use by consumers — of dried cannabis
+          No such statute exists. The real 2026 legislation is Law 5302/2026, which ran the opposite way, a total ban on the retail sale, and on purchase and use by consumers — of dried cannabis
           flower with a THC content of up to 0.3%, which ended the CBD-flower retail sector. It does not
           reach pharmaceutical cannabis dispensed on medical prescription, which sits in a separate
           regime under the same statute.
@@ -262,7 +259,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         And here is the point that matters most to a visitor: <strong>import</strong>
         (<span dir="ltr" lang="el">εισαγωγή</span>) is listed expressly in Article 20(2) as one of the
         trafficking acts. Someone entering Greece carrying cannabis is not in the world of Article 29 and
-        five months — they are in the world of Article 20 and eight years.
+        five months, they are in the world of Article 20 and eight years.
       </p>
       <p>
         Article 29 contains no import exemption for a drug prescribed to a patient in another country. On
@@ -312,15 +309,14 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         judicial deportation</strong> that used to follow any conviction — under the previous regime, the drug
         law required expulsion of any convicted foreign national. For personal-use offences (up to five months'
         imprisonment), deportation today is an administrative matter only. But <strong>for a sentence of six
-        years or more — which covers a trafficking conviction under Article 20</strong> — the criminal court
+        years or more, which covers a trafficking conviction under Article 20</strong>: the criminal court
         can still order deportation under Article 72 of the Penal Code, as an alternative security measure,
         together with a re-entry ban.
       </p>
       <h3>What the travel advisories say</h3>
       <p>
         The UK Foreign, Commonwealth &amp; Development Office tells travellers to Greece to expect a long
-        jail sentence and heavy fines for possessing, using or smuggling illegal drugs, cannabis included —
-        and warns that this applies when <strong>merely transiting Greek airports</strong>.
+        jail sentence and heavy fines for possessing, using or smuggling illegal drugs, cannabis included, and warns that this applies when <strong>merely transiting Greek airports</strong>.
       </p>
       <h3>What the law does not spell out</h3>
       <p>
@@ -418,7 +414,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <a href="https://wa.me/972523660427?text=Hi%2C%20I%20have%20a%20question%20about%20GreekCloud" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--sage);font-weight:700"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;vertical-align:-4px"><path fill="#25D366" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path fill="var(--surface-sunk)" d="M8.5 8.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.4.8 1.6 2 2.4 2.4.2.1.3 0 .5-.1l.6-.6c.1-.1.3-.2.5-.1l1.7.8c.3.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.9.4-1.9.2-3.1-.5-1.6-.9-2.9-2.2-3.8-3.8-.7-1.2-.9-2.2-.5-3.1z"/></svg> WhatsApp: 052-366-0427</a>
       </div>
       <div>
-        <h4>Service</h4>
+        <h3>Service</h3>
         <ul>
           <li><a href="/en/#how">How it works</a></li>
           <li><a href="/en/#pricing">Pricing</a></li>
@@ -429,7 +425,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Learn</h4>
+        <h3>Learn</h3>
         <ul>
           <li><a href="/en/guide.html">The full guide</a></li>
           <li><a href="/en/eligibility.html">Who qualifies</a></li>
@@ -442,7 +438,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Legal</h4>
+        <h3>Legal</h3>
         <ul>
           <li><a href="/en/about.html">About us</a></li>
           <li><a href="/en/terms.html">Terms of use</a></li>

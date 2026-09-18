@@ -3,7 +3,7 @@
 > שירות תיאום דיגיטלי בעברית: שאלון מקוון קצר, ובדיקה של רופא בעל רישיון יווני שנעשית
 > מרחוק, עוד לפני הטיסה. אם הרופא מאשר — מרשם דיגיטלי על שם הדרכון, תקף בבתי מרקחת
 > מורשים ברחבי יוון. רק הניפוק עצמו מתבצע בשטח יוון.
-> לא נדרש רישיון קנאביס ישראלי ולא מרשם מהארץ. לא אושר — דמי השירות חוזרים במלואם.
+> לא נדרש רישיון קנאביס ישראלי ולא מרשם מהארץ. לא אושר? דמי השירות חוזרים במלואם.
 > GreekCloud מתאם את הפנייה לרופא בלבד: איננו רופאים, איננו בית מרקחת, איננו מנפיקים
 > מרשמים, ואיננו מוכרים, מספקים או משנעים מוצרי קנאביס.
 
@@ -29,7 +29,7 @@
 - [המדריך המלא](https://greek-cloud.com/guide.html): מה חוקי ביוון, למה מה שיש לכם בארץ לא עוזר שם, מי נבחן, איך זה עובד בפועל, כמה זה עולה ומה אסור.
 - [מי מתאים למרשם](https://greek-cloud.com/eligibility.html): חמש קבוצות ההתוויות המוכרות ביוון, חמש ההתמחויות הרשאיות להנפיק מרשם ראשוני, ולמה קנאביס אינו טיפול קו ראשון. הפרעות שינה, חרדה ומיגרנה אינן התוויות עצמאיות.
 - [מרשם מרחוק, לפני הטיסה](https://greek-cloud.com/remote-prescription.html): למה לא צריך להגיע ליוון כדי להתחיל — מה נעשה מרחוק, מה חייב לקרות בשטח יוון, ומתי להתחיל לפי מועד הטיסה.
-- [קנאביס ביוון — מה חוקי ומה אסור](https://greek-cloud.com/cannabis-in-greece.html): התמונה המשפטית הרחבה, מעבר למסלול הרפואי.
+- [קנאביס ביוון: מה חוקי ומה אסור](https://greek-cloud.com/cannabis-in-greece.html): התמונה המשפטית הרחבה, מעבר למסלול הרפואי.
 - [רישיון קנאביס ישראלי בחו״ל](https://greek-cloud.com/israeli-license-abroad.html): למה הרישיון הישראלי אינו תקף ביוון ואינו מתיר להוציא קנאביס מישראל — נוהל 110, סעיף 75 לאמנת שנגן, והפרכה של הטענה השיווקית שישראלים יכולים לטוס ליוון עם הקנאביס שלהם.
 - [נדחיתי לרישיון קנאביס רפואי](https://greek-cloud.com/israeli-license-refused.html): למה בקשות נדחות בישראל לפי נוהל 106, אילו מצבים אינם ברשימת ההתוויות, ולמה המסלול היווני אינו עוקף החלטה של משרד הבריאות.
 - [להטיס קנאביס ליוון ובחזרה](https://greek-cloud.com/fly-with-cannabis.html): למה רישיון ישראלי אינו היתר, למה תרגום נוטריוני אינו היתר, ומה קורה במכס.
@@ -41,6 +41,8 @@
 - [מילון מונחים](https://greek-cloud.com/glossary.html): EOF, נוהל 106, נוהל 110, אישור שנגן, חוק 5302/2026, בית מרקחת תורן — כל המונחים החוזרים, מוגדרים בקצרה.
 - [בדיקת התאמה](https://greek-cloud.com/intake.html): שאלון מקוון בעברית, כשלוש דקות.
 - [מי אנחנו](https://greek-cloud.com/about.html): מי עומד מאחורי GreekCloud, מה השירות עושה בפועל, מה הוא במפורש איננו, ופרטי הישות ויצירת קשר.
+- [הצהרת נגישות](https://greek-cloud.com/accessibility.html): רמת ההתאמה לת"י 5568, אמצעי הנגישות באתר, המגבלות הידועות ודרך הפנייה.
+- משפטי: [מדיניות פרטיות](https://greek-cloud.com/privacy.html) · [תנאי שימוש](https://greek-cloud.com/terms.html) · [ביטולים והחזרים](https://greek-cloud.com/refund.html)
 
 ## עמודים — לפי יעד
 
@@ -54,8 +56,22 @@
 
 ## Pages — English
 
-- [Home](https://greek-cloud.com/en/) · [Full guide](https://greek-cloud.com/en/guide.html) · [Remote prescription](https://greek-cloud.com/en/remote-prescription.html) · [Cannabis in Greece](https://greek-cloud.com/en/cannabis-in-greece.html) · [Flying with cannabis](https://greek-cloud.com/en/fly-with-cannabis.html) · [CBD in Greece](https://greek-cloud.com/en/cbd-in-greece.html) · [Eligibility check](https://greek-cloud.com/en/intake.html) · [About us](https://greek-cloud.com/en/about.html)
-- Destinations: [Athens](https://greek-cloud.com/en/athens.html) · [Thessaloniki](https://greek-cloud.com/en/thessaloniki.html) · [Crete](https://greek-cloud.com/en/crete.html) · [Rhodes](https://greek-cloud.com/en/rhodes.html) · [Santorini](https://greek-cloud.com/en/santorini.html) · [Mykonos](https://greek-cloud.com/en/mykonos.html) · [Kos](https://greek-cloud.com/en/kos.html) · [Corfu](https://greek-cloud.com/en/corfu.html)
+- [Home](https://greek-cloud.com/en/): how a visitor to Greece obtains a medical cannabis prescription — the process, the plans, the prices and the common questions.
+- [Full guide](https://greek-cloud.com/en/guide.html): what is legal in Greece, why a foreign licence does not help there, who is assessed, how it works in practice, what it costs and what is forbidden.
+- [Who qualifies](https://greek-cloud.com/en/eligibility.html): the five recognised indication groups in Greece and the five specialties that may issue a first prescription. Insomnia, anxiety and migraine are not standalone indications.
+- [Remote prescription, before you fly](https://greek-cloud.com/en/remote-prescription.html): what happens remotely, what must happen on Greek soil, and when to start relative to your flight.
+- [Cannabis in Greece](https://greek-cloud.com/en/cannabis-in-greece.html): the wider legal picture beyond the medical route.
+- [Flying with cannabis](https://greek-cloud.com/en/fly-with-cannabis.html): why a foreign licence is not a permit, why a notarised translation is not a permit, and what happens at customs.
+- [CBD in Greece](https://greek-cloud.com/en/cbd-in-greece.html): a separate regulatory world from medical cannabis — what is still legal to buy after Law 5302/2026.
+- [Redeeming without an AMKA](https://greek-cloud.com/en/pharmacies-greece.html): since August 2024 the Greek prescription system has a foreign-patient route keyed to a passport rather than a Greek social security number. The passport number on the prescription must match the passport shown at the counter.
+- [Pharmacy prices](https://greek-cloud.com/en/pharmacy-prices.html): the price per gram under the official Greek Ministry of Health order — €9.46 to €12.85 per gram as of 20 May 2026. Set nationally, identical at every pharmacy, not reimbursed, VAT included.
+- [Penalties in Greece](https://greek-cloud.com/en/penalties-greece.html): Law 4139/2013 — up to 5 months for personal use (Article 29), at least 8 years for trafficking and importation (Article 20). Greek law sets no gram threshold.
+- [Destinations map](https://greek-cloud.com/en/destinations.html): which airports have direct flights and how the pharmacy network differs between the mainland and the islands.
+- [About us](https://greek-cloud.com/en/about.html): who is behind GreekCloud, what the service does, what it explicitly is not, and the entity and contact details.
+- [Accessibility statement](https://greek-cloud.com/en/accessibility.html): conformance level, accessibility features, known limitations and the contact route.
+- [Eligibility check](https://greek-cloud.com/en/intake.html): the online questionnaire, about three minutes.
+- Legal: [Privacy policy](https://greek-cloud.com/en/privacy.html) · [Terms of service](https://greek-cloud.com/en/terms.html) · [Cancellation and refunds](https://greek-cloud.com/en/refund.html)
+- Destinations: [Athens](https://greek-cloud.com/en/athens.html) · [Thessaloniki](https://greek-cloud.com/en/thessaloniki.html) · [Crete](https://greek-cloud.com/en/crete.html) · [Rhodes](https://greek-cloud.com/en/rhodes.html) · [Santorini](https://greek-cloud.com/en/santorini.html) · [Mykonos](https://greek-cloud.com/en/mykonos.html) · [Kos](https://greek-cloud.com/en/kos.html) · [Corfu](https://greek-cloud.com/en/corfu.html) · [Lefkada](https://greek-cloud.com/en/lefkada.html) · [Halkidiki](https://greek-cloud.com/en/halkidiki.html)
 
 ## הערות לשימוש חוזר
 

@@ -18,7 +18,7 @@
 <meta property="og:locale:alternate" content="he_IL">
 <meta property="og:site_name" content="GreekCloud">
 <meta property="og:title" content="Medical Cannabis in Lefkada">
-<meta property="og:description" content="The only Greek island reachable by road — which makes redeeming a prescription simpler here than anywhere else in the Ionian.">
+<meta property="og:description" content="The only Greek island reachable by road, which makes redeeming a prescription simpler here than anywhere else in the Ionian.">
 <meta property="og:url" content="https://greek-cloud.com/en/lefkada.html">
 <meta property="og:image" content="https://greek-cloud.com/assets/og-en-plain.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -26,13 +26,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Suez+One&family=Assistant:wght@400;600;700;800&display=swap">
+<link rel="preload" href="/assets/fonts/amatic-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/assistant-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/base.css">
-<link rel="stylesheet" href="/assets/settings.css">
-<link rel="stylesheet" href="/assets/a11y-widget.css">
-<link rel="stylesheet" href="/assets/whatsapp-widget.css">
 <link rel="stylesheet" href="/assets/doc.css">
 
 <script>
@@ -56,6 +52,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 {
   "@context": "https://schema.org",
   "@graph": [
+    { "@type": "Organization", "@id": "https://greek-cloud.com/#org", "name": "GreekCloud", "legalName": "Greek Cloud", "taxID": "3234567", "url": "https://greek-cloud.com/", "email": "1greek.cloud@gmail.com", "telephone": "+972-52-366-0427", "address": { "@type": "PostalAddress", "streetAddress": "2 Yigal Alon St", "addressLocality": "Tel Aviv", "addressCountry": "IL" }, "logo": { "@type": "ImageObject", "url": "https://greek-cloud.com/assets/logo.png", "width": 224, "height": 224 } },
     {
       "@type": "Article",
       "@id": "https://greek-cloud.com/en/lefkada.html#article",
@@ -64,8 +61,9 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       "inLanguage": "en",
       "datePublished": "2026-09-11",
       "dateModified": "2026-09-11",
-      "author": { "@type": "Organization", "name": "GreekCloud", "url": "https://greek-cloud.com/" },
-      "publisher": { "@type": "Organization", "name": "GreekCloud" },
+      "author": { "@id": "https://greek-cloud.com/#org" },
+      "publisher": { "@id": "https://greek-cloud.com/#org" },
+      "image": "https://greek-cloud.com/assets/og-en-plain.png",
       "mainEntityOfPage": "https://greek-cloud.com/en/lefkada.html"
     },
     {
@@ -79,7 +77,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         { "@type": "Question", "name": "Where are the pharmacies on Lefkada?",
           "acceptedAnswer": { "@type": "Answer", "text": "Concentrated in Lefkada Town, which sits at the northern tip of the island about 1.5 km from the bridge. Resort villages such as Nidri and Vasiliki have services too, but the spread is thinner and some reduce their hours outside the season." } },
         { "@type": "Question", "name": "When is the best time to collect the prescription?",
-          "acceptedAnswer": { "@type": "Answer", "text": "On your arrival day, or during a trip into town. Because the airport road passes Lefkada Town anyway, collecting on the way in costs almost no detour — which is far better than looking for a pharmacy in a resort village at seven in the evening." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "On your arrival day, or during a trip into town. Because the airport road passes Lefkada Town anyway, collecting on the way in costs almost no detour, which is far better than looking for a pharmacy in a resort village at seven in the evening." } },
         { "@type": "Question", "name": "Does the road connection change anything legally?",
           "acceptedAnswer": { "@type": "Answer", "text": "No. The prescription is valid at any licensed pharmacy in Greece regardless of how you got there, and the product remains valid in Greece only. The road connection is a convenience, not a legal difference." } }
       ]
@@ -127,7 +125,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/en/">Home</a> → <a href="/en/destinations.html">Destinations</a> → Lefkada</nav>
       <p class="eyebrow">Ionian · Road-connected</p>
-      <h1>Medical cannabis in Lefkada — for visitors</h1>
+      <h1>Medical cannabis in Lefkada for visitors</h1>
       <p class="lede">
         Lefkada is <strong>the only Greek island you can drive to</strong>. That sounds like trivia, but it is
         precisely what makes collecting a prescription here simpler than on any other island — there is no
@@ -184,7 +182,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </p>
       <p>
         <strong>Plan collection for your arrival day, or for a trip into town.</strong> The road in from the
-        airport passes Lefkada Town anyway, so doing it on the way costs almost no detour — which is a much
+        airport passes Lefkada Town anyway, so doing it on the way costs almost no detour, which is a much
         better plan than hunting for an open pharmacy in a resort village at seven in the evening.
       </p>
     </div>
@@ -196,8 +194,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <h2>What happens at the counter</h2>
       <p>
         The process is the same everywhere in Greece: the prescription lives in the national e-prescription
-        system, the pharmacist reads it from there, and you are identified by <strong>passport</strong> —
-        no Greek social security number needed. The passport number on the prescription must match the one
+        system, the pharmacist reads it from there, and you are identified by <strong>passport</strong>: no Greek social security number needed. The passport number on the prescription must match the one
         you present exactly.
       </p>
       <p>
@@ -221,7 +218,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <h2>When to come, and what changes</h2>
       <p>
         Lefkada runs a conventional Ionian season. In summer the island is busy and everything is open; in the
-        low season the resort villages contract and Lefkada Town becomes the reliable centre — the same
+        low season the resort villages contract and Lefkada Town becomes the reliable centre, the same
         pattern as elsewhere, softened by the fact that the town is easy to reach.
       </p>
       <div class="note note-stop">
@@ -252,7 +249,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </details>
         <details>
           <summary>When is the best time to collect the prescription?</summary>
-          <div class="a">On your arrival day, or during a trip into town. Because the airport road passes Lefkada Town anyway, collecting on the way in costs almost no detour — which is far better than looking for a pharmacy in a resort village at seven in the evening.</div>
+          <div class="a">On your arrival day, or during a trip into town. Because the airport road passes Lefkada Town anyway, collecting on the way in costs almost no detour, which is far better than looking for a pharmacy in a resort village at seven in the evening.</div>
         </details>
         <details>
           <summary>Does the road connection change anything legally?</summary>
@@ -302,7 +299,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <a href="https://wa.me/972523660427?text=Hi%2C%20I%20have%20a%20question%20about%20GreekCloud" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--sage);font-weight:700"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;vertical-align:-4px"><path fill="#25D366" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path fill="var(--surface-sunk)" d="M8.5 8.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.4.8 1.6 2 2.4 2.4.2.1.3 0 .5-.1l.6-.6c.1-.1.3-.2.5-.1l1.7.8c.3.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.9.4-1.9.2-3.1-.5-1.6-.9-2.9-2.2-3.8-3.8-.7-1.2-.9-2.2-.5-3.1z"/></svg> WhatsApp: 052-366-0427</a>
       </div>
       <div>
-        <h4>Service</h4>
+        <h3>Service</h3>
         <ul>
           <li><a href="/en/#how">How it works</a></li>
           <li><a href="/en/#pricing">Pricing</a></li>
@@ -313,7 +310,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Learn</h4>
+        <h3>Learn</h3>
         <ul>
           <li><a href="/en/guide.html">The full guide</a></li>
           <li><a href="/en/eligibility.html">Who qualifies</a></li>
@@ -326,7 +323,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Legal</h4>
+        <h3>Legal</h3>
         <ul>
           <li><a href="/en/about.html">About us</a></li>
           <li><a href="/en/terms.html">Terms of use</a></li>

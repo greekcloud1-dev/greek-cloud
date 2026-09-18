@@ -26,13 +26,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Suez+One&family=Assistant:wght@400;600;700;800&display=swap">
+<link rel="preload" href="/assets/fonts/amatic-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/assistant-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/base.css">
-<link rel="stylesheet" href="/assets/settings.css">
-<link rel="stylesheet" href="/assets/a11y-widget.css">
-<link rel="stylesheet" href="/assets/whatsapp-widget.css">
 <link rel="stylesheet" href="/assets/doc.css">
 
 <script>
@@ -56,13 +52,15 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 {
   "@context": "https://schema.org",
   "@graph": [
+    { "@type": "Organization", "@id": "https://greek-cloud.com/#org", "name": "GreekCloud", "legalName": "Greek Cloud", "taxID": "3234567", "url": "https://greek-cloud.com/", "email": "1greek.cloud@gmail.com", "telephone": "+972-52-366-0427", "address": { "@type": "PostalAddress", "streetAddress": "2 Yigal Alon St", "addressLocality": "Tel Aviv", "addressCountry": "IL" }, "logo": { "@type": "ImageObject", "url": "https://greek-cloud.com/assets/logo.png", "width": 224, "height": 224 } },
     { "@type": "Article",
       "@id": "https://greek-cloud.com/en/guide.html#article",
       "headline": "The Complete Guide to Medical Cannabis in Greece", "description": "Everything a visitor needs: what is legal in Greece, who gets assessed, how the process works, what it costs, and what is strictly prohibited.", "inLanguage": "en",
       "datePublished": "2026-08-31",
       "dateModified": "2026-09-05",
-      "author": { "@type": "Organization", "name": "GreekCloud", "url": "https://greek-cloud.com/" },
-      "publisher": { "@type": "Organization", "name": "GreekCloud" },
+      "author": { "@id": "https://greek-cloud.com/#org" },
+      "publisher": { "@id": "https://greek-cloud.com/#org" },
+      "image": "https://greek-cloud.com/assets/og-en-plain.png",
       "mainEntityOfPage": "https://greek-cloud.com/en/guide.html" },
     {
       "@type": "FAQPage",
@@ -124,7 +122,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <h1>Medical cannabis in Greece: the complete guide for visitors</h1>
       <p class="lede">
         What is permitted, what is not, who gets assessed and how the process actually runs. No promises,
-        no small print — and no glossing over the parts that are inconvenient to hear.
+        no small print, and no glossing over the parts that are inconvenient to hear.
       </p>
       <nav class="toc" aria-label="Table of contents">
         <h2>What is here</h2>
@@ -154,14 +152,14 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         licensed pharmacy.
       </p>
       <p>
-        The supervising body is the <strong>National Organisation for Medicines</strong> (EOF) — it approves
+        The supervising body is the <strong>National Organisation for Medicines</strong> (EOF), it approves
         products, issues licences and publishes the official product standard.
       </p>
 
       <h3>What remains illegal</h3>
       <ul class="clean">
         <li><strong>Recreational use.</strong> Possession and use outside a prescription remains a criminal offence in Greece.</li>
-        <li><strong>Use in public.</strong> Even with a prescription, use is intended for private accommodation — not the street, the beach or a bar.</li>
+        <li><strong>Use in public.</strong> Even with a prescription, use is intended for private accommodation, not the street, the beach or a bar.</li>
         <li><strong>Driving under the influence.</strong> Enforced like alcohol, and a prescription is not a defence.</li>
         <li><strong>Moving products across the Greek border.</strong> In either direction.</li>
       </ul>
@@ -169,7 +167,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <div class="note note-warn">
         <span class="nt">On dried flower</span>
         This area is moving. Greek legislation from 2026 restricted the retail sale of dried hemp flower to
-        consumers — a change that mainly touches the CBD market, not the medical prescription route. Because
+        consumers, a change that mainly touches the CBD market, not the medical prescription route. Because
         the position shifts, do not rely on any guide, ours included, as a current source. Check with the
         regulator close to your travel date.
       </div>
@@ -210,27 +208,27 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <h2>Who gets assessed</h2>
       <p>
         Greece recognises five groups of indications for medical cannabis. The physician makes an individual
-        assessment within them, and cannabis is not a first-line therapy — it is considered where conventional
+        assessment within them, and cannabis is not a first-line therapy. It is considered where conventional
         treatments have not helped, were unsuitable or were not tolerated.
       </p>
       <ul class="clean clay">
-        <li><strong>Treatment-resistant chronic pain</strong> — pain that has not responded to other therapies
+        <li><strong>Treatment-resistant chronic pain</strong>: pain that has not responded to other therapies
             already tried, including pain of oncological or neurological origin</li>
-        <li><strong>Neuropathic pain</strong> — trigeminal neuralgia, post-herpetic pain, phantom limb pain</li>
+        <li><strong>Neuropathic pain</strong>: trigeminal neuralgia, post-herpetic pain, phantom limb pain</li>
         <li><strong>Spasticity</strong> in multiple sclerosis or spinal cord injury</li>
         <li><strong>Nausea and vomiting</strong> from chemotherapy, radiotherapy or HIV treatment</li>
         <li><strong>Appetite stimulation</strong> in palliative care</li>
-        <li><strong>Inflammatory bowel disease</strong> — symptomatic treatment in ulcerative colitis and Crohn's disease</li>
+        <li><strong>Inflammatory bowel disease</strong>: symptomatic treatment in ulcerative colitis and Crohn's disease</li>
       </ul>
       <p>
         An initial prescription may only be issued by an anaesthesiologist, neurologist, oncologist,
         infectious-disease specialist or rheumatologist. A licence issued in another country is not
-        equivalent and does not carry over — the assessment is made against the Greek list.
+        equivalent and does not carry over, the assessment is made against the Greek list.
       </p>
       <div class="note note-warn">
         <span class="nt">What is not on the list</span>
         Sleep disorders, anxiety or migraine on their own are not recognised indications in Greece. Where they
-        accompany a condition that is on the list, they form part of the clinical picture — but they are not
+        accompany a condition that is on the list, they form part of the clinical picture, but they are not
         grounds in their own right.
       </div>
       <div class="note">
@@ -245,7 +243,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <p class="eyebrow">04 · The process</p>
       <h2>How it actually works</h2>
       <p>
-        The whole process is remote, from your phone. You can start before you fly — and if the physician
+        The whole process is remote, from your phone. You can start before you fly, and if the physician
         approves, land in Greece with the prescription already in hand.
       </p>
 
@@ -263,7 +261,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 
       <h3>3. The decision</h3>
       <p>
-        Approved — a digital prescription in your passport name. Not approved — the service fee is refunded
+        Approved, a digital prescription in your passport name. Not approved, the service fee is refunded
         in full. There is no middle state where you have paid and have neither a prescription nor your money.
       </p>
 
@@ -355,7 +353,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </div>
 
       <p>
-        These two prohibitions are the whole reason the local route exists. It is not more convenient — it is
+        These two prohibitions are the whole reason the local route exists. It is not more convenient, it is
         simply the only one that does not put you at risk.
       </p>
     </div>
@@ -508,7 +506,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <a href="https://wa.me/972523660427?text=Hi%2C%20I%20have%20a%20question%20about%20GreekCloud" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--sage);font-weight:700"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;vertical-align:-4px"><path fill="#25D366" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path fill="var(--surface-sunk)" d="M8.5 8.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.4.8 1.6 2 2.4 2.4.2.1.3 0 .5-.1l.6-.6c.1-.1.3-.2.5-.1l1.7.8c.3.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.9.4-1.9.2-3.1-.5-1.6-.9-2.9-2.2-3.8-3.8-.7-1.2-.9-2.2-.5-3.1z"/></svg> WhatsApp: 052-366-0427</a>
       </div>
       <div>
-        <h4>Service</h4>
+        <h3>Service</h3>
         <ul>
           <li><a href="/en/#how">How it works</a></li>
           <li><a href="/en/#pricing">Pricing</a></li>
@@ -519,7 +517,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Learn</h4>
+        <h3>Learn</h3>
         <ul>
           <li><a href="/en/guide.html">The full guide</a></li>
           <li><a href="/en/eligibility.html">Who qualifies</a></li>
@@ -532,7 +530,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>Legal</h4>
+        <h3>Legal</h3>
         <ul>
           <li><a href="/en/about.html">About us</a></li>
           <li><a href="/en/terms.html">Terms of use</a></li>

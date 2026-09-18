@@ -20,17 +20,14 @@
 <meta property="og:description" content="נוחתים בפרבזה, ולפקדה מחוברת ליבשת בגשר. מה זה אומר על איסוף המרשם.">
 <meta property="og:url" content="https://greek-cloud.com/lefkada.html">
 <meta property="og:image" content="https://greek-cloud.com/assets/og-he-plain.png">
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Suez+One&family=Assistant:wght@400;600;700;800&display=swap">
+<link rel="preload" href="/assets/fonts/amatic-700-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/assistant-400-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/base.css">
-<link rel="stylesheet" href="/assets/settings.css">
-<link rel="stylesheet" href="/assets/a11y-widget.css">
-<link rel="stylesheet" href="/assets/whatsapp-widget.css">
 <link rel="stylesheet" href="/assets/doc.css">
 
 <script>
@@ -54,6 +51,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 {
   "@context": "https://schema.org",
   "@graph": [
+    { "@type": "Organization", "@id": "https://greek-cloud.com/#org", "name": "GreekCloud", "legalName": "Greek Cloud", "taxID": "3234567", "url": "https://greek-cloud.com/", "email": "1greek.cloud@gmail.com", "telephone": "+972-52-366-0427", "address": { "@type": "PostalAddress", "streetAddress": "יגאל אלון 2", "addressLocality": "תל אביב", "addressCountry": "IL" }, "logo": { "@type": "ImageObject", "url": "https://greek-cloud.com/assets/logo.png", "width": 224, "height": 224 } },
     {
       "@type": "Article",
       "@id": "https://greek-cloud.com/lefkada.html#article",
@@ -62,8 +60,9 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       "inLanguage": "he",
       "datePublished": "2026-09-04",
       "dateModified": "2026-09-04",
-      "author": { "@type": "Organization", "name": "GreekCloud", "url": "https://greek-cloud.com/" },
-      "publisher": { "@type": "Organization", "name": "GreekCloud" },
+      "author": { "@id": "https://greek-cloud.com/#org" },
+      "publisher": { "@id": "https://greek-cloud.com/#org" },
+      "image": "https://greek-cloud.com/assets/og-he-plain.png",
       "mainEntityOfPage": "https://greek-cloud.com/lefkada.html",
       "citation": ["https://www.eof.gr/"]
     },
@@ -126,7 +125,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
     <div class="wrap">
       <nav class="crumbs" aria-label="מיקום בעמוד"><a href="/">דף הבית</a> ← לפקדה</nav>
       <p class="eyebrow">אי · הים היוני</p>
-      <h1>קנאביס רפואי בלפקדה ובפרבזה — לתיירים ישראלים</h1>
+      <h1>קנאביס רפואי בלפקדה ובפרבזה לתיירים ישראלים</h1>
       <p class="lede">
         לפקדה היא האי היווני היחיד שמגיעים אליו בכביש. זה נשמע כמו טריוויה, אבל זה בדיוק מה
         שהופך את איסוף המרשם כאן לפשוט יותר מאשר בכל אי אחר.
@@ -150,7 +149,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <p>
         שדה התעופה שמשרת אותה הוא <strong>פרבזה / אקטיון (PVK)</strong>, שנמצא ביבשת. משם לעיר
         לפקדה כ־20 עד 22 ק״מ, נסיעה של 20 עד 30 דקות. בפועל אתם נוחתים ביבשת, נוסעים, וחוצים
-        גשר — וזהו.
+        גשר, וזהו.
       </p>
       <p>
         מתל אביב פועלות בעונה כ־34 טיסות ישירות בחודש ל־PVK, על ידי חמש חברות שונות: ארקיע,
@@ -175,14 +174,14 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         היא המרכז המנהלי והמסחרי, ובה גם הריכוז הגבוה ביותר של שירותים.
       </p>
       <ul class="clean">
-        <li><strong>עיר לפקדה</strong> — כ־20–22 ק״מ משדה התעופה, הריכוז הגבוה ביותר של בתי מרקחת</li>
-        <li><strong>נידרי</strong> — כפר הנופש הגדול באי, כ־16 ק״מ דרומית לעיר</li>
-        <li><strong>וסיליקי</strong> — בדרום, מרכז גלישה ונמל מעבורות לאיים שכנים</li>
-        <li><strong>פרבזה</strong> — ביבשת, ליד שדה התעופה, עיר מלאה עם שירותים כל השנה</li>
+        <li><strong>עיר לפקדה</strong>: כ־20–22 ק״מ משדה התעופה, הריכוז הגבוה ביותר של בתי מרקחת</li>
+        <li><strong>נידרי</strong>: כפר הנופש הגדול באי, כ־16 ק״מ דרומית לעיר</li>
+        <li><strong>וסיליקי</strong>: בדרום, מרכז גלישה ונמל מעבורות לאיים שכנים</li>
+        <li><strong>פרבזה</strong>: ביבשת, ליד שדה התעופה, עיר מלאה עם שירותים כל השנה</li>
       </ul>
       <p>
         מסקנה מעשית: אם אתם שוהים בנידרי או בוסיליקי, שווה לתכנן את איסוף המרשם ליום הנחיתה או
-        לביקור בעיר — ולא לחפש בית מרקחת בכפר הנופש בשעה שבע בערב.
+        לביקור בעיר, ולא לחפש בית מרקחת בכפר הנופש בשעה שבע בערב.
       </p>
     </div>
   </section>
@@ -198,9 +197,9 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </p>
       <h3>מה להביא</h3>
       <ul class="clean">
-        <li><strong>דרכון</strong> — המרשם מונפק על שם הדרכון, ולא על תעודת זהות ישראלית.</li>
-        <li><strong>המרשם הדיגיטלי</strong> — שמור בטלפון, ורצוי גם כקובץ שמור לא־מקוון.</li>
-        <li><strong>אמצעי תשלום</strong> — המוצר משולם שם. לא כל בית מרקחת מקבל כרטיס, ומזומן ביורו תמיד עובד.</li>
+        <li><strong>דרכון</strong>: המרשם מונפק על שם הדרכון, ולא על תעודת זהות ישראלית.</li>
+        <li><strong>המרשם הדיגיטלי</strong>: שמור בטלפון, ורצוי גם כקובץ שמור לא־מקוון.</li>
+        <li><strong>אמצעי תשלום</strong>: המוצר משולם שם. לא כל בית מרקחת מקבל כרטיס, ומזומן ביורו תמיד עובד.</li>
       </ul>
       <h3>שעות פתיחה</h3>
       <p>
@@ -332,7 +331,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         <a href="https://wa.me/972523660427?text=%D7%94%D7%99%D7%99%2C%20%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A9%D7%90%D7%9C%D7%94%20%D7%9C%D7%92%D7%91%D7%99%20GreekCloud" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--sage);font-weight:700"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;vertical-align:-4px"><path fill="#25D366" d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path fill="var(--surface-sunk)" d="M8.5 8.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.5l-.5.6c-.1.2-.2.3-.1.5.4.8 1.6 2 2.4 2.4.2.1.3 0 .5-.1l.6-.6c.1-.1.3-.2.5-.1l1.7.8c.3.1.3.3.3.5v.5c0 .2 0 .4-.5.6-.9.4-1.9.2-3.1-.5-1.6-.9-2.9-2.2-3.8-3.8-.7-1.2-.9-2.2-.5-3.1z"/></svg> וואטסאפ: 052-366-0427</a>
       </div>
       <div>
-        <h4>השירות</h4>
+        <h3>השירות</h3>
         <ul>
           <li><a href="/#how">איך זה עובד</a></li>
           <li><a href="/#pricing">מחירים</a></li>
@@ -343,7 +342,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>מידע</h4>
+        <h3>מידע</h3>
         <ul>
           <li><a href="/guide.html">המדריך המלא</a></li>
           <li><a href="/eligibility.html">מי מתאים למרשם</a></li>
@@ -351,7 +350,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
           <li><a href="/remote-prescription.html">מרשם מרחוק לפני הטיסה</a></li>
           <li><a href="/israeli-license-abroad.html">רישיון ישראלי בחו״ל</a></li>
           <li><a href="/israeli-license-refused.html">נדחיתי לרישיון</a></li>
-          <li><a href="/cannabis-in-greece.html">קנאביס ביוון — מה חוקי</a></li>
+          <li><a href="/cannabis-in-greece.html">קנאביס ביוון: מה חוקי</a></li>
           <li><a href="/penalties-greece.html">מה העונש ביוון</a></li>
           <li><a href="/fly-with-cannabis.html">הטסה: מה מותר ומה אסור</a></li>
           <li><a href="/cbd-in-greece.html">CBD ביוון</a></li>
@@ -360,7 +359,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
         </ul>
       </div>
       <div>
-        <h4>משפטי</h4>
+        <h3>משפטי</h3>
         <ul>
           <li><a href="/about.html">מי אנחנו</a></li>
           <li><a href="/terms.html">תנאי שימוש</a></li>
