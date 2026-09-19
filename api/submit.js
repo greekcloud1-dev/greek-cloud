@@ -11,8 +11,9 @@
         JSON record of every field in Vercel Blob, under
         one private, unguessable path per submission. This IS the durable
         copy of the request; nothing here is disposable.
-     3. Email a notification through Resend. That email is deliberately thin:
-        plan, city, arrival date, name, and a submission id. It never
+     3. Email a notification through the operator's own Gmail account (an
+        app password, never the login password). That email is deliberately
+        thin: plan, city, arrival date, name, and a submission id. It never
         contains the health description or the files. The full record lives
         only in Blob, which is why step 2 has to succeed before step 3 is
         attempted -- a notification about a request that was not actually
@@ -22,16 +23,40 @@
    already safe in Blob by then, and the operator can still find them by
    browsing Storage even if the email never arrives.
 
-   Runs on the Node.js runtime, not Edge: @vercel/blob and resend both reach
-   for Node built-ins (node:stream, node:net, node:zlib and friends) that the
-   Edge runtime does not provide, and an Edge build fails outright on them.
+   Was Resend, until 2026-09-19: the account never verified a sending domain,
+   so every notification went out as the shared onboarding@resend.dev
+   address, was accepted by the receiving mail server, and then silently
+   discarded with no Spam-folder trace -- Resend reported it as Delivered
+   throughout. GMAIL_APP_PASSWORD and LEAD_NOTIFY_EMAIL were already set on
+   Vercel from an earlier, unmerged fix for the same problem; this brings the
+   code on `main` in line with the credentials already live in production,
+   without pulling in that branch's CRM/Supabase bridge, which main does not
+   have and does not need to fix this.
+
+   Runs on the Node.js runtime, not Edge: @vercel/blob and nodemailer's SMTP
+   transport both reach for Node built-ins (node:stream, node:net, node:tls
+   and friends) that the Edge runtime does not provide, and an Edge build
+   fails outright on them.
    The `export default { fetch }` shape is the Web-standard signature Vercel's
    Node runtime supports, so request.formData() and Response still work
    exactly as written.
    ========================================================================== */
 
 import { put } from '@vercel/blob';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
+
+/* Cached across invocations on a warm serverless instance -- building a fresh
+   SMTP connection pool per request would throw away the point of keep-alive. */
+let cachedGmailTransport = null;
+function gmailTransport() {
+  if (!cachedGmailTransport) {
+    cachedGmailTransport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: process.env.LEAD_NOTIFY_EMAIL, pass: process.env.GMAIL_APP_PASSWORD },
+    });
+  }
+  return cachedGmailTransport;
+}
 
 function json(status, body) {
   return new Response(JSON.stringify(body), {
@@ -177,7 +202,7 @@ async function handleSubmit(request) {
   }
 
   const configured = Boolean(
-    process.env.RESEND_API_KEY &&
+    process.env.GMAIL_APP_PASSWORD &&
     process.env.BLOB_READ_WRITE_TOKEN &&
     process.env.LEAD_NOTIFY_EMAIL
   );
@@ -203,9 +228,9 @@ async function handleSubmit(request) {
   }
 
   // Strip control characters as well as trimming: `city` and `plan` reach an
-  // email subject, and a newline in a subject is worth refusing on principle
-  // even though Resend is a JSON API rather than SMTP. Over-long values are
-  // rejected outright rather than truncated, so nothing is silently altered.
+  // email subject sent over real SMTP, where a newline is a header-injection
+  // primitive, not just a cosmetic glitch. Over-long values are rejected
+  // outright rather than truncated, so nothing is silently altered.
   const str = (name) => {
     const v = form.get(name);
     if (typeof v !== 'string') return '';
@@ -329,10 +354,9 @@ async function handleSubmit(request) {
   }
 
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
     const { subject, text } = buildEmail(record);
-    await resend.emails.send({
-      from: 'GreekCloud <onboarding@resend.dev>',
+    await gmailTransport().sendMail({
+      from: `GreekCloud <${process.env.LEAD_NOTIFY_EMAIL}>`,
       to: process.env.LEAD_NOTIFY_EMAIL,
       subject,
       text,
@@ -341,10 +365,10 @@ async function handleSubmit(request) {
     // A failed notification still must not fail the request -- the answers are
     // already durably stored by this point. But console.error alone is close to
     // invisible: nobody reads function logs, and the failure mode this guards
-    // against (Resend quota exhausted, domain unverified, key rotated) is
-    // exactly the one that goes unnoticed for days. So the failure is written
-    // next to the record, where the operator is already looking.
-    console.error('resend notify failed for', submissionId, e);
+    // against (app password revoked, Gmail rate limit) is exactly the one
+    // that goes unnoticed for days. So the failure is written next to the
+    // record, where the operator is already looking.
+    console.error('gmail notify failed for', submissionId, e);
     try {
       await put(`${base}/NOTIFY-FAILED.json`, JSON.stringify({
         submissionId,

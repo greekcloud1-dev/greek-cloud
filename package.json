@@ -5,6 +5,6 @@
   "description": "GreekCloud static site. No build step for the site itself -- this file exists only so Vercel installs dependencies for the two functions in /api.",
   "dependencies": {
     "@vercel/blob": "^2.8.0",
-    "resend": "^6.25.0"
+    "nodemailer": "^10.0.10"
   }
 }
