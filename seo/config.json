@@ -15,8 +15,8 @@
     },
     {
       "domain": "canaflight.com",
-      "role": "watch-only",
-      "note": "Ranks for nothing, not even its own brand name. Registration runs to July 2027. Never plan around it disappearing and never treat it as the incumbent."
+      "role": "takedown-watch",
+      "note": "Taken down 2026-09-17: placeholder plus X-Robots-Tag noindex on every URL, crawl left open so the noindex is readable. Before that it ranked for nothing, not even its own brand name. Its robots.txt calls the state temporary and registration runs to July 2027, so the watch is for its return, not its disappearance. Checked by npm run check:canaflight against seo/state/competitors/canaflight.json."
     },
     {
       "domain": "relieftime.com",

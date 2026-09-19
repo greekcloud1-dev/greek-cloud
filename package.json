@@ -10,6 +10,7 @@
   "scripts": {
     "check": "node scripts/check-seo.mjs",
     "check:dup": "node scripts/check-duplication.mjs && node scripts/check-duplication.mjs --en",
+    "check:canaflight": "node scripts/check-canaflight.mjs",
     "check:all": "npm run check && npm run check:dup",
     "build:sitemap": "node scripts/build-sitemap.mjs",
     "indexnow": "node scripts/indexnow-submit.mjs"

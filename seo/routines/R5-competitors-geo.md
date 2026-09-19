@@ -23,10 +23,41 @@ Fetch its sitemap and compare against `seo/state/competitors/medtouristgr.json`:
 
 Write the new snapshot back to the same file.
 
-**canaflight.com** gets one line: still ranking for nothing, or has that changed?
-It ranks for no Hebrew head term, not even its own brand name, and its
-registration runs to July 2027. Do not treat it as the incumbent and do not build
-strategy around it disappearing.
+### canaflight.com — takedown watch
+
+It went dark on 2026-09-17: every URL now answers 200 with a "לא זמין"
+placeholder and `X-Robots-Tag: noindex, nofollow, noarchive, nosnippet`, while
+robots.txt deliberately keeps crawling open so that header can be read. That is a
+competent noindex removal, not a broken site.
+
+Run it:
+
+```
+npm run check:canaflight
+```
+
+It compares the live domain against `seo/state/competitors/canaflight.json` and
+exits non-zero when something moved. Two findings are material and belong in the
+**first line** of the report:
+
+- **real content is served again** — the site is back, and it is a competitor
+  again at 169/249/349 against this site's 289/379
+- **the noindex header is gone** — they intend to be indexed again, usually
+  days before the content returns
+
+The other signals (sitemap count, root title, a blanket `Disallow`) are worth a
+line in the table, not an alarm. Commit the refreshed snapshot with
+`npm run check:canaflight -- --save` as part of the R5 PR.
+
+**What the script cannot answer is whether it ranks.** That needs a search API
+this repo has no credential for, and a scraped SERP is worse than no answer — so
+keep answering it the way the rest of this runbook does, by looking. Before the
+takedown it ranked for no Hebrew head term, not even its own brand name.
+
+Its registration runs to July 2027, and its own robots.txt frames the state as
+*temporary* ("once the site is back"). So: do not treat it as the incumbent, and
+do not build strategy around it staying down either. The watch exists precisely
+because the owner's stated intent is to return.
 
 ## 2. AI answer-engine visibility
 

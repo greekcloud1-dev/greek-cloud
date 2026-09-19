@@ -185,8 +185,12 @@ localised for Israelis at `/he/medical-cannabis-greece`, prices €22/€31/€3
 owns the AI-citation territory for this niche). Benchmark *strategy* against it.
 
 **canaflight.com** ranks for nothing — not one Hebrew head term, not even its own
-brand name — and its registration runs to July 2027. Never plan around it
-disappearing, and never treat it as the incumbent.
+brand name. It was **taken down on 2026-09-17** (placeholder page plus
+`X-Robots-Tag: noindex` on every URL, crawl deliberately left open so the noindex
+can be read), but its own robots.txt calls that state temporary and its
+registration runs to July 2027. So it never became the incumbent, and it has not
+gone away either — never plan around either. `npm run check:canaflight` watches
+for its return and R5 reports on it weekly.
 
 The winnable prize is the generic Hebrew head terms, which no commercial service
 currently holds: the Hebrew SERP's transactional layer is empty, and every Hebrew
