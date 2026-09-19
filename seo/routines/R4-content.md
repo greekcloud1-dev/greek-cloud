@@ -10,8 +10,13 @@ has read is worth less than one good page that ships.
 ## 1. Pick the item
 
 Read `seo/backlog.md` and take the **first item marked `todo`**, working down from
-the top: translation items (C1–C4) come before structure items (S1–S4), which come
-before depth items. Skip anything marked `blocked`, `in-pr` or `done`.
+the top in the order the file itself lists the sections. Skip anything marked
+`blocked`, `in-pr` or `done`.
+
+The order changed on 2026-09-19: the primary market is Israeli, so Hebrew-side work
+(S1–S4, then depth) comes **before** the English translations (C1–C4). Read the
+**Audience** block at the top of the backlog before picking, and do not re-rank the
+queue yourself.
 
 If everything actionable is `blocked`, the right outcome is a one-line report
 saying the queue needs the owner. Do not invent work.

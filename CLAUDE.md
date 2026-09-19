@@ -192,3 +192,24 @@ The winnable prize is the generic Hebrew head terms, which no commercial service
 currently holds: the Hebrew SERP's transactional layer is empty, and every Hebrew
 page that does rank answers a different question (how to carry an *Israeli* licence
 into Greece) rather than how to obtain a *Greek* prescription remotely.
+
+---
+
+## 8. Audience and stage (set by the owner, 2026-09-19)
+
+**The primary market is Israeli.** Hebrew pages are the product; `/en/` is
+secondary. Between two otherwise comparable items, the Hebrew-side one wins. An
+English translation is not to be promoted on the argument that it opens a new
+market — that call has been made.
+
+**The service has had no customers yet.** Reviews, testimonials, case studies and
+first-hand photographs are therefore not blocked on the owner finding the time;
+they cannot exist yet. State the gap once where it is relevant, never present it
+as an action the owner is neglecting, and never manufacture a stand-in.
+
+**A Google Business Profile is not available and must not be attempted.** Google
+requires in-person contact with customers during stated hours. This service has
+none: the prescription is issued remotely and dispensing happens at a Greek
+pharmacy the business does not operate. Virtual offices, mailbox addresses and a
+home address customers never visit are all explicitly prohibited, and a suspended
+listing on a YMYL medical service is hard to undo. Do not propose workarounds.
