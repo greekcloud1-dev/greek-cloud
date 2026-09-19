@@ -202,10 +202,15 @@ secondary. Between two otherwise comparable items, the Hebrew-side one wins. An
 English translation is not to be promoted on the argument that it opens a new
 market — that call has been made.
 
-**The service has had no customers yet.** Reviews, testimonials, case studies and
-first-hand photographs are therefore not blocked on the owner finding the time;
-they cannot exist yet. State the gap once where it is relevant, never present it
-as an action the owner is neglecting, and never manufacture a stand-in.
+**The service has served real customers and the pipeline works end to end**
+(owner, 2026-09-19 — corrected the same day from an earlier misreading that
+recorded zero). Reviews and named testimonials are therefore **actionable, not
+blocked**: there are past customers to ask. They are the highest-value unblocked
+item on the site — see T1 in `seo/backlog.md`.
+
+Two things still cannot be manufactured and must never be invented: a named
+author with credentials the site does not have, and first-hand detail on the
+city pages that nobody has actually observed.
 
 **A Google Business Profile is not available and must not be attempted.** Google
 requires in-person contact with customers during stated hours. This service has

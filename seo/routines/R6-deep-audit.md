@@ -31,9 +31,9 @@ Two known gaps that will surface every month until the owner acts, so state them
 briefly and do not re-litigate them:
 
 - **no reviews and no `Review`/`AggregateRating` schema** — the widest gap against
-  medtouristgr.com, and it needs real customers, not markup. As of 2026-09-19 the
-  service has served none, so this is not the owner neglecting to ask — there is
-  nobody to ask yet. One line is enough until that changes.
+  medtouristgr.com. There are past customers to ask (owner, 2026-09-19), so this
+  one is live rather than blocked: keep it at the top of the report until real
+  review text exists. Never write the reviews.
 - **organisational authorship** — YMYL guidance favours a named person with
   verifiable credentials. Never invent a byline or a reviewer.
 

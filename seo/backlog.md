@@ -14,10 +14,10 @@ wins. Do not promote an English translation over Hebrew work on the argument tha
 it "unlocks a new market" — that decision has been made and is not an agent's to
 revisit.
 
-**The service has had no customers yet (0 as of 2026-09-19).** Anything that
-depends on past customers — reviews, testimonials, case studies, first-hand
-photographs — is not merely blocked on the owner's time. It cannot exist yet.
-Do not surface these as actionable, and never manufacture a substitute.
+**The service has served real customers and the pipeline works end to end**
+(owner, 2026-09-19). Reviews and named testimonials are actionable. First-hand
+city-page detail and a credentialed named author are still genuinely absent and
+must never be invented.
 
 ---
 
@@ -27,7 +27,7 @@ These cannot be automated. They need the owner, not an agent.
 
 | # | Item | Status | Note |
 |---|---|---|---|
-| T1 | Collect and publish customer reviews, mark up with `Review` / `AggregateRating` | blocked | **Blocked on first customers, not on the owner asking.** The service has served nobody yet, so there is no one to ask. medtouristgr.com showed 21 Trustpilot reviews on 2026-09-18 and 28 at 4.7 on 2026-09-19 — the gap is widening. Revisit the moment the first customers complete. Trustpilot needs no address and is worth opening early, but Israelis rarely search it; for an Israeli audience the higher-value form is a named first-person account on the site itself. Ask customers to leave medical detail out. |
+| T1 | Collect and publish customer reviews, mark up with `Review` / `AggregateRating` | **todo — owner action, highest value on the site** | There are past customers to ask. medtouristgr.com showed 21 Trustpilot reviews on 2026-09-18 and 28 at 4.7 on 2026-09-19 — the gap widens while this waits. For an Israeli audience the higher-value form is a named first-person account on the site itself; Trustpilot needs no address and is worth opening in parallel, though Israelis rarely search it. Ask customers to leave medical detail out. An agent may build the page and the schema, but **only from text a real customer actually wrote** — never drafted, paraphrased or composited. |
 | T2 | Decide the authorship question | blocked | Every content page is authored by the organisation. Google's YMYL guidance favours a named person with verifiable credentials. Either name the researcher/writer with their background, or add a named medical or legal reviewer who has actually reviewed the material. **Do not invent one** — an unnamed but honest page beats a fabricated byline. |
 | T3 | Fill `sameAs` in the Organization schema | blocked | Needs the Instagram, Facebook and TikTok accounts to exist first. |
 | T4 | Google Business Profile | blocked | **Not eligible and should not be attempted.** Google's requirement is in-person contact with customers during stated hours; this service has none — the prescription is remote and dispensing happens at a Greek pharmacy that is not the business's. Virtual offices, mailbox addresses and home addresses customers never visit are explicitly prohibited, and a suspension on a YMYL medical listing is hard to undo. Do not propose workarounds. |
