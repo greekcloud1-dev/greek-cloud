@@ -31,7 +31,8 @@
     consent:   'צריך לאשר כדי להמשיך.',
     email:     'כתובת המייל לא נראית תקינה.',
     under18:   'השירות מיועד לבגירים מגיל 18.',
-    ageHigh:   'הגיל שהוזן אינו סביר.',
+    ageHigh:   'תאריך הלידה שהוזן אינו סביר.',
+    ageIs:     'גיל: ',
     invalid:   'הערך הזה לא תקין.',
     sending:   'שולחים בצורה מאובטחת…',
     downTitle: 'האתר בשיפוצים',
@@ -48,7 +49,8 @@
     consent:   'You need to confirm this to continue.',
     email:     'That email address does not look right.',
     under18:   'The service is for adults aged 18 and over.',
-    ageHigh:   'That age does not look right.',
+    ageHigh:   'That date of birth does not look right.',
+    ageIs:     'Age: ',
     invalid:   'That value is not valid.',
     sending:   'Sending securely…',
     downTitle: 'The site is under maintenance',
@@ -102,9 +104,65 @@
       return field.type === 'checkbox' ? S.consent : S.required;
     }
     if (field.validity.typeMismatch && field.type === 'email') return S.email;
+    /* The date field inverts the two range errors relative to a number: its
+       `max` is the latest date that is still 18 years ago, so a date ABOVE it
+       is someone too young, and a date below `min` is an implausible age. */
+    if (field.type === 'date' && field.name === 'birthdate') {
+      if (field.validity.rangeOverflow) return S.under18;
+      if (field.validity.rangeUnderflow) return S.ageHigh;
+    }
     if (field.validity.rangeUnderflow) return S.under18;
     if (field.validity.rangeOverflow) return S.ageHigh;
     return S.invalid;
+  }
+
+  /* ---------- date of birth ----------
+     The bounds are computed here rather than written into the HTML because a
+     hardcoded max goes stale the day after it ships: tomorrow's 18th birthday
+     would still be refused. `min` is 120 years back, which is the same ceiling
+     the server enforces.
+
+     The readout underneath is the reason this is a date field rather than a
+     number one: the visitor picks a date and immediately sees the age it
+     produces, so a mistyped year is caught by the person who knows the answer.
+     It is advisory only -- the real gate is checkValidity() plus the server. */
+  var bday = form.querySelector('#birthdate');
+  var bdayHint = form.querySelector('#birthdate-hint');
+  var bdayHintBase = bdayHint ? bdayHint.textContent : '';
+
+  function ageOn(dob, on) {
+    var age = on.getFullYear() - dob.getFullYear();
+    var m = on.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && on.getDate() < dob.getDate())) age--;
+    return age;
+  }
+
+  if (bday) {
+    var today = new Date();
+    /* Built from the local date parts, not toISOString(): that converts to UTC
+       first, and east of Greenwich the small hours of the morning still read as
+       yesterday there -- which would push `max` back a day and refuse someone
+       on the morning of their eighteenth birthday. The server derives the age
+       from local parts too, so the two agree. */
+    var iso = function (d) {
+      var m = String(d.getMonth() + 1);
+      var day = String(d.getDate());
+      return d.getFullYear() + '-' + (m.length < 2 ? '0' + m : m) + '-' + (day.length < 2 ? '0' + day : day);
+    };
+    bday.max = iso(new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()));
+    bday.min = iso(new Date(today.getFullYear() - 120, today.getMonth(), today.getDate()));
+
+    bday.addEventListener('input', function () {
+      if (!bdayHint) return;
+      if (!bday.value) { bdayHint.textContent = bdayHintBase; bdayHint.removeAttribute('data-ok'); return; }
+      var parts = bday.value.split('-');
+      var d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      var age = ageOn(d, new Date());
+      if (!isFinite(age) || age < 0 || age > 120) { bdayHint.textContent = bdayHintBase; return; }
+      bdayHint.textContent = S.ageIs + age;
+      if (age >= 18) bdayHint.setAttribute('data-ok', '');
+      else bdayHint.removeAttribute('data-ok');
+    });
   }
 
   function validate() {
@@ -189,8 +247,8 @@
   /* ---------- image compression ----------
      A phone camera photo can run 5-10MB; a serverless function body has a
      hard ceiling well under that. Downscaling client-side, before upload, is
-     what keeps a normal selfie from ever hitting that ceiling, and it also
-     makes the upload itself faster on a mobile connection. Only touches
+     what keeps a photographed prescription from hitting that ceiling, and it
+     also makes the upload faster on a mobile connection. Only touches
      actual images -- the optional prescription file may be a PDF, which
      passes through untouched. Any failure here just falls back to the
      original file rather than blocking submission over a cosmetic step. */
@@ -239,13 +297,10 @@
     submitBtn.disabled = true;
     say(S.sending);
 
-    var selfieInput = form.querySelector('#f-selfie');
     var rxInput = form.querySelector('#f-rx');
-    var selfieFile = selfieInput && selfieInput.files[0];
     var rxFile = rxInput && rxInput.files[0];
 
     Promise.all([
-      compressImage(selfieFile, 1600, 0.82),
       compressImage(rxFile, 1600, 0.82),
     ]).then(function (files) {
       // FormData(form) captures every named field -- text, select, radio,
@@ -253,8 +308,7 @@
       // this only needs to override the two files with their compressed
       // versions rather than re-listing every field by hand.
       var fd = new FormData(form);
-      if (files[0]) fd.set('file_selfie', files[0], files[0].name);
-      if (files[1]) fd.set('file_rx', files[1], files[1].name);
+      if (files[0]) fd.set('file_rx', files[0], files[0].name);
 
       return fetch('/api/submit', { method: 'POST', body: fd });
     }).then(function (res) {
@@ -407,7 +461,7 @@
      should not still be sitting in localStorage on a shared laptop weeks
      later. Everything else is ordinary contact detail and is worth keeping so
      a half-finished form survives a reload. */
-  var SKIP = { condition: 1, passport: 1, website: 1, file_selfie: 1, file_rx: 1 };
+  var SKIP = { condition: 1, passport: 1, website: 1, file_rx: 1 };
 
   /* And what we do keep expires, so an abandoned draft does not live forever. */
   var DRAFT_TTL_MS = 7 * 24 * 60 * 60 * 1000;
