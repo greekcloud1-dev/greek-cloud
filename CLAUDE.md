@@ -107,11 +107,11 @@ Hebrew brand spelling of the competitor CanaFlight is **קנאפלייט** (one 
 
 - **URLs keep `.html`.** `vercel.json` sets `cleanUrls: false`. Never emit an
   extension-less internal link.
-- **No third-party scripts, ever.** The CSP in `vercel.json` is
-  `script-src 'self' 'unsafe-inline'` / `connect-src 'self'`, and `assets/notice.js`
-  promises visitors there are no analytics and no advertising pixels. Google
-  Analytics, GTM, Meta Pixel, Hotjar and friends are all out — both technically
-  blocked and a broken promise. Measurement comes from Search Console, not the page.
+- **Only one third-party script: GA4, behind consent** (owner decision 2026-09-22).
+  `assets/notice.js` is a consent gate: GA4 loads only after "accept"; `GA_ID` in that
+  file is the single switch (empty = no analytics at all). The CSP in `vercel.json`
+  allows exactly googletagmanager.com / google-analytics.com for it. No other pixels
+  (Meta, Hotjar, GTM containers); privacy.html describes only GA4.
 - Fonts are **self-hosted** under `/assets/fonts/`. Do not reintroduce the Google
   Fonts stylesheet. (`_build/page.tpl` still references it — the template is stale.)
 - Stylesheets shipped per page are `base.css` + `doc.css` (plus `home.css` on the
@@ -158,19 +158,13 @@ check.
 
 ## 6. Git and deployment
 
-- **`main` is the Vercel production branch.** Merging a pull request *is* the
-  deploy to greek-cloud.com. There is no separate deploy step to gate, so the
-  merge button is the gate.
-- **Never push to `main`.** Every change goes through a pull request, and only
-  the owner merges it. Never merge your own PR, never enable auto-merge, never
-  run `vercel deploy` or any equivalent.
-- **Every PR body opens with a `## Live-site impact` block** stating, from the
-  diff rather than from intent, what a visitor would see change, which pages are
-  affected, and whether indexable content changed. "Nothing" is a perfectly good
-  answer and is the expected one for a tooling change. This block is what the
-  owner reads before deciding to merge — see `seo/routines/README.md`.
-- A branch other than `main` gets a Vercel *preview* deployment, not the live
-  domain. Useful for review; still not the site.
+- **`main` is the Vercel production branch**; pushing/merging to it is the deploy.
+- **Claude deploys itself, without asking** (owner decision 2026-09-22, replaces the old
+  PR-and-owner-merge rule). The price is a mandatory self-check before every push to main:
+  work in a dedicated worktree branch; `git fetch` and merge latest `origin/main` first
+  (never overwrite another session's work); `npm run check` and `npm run check:dup`
+  clean; re-read the diff against sections 1-4; push; then verify the live URL serves
+  the new content. If anything is broken live, revert at once. Report what went live.
 - Verify the branch and the remote before every commit — concurrent sessions can
   switch HEAD silently:
   `git branch --show-current && git remote get-url origin`
