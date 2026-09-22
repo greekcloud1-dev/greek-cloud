@@ -133,8 +133,10 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
                      required aria-describedby="fullname-hint">
               <small id="fullname-hint">For example: ISRAEL ISRAELI</small></p>
             <p class="f"><label for="passport">Passport number</label>
-              <input id="passport" name="passport" type="text" dir="ltr" required aria-describedby="passport-hint">
-              <small id="passport-hint">As printed in the passport, no spaces</small></p>
+              <input id="passport" name="passport" type="text" dir="ltr" inputmode="numeric"
+                     maxlength="8" required autocomplete="off" spellcheck="false"
+                     aria-describedby="passport-hint">
+              <small id="passport-hint">Israeli passport: 8 digits, no spaces</small></p>
             <p class="f"><label for="birthdate">Date of birth</label>
               <input id="birthdate" name="birthdate" type="date" required
                      autocomplete="bday" aria-describedby="birthdate-hint">
@@ -202,6 +204,13 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
               <span>I confirm that I am 18 or over.</span></label>
             <label class="cbx"><input type="checkbox" name="c_terms" required>
               <span>I have read and agree to the <a href="/en/terms.html">terms of use</a> and the <a href="/en/privacy.html">privacy policy</a>.</span></label>
+            <label class="cbx"><input type="checkbox" name="c_health" required>
+              <span>
+                <b>I explicitly consent to you processing the medical information I provide</b>
+                and passing it to a Greek-licensed physician to assess the request, and to the
+                infrastructure providers listed in the <a href="/en/privacy.html">privacy policy</a>.
+                I know I may withdraw this consent at any time.
+              </span></label>
             <label class="cbx"><input type="checkbox" name="c_customs" required>
               <span>I understand that taking cannabis products out of Greece is prohibited, and that the prescription is valid inside Greece only.</span></label>
             <label class="cbx"><input type="checkbox" name="c_nopromise" required>

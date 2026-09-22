@@ -34,6 +34,8 @@
     ageHigh:   'תאריך הלידה שהוזן אינו סביר.',
     ageIs:     'גיל: ',
     pastDate:  'התאריך הזה כבר עבר.',
+    farDate:   'התאריך רחוק מדי. אפשר לסמן "עוד לא יודע/ת".',
+    passBad:   'מספר דרכון ישראלי הוא 8 ספרות בדיוק.',
     invalid:   'הערך הזה לא תקין.',
     sending:   'שולחים בצורה מאובטחת…',
     downTitle: 'האתר בשיפוצים',
@@ -53,6 +55,8 @@
     ageHigh:   'That date of birth does not look right.',
     ageIs:     'Age: ',
     pastDate:  'That date has already passed.',
+    farDate:   'That date is too far ahead. You can tick "Not sure yet".',
+    passBad:   'An Israeli passport number is exactly 8 digits.',
     invalid:   'That value is not valid.',
     sending:   'Sending securely…',
     downTitle: 'The site is under maintenance',
@@ -114,6 +118,8 @@
       if (field.validity.rangeUnderflow) return S.ageHigh;
     }
     if (field.name === 'arrival' && field.validity.rangeUnderflow) return S.pastDate;
+    if (field.name === 'arrival' && field.validity.rangeOverflow) return S.farDate;
+    if (field.name === 'passport' && field.validity.patternMismatch) return S.passBad;
     if (field.validity.rangeUnderflow) return S.under18;
     if (field.validity.rangeOverflow) return S.ageHigh;
     return S.invalid;
@@ -178,6 +184,9 @@
     var now0 = new Date();
     var p2 = function (n) { return (n < 10 ? '0' : '') + n; };
     arrival.min = now0.getFullYear() + '-' + p2(now0.getMonth() + 1) + '-' + p2(now0.getDate());
+    // The server refuses a date more than 730 days out; refuse it here first.
+    var far = new Date(now0.getFullYear(), now0.getMonth(), now0.getDate() + 730);
+    arrival.max = far.getFullYear() + '-' + p2(far.getMonth() + 1) + '-' + p2(far.getDate());
     // Also called by the draft restore below, which sets the box without an event.
     window.gcSyncArrival = function () {
       var off = !!(arrivalUnknown && arrivalUnknown.checked);
@@ -365,6 +374,26 @@
           showSent(body.submissionId);
           return;
         }
+        /* The server re-checks every rule. If it refused one specific field
+           ("missing:passport", "invalid:arrival"), point at that field rather
+           than blaming the network -- otherwise the visitor retries the same
+           answer forever. Anything else is a genuine send failure. */
+        var m = body && typeof body.error === 'string' && /^(missing|invalid|too_long):([a-z_]+)$/.exec(body.error);
+        var bad = m && form.querySelector('[name="' + (m[2] === 'age' ? 'birthdate' : m[2]) + '"]');
+        if (bad && bad.type !== 'hidden') {
+          submitBtn.disabled = false;
+          var msg = m[2] === 'age' ? S.under18 : (m[1] === 'missing' ? (bad.type === 'checkbox' ? S.consent : S.required) : S.invalid);
+          if (bad.type === 'checkbox') {
+            var anchor = bad.closest('fieldset') || bad.closest('.consents') || bad;
+            anchor.setAttribute('aria-invalid', 'true');
+          } else {
+            showError(bad, msg);
+          }
+          say(S.missing, true);
+          bad.focus();
+          bad.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          return;
+        }
         showSendError();
         submitBtn.disabled = false;
       });
@@ -413,6 +442,11 @@
 
   var pass = form.querySelector('#passport');
   var passHint = form.querySelector('#passport-hint');
+  // This module has no access to the validation module's string table.
+  var PASS_HE = document.documentElement.lang === 'he';
+  var PS = PASS_HE
+    ? { ok: '✓ 8 ספרות. תואם לפורמט.', short: 'חסרה ספרה. במספר דרכון ישראלי יש 8 ספרות.' }
+    : { ok: '✓ 8 digits. Matches the format.', short: 'A digit is missing. An Israeli passport number has 8 digits.' };
   if (pass && passHint && pass.getAttribute('inputmode') === 'numeric') {
     var hintText = passHint.textContent;
     pass.setAttribute('pattern', '\\d{8}');
@@ -421,7 +455,7 @@
       if (v !== pass.value) pass.value = v;
       pass.removeAttribute('aria-invalid');
       var ok = v.length === 8;
-      passHint.textContent = ok ? '✓ 8 ספרות. תואם לפורמט.' : hintText;
+      passHint.textContent = ok ? PS.ok : hintText;
       passHint.style.color = ok ? 'var(--sage)' : '';
       passHint.style.fontWeight = ok ? '700' : '';
     });
@@ -430,7 +464,7 @@
     pass.addEventListener('blur', function () {
       if (pass.value && pass.value.length !== 8) {
         pass.setAttribute('aria-invalid', 'true');
-        passHint.textContent = 'חסרה ספרה. במספר דרכון ישראלי יש 8 ספרות.';
+        passHint.textContent = PS.short;
         passHint.style.color = 'var(--stop)';
         passHint.style.fontWeight = '700';
       }
