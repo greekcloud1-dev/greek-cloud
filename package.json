@@ -2,9 +2,13 @@
   "name": "greekcloud",
   "private": true,
   "type": "module",
-  "description": "GreekCloud static site. No build step for the site itself -- this file exists only so Vercel installs dependencies for the two functions in /api.",
+  "description": "GreekCloud static site. No build step for the site itself -- this file exists so Vercel installs dependencies for the functions in /api (intake + CRM).",
   "dependencies": {
     "@vercel/blob": "^2.8.0",
     "nodemailer": "^10.0.10"
+  },
+  "scripts": {
+    "test": "node --test --experimental-test-module-mocks \"tests/*.test.mjs\"",
+    "crm:dev": "node dev/crm-dev-server.mjs"
   }
 }

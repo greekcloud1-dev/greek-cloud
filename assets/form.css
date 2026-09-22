@@ -56,6 +56,8 @@
 .cbx { display: flex; gap: 11px; align-items: flex-start; cursor: pointer; font-size: 15.5px; line-height: 1.55; }
 .cbx input { margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--sage); }
 .cbx a { color: var(--sage); }
+.f .cbx-inline { margin-top: 2px; font-size: 15px; font-weight: 400; color: var(--ink-body); }
+.f input[type="date"]:disabled { opacity: .45; }
 
 /* honeypot — offset upward only. A negative inline-start value is real
    scrollable overflow in an RTL document and stretches the viewport. */

@@ -20,3 +20,7 @@ LAUNCH-TODO.md
 
 # SEO audit artefacts. Internal working documents, not site content.
 greek-cloud.com-audit/
+
+# CRM tests and the local dev server. Nothing deployed imports them.
+tests/
+dev/

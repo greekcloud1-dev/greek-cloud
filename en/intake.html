@@ -103,6 +103,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <div class="intake-shell">
       <form class="intake" data-intake novalidate>
         <input type="hidden" name="locale" value="en">
+        <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium">
+        <input type="hidden" name="utm_campaign"><input type="hidden" name="ref_host">
 
         <!-- ---------- 1 · plan ---------- -->
         <section class="step" data-step="1" aria-labelledby="s1h">
@@ -149,8 +151,11 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
                 <option>Rhodes</option><option>Kos</option><option>Santorini</option>
                 <option>Mykonos</option><option>Corfu</option><option>Other / not yet decided</option>
               </select></p>
-            <p class="f"><label for="arrival">Approximate arrival date</label>
-              <input id="arrival" name="arrival" type="date"></p>
+            <p class="f"><label for="arrival">Flight date to Greece</label>
+              <input id="arrival" name="arrival" type="date" required aria-describedby="arrival-hint">
+              <label class="cbx cbx-inline"><input type="checkbox" id="arrival-unknown" name="arrival_unknown">
+                <span>Not sure yet</span></label>
+              <small id="arrival-hint">An approximate date still helps us prepare in time.</small></p>
           </div>
           <div class="note">
             <span class="nt">Compare now, not later</span>

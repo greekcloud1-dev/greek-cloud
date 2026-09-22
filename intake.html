@@ -106,6 +106,8 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       <div class="intake-shell">
       <form class="intake" data-intake novalidate>
         <input type="hidden" name="locale" value="he">
+        <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium">
+        <input type="hidden" name="utm_campaign"><input type="hidden" name="ref_host">
 
         <!-- ---------- 1 · מסלול ---------- -->
         <section class="step" data-step="1" aria-labelledby="s1h">
@@ -153,8 +155,11 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
                 <option>רודוס</option><option>קוס</option><option>סנטוריני</option>
                 <option>מיקונוס</option><option>קורפו</option><option>אחר / עדיין לא ידוע</option>
               </select></p>
-            <p class="f"><label for="arrival">תאריך הגעה משוער</label>
-              <input id="arrival" name="arrival" type="date"></p>
+            <p class="f"><label for="arrival">תאריך הטיסה ליוון</label>
+              <input id="arrival" name="arrival" type="date" required aria-describedby="arrival-hint">
+              <label class="cbx cbx-inline"><input type="checkbox" id="arrival-unknown" name="arrival_unknown">
+                <span>עוד לא יודע/ת</span></label>
+              <small id="arrival-hint">גם תאריך משוער עוזר לנו להיערך בזמן.</small></p>
           </div>
           <div class="note">
             <span class="nt">השוו עכשיו, לא אחר כך</span>

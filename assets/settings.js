@@ -11,6 +11,24 @@
    the way in.
    ========================================================================== */
 
+/* First page of the visit: its UTM tags and external referrer, kept for this tab
+   only (sessionStorage, no cookie) so the intake form can say where a lead came
+   from. Nothing is sent anywhere unless the visitor submits that form. */
+(function () {
+  try {
+    var q = new URLSearchParams(location.search);
+    var ref = '';
+    try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
+    var cur = {
+      s: q.get('utm_source') || '', m: q.get('utm_medium') || '', c: q.get('utm_campaign') || '',
+      r: ref && ref !== location.hostname ? ref : ''
+    };
+    var prev = JSON.parse(sessionStorage.getItem('gc-src') || 'null');
+    // Keep the first real source; only an untagged, unreferred start gets replaced.
+    if (!prev || (!prev.s && !prev.r && (cur.s || cur.r))) sessionStorage.setItem('gc-src', JSON.stringify(cur));
+  } catch (e) {}
+})();
+
 (function () {
   'use strict';
 

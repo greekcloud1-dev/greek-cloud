@@ -24,6 +24,11 @@
         `configured` check below does not include it), so a deployment without
         a bot still serves requests exactly as before this was added.
 
+   Both notifications carry a link to the client's card in the CRM
+   (/crm/#<id>), which reads the same Blob record -- see crm/ and api/crm.js.
+   The record also keeps where the visitor came from (a coarse channel plus any
+   UTM tags), captured on the site without cookies.
+
    A failed step 3 or 4 does not fail the request: the person's answers are
    already safe in Blob by then, and the operator can still find them by
    browsing Storage even if neither notification arrives. The two channels are
@@ -51,6 +56,10 @@
 
 import { put } from '@vercel/blob';
 import nodemailer from 'nodemailer';
+import { sendTelegram } from './_lib/notify.js';
+import { classifySource, isValidISODate, isoDay, daysUntil, formatDate } from '../crm/core.js';
+
+const CRM_CARD = 'https://greek-cloud.com/crm/#';
 
 /* Cached across invocations on a warm serverless instance -- building a fresh
    SMTP connection pool per request would throw away the point of keep-alive. */
@@ -95,6 +104,7 @@ const FIELD_MAX = {
   full_name: 120, passport: 20, birthdate: 10, email: 254, phone: 32,
   city: 60, arrival: 32, condition: 4000, rx_exists: 16, locale: 2, plan: 16,
 };
+const SOURCE_MAX = { utm_source: 64, utm_medium: 64, utm_campaign: 100, ref_host: 100 };
 
 /* Accepted upload types, checked against the file's own leading bytes rather
    than the client-declared MIME. The intake script canvas-converts images to
@@ -125,24 +135,31 @@ function buildEmail(record) {
   const isHe = record.locale === 'he';
   const plan = (PLAN_LABEL[isHe ? 'he' : 'en'])[record.plan] || record.plan;
 
+  const flight = record.arrival ? formatDate(record.arrival) : '';
+  const flightShort = flight.slice(0, 5);
+
   const subject = isHe
-    ? `פנייה חדשה · ${plan} · ${record.city}`
-    : `New request · ${plan} · ${record.city}`;
+    ? `ליד חדש · ${plan} · ${record.city}${flightShort ? ` · טס ${flightShort}` : ''}`
+    : `New lead · ${plan} · ${record.city}${flightShort ? ` · flies ${flightShort}` : ''}`;
 
   const lines = isHe ? [
     `מסלול: ${plan}`,
     `עיר: ${record.city}`,
-    `תאריך הגעה משוער: ${record.arrival || 'לא צוין'}`,
+    `תאריך טיסה: ${flight || (record.arrivalUnknown ? 'עוד לא ידוע' : 'לא צוין')}`,
     `שם: ${record.fullName}`,
     `מזהה פנייה: ${record.submissionId}`,
+    '',
+    `פתיחה ב-CRM: ${CRM_CARD}${record.submissionId}`,
     '',
     'לא כלול בהודעה זו: תיאור המצב הבריאותי וצילום המרשם אם צורף. הם נשמרים באחסון קבצים פרטי, נפרד מהמייל הזה.',
   ] : [
     `Plan: ${plan}`,
     `City: ${record.city}`,
-    `Estimated arrival: ${record.arrival || 'not given'}`,
+    `Flight date: ${flight || (record.arrivalUnknown ? 'not known yet' : 'not given')}`,
     `Name: ${record.fullName}`,
     `Submission ID: ${record.submissionId}`,
+    '',
+    `Open in the CRM: ${CRM_CARD}${record.submissionId}`,
     '',
     'Not included in this email: the health description and the prescription file if one was attached. They are kept in private file storage, separate from this message.',
   ];
@@ -150,27 +167,10 @@ function buildEmail(record) {
   return { subject, text: lines.join('\n') };
 }
 
-/* Bot API over plain fetch -- no SDK, one endpoint, nothing to cache or pool
-   the way the Gmail transport is. disable_web_page_preview keeps a bare date
-   or id in the text from growing an unwanted preview card. */
-async function sendTelegramNotification(subject, text) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) return; // optional channel; silently a no-op if unset
-
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: `${subject}\n\n${text}`,
-      disable_web_page_preview: true,
-    }),
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    throw new Error(`telegram_${res.status}: ${body.slice(0, 200)}`);
-  }
+/* Source fields are short tokens (a UTM tag, a hostname). Anything outside that
+   alphabet is dropped rather than stored, since it only ever came from a URL. */
+function token(value, max) {
+  return String(value || '').toLowerCase().replace(/[^a-z0-9._\-]/g, '').slice(0, max);
 }
 
 /* --- best-effort rate limit ---------------------------------------------
@@ -275,9 +275,23 @@ async function handleSubmit(request) {
   const email = str('email');
   const phone = str('phone');
   const city = str('city');
-  const arrival = str('arrival');
+  const arrivalUnknown = form.get('arrival_unknown') === 'on';
+  // "Not known yet" is an answer; a date typed and then un-needed is dropped.
+  const arrival = arrivalUnknown ? '' : str('arrival');
   const condition = str('condition');
   const rxExists = str('rx_exists');
+
+  for (const [key, max] of Object.entries(SOURCE_MAX)) {
+    const v = str(key);
+    if (v.length > max) return json(400, { ok: false, error: `too_long:${key}` });
+  }
+  const utm = {
+    source: token(str('utm_source'), SOURCE_MAX.utm_source),
+    medium: token(str('utm_medium'), SOURCE_MAX.utm_medium),
+    campaign: token(str('utm_campaign'), SOURCE_MAX.utm_campaign),
+  };
+  const refHost = token(str('ref_host'), SOURCE_MAX.ref_host);
+  const source = classifySource({ utmSource: utm.source, refHost });
 
   const consents = {};
   for (const key of CONSENT_FIELDS) consents[key] = form.get(key) === 'on';
@@ -289,6 +303,15 @@ async function handleSubmit(request) {
   if (plan !== 'standard' && plan !== 'vip') return json(400, { ok: false, error: 'invalid:plan' });
   if (!/^\d{8}$/.test(passport)) return json(400, { ok: false, error: 'invalid:passport' });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { ok: false, error: 'invalid:email' });
+  // The flight date is what the CRM sorts by, so it is required unless the
+  // visitor explicitly says they do not know it yet. One day of slack in the
+  // past covers a visitor whose own clock is behind Israel's.
+  if (!arrivalUnknown) {
+    if (!arrival) return json(400, { ok: false, error: 'missing:arrival' });
+    if (!isValidISODate(arrival)) return json(400, { ok: false, error: 'invalid:arrival' });
+    const ahead = daysUntil(arrival, isoDay(Date.now()));
+    if (ahead < -1 || ahead > 730) return json(400, { ok: false, error: 'invalid:arrival' });
+  }
   // The form ships a date input with a computed `max`, but that is a client
   // hint. Storing a minor's health record because the check only ever ran in
   // the browser would be the worst version of this bug, so the age is derived
@@ -367,8 +390,11 @@ async function handleSubmit(request) {
     submissionId,
     receivedAt: new Date().toISOString(),
     locale, plan, fullName, passport, birthdate, age: ageNum, email, phone, city, arrival,
-    condition, rxExists, consents,
+    arrivalUnknown, condition, rxExists, consents,
     rxPath: rxBlob ? rxBlob.pathname : null,
+    source,
+    ...(utm.source || utm.medium || utm.campaign ? { utm } : {}),
+    ...(refHost ? { refHost } : {}),
   };
 
   try {
@@ -414,7 +440,7 @@ async function handleSubmit(request) {
   }
 
   try {
-    await sendTelegramNotification(subject, text);
+    await sendTelegram(process.env, `${subject}\n\n${text}`, { buttonUrl: `${CRM_CARD}${submissionId}` });
   } catch (e) {
     // Same reasoning as the Gmail catch above, kept as a separate file rather
     // than merged into NOTIFY-FAILED.json: the two channels fail for unrelated

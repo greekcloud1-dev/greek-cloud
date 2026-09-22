@@ -33,6 +33,7 @@
     under18:   'השירות מיועד לבגירים מגיל 18.',
     ageHigh:   'תאריך הלידה שהוזן אינו סביר.',
     ageIs:     'גיל: ',
+    pastDate:  'התאריך הזה כבר עבר.',
     invalid:   'הערך הזה לא תקין.',
     sending:   'שולחים בצורה מאובטחת…',
     downTitle: 'האתר בשיפוצים',
@@ -51,6 +52,7 @@
     under18:   'The service is for adults aged 18 and over.',
     ageHigh:   'That date of birth does not look right.',
     ageIs:     'Age: ',
+    pastDate:  'That date has already passed.',
     invalid:   'That value is not valid.',
     sending:   'Sending securely…',
     downTitle: 'The site is under maintenance',
@@ -111,6 +113,7 @@
       if (field.validity.rangeOverflow) return S.under18;
       if (field.validity.rangeUnderflow) return S.ageHigh;
     }
+    if (field.name === 'arrival' && field.validity.rangeUnderflow) return S.pastDate;
     if (field.validity.rangeUnderflow) return S.under18;
     if (field.validity.rangeOverflow) return S.ageHigh;
     return S.invalid;
@@ -164,6 +167,43 @@
       else bdayHint.removeAttribute('data-ok');
     });
   }
+
+  /* ---------- flight date ----------
+     Required, unless the visitor ticks "not sure yet" -- which disables the
+     field, so it is neither validated nor sent. `min` is today, from local date
+     parts for the same reason as the birthday bounds above. */
+  var arrival = form.querySelector('#arrival');
+  var arrivalUnknown = form.querySelector('#arrival-unknown');
+  if (arrival) {
+    var now0 = new Date();
+    var p2 = function (n) { return (n < 10 ? '0' : '') + n; };
+    arrival.min = now0.getFullYear() + '-' + p2(now0.getMonth() + 1) + '-' + p2(now0.getDate());
+    // Also called by the draft restore below, which sets the box without an event.
+    window.gcSyncArrival = function () {
+      var off = !!(arrivalUnknown && arrivalUnknown.checked);
+      arrival.disabled = off;
+      arrival.required = !off;
+      if (off) clearError(arrival);
+    };
+    if (arrivalUnknown) arrivalUnknown.addEventListener('change', window.gcSyncArrival);
+    window.gcSyncArrival();
+  }
+
+  /* ---------- where the visitor came from ----------
+     settings.js records the first page's UTM tags and external referrer for
+     the tab; landing straight on this page falls back to its own. */
+  (function fillSource() {
+    var q = new URLSearchParams(location.search);
+    var ref = '';
+    try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
+    var here = { s: q.get('utm_source') || '', m: q.get('utm_medium') || '', c: q.get('utm_campaign') || '',
+                 r: ref && ref !== location.hostname ? ref : '' };
+    var src = null;
+    try { src = JSON.parse(sessionStorage.getItem('gc-src') || 'null'); } catch (e) {}
+    if (!src || (!src.s && !src.r)) src = here;
+    var set = function (name, v) { var el = form.querySelector('[name="' + name + '"]'); if (el) el.value = String(v || '').slice(0, 100); };
+    set('utm_source', src.s); set('utm_medium', src.m); set('utm_campaign', src.c); set('ref_host', src.r);
+  })();
 
   function validate() {
     var fields = form.querySelectorAll('input, select, textarea');
@@ -461,7 +501,9 @@
      should not still be sitting in localStorage on a shared laptop weeks
      later. Everything else is ordinary contact detail and is worth keeping so
      a half-finished form survives a reload. */
-  var SKIP = { condition: 1, passport: 1, website: 1, file_rx: 1 };
+  var SKIP = { condition: 1, passport: 1, website: 1, file_rx: 1,
+               // Set fresh from this visit on every load; a draft must not overwrite them.
+               utm_source: 1, utm_medium: 1, utm_campaign: 1, ref_host: 1 };
 
   /* And what we do keep expires, so an abandoned draft does not live forever. */
   var DRAFT_TTL_MS = 7 * 24 * 60 * 60 * 1000;
@@ -507,7 +549,7 @@
     var data = parsed.data;
     Object.keys(data).forEach(function (k) {
       var f = form.elements[k];
-      if (!f) return;
+      if (!f || SKIP[k]) return;
       if (f.length && f[0] && f[0].type === 'radio') {
         [].forEach.call(f, function (r) { if (r.value === data[k]) r.checked = true; });
       } else if (f.type === 'checkbox') { f.checked = !!data[k]; }
@@ -519,6 +561,7 @@
       });
     }
     fillReview();
+    if (window.gcSyncArrival) window.gcSyncArrival();
     if (savedEl) { savedEl.textContent = 'נשמר ✓'; savedEl.classList.add('is-ok'); }
   })();
 
