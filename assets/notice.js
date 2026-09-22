@@ -16,7 +16,7 @@
 (function () {
   'use strict';
 
-  var GA_ID = '';               // e.g. 'G-XXXXXXXXXX'
+  var GA_ID = 'G-VLXQX0P99R';             // e.g. 'G-XXXXXXXXXX'
   var KEY = 'gc-consent';       // 'granted' | 'denied'
   var OLD = 'gc-notice-seen';
 
