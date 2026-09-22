@@ -18,10 +18,17 @@
         only in Blob, which is why step 2 has to succeed before step 3 is
         attempted -- a notification about a request that was not actually
         saved would be worse than no notification.
+     4. The same thin notification to a Telegram chat via the Bot API, if
+        TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID are configured. Unlike Gmail,
+        this channel is optional: its absence does not gate the endpoint (the
+        `configured` check below does not include it), so a deployment without
+        a bot still serves requests exactly as before this was added.
 
-   A failed step 3 does not fail the request: the person's answers are
+   A failed step 3 or 4 does not fail the request: the person's answers are
    already safe in Blob by then, and the operator can still find them by
-   browsing Storage even if the email never arrives.
+   browsing Storage even if neither notification arrives. The two channels are
+   independent -- a failed email does not skip the Telegram attempt or the
+   reverse.
 
    Was Resend, until 2026-09-19: the account never verified a sending domain,
    so every notification went out as the shared onboarding@resend.dev
@@ -141,6 +148,29 @@ function buildEmail(record) {
   ];
 
   return { subject, text: lines.join('\n') };
+}
+
+/* Bot API over plain fetch -- no SDK, one endpoint, nothing to cache or pool
+   the way the Gmail transport is. disable_web_page_preview keeps a bare date
+   or id in the text from growing an unwanted preview card. */
+async function sendTelegramNotification(subject, text) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return; // optional channel; silently a no-op if unset
+
+  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: `${subject}\n\n${text}`,
+      disable_web_page_preview: true,
+    }),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`telegram_${res.status}: ${body.slice(0, 200)}`);
+  }
 }
 
 /* --- best-effort rate limit ---------------------------------------------
@@ -353,8 +383,9 @@ async function handleSubmit(request) {
     return json(502, { ok: false, error: 'record_failed' });
   }
 
+  const { subject, text } = buildEmail(record);
+
   try {
-    const { subject, text } = buildEmail(record);
     await gmailTransport().sendMail({
       from: `GreekCloud <${process.env.LEAD_NOTIFY_EMAIL}>`,
       to: process.env.LEAD_NOTIFY_EMAIL,
@@ -371,6 +402,27 @@ async function handleSubmit(request) {
     console.error('gmail notify failed for', submissionId, e);
     try {
       await put(`${base}/NOTIFY-FAILED.json`, JSON.stringify({
+        submissionId,
+        failedAt: new Date().toISOString(),
+        reason: e && e.message ? e.message : String(e),
+      }, null, 2), {
+        access: 'private',
+        addRandomSuffix: false,
+        contentType: 'application/json',
+      });
+    } catch (_) { /* nothing further we can do; the record itself is safe */ }
+  }
+
+  try {
+    await sendTelegramNotification(subject, text);
+  } catch (e) {
+    // Same reasoning as the Gmail catch above, kept as a separate file rather
+    // than merged into NOTIFY-FAILED.json: the two channels fail for unrelated
+    // reasons (a revoked bot token says nothing about the Gmail app password),
+    // and one record per channel keeps that legible instead of overwriting.
+    console.error('telegram notify failed for', submissionId, e);
+    try {
+      await put(`${base}/TELEGRAM-NOTIFY-FAILED.json`, JSON.stringify({
         submissionId,
         failedAt: new Date().toISOString(),
         reason: e && e.message ? e.message : String(e),
