@@ -222,3 +222,26 @@ none: the prescription is issued remotely and dispensing happens at a Greek
 pharmacy the business does not operate. Virtual offices, mailbox addresses and a
 home address customers never visit are all explicitly prohibited, and a suspended
 listing on a YMYL medical service is hard to undo. Do not propose workarounds.
+
+---
+
+## 9. Search Console access (set 2026-09-22)
+
+A Google Cloud service account (`seo-routines@greek-cloud-seo.iam.gserviceaccount.com`)
+has restricted read access to `sc-domain:greek-cloud.com` in Search Console. The
+owner's local Claude Code session holds the private key and can pull live data
+at any time.
+
+**R2's cloud environment does not have this credential, and will not get it via
+that environment's `environment_variables` field** — that field is plaintext
+and visible to anyone using the environment, which is not an acceptable place
+for a private key. This was evaluated and declined on 2026-09-22; do not
+revisit it as an open question. Community MCP connectors for Search Console
+were also considered and declined — they route the data through a third
+party's infrastructure for no offsetting benefit here.
+
+The working arrangement instead: the owner's local session pulls a snapshot
+into `seo/state/gsc/YYYY-MM-DD.json` periodically, and R2 reads the freshest
+file there (see `seo/routines/R2-measurement.md` §0) rather than calling the
+API itself. This is not real-time, but it is the safe path until a proper
+secrets mechanism exists for cloud routines.

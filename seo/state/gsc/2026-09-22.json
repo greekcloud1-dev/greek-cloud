@@ -1,0 +1,355 @@
+{
+  "generatedAt": "2026-09-22T00:21:47.003Z",
+  "generatedBy": "local Claude Code session (service account seo-routines@greek-cloud-seo.iam.gserviceaccount.com)",
+  "site": "sc-domain:greek-cloud.com",
+  "window": {
+    "start": "2026-09-12",
+    "end": "2026-09-19"
+  },
+  "priorWindow": {
+    "start": "2026-09-04",
+    "end": "2026-09-11"
+  },
+  "queries": [
+    {
+      "query": "קנאביס רפואי ביוון",
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 33
+    },
+    {
+      "query": "cbd in greece",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "query": "greece cbd",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "query": "griechenland canabis",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 51
+    },
+    {
+      "query": "is cbd legal in greece 2026",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "query": "is weed legal in greece",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 45.5
+    },
+    {
+      "query": "is weed legal in malia",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 41
+    },
+    {
+      "query": "is weed legal in santorini",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 45
+    },
+    {
+      "query": "kos cannabis",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 10.5
+    },
+    {
+      "query": "τhe greekcloud.gr",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "query": "איים ביוון טיסה ישירה",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 50
+    }
+  ],
+  "priorQueries": [],
+  "pages": [
+    {
+      "page": "https://greek-cloud.com/en/penalties-greece.html",
+      "clicks": 3,
+      "impressions": 39,
+      "ctr": 0.07692307692307693,
+      "position": 4.820512820512821
+    },
+    {
+      "page": "https://greek-cloud.com/crete.html",
+      "clicks": 1,
+      "impressions": 15,
+      "ctr": 0.06666666666666667,
+      "position": 5.266666666666667
+    },
+    {
+      "page": "https://greek-cloud.com/penalties-greece.html",
+      "clicks": 1,
+      "impressions": 10,
+      "ctr": 0.1,
+      "position": 5.4
+    },
+    {
+      "page": "https://www.greek-cloud.com/",
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 0.5,
+      "position": 18
+    },
+    {
+      "page": "https://greek-cloud.com/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 5.5
+    },
+    {
+      "page": "https://greek-cloud.com/accessibility.html",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "page": "https://greek-cloud.com/cannabis-in-greece.html",
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 5.888888888888889
+    },
+    {
+      "page": "https://greek-cloud.com/corfu.html",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 6.625
+    },
+    {
+      "page": "https://greek-cloud.com/destinations.html",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 12.75
+    },
+    {
+      "page": "https://greek-cloud.com/en/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 4.75
+    },
+    {
+      "page": "https://greek-cloud.com/en/cannabis-in-greece.html",
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 23.38888888888889
+    },
+    {
+      "page": "https://greek-cloud.com/en/cbd-in-greece.html",
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 6.8125
+    },
+    {
+      "page": "https://greek-cloud.com/en/crete.html",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://greek-cloud.com/en/destinations.html",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8.666666666666668
+    },
+    {
+      "page": "https://greek-cloud.com/en/halkidiki.html",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "page": "https://greek-cloud.com/en/kos.html",
+      "clicks": 0,
+      "impressions": 27,
+      "ctr": 0,
+      "position": 11.666666666666666
+    },
+    {
+      "page": "https://greek-cloud.com/en/lefkada.html",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "page": "https://greek-cloud.com/en/santorini.html",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 20.5
+    },
+    {
+      "page": "https://greek-cloud.com/en/thessaloniki.html",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 4.5
+    },
+    {
+      "page": "https://greek-cloud.com/glossary.html",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 4.4
+    },
+    {
+      "page": "https://greek-cloud.com/pharmacies-greece.html",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "page": "https://greek-cloud.com/privacy.html",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "page": "https://greek-cloud.com/thessaloniki.html",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 4.833333333333334
+    }
+  ],
+  "headTerms": [
+    {
+      "query": "מרשם קנאביס רפואי ביוון",
+      "lang": "he",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "קנאביס רפואי ביוון",
+      "lang": "he",
+      "found": true,
+      "clicks": 1,
+      "impressions": 1,
+      "position": 33
+    },
+    {
+      "query": "קנביס רפואי ביוון",
+      "lang": "he",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "רישיון קנאביס ביוון",
+      "lang": "he",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "קנאביס רפואי לתיירים יוון",
+      "lang": "he",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "לטוס עם קנאביס ליוון",
+      "lang": "he",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "בית מרקחת קנאביס יוון",
+      "lang": "he",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "מחיר קנאביס רפואי יוון",
+      "lang": "he",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "medical cannabis greece prescription",
+      "lang": "en",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "medical cannabis greece tourist",
+      "lang": "en",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "cannabis pharmacy greece",
+      "lang": "en",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "query": "greek cannabis prescription remote",
+      "lang": "en",
+      "found": false,
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    }
+  ],
+  "note": "No indexation (URL Inspection) or sitemap-status data in this snapshot -- those need per-URL calls this script does not make. R2 should still run those checks itself if it has credentials, or flag them as not covered by this file."
+}

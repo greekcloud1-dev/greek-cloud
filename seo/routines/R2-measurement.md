@@ -15,11 +15,27 @@ Needs a Google service account with access to the Search Console property
 `sc-domain:greek-cloud.com`, exposed as `GOOGLE_SERVICE_ACCOUNT_JSON`, and
 optionally `BING_WEBMASTER_API_KEY`.
 
-**If the credential is absent, stop.** Write a report saying exactly which
-variable is missing and that no measurement was possible. Do not guess at
-numbers, do not substitute a web search for API data, and do not open a PR.
-A run that reports "no data available" is correct; a run that invents plausible
-figures is worse than no run at all.
+**As of 2026-09-22, this routine's cloud environment does not have that
+credential**, and there is no safe place to put it there — the environment's
+own `environment_variables` box is plaintext and shared with anyone using that
+environment, so the owner declined to put a private key in it (correct call,
+do not revisit). Instead:
+
+1. **Look for a same-day-or-fresher file in `seo/state/gsc/`** (named
+   `YYYY-MM-DD.json`). It is pulled locally by the owner's Claude Code session,
+   which does hold the credential, and committed to the repo. If one exists and
+   is no more than 8 days old, use it as the source for queries, pages and head
+   terms in sections 1 and 4 below. It does not cover indexation (URL
+   Inspection) or sitemap status — say so explicitly in the output rather than
+   omitting those sections silently.
+2. **If no file is fresh enough and `GOOGLE_SERVICE_ACCOUNT_JSON` is also
+   absent, stop.** Write a report naming both the missing variable and the
+   stale/missing state file, and open nothing. Do not guess at numbers, do not
+   substitute a web search for API data. A run that reports "no data available"
+   is correct; a run that invents plausible figures is worse than no run at all.
+3. If `GOOGLE_SERVICE_ACCOUNT_JSON` **is** present in some future run (the
+   owner may still find a way to wire it in), prefer it over the state file and
+   pull live as sections 1–2 describe.
 
 ## 1. Search Console
 
