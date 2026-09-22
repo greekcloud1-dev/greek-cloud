@@ -1,0 +1,230 @@
+{
+  "https://greek-cloud.com/about.html": {
+    "priority": "0.5",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/accessibility.html": {
+    "priority": "0.5",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/athens.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/cannabis-in-greece.html": {
+    "priority": "0.9",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/cbd-in-greece.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/corfu.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/crete.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/destinations.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/eligibility.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/fly-with-cannabis.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/glossary.html": {
+    "priority": "0.6",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/guide.html": {
+    "priority": "0.9",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/halkidiki.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/": {
+    "priority": "1.0",
+    "changefreq": "weekly"
+  },
+  "https://greek-cloud.com/israeli-license-abroad.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/israeli-license-refused.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/kos.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/lefkada.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/legal-updates.html": {
+    "priority": "0.7",
+    "changefreq": "weekly"
+  },
+  "https://greek-cloud.com/mykonos.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/penalties-greece.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/pharmacies-greece.html": {
+    "priority": "0.9",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/pharmacy-prices.html": {
+    "priority": "0.9",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/privacy.html": {
+    "priority": "0.3",
+    "changefreq": "yearly"
+  },
+  "https://greek-cloud.com/refund.html": {
+    "priority": "0.3",
+    "changefreq": "yearly"
+  },
+  "https://greek-cloud.com/remote-prescription.html": {
+    "priority": "0.9",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/rhodes.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/santorini.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/terms.html": {
+    "priority": "0.3",
+    "changefreq": "yearly"
+  },
+  "https://greek-cloud.com/thessaloniki.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/zakynthos.html": {
+    "priority": "0.6",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/about.html": {
+    "priority": "0.4",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/accessibility.html": {
+    "priority": "0.5",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/athens.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/cannabis-in-greece.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/cbd-in-greece.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/corfu.html": {
+    "priority": "0.6",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/crete.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/destinations.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/eligibility.html": {
+    "priority": "0.9",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/fly-with-cannabis.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/guide.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/halkidiki.html": {
+    "priority": "0.6",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/": {
+    "priority": "0.9",
+    "changefreq": "weekly"
+  },
+  "https://greek-cloud.com/en/kos.html": {
+    "priority": "0.6",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/lefkada.html": {
+    "priority": "0.6",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/mykonos.html": {
+    "priority": "0.6",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/penalties-greece.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/pharmacies-greece.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/pharmacy-prices.html": {
+    "priority": "0.8",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/privacy.html": {
+    "priority": "0.3",
+    "changefreq": "yearly"
+  },
+  "https://greek-cloud.com/en/refund.html": {
+    "priority": "0.3",
+    "changefreq": "yearly"
+  },
+  "https://greek-cloud.com/en/remote-prescription.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/rhodes.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/santorini.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  },
+  "https://greek-cloud.com/en/terms.html": {
+    "priority": "0.3",
+    "changefreq": "yearly"
+  },
+  "https://greek-cloud.com/en/thessaloniki.html": {
+    "priority": "0.7",
+    "changefreq": "monthly"
+  }
+}

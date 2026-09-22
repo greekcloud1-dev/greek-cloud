@@ -1,0 +1,56 @@
+name: SEO checks
+
+# The gate that makes automated SEO changes safe to review quickly — and the
+# precondition for ever letting the mechanical ones merge without a human.
+# Scoped to the public site; the CRM has its own workflow.
+
+on:
+  pull_request:
+    paths:
+      - '**.html'
+      - 'sitemap.xml'
+      - 'llms.txt'
+      - 'robots.txt'
+      - 'scripts/**'
+      - 'seo/**'
+      - '.github/workflows/seo-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # build-sitemap reads the last commit date per file for <lastmod>,
+          # so a shallow clone would make every page look the same age.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # No install step: the checks are dependency-free by design so they run
+      # identically here, on a laptop, and in a cold cloud agent checkout.
+
+      - name: On-page and structured data
+        run: node scripts/check-seo.mjs
+
+      - name: Destination page duplication (Hebrew)
+        run: node scripts/check-duplication.mjs
+
+      - name: Destination page duplication (English)
+        run: node scripts/check-duplication.mjs --en
+
+      - name: sitemap.xml is current
+        run: |
+          node scripts/build-sitemap.mjs
+          if ! git diff --quiet -- sitemap.xml; then
+            echo "::error file=sitemap.xml::sitemap.xml is stale. Run 'npm run build:sitemap' and commit the result."
+            git --no-pager diff -- sitemap.xml
+            exit 1
+          fi
+          echo "sitemap.xml is up to date."

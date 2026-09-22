@@ -24,3 +24,13 @@ greek-cloud.com-audit/
 # CRM tests and the local dev server. Nothing deployed imports them.
 tests/
 dev/
+
+# SEO automation tooling. House rules, check scripts, routine runbooks and the
+# vendored skills the scheduled agents use. All internal working material, and
+# all of it would otherwise be fetchable at its own path. Same reasoning as
+# greek-cloud.com-audit/ above.
+CLAUDE.md
+scripts/
+seo/
+.claude/
+.github/

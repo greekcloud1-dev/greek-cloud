@@ -1,0 +1,65 @@
+{
+  "checkedAt": "2026-09-19",
+  "reachable": true,
+  "root": {
+    "status": 200,
+    "finalUrl": "https://www.canaflight.com/",
+    "robotsTag": "noindex, nofollow, noarchive, nosnippet",
+    "title": "לא זמין",
+    "bytes": 1057,
+    "isPlaceholder": true
+  },
+  "robotsTxt": {
+    "status": 200,
+    "hasBlanketDisallow": false,
+    "declaresSitemap": true
+  },
+  "sitemap": {
+    "status": 200,
+    "urlCount": 28,
+    "latestLastmod": "2026-09-17"
+  },
+  "samples": [
+    {
+      "url": "/",
+      "status": 200,
+      "robotsTag": "noindex, nofollow, noarchive, nosnippet",
+      "isPlaceholder": true
+    },
+    {
+      "url": "/intake.html",
+      "status": 200,
+      "robotsTag": "noindex, nofollow, noarchive, nosnippet",
+      "isPlaceholder": true
+    },
+    {
+      "url": "/guide.html",
+      "status": 200,
+      "robotsTag": "noindex, nofollow, noarchive, nosnippet",
+      "isPlaceholder": true
+    },
+    {
+      "url": "/fly-with-cannabis.html",
+      "status": 200,
+      "robotsTag": "noindex, nofollow, noarchive, nosnippet",
+      "isPlaceholder": true
+    },
+    {
+      "url": "/en/",
+      "status": 200,
+      "robotsTag": "noindex, nofollow, noarchive, nosnippet",
+      "isPlaceholder": true
+    },
+    {
+      "url": "/en/guide.html",
+      "status": 200,
+      "robotsTag": "noindex, nofollow, noarchive, nosnippet",
+      "isPlaceholder": true
+    }
+  ],
+  "summary": {
+    "placeholderEverywhere": true,
+    "noindexOnAllSamples": true,
+    "contentIsBack": false
+  }
+}
