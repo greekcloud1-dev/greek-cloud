@@ -1,48 +1,69 @@
 /* ==========================================================================
-   GreekCloud — first-visit privacy notice
+   GreekCloud — consent gate for Google Analytics 4
    ==========================================================================
 
-   WHY THIS IS A NOTICE AND NOT A CONSENT BANNER
+   GA4 is loaded ONLY after the visitor clicks "accept". Until then (and after
+   "decline") no Google script is requested and no analytics cookie is set.
+   Advertising consent signals are always "denied".
 
-   This site sets no analytics, no advertising pixels and no third-party
-   scripts. The only thing it stores is the visitor's own display
-   preferences (theme, text size, accessibility toggles) in localStorage,
-   which is strictly functional.
+   GA_ID is the single switch. While it is empty the site sets no analytics at
+   all and this file behaves as the old informational notice.
 
-   Under both the GDPR and the Israeli Privacy Protection Law, strictly
-   functional storage that the user themselves asked for does not require
-   prior consent — it requires transparency. So this is an informational
-   notice with a single "understood" action.
-
-   Presenting an Accept / Reject choice here would be worse, not better:
-   it would imply there is tracking to reject, and a "reject" that changes
-   nothing is a dark pattern. If analytics or pixels are ever added, this
-   file must be replaced with a real consent gate that blocks those scripts
-   until consent is given.
+   Conversion: thank-you.html (where the intake form lands) sends a
+   generate_lead event, so every completed intake is counted in GA4.
    ========================================================================== */
 
 (function () {
   'use strict';
 
-  var KEY = 'gc-notice-seen';
-  try { if (localStorage.getItem(KEY) === '1') return; } catch (e) { return; }
+  var GA_ID = '';               // e.g. 'G-XXXXXXXXXX'
+  var KEY = 'gc-consent';       // 'granted' | 'denied'
+  var OLD = 'gc-notice-seen';
 
   var root = document.documentElement;
   var isEn = (root.getAttribute('lang') || 'he').slice(0, 2) === 'en';
   var base = isEn ? '/en/' : '/';
 
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  function loadGA() {
+    if (!GA_ID || window.__gcGA) return;
+    window.__gcGA = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    gtag('consent', 'default', {
+      ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+      analytics_storage: 'granted'
+    });
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+    if (/\/thank-you\.html$/.test(location.pathname)) {
+      gtag('event', 'generate_lead', { lang: isEn ? 'en' : 'he' });
+    }
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
+    document.head.appendChild(s);
+  }
+
+  var state = get(KEY);
+  if (state === 'granted') { loadGA(); return; }
+  if (state === 'denied') return;
+  if (!GA_ID && get(OLD) === '1') return;
+
   var t = isEn ? {
     title: 'About your privacy',
-    body: 'This site sets no tracking or advertising cookies. It stores only the display ' +
-          'preferences you choose, in your own browser. Details in the ',
-    policy: 'privacy policy',
-    ok: 'Understood'
+    body: GA_ID
+      ? 'With your consent we use Google Analytics to measure visits. No advertising cookies. Details in the '
+      : 'This site sets no tracking or advertising cookies. It stores only the display preferences you choose, in your own browser. Details in the ',
+    policy: 'privacy policy', ok: GA_ID ? 'Accept' : 'Understood', no: 'Decline'
   } : {
     title: 'על הפרטיות שלכם',
-    body: 'האתר אינו מציב עוגיות מעקב או פרסום. הוא שומר רק את העדפות התצוגה שאתם בוחרים, ' +
-          'בדפדפן שלכם בלבד. פירוט ב',
-    policy: 'מדיניות הפרטיות',
-    ok: 'הבנתי'
+    body: GA_ID
+      ? 'בהסכמתכם נשתמש ב־Google Analytics למדידת ביקורים באתר. ללא עוגיות פרסום. פירוט ב'
+      : 'האתר אינו מציב עוגיות מעקב או פרסום. הוא שומר רק את העדפות התצוגה שאתם בוחרים, בדפדפן שלכם בלבד. פירוט ב',
+    policy: 'מדיניות הפרטיות', ok: GA_ID ? 'מאשר/ת' : 'הבנתי', no: 'לא, תודה'
   };
 
   function show() {
@@ -53,19 +74,18 @@
     bar.innerHTML =
       '<p class="gc-notice-txt"><b>' + t.title + '</b> ' + t.body +
       '<a href="' + base + 'privacy.html">' + t.policy + '</a>.</p>' +
-      '<button type="button" class="gc-notice-ok">' + t.ok + '</button>';
-
+      (GA_ID ? '<button type="button" class="gc-notice-ok gc-notice-no">' + t.no + '</button>' : '') +
+      '<button type="button" class="gc-notice-ok gc-notice-yes">' + t.ok + '</button>';
     document.body.appendChild(bar);
 
-    bar.querySelector('.gc-notice-ok').addEventListener('click', function () {
-      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    bar.querySelector('.gc-notice-yes').addEventListener('click', function () {
+      if (GA_ID) { set(KEY, 'granted'); loadGA(); } else { set(OLD, '1'); }
       bar.remove();
     });
+    var no = bar.querySelector('.gc-notice-no');
+    if (no) no.addEventListener('click', function () { set(KEY, 'denied'); bar.remove(); });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', show);
-  } else {
-    show();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', show);
+  else show();
 })();

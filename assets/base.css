@@ -1124,3 +1124,5 @@ html.a11y-contrast-invert .wa-fab { filter: invert(1) hue-rotate(180deg); }
 html.a11y-contrast-mono .wa-fab { filter: grayscale(1); }
 
 @media print { .wa-fab { display: none !important; } }
+.gc-notice-no { background: transparent; color: var(--ink); border: 1px solid currentColor; }
+.gc-notice-no:hover { background: transparent; text-decoration: underline; }
