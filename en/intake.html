@@ -96,7 +96,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </p>
       <div class="city-facts" style="margin-top:28px">
         <div><span class="k">Time to complete</span><span class="v">About 3 minutes</span></div>
-        <div><span class="k">What you need</span><span class="v">Passport number and a selfie</span></div>
+        <div><span class="k">What you need</span><span class="v">Passport number only</span></div>
         <div><span class="k">If not approved</span><span class="v">Full refund</span></div>
       </div>
       <p class="saved" data-saved role="status" aria-live="polite"></p>
@@ -133,9 +133,10 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <p class="f"><label for="passport">Passport number</label>
               <input id="passport" name="passport" type="text" dir="ltr" required aria-describedby="passport-hint">
               <small id="passport-hint">As printed in the passport, no spaces</small></p>
-            <p class="f"><label for="age">Age</label>
-              <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
-              <small id="age-hint">The service is for adults aged 18 and over</small></p>
+            <p class="f"><label for="birthdate">Date of birth</label>
+              <input id="birthdate" name="birthdate" type="date" required
+                     autocomplete="bday" aria-describedby="birthdate-hint">
+              <small id="birthdate-hint">The service is for adults aged 18 and over</small></p>
             <p class="f"><label for="email">Email</label>
               <input id="email" name="email" type="email" autocomplete="email" dir="ltr" required></p>
             <p class="f"><label for="phone">WhatsApp phone</label>
@@ -173,7 +174,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
               placeholder="For example: lower back pain for two years, mostly after sitting for long periods. I have tried painkillers and physiotherapy, with only partial relief."></textarea>
             <small id="cond-hint">The more you say about what you have tried, the better grounded the assessment.</small></p>
           <p class="f"><label id="rx-lab">Do you hold a cannabis prescription or licence at home?</label>
-            <span class="seg" data-seg role="group" aria-labelledby="rx-lab">
+            <span class="pick" data-seg role="group" aria-labelledby="rx-lab">
               <button type="button" data-val="no" aria-pressed="true">No</button>
               <button type="button" data-val="yes" aria-pressed="false">Yes</button>
               <button type="button" data-val="past" aria-pressed="false">In the past</button>
@@ -184,16 +185,12 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
 
         <!-- ---------- 4 · verification ---------- -->
         <section class="step" data-step="4" aria-labelledby="s4h">
-          <h2 id="s4h"><span class="n" aria-hidden="true">4</span>One selfie to verify</h2>
-          <p class="intro">Used to check against the details you entered. We do not ask for a scan of the passport itself.</p>
+          <h2 id="s4h"><span class="n" aria-hidden="true">4</span>Documents and consent</h2>
+          <p class="intro">No photo of you is needed. If you already hold a prescription you may attach it — optional.</p>
           <div class="fields">
-            <p class="f"><label for="f-selfie">Selfie photo</label>
-              <input id="f-selfie" name="file_selfie" type="file" accept="image/*"
-                     required aria-describedby="selfie-hint">
-              <small id="selfie-hint">Face only, in good light. It does not need to be a formal photo.</small></p>
-            <p class="f"><label for="f-rx">Existing prescription, if any</label>
+            <p class="f" style="grid-column:1/-1"><label for="f-rx">Existing prescription, if any</label>
               <input id="f-rx" name="file_rx" type="file" accept="image/*,.pdf" aria-describedby="frx-hint">
-              <small id="frx-hint">Optional</small></p>
+              <small id="frx-hint">Optional. Image or PDF.</small></p>
           </div>
           <div class="consents">
             <label class="cbx"><input type="checkbox" name="c_age" required>
@@ -271,7 +268,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <li><a href="#s1h">Plan</a></li>
             <li><a href="#s2h">Passport details</a></li>
             <li><a href="#s3h">Your health</a></li>
-            <li><a href="#s4h">Verification</a></li>
+            <li><a href="#s4h">Documents &amp; consent</a></li>
             <li><a href="#s5h">Declaration</a></li>
           </ol>
         </nav>
@@ -304,7 +301,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </ul>
       <div class="note">
         <span class="nt">About the information you send</span>
-        Your details and selfie are used solely to pass the request to the physician and have it reviewed,
+        Your details are used solely to pass the request to the physician and have it reviewed,
         and are stored encrypted. We do not ask for and do not store a scan of your passport.
         Full details in the <a href="/en/privacy.html">privacy policy</a>.
       </div>

@@ -9,7 +9,7 @@
    not touch user data.
 
    Runs on the Node.js runtime, not Edge: /api/submit needs Node built-ins
-   that @vercel/blob and resend depend on, and these two stay on the same
+   that @vercel/blob and nodemailer depend on, and these two stay on the same
    runtime so "configured" cannot report differently from what submit can
    actually do. The `export default { fetch }` shape is the Web-standard
    signature that Vercel's Node runtime supports, so the handler code is
@@ -19,7 +19,7 @@
 export default {
   fetch() {
     const configured = Boolean(
-      process.env.RESEND_API_KEY &&
+      process.env.GMAIL_APP_PASSWORD &&
       process.env.BLOB_READ_WRITE_TOKEN &&
       process.env.LEAD_NOTIFY_EMAIL
     );

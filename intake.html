@@ -97,7 +97,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </p>
       <div class="city-facts" style="margin-top:28px">
         <div><span class="k">זמן מילוי</span><span class="v">כ־3 דקות</span></div>
-        <div><span class="k">מה צריך</span><span class="v">מספר דרכון וסלפי</span></div>
+        <div><span class="k">מה צריך</span><span class="v">מספר דרכון בלבד</span></div>
         <div><span class="k">לא אושר</span><span class="v">החזר מלא</span></div>
       </div>
 
@@ -137,9 +137,10 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
                      maxlength="8" required autocomplete="off" spellcheck="false"
                      aria-describedby="passport-hint">
               <small id="passport-hint">8 ספרות, ללא רווחים</small></p>
-            <p class="f"><label for="age">גיל</label>
-              <input id="age" name="age" type="number" min="18" max="120" required aria-describedby="age-hint">
-              <small id="age-hint">השירות מיועד לבגירים מגיל 18</small></p>
+            <p class="f"><label for="birthdate">תאריך לידה</label>
+              <input id="birthdate" name="birthdate" type="date" required
+                     autocomplete="bday" aria-describedby="birthdate-hint">
+              <small id="birthdate-hint">השירות מיועד לבגירים מגיל 18</small></p>
             <p class="f"><label for="email">אימייל</label>
               <input id="email" name="email" type="email" autocomplete="email" dir="ltr" required></p>
             <p class="f"><label for="phone">טלפון בוואטסאפ</label>
@@ -177,7 +178,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
               placeholder="לדוגמה: כאבי גב תחתון כבר שנתיים, בעיקר אחרי ישיבה ממושכת. ניסיתי משככי כאבים ופיזיותרפיה, עם הקלה חלקית בלבד."></textarea>
             <small id="cond-hint">ככל שתפרטו מה ניסיתם, ההערכה מבוססת יותר.</small></p>
           <p class="f"><label id="rx-lab">יש לכם מרשם או רישיון קנאביס בישראל?</label>
-            <span class="seg" data-seg role="group" aria-labelledby="rx-lab">
+            <span class="pick" data-seg role="group" aria-labelledby="rx-lab">
               <button type="button" data-val="no" aria-pressed="true">לא</button>
               <button type="button" data-val="yes" aria-pressed="false">כן</button>
               <button type="button" data-val="past" aria-pressed="false">היה בעבר</button>
@@ -186,19 +187,15 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <small id="rx-hint">אינו תנאי ואינו תקף ביוון. נשאל לצורך ההערכה בלבד.</small></p>
         </section>
 
-        <!-- ---------- 4 · אימות זהות ---------- -->
+        <!-- ---------- 4 · מסמכים והסכמות ---------- -->
         <section class="step" data-step="4" aria-labelledby="s4h">
-          <h2 id="s4h"><span class="n" aria-hidden="true">4</span>סלפי אחד לאימות</h2>
-          <p class="intro">משמש להשוואה מול הפרטים שהזנתם. איננו מבקשים צילום של הדרכון עצמו.</p>
+          <h2 id="s4h"><span class="n" aria-hidden="true">4</span>מסמכים והסכמות</h2>
+          <p class="intro">אין צורך בתמונה שלכם. אם יש בידיכם מרשם קיים אפשר לצרף אותו — לא חובה.</p>
           <div class="fields">
-            <p class="f"><label for="f-selfie">תמונת סלפי</label>
-              <input id="f-selfie" name="file_selfie" type="file" accept="image/*"
-                     required aria-describedby="selfie-hint">
-              <small id="selfie-hint">פנים בלבד, בתאורה טובה. לא נדרשת תמונה רשמית.</small></p>
-            <p class="f"><label for="f-rx">מרשם קיים, אם יש</label>
+            <p class="f" style="grid-column:1/-1"><label for="f-rx">מרשם קיים, אם יש</label>
               <input id="f-rx" name="file_rx" type="file" accept="image/*,.pdf"
                      aria-describedby="frx-hint">
-              <small id="frx-hint">לא חובה</small></p>
+              <small id="frx-hint">לא חובה. תמונה או PDF.</small></p>
           </div>
           <div class="consents">
             <label class="cbx"><input type="checkbox" name="c_age" required>
@@ -282,7 +279,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
             <li><a href="#s1h">מסלול</a></li>
             <li><a href="#s2h">פרטי דרכון</a></li>
             <li><a href="#s3h">מצב בריאותי</a></li>
-            <li><a href="#s4h">אימות זהות</a></li>
+            <li><a href="#s4h">מסמכים והסכמות</a></li>
             <li><a href="#s5h">הצהרה ושליחה</a></li>
           </ol>
         </nav>
@@ -315,7 +312,7 @@ if(p.motion)c.add('a11y-motion');}catch(e){}})();
       </ul>
       <div class="note">
         <span class="nt">על המידע שאתם שולחים</span>
-        הפרטים והסלפי משמשים אך ורק להעברת הפנייה לרופא ולבחינתה, ונשמרים מוצפנים.
+        הפרטים משמשים אך ורק להעברת הפנייה לרופא ולבחינתה, ונשמרים מוצפנים.
         איננו מבקשים ואיננו שומרים צילום של הדרכון.
         הפירוט המלא <a href="/privacy.html">במדיניות הפרטיות</a>.
       </div>

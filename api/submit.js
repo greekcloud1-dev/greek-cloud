@@ -7,12 +7,13 @@
 
      1. Reject anything that fails the honeypot or server-side validation --
         the client already validates, but a request can reach here directly.
-     2. Store the selfie (required), the existing-prescription file
-        (optional), and a JSON record of every field in Vercel Blob, under
+     2. Store the existing-prescription file, if one was attached, and a
+        JSON record of every field in Vercel Blob, under
         one private, unguessable path per submission. This IS the durable
         copy of the request; nothing here is disposable.
-     3. Email a notification through Resend. That email is deliberately thin:
-        plan, city, arrival date, name, and a submission id. It never
+     3. Email a notification through the operator's own Gmail account (an
+        app password, never the login password). That email is deliberately
+        thin: plan, city, arrival date, name, and a submission id. It never
         contains the health description or the files. The full record lives
         only in Blob, which is why step 2 has to succeed before step 3 is
         attempted -- a notification about a request that was not actually
@@ -22,16 +23,40 @@
    already safe in Blob by then, and the operator can still find them by
    browsing Storage even if the email never arrives.
 
-   Runs on the Node.js runtime, not Edge: @vercel/blob and resend both reach
-   for Node built-ins (node:stream, node:net, node:zlib and friends) that the
-   Edge runtime does not provide, and an Edge build fails outright on them.
+   Was Resend, until 2026-09-19: the account never verified a sending domain,
+   so every notification went out as the shared onboarding@resend.dev
+   address, was accepted by the receiving mail server, and then silently
+   discarded with no Spam-folder trace -- Resend reported it as Delivered
+   throughout. GMAIL_APP_PASSWORD and LEAD_NOTIFY_EMAIL were already set on
+   Vercel from an earlier, unmerged fix for the same problem; this brings the
+   code on `main` in line with the credentials already live in production,
+   without pulling in that branch's CRM/Supabase bridge, which main does not
+   have and does not need to fix this.
+
+   Runs on the Node.js runtime, not Edge: @vercel/blob and nodemailer's SMTP
+   transport both reach for Node built-ins (node:stream, node:net, node:tls
+   and friends) that the Edge runtime does not provide, and an Edge build
+   fails outright on them.
    The `export default { fetch }` shape is the Web-standard signature Vercel's
    Node runtime supports, so request.formData() and Response still work
    exactly as written.
    ========================================================================== */
 
 import { put } from '@vercel/blob';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
+
+/* Cached across invocations on a warm serverless instance -- building a fresh
+   SMTP connection pool per request would throw away the point of keep-alive. */
+let cachedGmailTransport = null;
+function gmailTransport() {
+  if (!cachedGmailTransport) {
+    cachedGmailTransport = nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: process.env.LEAD_NOTIFY_EMAIL, pass: process.env.GMAIL_APP_PASSWORD },
+    });
+  }
+  return cachedGmailTransport;
+}
 
 function json(status, body) {
   return new Response(JSON.stringify(body), {
@@ -60,15 +85,15 @@ const CONSENT_FIELDS = ['c_age', 'c_terms', 'c_health', 'c_customs', 'c_nopromis
    --------------------------------------------------------------------- */
 const MAX_FILE_BYTES = 5 * 1024 * 1024;
 const FIELD_MAX = {
-  full_name: 120, passport: 20, age: 3, email: 254, phone: 32,
+  full_name: 120, passport: 20, birthdate: 10, email: 254, phone: 32,
   city: 60, arrival: 32, condition: 4000, rx_exists: 16, locale: 2, plan: 16,
 };
 
 /* Accepted upload types, checked against the file's own leading bytes rather
    than the client-declared MIME. The intake script canvas-converts images to
-   JPEG before sending, so a legitimate selfie arrives as JPEG; the rest of
-   this list covers a direct or unconverted upload. HEIC matters because it is
-   what an iPhone produces. */
+   JPEG before sending, so a photographed prescription arrives as JPEG; the
+   rest of this list covers a direct or unconverted upload. HEIC matters
+   because it is what an iPhone produces. */
 const MAGIC = [
   { ext: 'jpg',  mime: 'image/jpeg', test: (b) => b[0] === 0xFF && b[1] === 0xD8 && b[2] === 0xFF },
   { ext: 'png',  mime: 'image/png',  test: (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4E && b[3] === 0x47 },
@@ -104,7 +129,7 @@ function buildEmail(record) {
     `שם: ${record.fullName}`,
     `מזהה פנייה: ${record.submissionId}`,
     '',
-    'לא כלול בהודעה זו: תיאור המצב הבריאותי והתמונות. הם נשמרים באחסון קבצים פרטי, נפרד מהמייל הזה.',
+    'לא כלול בהודעה זו: תיאור המצב הבריאותי וצילום המרשם אם צורף. הם נשמרים באחסון קבצים פרטי, נפרד מהמייל הזה.',
   ] : [
     `Plan: ${plan}`,
     `City: ${record.city}`,
@@ -112,7 +137,7 @@ function buildEmail(record) {
     `Name: ${record.fullName}`,
     `Submission ID: ${record.submissionId}`,
     '',
-    'Not included in this email: the health description and photos. They are kept in private file storage, separate from this message.',
+    'Not included in this email: the health description and the prescription file if one was attached. They are kept in private file storage, separate from this message.',
   ];
 
   return { subject, text: lines.join('\n') };
@@ -177,7 +202,7 @@ async function handleSubmit(request) {
   }
 
   const configured = Boolean(
-    process.env.RESEND_API_KEY &&
+    process.env.GMAIL_APP_PASSWORD &&
     process.env.BLOB_READ_WRITE_TOKEN &&
     process.env.LEAD_NOTIFY_EMAIL
   );
@@ -203,9 +228,9 @@ async function handleSubmit(request) {
   }
 
   // Strip control characters as well as trimming: `city` and `plan` reach an
-  // email subject, and a newline in a subject is worth refusing on principle
-  // even though Resend is a JSON API rather than SMTP. Over-long values are
-  // rejected outright rather than truncated, so nothing is silently altered.
+  // email subject sent over real SMTP, where a newline is a header-injection
+  // primitive, not just a cosmetic glitch. Over-long values are rejected
+  // outright rather than truncated, so nothing is silently altered.
   const str = (name) => {
     const v = form.get(name);
     if (typeof v !== 'string') return '';
@@ -216,7 +241,7 @@ async function handleSubmit(request) {
   const plan = str('plan');
   const fullName = str('full_name');
   const passport = str('passport');
-  const age = str('age');
+  const birthdate = str('birthdate');
   const email = str('email');
   const phone = str('phone');
   const city = str('city');
@@ -227,17 +252,32 @@ async function handleSubmit(request) {
   const consents = {};
   for (const key of CONSENT_FIELDS) consents[key] = form.get(key) === 'on';
 
-  const required = { plan, full_name: fullName, passport, age, email, phone, city, condition };
+  const required = { plan, full_name: fullName, passport, birthdate, email, phone, city, condition };
   for (const [key, value] of Object.entries(required)) {
     if (!value) return json(400, { ok: false, error: `missing:${key}` });
   }
   if (plan !== 'standard' && plan !== 'vip') return json(400, { ok: false, error: 'invalid:plan' });
   if (!/^\d{8}$/.test(passport)) return json(400, { ok: false, error: 'invalid:passport' });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { ok: false, error: 'invalid:email' });
-  // The form says 18+ and the input carries min="18", but that is a client
+  // The form ships a date input with a computed `max`, but that is a client
   // hint. Storing a minor's health record because the check only ever ran in
-  // the browser would be the worst version of this bug, so it runs here too.
-  const ageNum = Number(age);
+  // the browser would be the worst version of this bug, so the age is derived
+  // from the date here and re-checked.
+  //
+  // Parsed field by field rather than with `new Date(string)`: that constructor
+  // reads a bare YYYY-MM-DD as UTC midnight, which lands on the previous day
+  // west of Greenwich and would shift a birthday by one.
+  const bdayMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(birthdate);
+  if (!bdayMatch) return json(400, { ok: false, error: 'invalid:birthdate' });
+  const [, by, bm, bd] = bdayMatch.map(Number);
+  const dob = new Date(by, bm - 1, bd);
+  if (dob.getFullYear() !== by || dob.getMonth() !== bm - 1 || dob.getDate() !== bd) {
+    return json(400, { ok: false, error: 'invalid:birthdate' });
+  }
+  const now = new Date();
+  let ageNum = now.getFullYear() - by;
+  const beforeBirthday = now.getMonth() < bm - 1 || (now.getMonth() === bm - 1 && now.getDate() < bd);
+  if (beforeBirthday) ageNum--;
   if (!Number.isInteger(ageNum) || ageNum < 18 || ageNum > 120) {
     return json(400, { ok: false, error: 'invalid:age' });
   }
@@ -248,26 +288,22 @@ async function handleSubmit(request) {
   // Bound every free-text field. Without this, `condition` alone can carry a
   // multi-megabyte string into the stored record.
   const lengths = {
-    full_name: fullName, passport, age, email, phone,
+    full_name: fullName, passport, birthdate, email, phone,
     city, arrival, condition, rx_exists: rxExists, locale, plan,
   };
   for (const [key, value] of Object.entries(lengths)) {
     if (value && value.length > FIELD_MAX[key]) return json(400, { ok: false, error: `too_long:${key}` });
   }
 
-  const selfie = form.get('file_selfie');
-  if (!(selfie instanceof File) || selfie.size === 0) return json(400, { ok: false, error: 'missing:file_selfie' });
+  // The prescription is the only upload, and it is optional: a request with no
+  // file at all is valid.
   const rxFile = form.get('file_rx');
   const hasRx = rxFile instanceof File && rxFile.size > 0;
 
   // Size and real type. The declared MIME is ignored: what matters is what the
-  // bytes actually are. A selfie must be an image; the prescription may also
-  // be a PDF.
-  if (selfie.size > MAX_FILE_BYTES) return json(413, { ok: false, error: 'too_large:file_selfie' });
+  // bytes actually are. The prescription may be an image or a PDF.
   if (hasRx && rxFile.size > MAX_FILE_BYTES) return json(413, { ok: false, error: 'too_large:file_rx' });
 
-  const selfieKind = await sniff(selfie, false);
-  if (!selfieKind) return json(400, { ok: false, error: 'invalid_type:file_selfie' });
   let rxKind = null;
   if (hasRx) {
     rxKind = await sniff(rxFile, true);
@@ -280,18 +316,12 @@ async function handleSubmit(request) {
   const submissionId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${crypto.randomUUID().replace(/-/g, '').slice(0, 16)}`;
   const base = `submissions/${submissionId}`;
 
-  let selfieBlob;
   let rxBlob = null;
   try {
     // Fixed names built from the type we detected. The uploaded filename is
     // never used: it is attacker-controlled, and @vercel/blob rejects only the
     // literal sequence "//" in a pathname, so "../" would pass straight through
     // into the storage key.
-    selfieBlob = await put(`${base}/selfie.${selfieKind.ext}`, selfie, {
-      access: 'private',
-      addRandomSuffix: false,
-      contentType: selfieKind.mime,
-    });
     if (hasRx) {
       rxBlob = await put(`${base}/prescription.${rxKind.ext}`, rxFile, {
         access: 'private',
@@ -306,9 +336,8 @@ async function handleSubmit(request) {
   const record = {
     submissionId,
     receivedAt: new Date().toISOString(),
-    locale, plan, fullName, passport, age, email, phone, city, arrival,
+    locale, plan, fullName, passport, birthdate, age: ageNum, email, phone, city, arrival,
     condition, rxExists, consents,
-    selfiePath: selfieBlob.pathname,
     rxPath: rxBlob ? rxBlob.pathname : null,
   };
 
@@ -325,10 +354,9 @@ async function handleSubmit(request) {
   }
 
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
     const { subject, text } = buildEmail(record);
-    await resend.emails.send({
-      from: 'GreekCloud <onboarding@resend.dev>',
+    await gmailTransport().sendMail({
+      from: `GreekCloud <${process.env.LEAD_NOTIFY_EMAIL}>`,
       to: process.env.LEAD_NOTIFY_EMAIL,
       subject,
       text,
@@ -337,10 +365,10 @@ async function handleSubmit(request) {
     // A failed notification still must not fail the request -- the answers are
     // already durably stored by this point. But console.error alone is close to
     // invisible: nobody reads function logs, and the failure mode this guards
-    // against (Resend quota exhausted, domain unverified, key rotated) is
-    // exactly the one that goes unnoticed for days. So the failure is written
-    // next to the record, where the operator is already looking.
-    console.error('resend notify failed for', submissionId, e);
+    // against (app password revoked, Gmail rate limit) is exactly the one
+    // that goes unnoticed for days. So the failure is written next to the
+    // record, where the operator is already looking.
+    console.error('gmail notify failed for', submissionId, e);
     try {
       await put(`${base}/NOTIFY-FAILED.json`, JSON.stringify({
         submissionId,

@@ -133,15 +133,25 @@
 .tags button[aria-pressed="true"] { background: var(--sage-solid); color: var(--on-solid); }
 .tags button[aria-pressed="true"]::after { content: " ✓"; }
 
-/* ---- segmented control ---- */
-.seg { display: flex; gap: 8px; flex-wrap: wrap; }
-.seg button {
+/* ---- inline choice ----
+   Named .pick, not .seg, on purpose. base.css already owns .seg for the
+   accessibility widget's theme/contrast pickers, and those buttons carry
+   `flex: 1` so they divide their popover evenly. This control reused the
+   class, inherited that flex, and stretched three short words -- "לא", "כן",
+   "היה בעבר" -- across the full width of the form as three big disconnected
+   lozenges. A separate name is the fix; overriding `flex` here would leave the
+   next person to re-discover the same collision. */
+.pick { display: flex; gap: 8px; flex-wrap: wrap; }
+.pick button {
   font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
-  padding: 9px 18px; border-radius: var(--radius-pill);
+  flex: 0 0 auto;
+  padding: 9px 20px; border-radius: var(--radius-pill);
   border: 1px solid var(--rule-strong); background: var(--paper); color: var(--ink);
   transition: background-color .16s ease, color .16s ease, border-color .16s ease;
 }
-.seg button[aria-pressed="true"] { background: var(--sage-solid); border-color: var(--sage-solid); color: var(--on-solid); }
+.pick button:hover { border-color: var(--ink-faint); background: var(--surface); }
+.pick button[aria-pressed="true"] { background: var(--sage-solid); border-color: var(--sage-solid); color: var(--on-solid); }
+@media (prefers-reduced-motion: reduce) { .pick button { transition: none; } }
 
 /* ---- review card (step 5) ---- */
 .review { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 20px 22px; box-shadow: var(--shadow-sm); }
