@@ -12,7 +12,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const PORT = Number(process.env.PORT || 8787);
 const env = { CRM_SESSION_SECRET: 'dev-secret-dev-secret-dev-secret-00', CRM_ADMIN_EMAIL: 'greekcloud1@gmail.com' };
 const vercel = JSON.parse(await readFile(join(ROOT, 'vercel.json'), 'utf8'));
-const crmCsp = vercel.headers.find((h) => h.source === '/crm/:path*').headers.find((h) => h.key === 'Content-Security-Policy').value;
+const crmCsp = vercel.headers.find((h) => h.source === '/crm(.*)').headers.find((h) => h.key === 'Content-Security-Policy').value;
 
 const DAY = 86400000;
 const iso = (d) => new Date(Date.now() + d * DAY).toISOString();
