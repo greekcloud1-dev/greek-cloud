@@ -32,9 +32,9 @@ export function memoryStore(seed = {}) {
       return f ? { data: JSON.parse(f.body), etag: f.etag } : null;
     },
 
-    async putJSON(pathname, data, { ifMatch } = {}) {
+    async putJSON(pathname, data, { ifMatch, create } = {}) {
       this.ops.put++;
-      if (ifMatch && files.get(pathname)?.etag !== ifMatch) {
+      if ((ifMatch && files.get(pathname)?.etag !== ifMatch) || (create && files.has(pathname))) {
         throw Object.assign(new Error('conflict'), { code: 'conflict' });
       }
       return { etag: set(pathname, JSON.stringify(data), 'application/json') };

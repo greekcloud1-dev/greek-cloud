@@ -1,4 +1,4 @@
-import { list, get, put, del, BlobPreconditionFailedError } from '@vercel/blob';
+import { list, get, put, del, head, BlobPreconditionFailedError } from '@vercel/blob';
 
 /* The CRM's only storage: the same private Blob store the intake form writes to.
    Everything above this file talks to the small interface below, so tests and the
@@ -28,17 +28,19 @@ export function blobStore() {
       return { data: JSON.parse(text), etag: res.blob.etag };
     },
 
-    async putJSON(pathname, data, { ifMatch } = {}) {
+    async putJSON(pathname, data, { ifMatch, create } = {}) {
       try {
         const res = await put(pathname, JSON.stringify(data), {
           access: 'private',
           addRandomSuffix: false,
           contentType: 'application/json',
-          ...(ifMatch ? { ifMatch } : { allowOverwrite: true }),
+          // create: first write only -- fails if someone else wrote it first.
+          ...(ifMatch ? { ifMatch } : { allowOverwrite: !create }),
         });
         return { etag: res.etag };
       } catch (e) {
         if (e instanceof BlobPreconditionFailedError) throw conflict();
+        if (create && (await head(pathname).catch(() => null))) throw conflict();
         throw e;
       }
     },

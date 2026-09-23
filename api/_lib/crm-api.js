@@ -41,7 +41,7 @@ export function createCrmHandler({ env, store, now = () => Date.now() }) {
       if (!rec) return null;
       const next = applyPatch(cur ? cur.data : {}, patch, by, new Date(now()).toISOString());
       try {
-        await store.putJSON(crmPath, next, cur ? { ifMatch: cur.etag } : {});
+        await store.putJSON(crmPath, next, cur ? { ifMatch: cur.etag } : { create: true });
         return mergeClient(id, rec.data, next, []);
       } catch (e) {
         if (e.code !== 'conflict') throw e;

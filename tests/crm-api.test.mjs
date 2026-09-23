@@ -289,3 +289,15 @@ test('cron: needs the secret, sends a short digest without medical data', async 
 test('cron: silent when nobody is stuck', () => {
   assert.equal(stuckDigest([], NOW), null);
 });
+
+test('two first saves at once for a fresh client both survive', async () => {
+  const { handle, store } = setup();
+  const cookie = cookieFor('boss@gmail.com');
+  const send = (patch) => handle(req('/api/crm?action=patch', { method: 'POST', cookie, body: { id: ID1, patch } }));
+  const [a, b] = await Promise.all([send({ seen: true }), send({ contacted: true })]);
+  assert.equal(a.status, 200);
+  assert.equal(b.status, 200);
+  const crm = JSON.parse(store.files.get(`submissions/${ID1}/crm.json`).body);
+  assert.equal(crm.contacted, true);
+  assert.ok(crm.seenAt);
+});
