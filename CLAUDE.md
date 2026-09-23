@@ -178,6 +178,10 @@ check.
   `git branch --show-current && git remote get-url origin`
 - Still ask first for anything destructive or hard to revert: DNS, the domain,
   deleting data or branches, force-push, changing secrets.
+- **The self-deploy rule is for interactive sessions with the owner only.**
+  Scheduled cloud routines (R1–R6) never push to `main` and never merge — they
+  open a pull request, as `seo/routines/README.md` §2 says. A routine that reads
+  this section must not take it as permission to deploy.
 
 ---
 
