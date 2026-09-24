@@ -42,7 +42,7 @@ win, not a rewrite.
 
 | # | Page | Status |
 |---|---|---|
-| S1 | `cannabis-in-greece.html` | todo |
+| S1 | `cannabis-in-greece.html` | done (2026-09-24) |
 | S2 | `penalties-greece.html` | todo |
 | S3 | `eligibility.html` | todo |
 | S4 | `fly-with-cannabis.html` | todo |
