@@ -44,7 +44,7 @@ win, not a rewrite.
 |---|---|---|
 | S1 | `cannabis-in-greece.html` | done (2026-09-24) |
 | S2 | `penalties-greece.html` | done (2026-09-24) |
-| S3 | `eligibility.html` | todo |
+| S3 | `eligibility.html` | done (2026-09-24) |
 | S4 | `fly-with-cannabis.html` | todo |
 
 Mirror every change into the English twin in the same PR, and re-run
