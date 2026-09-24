@@ -57,7 +57,9 @@
 import { put } from '@vercel/blob';
 import nodemailer from 'nodemailer';
 import { sendTelegram } from './_lib/notify.js';
-import { classifySource, isValidISODate, isoDay, daysUntil, formatDate } from '../crm/core.js';
+import {
+  classifySource, isValidISODate, isoDay, daysUntil, formatDate, businessDeadline, timeLabel, shortRef,
+} from '../crm/core.js';
 
 const CRM_CARD = 'https://greek-cloud.com/crm/#';
 
@@ -138,16 +140,21 @@ function buildEmail(record) {
   const flight = record.arrival ? formatDate(record.arrival) : '';
   const flightShort = flight.slice(0, 5);
 
+  // VIP promises a reply within about an hour of reply hours; the deadline rides in the subject.
+  const received = Date.parse(record.receivedAt);
+  const due = record.plan === 'vip' && Number.isFinite(received) ? businessDeadline(received, 60) : null;
+  const dueLabel = !due ? '' : isHe ? timeLabel(due, received) : formatDate(isoDay(due)).slice(0, 5) + ' ' + timeLabel(due, due);
   const subject = isHe
-    ? `ליד חדש · ${plan} · ${record.city}${flightShort ? ` · טס ${flightShort}` : ''}`
-    : `New lead · ${plan} · ${record.city}${flightShort ? ` · flies ${flightShort}` : ''}`;
+    ? `${due ? `להשיב עד ${dueLabel} · ` : ''}ליד חדש · ${plan} · ${record.city}${flightShort ? ` · טס ${flightShort}` : ''}`
+    : `${due ? `Reply by ${dueLabel} · ` : ''}New lead · ${plan} · ${record.city}${flightShort ? ` · flies ${flightShort}` : ''}`;
+  const ref = shortRef(record.submissionId);
 
   const lines = isHe ? [
     `מסלול: ${plan}`,
     `עיר: ${record.city}`,
     `תאריך טיסה: ${flight || (record.arrivalUnknown ? 'עוד לא ידוע' : 'לא צוין')}`,
     `שם: ${record.fullName}`,
-    `מזהה פנייה: ${record.submissionId}`,
+    `מספר פנייה: ${ref}`,
     '',
     `פתיחה ב-CRM: ${CRM_CARD}${record.submissionId}`,
     '',
@@ -157,7 +164,7 @@ function buildEmail(record) {
     `City: ${record.city}`,
     `Flight date: ${flight || (record.arrivalUnknown ? 'not known yet' : 'not given')}`,
     `Name: ${record.fullName}`,
-    `Submission ID: ${record.submissionId}`,
+    `Reference: ${ref}`,
     '',
     `Open in the CRM: ${CRM_CARD}${record.submissionId}`,
     '',

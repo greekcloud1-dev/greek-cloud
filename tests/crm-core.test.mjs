@@ -203,7 +203,7 @@ test('manual client: required fields, defaults, contacted step', () => {
 
 test('templates and users are validated', () => {
   assert.equal(sanitizeTemplates([{ title: '', text: 'x' }]).ok, false);
-  assert.equal(sanitizeTemplates(Array(13).fill({ title: 'a', text: 'b' })).ok, false);
+  assert.equal(sanitizeTemplates(Array(17).fill({ title: 'a', text: 'b' })).ok, false);
   assert.equal(sanitizeTemplates([{ id: 'bad id!', title: 'a', text: 'b' }]).templates[0].id, 't1');
   const u = sanitizeUsers([{ email: 'Boss@Gmail.com' }, { email: 'b@x.com', role: 'admin' }, { email: 'b@x.com' }], 'boss@gmail.com');
   assert.deepEqual(u.users, [{ email: 'b@x.com', role: 'admin' }]);
@@ -225,9 +225,10 @@ test('CSV: BOM, escaping, formula guard, medical off by default', () => {
   assert.ok(csv.startsWith('﻿'));
   assert.match(csv, /'=HYPERLINK/);
   assert.match(csv, /‎\+972-50-1234567/);
-  assert.match(csv, /"a,""b""\nc"/);
-  assert.doesNotMatch(csv, /12345678|כאבי גב/);
-  assert.match(toCSV([c], { medical: true }), /12345678/);
+  assert.doesNotMatch(csv, /12345678|כאבי גב|a,""b""/, 'notes, passport and health stay out by default');
+  const med = toCSV([c], { medical: true });
+  assert.match(med, /12345678/);
+  assert.match(med, /"a,""b""\nc"/);
 });
 
 test('stats', () => {

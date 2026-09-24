@@ -22,11 +22,15 @@ const id = (d) => `${iso(d).replace(/[:.]/g, '-')}-${(++n).toString(16).padStart
 const people = [
   { fullName: 'דנה כהן', phone: '050-1234567', city: 'כרתים', plan: 'vip', arrival: day(2), received: -3, condition: 'כאבי גב כרוניים אחרי פריצת דיסק. ניסיתי פיזיותרפיה ונוגדי דלקת.', rxExists: 'past', rx: true, source: 'google' },
   { fullName: 'אבי לוי', phone: '+972 52 765 4321', city: 'אתונה', plan: 'standard', arrival: day(5), received: -6, condition: 'נדודי שינה ומיגרנות.', rxExists: 'no', crm: { contacted: true, paid: true }, source: 'instagram' },
-  { fullName: 'מיכל ברק', phone: '054-2223333', city: 'רודוס', plan: 'standard', arrival: day(12), received: -0.1, condition: 'פיברומיאלגיה.', rxExists: 'yes', source: 'ai' },
+  { fullName: 'מיכל ברק', phone: '054-2223333', city: 'רודוס', plan: 'standard', arrival: day(12), received: -0.1, condition: 'פיברומיאלגיה.', rxExists: 'yes', source: 'ai', notifyFailed: true },
+  { fullName: 'NOAM ALON', phone: '050-7775555', city: 'אתונה', plan: 'vip', arrival: day(9), received: -0.015, condition: 'כאב נוירופתי אחרי תאונה.', rxExists: 'no', source: 'google' },
+  { fullName: 'LIOR KATZ', phone: '052-3334444', city: 'כרתים', plan: 'vip', arrival: day(6), received: -27, condition: 'טרשת נפוצה, עוויתות.', rxExists: 'yes', crm: { contacted: true, paid: true, rxIssued: true, verified: { by: 'greekcloud1@gmail.com', at: iso(-26) }, stepsAt: { contacted: iso(-27), paid: iso(-26), rxIssued: iso(-25) } }, source: 'friend' },
+  { fullName: 'SHIRA TAL', phone: '053-2221111', city: 'רודוס', plan: 'standard', arrival: day(4), received: -3, condition: 'כאבי מפרקים.', rxExists: 'no', crm: { contacted: true, stepsAt: { contacted: iso(-3) } }, source: 'tiktok' },
+  { fullName: 'GAL SHAHAR', phone: '054-6668888', city: 'סנטוריני', plan: 'standard', arrival: day(15), received: -8, condition: 'כאבי ראש.', rxExists: 'no', crm: { contacted: true, paid: true, lost: { reason: 'physician_declined', note: '', at: iso(-1) }, refund: { status: 'owed', at: iso(-1) }, stepsAt: { contacted: iso(-8), paid: iso(-7) } }, source: 'instagram' },
   { fullName: 'John Smith', phone: '+44 7700 900123', city: 'Santorini', plan: 'vip', arrival: day(20), received: -1.5, condition: 'Chronic neuropathic pain.', rxExists: 'yes', locale: 'en', source: 'direct' },
   { fullName: 'רונית שמש', phone: '052-4445555', city: 'מיקונוס', plan: 'standard', arrival: day(34), received: -2, condition: 'קרוהן.', rxExists: 'no', crm: { contacted: true }, source: 'facebook' },
   { fullName: 'יוסי אברהם', phone: '053-6667777', city: 'אחר / עדיין לא ידוע', plan: 'standard', arrival: '', arrivalUnknown: true, received: -4, condition: 'כאבים אחרי ניתוח.', rxExists: 'no', crm: { contacted: true }, source: 'google' },
-  { fullName: 'שרה גולן', phone: '050-8889999', city: 'קורפו', plan: 'vip', arrival: day(-10), received: -30, condition: 'טרשת נפוצה.', rxExists: 'yes', crm: { contacted: true, paid: true, rxIssued: true }, source: 'friend' },
+  { fullName: 'שרה גולן', phone: '050-8889999', city: 'קורפו', plan: 'vip', arrival: day(-5), received: -30, condition: 'טרשת נפוצה.', rxExists: 'yes', crm: { contacted: true, paid: true, rxIssued: true }, source: 'friend' },
   { fullName: 'דני רוזן', phone: '058-1112222', city: 'סלוניקי', plan: 'standard', arrival: day(40), received: -9, condition: 'כאבי ברכיים.', rxExists: 'no', crm: { lost: { reason: 'expensive', note: 'אמר שיחזור בשנה הבאה', at: iso(-5) } }, source: 'google' },
   { fullName: 'דנה כהן', phone: '+972501234567', city: 'כרתים', plan: 'standard', arrival: day(-200), received: -220, condition: 'כאבי גב.', rxExists: 'no', crm: { contacted: true, paid: true, rxIssued: true }, source: 'google' },
   { fullName: 'תמר נחום', phone: '054-9990000', city: 'קוס', plan: 'standard', arrival: day(65), received: -1, condition: 'חרדה ומתח.', rxExists: 'no', manual: true, crm: { contacted: true, notes: 'הגיעה דרך המלצה של אבי' }, source: 'friend' },
@@ -42,9 +46,13 @@ for (const p of people) {
     entry: p.manual ? 'manual' : undefined,
     consents: { c_age: true, c_terms: true, c_health: true, c_customs: true, c_nopromise: true, c_accuracy: true, c_liability: true },
   };
-  if (p.crm) seed[`submissions/${sid}/crm.json`] = { ...p.crm, seenAt: iso(p.received + 0.01), stepsAt: {}, history: [] };
+  if (p.crm) seed[`submissions/${sid}/crm.json`] = { stepsAt: {}, ...p.crm, seenAt: iso(p.received + 0.01), history: [] };
   if (p.rx) seed[`submissions/${sid}/prescription.pdf`] = '%PDF-1.4 dev';
+  if (p.notifyFailed) seed[`submissions/${sid}/NOTIFY-FAILED.json`] = { reason: 'dev: Gmail app password revoked' };
 }
+seed['crm/settings.json'] = {
+  paymentDetails: ['ביט / פייבוקס: 050-0000000', 'העברה בנקאית: בנק 00, סניף 000, חשבון 000000', 'אשראי: https://pay.example/greekcloud'].join('\n'),
+};
 const store = memoryStore(seed);
 const handle = createCrmHandler({ env, store });
 

@@ -84,7 +84,7 @@ test('list returns merged clients, templates and who I am', async () => {
   const dana = j.clients.find((c) => c.id === ID1);
   assert.deepEqual(dana.files, ['prescription.pdf']);
   assert.equal(dana.flightDate, '2026-09-25');
-  assert.equal(j.templates.length, 4);
+  assert.equal(j.templates.length, 7);
   assert.ok(store.files.has(INDEX_PATH), 'index cache written');
 });
 

@@ -4,7 +4,7 @@
    owner sees and the list the daily alert checks are computed by the same code. */
 
 export const TZ = 'Asia/Jerusalem';
-export const INDEX_VERSION = 3;
+export const INDEX_VERSION = 5;
 const DAY_MS = 86400000;
 
 export const CITIES = [
@@ -29,13 +29,25 @@ export const SOURCES = {
 
 export const LOST_REASONS = {
   no_answer: 'לא עונה', expensive: 'יקר מדי', not_eligible: 'לא מתאים',
-  cancelled: 'ביטל נסיעה', other: 'אחר',
+  physician_declined: 'הרופא לא אישר', cancelled: 'ביטל נסיעה', too_late: 'מאוחר מדי',
+  competitor: 'הלך למתחרה', erase_request: 'ביקש מחיקה', other: 'אחר',
 };
+
+export const PRICES = { standard: 289, vip: 379 };
+
+/* Published reply hours (about.html): Sun-Thu 10:00-19:00, Fri 10:00-13:00, Sat
+   closed. The VIP "about an hour" clock only runs inside these. Index = weekday. */
+export const BUSINESS_HOURS = [[10, 19], [10, 19], [10, 19], [10, 19], [10, 19], [10, 13], null];
+export const RX_VALID_DAYS = 30;
 
 export const STEPS = { contacted: 'נוצר קשר', paid: 'שולם', rxIssued: 'מרשם יצא' };
 
 export const STUCK_LABELS = {
+  vip_reply: 'VIP מחכה למענה',
   no_contact: 'עוד לא נוצר קשר',
+  refund_due: 'מגיע החזר כספי',
+  paid_no_rx: 'שולם, אין מרשם, אין החזר',
+  rx_expires: 'המרשם יפוג סמוך לנחיתה',
   unpaid_soon: 'טס בקרוב ולא שילם',
   no_rx_soon: 'טס בקרוב ואין מרשם',
 };
@@ -48,11 +60,17 @@ export const DEFAULT_TEMPLATES = [
   { id: 'welcome', title: 'ברוך הבא',
     text: 'היי {שם}, כאן GreekCloud. קיבלנו את הפנייה שלך לגבי הנסיעה ל{עיר}. מתי נוח לך לשיחה קצרה?' },
   { id: 'payment', title: 'תשלום',
-    text: 'היי {שם}, מצרף כאן את פרטי התשלום למסלול {מסלול}. אחרי התשלום נמשיך לשלב הרופא. אם יש שאלה, אני כאן.' },
+    text: 'היי {שם}, התשלום למסלול {מסלול} הוא {מחיר}.\n{פרטי_תשלום}\nאחרי התשלום נמשיך לשלב הרופא. אם יש שאלה, אני כאן.' },
   { id: 'reminder', title: 'תזכורת לפני טיסה',
     text: 'היי {שם}, תזכורת קטנה: הטיסה שלך ל{עיר} ב-{תאריך_טיסה}. נעבור יחד על מה שנשאר לפני הנסיעה?' },
   { id: 'goodbye', title: 'טיסה טובה',
     text: 'היי {שם}, טיסה טובה ונסיעה נעימה! אם צריך משהו בדרך, פשוט לכתוב כאן.' },
+  { id: 'form', title: 'בקשה למלא טופס',
+    text: 'היי {שם}, כדי שהרופא יוכל לבחון את הבקשה צריך למלא שאלון קצר באתר (כ-3 דקות, עם השם בדיוק כמו בדרכון): https://greek-cloud.com/intake.html' },
+  { id: 'upgrade', title: 'הצעת VIP',
+    text: 'היי {שם}, ראיתי שהטיסה שלך קרובה ({תאריך_טיסה}). במסלול VIP יש מענה ראשוני תוך כשעה בשעות הפעילות, איש קשר אישי וליווי בבית המרקחת. רוצה לעבור ל-VIP?' },
+  { id: 'review', title: 'בקשת המלצה',
+    text: 'היי {שם}, מקווים שהכול הסתדר בבית המרקחת ב{עיר} ושהנסיעה טובה. אם מתאים לך, נשמח לכמה משפטים במילים שלך על השירות (בלי פרטים רפואיים, בבקשה), ולדעת איך להציג את השם: מלא, שם פרטי בלבד או בלי שם.' },
 ];
 
 /* ---------- dates ---------- */
@@ -93,6 +111,59 @@ export function formatDate(iso) {
 export function monthLabel(ym) {
   const [y, m] = ym.split('-').map(Number);
   return `${MONTHS[m - 1]} ${y}`;
+}
+
+const partFmt = new Intl.DateTimeFormat('en-US', {
+  timeZone: TZ, hourCycle: 'h23', weekday: 'short',
+  year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',
+});
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+/** Wall-clock parts in Israel for a timestamp. */
+export function israelParts(ms) {
+  const p = {};
+  for (const x of partFmt.formatToParts(new Date(ms))) p[x.type] = x.value;
+  return { y: +p.year, mo: +p.month, d: +p.day, h: +p.hour, mi: +p.minute, wd: WEEKDAYS.indexOf(p.weekday) };
+}
+
+function israelToUtc(y, mo, d, h, mi) {
+  const guess = Date.UTC(y, mo - 1, d, h, mi);
+  const offset = (ms) => {
+    const p = israelParts(ms);
+    return Date.UTC(p.y, p.mo - 1, p.d, p.h, p.mi) - Math.floor(ms / 60000) * 60000;
+  };
+  return guess - offset(guess - offset(guess));
+}
+
+/** The moment `minutes` of published reply hours have passed since startMs. */
+export function businessDeadline(startMs, minutes) {
+  let cursor = startMs;
+  let left = minutes;
+  for (let i = 0; i < 21; i++) {
+    const p = israelParts(cursor);
+    const win = BUSINESS_HOURS[p.wd];
+    const nowMin = p.h * 60 + p.mi;
+    if (win && nowMin < win[1] * 60) {
+      const from = Math.max(nowMin, win[0] * 60);
+      const avail = win[1] * 60 - from;
+      const slot = israelToUtc(p.y, p.mo, p.d, Math.floor(from / 60), from % 60);
+      if (left <= avail) return slot + left * 60000;
+      left -= avail;
+    }
+    const next = new Date(Date.UTC(p.y, p.mo - 1, p.d + 1));
+    cursor = israelToUtc(next.getUTCFullYear(), next.getUTCMonth() + 1, next.getUTCDate(), 0, 0);
+  }
+  return null;
+}
+
+/** "14:30", "מחר 10:15" or "27/09 10:00", in Israel time. */
+export function timeLabel(ms, nowMs) {
+  const p = israelParts(ms);
+  const hm = `${String(p.h).padStart(2, '0')}:${String(p.mi).padStart(2, '0')}`;
+  const d = daysUntil(isoDay(ms), isoDay(nowMs));
+  if (d === 0) return hm;
+  if (d === 1) return `מחר ${hm}`;
+  return `${String(p.d).padStart(2, '0')}/${String(p.mo).padStart(2, '0')} ${hm}`;
 }
 
 function monthOf(ts) {
@@ -146,6 +217,9 @@ export function cityLabel(city) {
 }
 
 export const planLabel = (p) => PLAN_LABELS[p] || '';
+export const priceLabel = (p) => (PRICES[p] ? `${PRICES[p]} ₪` : '');
+/** The 8-character reference the thank-you page shows the customer (thank-you.html). */
+export const shortRef = (id) => String(id || '').split('-').pop().slice(-8).toUpperCase();
 export const rxLabel = (r) => RX_LABELS[r] || '';
 export const sourceLabel = (s) => SOURCES[s] || 'לא ידוע';
 export const firstName = (n) => String(n || '').trim().split(/\s+/)[0] || '';
@@ -153,9 +227,10 @@ export const firstName = (n) => String(n || '').trim().split(/\s+/)[0] || '';
 /* ---------- the merged client ---------- */
 
 /** One client as the CRM shows it: the untouched submission plus our edits. */
-export function mergeClient(id, record, crm, files) {
+export function mergeClient(id, record, crm, files, meta = {}) {
   const r = record || {};
   const c = crm || {};
+  const override = (k) => (typeof c[k] === 'string' && c[k] ? c[k] : (r[k] || ''));
   const arrival = isValidISODate(r.arrival) ? r.arrival : null;
   const flightUnknown = 'flightUnknown' in c ? !!c.flightUnknown : !!r.arrivalUnknown;
   const flightDate = flightUnknown ? null : ('flightDate' in c ? c.flightDate : arrival);
@@ -164,11 +239,15 @@ export function mergeClient(id, record, crm, files) {
     receivedAt: r.receivedAt || null,
     entry: r.entry === 'manual' ? 'manual' : 'web',
     locale: r.locale === 'en' ? 'en' : 'he',
-    plan: r.plan || '',
-    fullName: r.fullName || '',
+    plan: c.plan === 'vip' || c.plan === 'standard' ? c.plan : (r.plan || ''),
+    formPlan: r.plan || '',
+    fullName: override('fullName'),
+    formFullName: r.fullName || '',
     phone: r.phone || '',
     email: r.email || '',
-    passport: r.passport || '',
+    passport: override('passport'),
+    formPassport: r.passport || '',
+    verified: c.verified && typeof c.verified === 'object' ? c.verified : null,
     birthdate: isValidISODate(r.birthdate) ? r.birthdate : null,
     age: Number.isInteger(r.age) ? r.age : null,
     city: r.city || '',
@@ -185,6 +264,10 @@ export function mergeClient(id, record, crm, files) {
     paid: !!c.paid,
     rxIssued: !!c.rxIssued,
     lost: c.lost && typeof c.lost === 'object' ? c.lost : null,
+    refund: c.refund && typeof c.refund === 'object' ? c.refund : null,
+    review: c.review && typeof c.review === 'object' ? c.review : null,
+    notifyFailed: Array.isArray(meta.notifyFailed) ? meta.notifyFailed : [],
+    upgradeOfferedAt: c.upgradeOfferedAt || null,
     notes: typeof c.notes === 'string' ? c.notes : '',
     seenAt: c.seenAt || null,
     stepsAt: c.stepsAt || {},
@@ -196,37 +279,84 @@ export function mergeClient(id, record, crm, files) {
 
 /* ---------- stuck ---------- */
 
+/** When the first reply is due: VIP within one reply-hour, Standard within 24 hours. */
+export function replyDeadline(cl) {
+  const t = Date.parse(cl.receivedAt);
+  if (!Number.isFinite(t) || cl.contacted || cl.lost) return null;
+  return cl.plan === 'vip' ? businessDeadline(t, 60) : t + DAY_MS;
+}
+
+export function rxValidUntil(cl) {
+  const t = Date.parse(cl.rxIssued && cl.stepsAt ? cl.stepsAt.rxIssued || '' : '');
+  return Number.isFinite(t) ? addDays(isoDay(t), RX_VALID_DAYS) : null;
+}
+
 /** Why a client needs attention now. Empty means nothing is waiting on us. */
 export function stuckReasons(cl, nowMs) {
-  if (cl.lost) return [];
   const today = isoDay(nowMs);
+  // Money owed back outlives everything else, including "not relevant".
+  if (cl.refund && cl.refund.status === 'owed') return ['refund_due'];
+  if (cl.lost) return [];
+  if (cl.flightDate && daysUntil(cl.flightDate, today) < 0) {
+    return cl.paid && !cl.rxIssued && !cl.refund ? ['paid_no_rx'] : [];
+  }
   const out = [];
-  if (cl.flightDate && daysUntil(cl.flightDate, today) < 0) return out;
   const received = Date.parse(cl.receivedAt);
   // A lead nobody answered for a month is cold, not stuck; keeping it here
   // forever would bury the ones that are still worth a call.
-  if (!cl.contacted && Number.isFinite(received) && nowMs - received > DAY_MS && nowMs - received < 30 * DAY_MS) {
-    out.push('no_contact');
+  const warm = Number.isFinite(received) && nowMs - received < 30 * DAY_MS;
+  if (!cl.contacted && warm) {
+    const due = replyDeadline(cl);
+    if (due !== null && nowMs > due) out.push(cl.plan === 'vip' ? 'vip_reply' : 'no_contact');
   }
   if (cl.flightDate) {
     const d = daysUntil(cl.flightDate, today);
-    if (d >= 0 && d <= 3) {
-      if (!cl.paid) out.push('unpaid_soon');
-      if (!cl.rxIssued) out.push('no_rx_soon');
-    }
+    const payWindow = cl.plan === 'vip' ? 3 : 9;
+    if (d >= 0 && d <= payWindow && !cl.paid) out.push('unpaid_soon');
+    if (d >= 0 && d <= 3 && !cl.rxIssued) out.push('no_rx_soon');
+    const valid = rxValidUntil(cl);
+    if (valid && daysUntil(cl.flightDate, valid) > -2) out.push('rx_expires');
   }
   return out;
 }
 
-/* The privacy policy promises deletion 3 months after a request is closed. A
-   trip that ended, or a lead marked not relevant, more than 90 days ago is due. */
+/** Standard, no prescription yet, flying within a week: worth offering the faster plan. */
+export function upgradeCandidate(cl, nowMs) {
+  if (cl.plan !== 'standard' || cl.lost || cl.paid || cl.rxIssued || cl.upgradeOfferedAt || !cl.flightDate) return false;
+  const d = daysUntil(cl.flightDate, isoDay(nowMs));
+  return d >= 0 && d <= 7;
+}
+
+/** Back from Greece 2-10 days ago with a prescription, and not asked for a review yet. */
+export function reviewCandidate(cl, nowMs) {
+  if (!cl.rxIssued || cl.lost || !cl.flightDate || (cl.review && cl.review.askedAt)) return false;
+  const d = daysUntil(cl.flightDate, isoDay(nowMs));
+  return d <= -2 && d >= -10;
+}
+
+/** A hand-entered client has no form behind it -- no consents, maybe no Latin name --
+    until the same person also submits the web form. */
+export function formMissing(cl, related) {
+  if (cl.entry !== 'manual') return false;
+  return !(related || []).some((r) => r && r.entry === 'web');
+}
+
+/* The privacy policy promises deletion 3 months after a request is closed
+   (prescription issued, physician refusal or cancellation, whichever is later).
+   Nothing is deleted automatically; this only marks what is due. */
 export function retentionDue(cl, nowMs) {
+  if (cl.refund && cl.refund.status === 'owed') return false;
+  if (cl.lost && cl.lost.reason === 'erase_request') return true;
   const today = isoDay(nowMs);
-  if (cl.lost && cl.lost.at) {
-    const t = Date.parse(cl.lost.at);
-    if (Number.isFinite(t) && daysUntil(today, isoDay(t)) > 90) return true;
-  }
-  return !!(cl.flightDate && daysUntil(cl.flightDate, today) < -90);
+  const closed = [
+    cl.rxIssued && cl.stepsAt ? cl.stepsAt.rxIssued : null,
+    cl.lost ? cl.lost.at : null,
+    cl.refund ? (cl.refund.doneAt || cl.refund.at) : null,
+  ].map((x) => Date.parse(x || '')).filter(Number.isFinite);
+  if (closed.length) return daysUntil(today, isoDay(Math.max(...closed))) > 90;
+  if (cl.flightDate) return daysUntil(cl.flightDate, today) < -90;
+  const t = Date.parse(cl.receivedAt);
+  return Number.isFinite(t) && daysUntil(today, isoDay(t)) > 120;
 }
 
 /* ---------- filtering, search, grouping ---------- */
@@ -236,10 +366,16 @@ const digits = (s) => String(s || '').replace(/\D/g, '');
 export function matchesQuery(cl, q) {
   const query = String(q || '').trim().toLowerCase();
   if (!query) return true;
-  const hay = [cl.fullName, cl.email, cl.passport, cityLabel(cl.city), cl.notes].join(' ').toLowerCase();
+  const ref = /(?:^|[^0-9a-z])([0-9a-f]{8})(?![0-9a-z])/.exec(query.replace(/\s+/g, ' ').replace(/#/g, ' '))
+    || /^([0-9a-f]{8})$/.exec(query.replace(/[\s#]+/g, ''));
+  if (ref && shortRef(cl.id) === ref[1].toUpperCase()) return true;
+  const hay = [cl.fullName, cl.formFullName, cl.email, cl.passport, cl.formPassport, cityLabel(cl.city), cl.notes].join(' ').toLowerCase();
   if (hay.includes(query)) return true;
+  // Only a query that looks like a phone number is compared as digits; a
+  // reference such as 3FF9BF5C would otherwise match any phone containing 395.
   const qd = digits(query);
-  return qd.length >= 3 && (digits(cl.phone).includes(qd) || phoneKey(cl.phone).includes(qd.replace(/^0/, '')));
+  return /^[\d\s+\-().]+$/.test(query) && qd.length >= 3
+    && (digits(cl.phone).includes(qd) || phoneKey(cl.phone).includes(qd.replace(/^0/, '')));
 }
 
 export function applyFilter(list, filter, nowMs) {
@@ -248,6 +384,7 @@ export function applyFilter(list, filter, nowMs) {
     case 'stuck': return list.filter((c) => stuckReasons(c, nowMs).length > 0);
     case 'lost': return list.filter((c) => c.lost);
     case 'retention': return list.filter((c) => retentionDue(c, nowMs));
+    case 'review': return list.filter((c) => reviewCandidate(c, nowMs));
     default: return list.slice();
   }
 }
@@ -333,7 +470,7 @@ export function relatedMap(list) {
 
 export function copyText(cl, { medical = true } = {}) {
   const lines = [];
-  lines.push(`GreekCloud · נכנס ${cl.receivedAt ? formatDate(isoDay(Date.parse(cl.receivedAt))) : ''}`.trim());
+  lines.push(`GreekCloud · פנייה ${shortRef(cl.id)} · נכנס ${cl.receivedAt ? formatDate(isoDay(Date.parse(cl.receivedAt))) : ''}`.trim());
   lines.push(`שם: ${cl.fullName}`);
   if (cl.phone) lines.push(`טלפון: ${cl.phone}`);
   if (cl.email) lines.push(`מייל: ${cl.email}`);
@@ -350,6 +487,42 @@ export function copyText(cl, { medical = true } = {}) {
   return lines.join('\n');
 }
 
+const RX_EN = { no: 'No', yes: 'Yes', past: 'In the past' };
+
+/** The case in English, the way the physician's platform takes it. Uses corrected identity. */
+export function doctorText(cl, todayIso) {
+  const city = CITIES.find((c) => c.he === cityLabel(cl.city));
+  const age = cl.birthdate ? ageOn(cl.birthdate, todayIso) : cl.age;
+  const lines = [
+    `Full name (as in passport): ${cl.fullName}`,
+    `Passport no.: ${cl.passport}`,
+    'Country: Israel',
+  ];
+  if (cl.birthdate || age !== null) lines.push(`Date of birth: ${cl.birthdate ? formatDate(cl.birthdate) : '-'}${age !== null ? ` (age ${age})` : ''}`);
+  lines.push(`City in Greece: ${city ? city.en : (cl.city || 'Not decided yet')}`);
+  lines.push(`Arrival in Greece: ${cl.flightDate ? formatDate(cl.flightDate) : 'Not known yet'}`);
+  if (cl.rxExists) lines.push(`Existing Israeli cannabis prescription/licence: ${RX_EN[cl.rxExists] || cl.rxExists}`);
+  if (cl.condition) lines.push("Medical condition (patient's own words):", cl.condition);
+  return lines.join('\n');
+}
+
+/** An 8-digit passport and a Latin name: only then is there something to read back. */
+export function canVerify(cl) {
+  return /^\d{8}$/.test(cl.passport || '') && /^[A-Za-z][A-Za-z\s'.-]*$/.test((cl.fullName || '').trim());
+}
+
+/** A read-back for the customer to confirm before the case goes to the physician. */
+export function verifyText(cl) {
+  const pass = String(cl.passport || '').replace(/(\d{4})(?=\d)/g, '$1 ');
+  return [
+    `היי ${firstName(cl.fullName)}, לפני שמעבירים לרופא, רק לוודא שהפרטים זהים לדרכון:`,
+    `שם באנגלית: ${cl.fullName}`,
+    `מספר דרכון: ${pass}`,
+    cl.birthdate ? `תאריך לידה: ${formatDate(cl.birthdate)}` : '',
+    'הכול נכון? מרשם עם פרט שגוי אי אפשר לתקן אחר כך.',
+  ].filter(Boolean).join('\n');
+}
+
 /** International digits for wa.me; an Israeli local number gets 972. */
 export function waPhone(p) {
   let d = digits(p);
@@ -364,15 +537,34 @@ export function whatsappUrl(phone, text) {
   return `https://wa.me/${n}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
 }
 
-export function fillTemplate(text, cl) {
+export function fillTemplate(text, cl, extra = {}) {
   const values = {
     'שם': firstName(cl.fullName),
     'שם_מלא': cl.fullName || '',
     'תאריך_טיסה': cl.flightDate ? formatDate(cl.flightDate) : 'בקרוב',
     'עיר': cityLabel(cl.city) || 'יוון',
     'מסלול': planLabel(cl.plan) || '',
+    'מחיר': priceLabel(cl.plan),
+    'פרטי_תשלום': String(extra.paymentDetails || '').trim(),
+    'מספר_פנייה': shortRef(cl.id),
   };
-  return String(text || '').replace(/\{([^{}]+)\}/g, (m, k) => (k in values ? values[k] : m));
+  return String(text || '')
+    .replace(/\{([^{}]+)\}/g, (m, k) => (k in values ? values[k] : m))
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/^\n+|\n+$/g, '');
+}
+
+/* Saved templates win, but a built-in added later still shows up unless the
+   owner deleted it on purpose (its id is then listed in `hidden`). */
+const FIRST_TEMPLATES = ['welcome', 'payment', 'reminder', 'goodbye'];
+
+export function mergeTemplates(saved, hidden) {
+  const list = Array.isArray(saved) && saved.length ? saved.slice() : [];
+  const have = new Set(list.map((t) => t.id));
+  // A set saved before `hidden` existed: the original four it lacks were deleted on purpose.
+  const gone = new Set(Array.isArray(hidden) ? hidden : list.length ? FIRST_TEMPLATES.filter((id) => !have.has(id)) : []);
+  for (const t of DEFAULT_TEMPLATES) if (!have.has(t.id) && !gone.has(t.id)) list.push(t);
+  return list;
 }
 
 export function calendarUrl(cl, link) {
@@ -514,6 +706,37 @@ export function sanitizePatch(p) {
     } else if (k === 'seen') {
       if (v !== true) return { ok: false, error: 'bad:seen' };
       out[k] = true;
+    } else if (k === 'plan') {
+      if (v !== 'standard' && v !== 'vip') return { ok: false, error: 'bad:plan' };
+      out[k] = v;
+    } else if (k === 'fullName') {
+      const name = str(v, 120);
+      if (name.length < 2) return { ok: false, error: 'bad:fullName' };
+      out[k] = name;
+    } else if (k === 'passport') {
+      if (typeof v !== 'string' || !/^\d{8}$/.test(v.trim())) return { ok: false, error: 'bad:passport' };
+      out[k] = v.trim();
+    } else if (k === 'verified') {
+      if (typeof v !== 'boolean') return { ok: false, error: 'bad:verified' };
+      out[k] = v;
+    } else if (k === 'upgradeOffered') {
+      if (v !== true) return { ok: false, error: 'bad:upgradeOffered' };
+      out[k] = true;
+    } else if (k === 'refund') {
+      if (v !== null && !['owed', 'done', 'none'].includes(v)) return { ok: false, error: 'bad:refund' };
+      out[k] = v;
+    } else if (k === 'review') {
+      if (!v || typeof v !== 'object' || Array.isArray(v)) return { ok: false, error: 'bad:review' };
+      const r = {};
+      if ('asked' in v) { if (typeof v.asked !== 'boolean') return { ok: false, error: 'bad:review' }; r.asked = v.asked; }
+      if ('consent' in v) { if (typeof v.consent !== 'boolean') return { ok: false, error: 'bad:review' }; r.consent = v.consent; }
+      if ('text' in v) {
+        if (typeof v.text !== 'string' || v.text.length > 1500) return { ok: false, error: 'bad:review' };
+        r.text = v.text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim();
+      }
+      if ('displayName' in v) r.displayName = str(v.displayName, 60);
+      if (!Object.keys(r).length) return { ok: false, error: 'bad:review' };
+      out[k] = r;
     } else {
       return { ok: false, error: `unknown:${k}` };
     }
@@ -532,9 +755,44 @@ export function applyPatch(crm, patch, by, nowIso) {
   let changed = false;
   for (const [k, v] of Object.entries(patch)) {
     if (k === 'seen') { if (!next.seenAt) { next.seenAt = nowIso; changed = true; } continue; }
+    if (k === 'upgradeOffered') { if (!next.upgradeOfferedAt) { next.upgradeOfferedAt = nowIso; changed = true; } continue; }
+    if (k === 'verified') {
+      if (!!next.verified === v) continue;
+      next.verified = v ? { by, at: nowIso } : null;
+      changed = true;
+      history.unshift({ at: nowIso, by, field: k, value: v });
+      continue;
+    }
+    if (k === 'refund') {
+      const cur = next.refund ? next.refund.status : null;
+      if (cur === v) continue;
+      next.refund = v ? { status: v, at: (next.refund && next.refund.at) || nowIso, ...(v === 'done' ? { doneAt: nowIso } : {}) } : null;
+      changed = true;
+      history.unshift({ at: nowIso, by, field: k, value: v });
+      continue;
+    }
+    if (k === 'review') {
+      const cur = next.review || {};
+      const nr = { ...cur };
+      if ('asked' in v) nr.askedAt = v.asked ? (cur.askedAt || nowIso) : null;
+      if ('text' in v) nr.text = v.text;
+      if ('displayName' in v) nr.displayName = v.displayName;
+      if ('consent' in v) nr.consent = v.consent ? (cur.consent || { at: nowIso, by }) : null;
+      // Consent covers the exact words and name the customer approved; editing either withdraws it.
+      else if (cur.consent && ((('text' in v) && v.text !== (cur.text || '')) || (('displayName' in v) && v.displayName !== (cur.displayName || '')))) nr.consent = null;
+      if (same(cur, nr)) continue;
+      next.review = nr;
+      changed = true;
+      const what = !same(cur.consent, nr.consent) ? (nr.consent ? 'consent' : 'unconsent')
+        : 'asked' in v && !same(cur.askedAt, nr.askedAt) ? 'asked' : 'text';
+      history.unshift({ at: nowIso, by, field: k, value: what });
+      continue;
+    }
     let unchanged;
     if (k === 'lost') unchanged = v ? !!(next.lost && next.lost.reason === v.reason && next.lost.note === v.note) : !next.lost;
-    else if (k === 'flightDate' || k === 'source') unchanged = Object.prototype.hasOwnProperty.call(next, k) && same(next[k], v);
+    else if (k === 'flightDate' || k === 'source' || k === 'plan' || k === 'fullName' || k === 'passport') {
+      unchanged = Object.prototype.hasOwnProperty.call(next, k) && same(next[k], v);
+    }
     else if (k === 'notes') unchanged = (next.notes || '') === v;
     else unchanged = !!next[k] === v;
     if (unchanged) continue;
@@ -545,7 +803,13 @@ export function applyPatch(crm, patch, by, nowIso) {
     if (k === 'notes' && top && top.field === 'notes' && top.by === by && Date.parse(nowIso) - Date.parse(top.at) < 10 * 60000) {
       top.at = nowIso;
     } else {
-      history.unshift({ at: nowIso, by, field: k, value: k === 'notes' ? null : next[k] });
+      // Notes and passport numbers stay out of the trail; the form value is kept on the record anyway.
+      history.unshift({ at: nowIso, by, field: k, value: k === 'notes' || k === 'passport' ? null : next[k] });
+    }
+    if ((k === 'fullName' || k === 'passport') && next.verified && !('verified' in patch)) {
+      // A corrected name or number was never read back to the customer.
+      next.verified = null;
+      history.unshift({ at: nowIso, by, field: 'verified', value: false });
     }
   }
   if (!changed) return next;
@@ -565,6 +829,12 @@ export function historyText(h) {
     case 'flightUnknown': return h.value ? 'סימן "עוד לא יודע מתי"' : 'ביטל "עוד לא יודע מתי"';
     case 'source': return `שינה מקור הגעה ל${sourceLabel(h.value)}`;
     case 'notes': return 'עדכן הערות';
+    case 'plan': return `שינה מסלול ל-${planLabel(h.value)}`;
+    case 'fullName': return `תיקן שם ל-${h.value}`;
+    case 'passport': return 'תיקן מספר דרכון';
+    case 'verified': return h.value ? 'סימן "פרטי דרכון אומתו"' : 'ביטל "פרטי דרכון אומתו"';
+    case 'refund': return h.value === 'owed' ? 'סימן "מגיע החזר"' : h.value === 'done' ? 'סימן "ההחזר בוצע"' : h.value === 'none' ? 'סימן "אין החזר"' : 'ביטל סימון החזר';
+    case 'review': return { consent: 'סימן אישור פרסום המלצה', unconsent: 'ביטל אישור פרסום', asked: 'ביקש המלצה' }[h.value] || 'עדכן המלצה';
     default: return 'עדכון';
   }
 }
@@ -604,13 +874,16 @@ export function sanitizeManual(input, nowMs) {
 }
 
 export function sanitizeTemplates(list) {
-  if (!Array.isArray(list) || list.length > 12) return { ok: false, error: 'bad_templates' };
+  if (!Array.isArray(list) || list.length > 16) return { ok: false, error: 'bad_templates' };
   const out = [];
+  const used = new Set();
+  const fresh = () => { let n = out.length + 1; while (used.has(`t${n}`) || DEFAULT_TEMPLATES.some((d) => d.id === `t${n}`)) n++; return `t${n}`; };
   for (const t of list) {
     const title = str(t && t.title, 40);
     const text = typeof (t && t.text) === 'string' ? t.text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim().slice(0, 1000) : '';
     if (!title || !text) return { ok: false, error: 'bad_template' };
-    const id = /^[a-z0-9_-]{1,32}$/.test(t.id) ? t.id : `t${out.length + 1}`;
+    const id = /^[a-z0-9_-]{1,32}$/.test(t.id) && !used.has(t.id) ? t.id : fresh();
+    used.add(id);
     out.push({ id, title, text });
   }
   return { ok: true, templates: out };
@@ -669,9 +942,9 @@ export function toCSV(list, { medical = false } = {}) {
     ['שולם', (c) => (c.paid ? 'כן' : '')],
     ['מרשם יצא', (c) => (c.rxIssued ? 'כן' : '')],
     ['לא רלוונטי', (c) => (c.lost ? LOST_REASONS[c.lost.reason] || 'כן' : '')],
-    ['הערות', (c) => c.notes],
   ];
   if (medical) {
+    cols.push(['הערות', (c) => c.notes]);
     cols.push(['דרכון', (c) => c.passport], ['תאריך לידה', (c) => formatDate(c.birthdate)],
       ['מרשם קיים', (c) => rxLabel(c.rxExists)], ['מצב רפואי', (c) => c.condition]);
   }

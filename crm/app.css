@@ -383,3 +383,30 @@ h4 { margin: 4px 0 0; font-size: 13px; letter-spacing: .06em; color: var(--clay)
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* ---------- phase 2: reply clock, flags, refund, review ---------- */
+.health { display: grid; gap: 6px; margin-top: 12px; }
+.health > div { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 12px; background: var(--stop-wash); color: var(--stop); font-size: 14.5px; }
+.health .btn { height: 30px; font-size: 13.5px; margin-inline-start: auto; }
+.pill.due { background: var(--warn-wash); border-color: transparent; color: var(--warn); font-weight: 700; }
+.tag.bad { background: var(--stop-wash); color: var(--stop); }
+.tag.warn { background: var(--warn-wash); color: var(--warn); }
+.tag.up { background: var(--clay-wash); color: var(--clay); }
+.banner.warn { background: var(--warn-wash); color: var(--warn); }
+.banner.info { background: var(--sage-wash); color: var(--sage); flex-wrap: wrap; }
+.banner .btn + .btn { margin-inline-start: 0; }
+.ref { margin-top: 6px; border: 1px dashed var(--line-strong); background: transparent; color: var(--soft); border-radius: 8px; padding: 1px 8px; font: 13px/1.6 ui-monospace, "SFMono-Regular", Consolas, monospace; letter-spacing: .06em; direction: ltr; }
+.ref:hover { color: var(--ink); border-color: var(--sage); }
+.row.sub { min-height: 0; padding: 0 0 8px; border-top: 0; margin-top: -6px; }
+.row.sub .v { font-size: 13px; color: var(--faint); }
+.muted { font-size: 13px; color: var(--faint); }
+.sec > h3 { display: flex; align-items: center; gap: 8px; }
+.btn.mini { height: 26px; padding: 0 8px; font-size: 12.5px; margin-inline-start: auto; color: var(--soft); }
+.btn.mini svg.i { width: 14px; height: 14px; }
+.sec textarea[data-review] { min-height: 80px; }
+.sec .inline-inputs .field[data-review] { flex: 1 1 180px; }
+fieldset.radio-list { border: 0; padding: 0; margin: 4px 0 0; }
+fieldset.radio-list legend { margin-bottom: 6px; }
+.c-name { flex-wrap: wrap; row-gap: 4px; }
+.c-name .nm { min-width: 90px; flex: 0 1 auto; }
+.lost-links { display: flex; gap: 14px; flex-wrap: wrap; }

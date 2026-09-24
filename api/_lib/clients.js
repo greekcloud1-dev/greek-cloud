@@ -18,11 +18,14 @@ export function groupBlobs(blobs) {
     const m = /^submissions\/([^/]+)\/([^/]+)$/.exec(b.pathname);
     if (!m || !ID_PATTERN.test(m[1])) continue;
     const [, id, name] = m;
-    if (!byId.has(id)) byId.set(id, { record: null, crm: null, files: [] });
+    if (!byId.has(id)) byId.set(id, { record: null, crm: null, files: [], notifyFailed: [] });
     const g = byId.get(id);
     if (name === 'record.json') g.record = b.etag;
     else if (name === 'crm.json') g.crm = b.etag;
     else if (FILE_NAME.test(name)) g.files.push(name);
+    // Written by api/submit.js when the Gmail or Telegram alert failed. Never offered as a file.
+    else if (name === 'NOTIFY-FAILED.json') g.notifyFailed.push('email');
+    else if (name === 'TELEGRAM-NOTIFY-FAILED.json') g.notifyFailed.push('telegram');
   }
   return byId;
 }
@@ -42,7 +45,7 @@ export async function loadClients(store) {
   const todo = [];
   for (const [id, g] of groups) {
     if (!g.record) continue;
-    const key = `${g.record}|${g.crm || ''}|${g.files.slice().sort().join(',')}`;
+    const key = `${g.record}|${g.crm || ''}|${g.files.slice().sort().join(',')}|${g.notifyFailed.slice().sort().join('+')}`;
     if (cached[id] && cached[id].key === key) entries[id] = cached[id];
     else todo.push({ id, g, key });
   }
@@ -54,11 +57,20 @@ export async function loadClients(store) {
       g.crm ? store.getJSON(`submissions/${id}/crm.json`).catch(() => null) : null,
     ]);
     if (!rec) return;
-    entries[id] = { key, client: mergeClient(id, rec.data, crm && crm.data, g.files) };
+    entries[id] = { key, client: mergeClient(id, rec.data, crm && crm.data, g.files, { notifyFailed: g.notifyFailed }) };
   });
 
   if (changed) {
     try { await store.putJSON(INDEX_PATH, { v: INDEX_VERSION, builtAt: new Date().toISOString(), entries }); } catch { /* cache only */ }
   }
   return Object.values(entries).map((e) => e.client);
+}
+
+/* The index caches full records (passport, health text). A deleted client must
+   leave it at once, not at the next rebuild. */
+export async function evictFromIndex(store, id) {
+  const idx = await store.getJSON(INDEX_PATH).catch(() => null);
+  if (!idx || !idx.data || !idx.data.entries || !(id in idx.data.entries)) return;
+  delete idx.data.entries[id];
+  await store.putJSON(INDEX_PATH, idx.data);
 }

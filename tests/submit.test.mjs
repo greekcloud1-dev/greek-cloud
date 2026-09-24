@@ -61,7 +61,8 @@ test('record keeps the source; email links to the CRM card and stays thin', asyn
   assert.equal(rec.refHost, 'l.instagram.com');
   assert.equal(rec.arrival, future);
   const mail = mails[0];
-  assert.match(mail.subject, /^ליד חדש · VIP · כרתים · טס \d\d\/\d\d$/);
+  assert.match(mail.subject, /^להשיב עד (מחר )?(\d\d\/\d\d )?\d\d:\d\d · ליד חדש · VIP · כרתים · טס \d\d\/\d\d$/);
+  assert.match(mail.text, /מספר פנייה: [0-9A-F]{8}\n/);
   assert.match(mail.text, new RegExp(`https://greek-cloud.com/crm/#${r.body.submissionId}`));
   assert.doesNotMatch(mail.text, /כאבים|12345678/);
 });
