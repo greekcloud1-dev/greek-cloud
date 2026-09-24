@@ -108,3 +108,10 @@ Routines append here with the date and which routine found it. Nothing is added
 above this line automatically.
 
 <!-- R2/R4/R5 append below -->
+
+### 2026-09-24 — R5
+
+| # | Item | Note |
+|---|---|---|
+| R5-1 | greek-cloud.com was cited in 0 of 15 AI-answer-engine checks this week (8 Hebrew head terms, 4 English head terms, 3 natural-language questions); medtouristgr.com was cited in 5, all English-side. The Hebrew transactional query space is confirmed empty, not just inferred: Hebrew results for these terms are Israeli health-fund domestic-licence pages and Israeli travel-with-a-licence-abroad guides, not Greek-prescription content from any competitor. `guide.html` was checked with `seo-sxo` and its page type (process guide + FAQ + cost table) already matches what an answer engine would want to quote — the gap is citation/indexation, not content shape. See `seo/reports/2026-09-24-competitive.md` §3–4 and `seo/state/competitors/ai-visibility.json`. No action prescribed here beyond tracking the trend for a few more weeks before concluding anything — one week is noise. |
+| R5-2 | medtouristgr.com added eight `/greece-travel-guide-<country>` pages (incl. `-israel`) and ten `<city>-travel-guide` pages since the last dated reference in CLAUDE.md §7, widening its funnel from pure "medical cannabis Greece" queries into general Greece-travel-planning queries with the cannabis pitch embedded. Possible future angle: this site's eleven city pages are prescription-process framed, not travel-planning framed — worth watching whether medtouristgr's broader top-of-funnel starts pulling Hebrew travel-intent traffic, but not proposing a page type change on one week's observation. See `seo/reports/2026-09-24-competitive.md` §1 and `seo/state/competitors/medtouristgr.json`. |
