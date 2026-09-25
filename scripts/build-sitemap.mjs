@@ -23,11 +23,18 @@ const editorial = existsSync(PRIORITY_FILE)
   ? JSON.parse(readFileSync(PRIORITY_FILE, 'utf8'))
   : {};
 
-/** Last commit date for a file, YYYY-MM-DD. Falls back to today. */
+/**
+ * Last commit date for a file, YYYY-MM-DD. Falls back to today.
+ *
+ * A commit carrying the trailer line "Lastmod: skip" is ignored. Use it for
+ * sitewide mechanical edits (a <head> tag on every page, a meta fix) so they
+ * do not stamp all 57 URLs as freshly updated — Google stops trusting a
+ * lastmod that moves without a real content change.
+ */
 function lastmod(relPath) {
   try {
     const out = execFileSync(
-      'git', ['log', '-1', '--format=%cs', '--', relPath],
+      'git', ['log', '-1', '--format=%cs', '--invert-grep', '--grep=^Lastmod: skip$', '--', relPath],
       { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] },
     ).trim();
     if (out) return out;

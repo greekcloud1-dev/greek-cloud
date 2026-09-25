@@ -137,7 +137,7 @@ Hebrew brand spelling of the competitor CanaFlight is **קנאפלייט** (one 
 
 | File | How it is maintained |
 |---|---|
-| `sitemap.xml` | **Generated.** `npm run build:sitemap`. Never hand-edit. |
+| `sitemap.xml` | **Generated.** `npm run build:sitemap`. Never hand-edit. `lastmod` is each page's last commit date, so a sitewide mechanical edit (a `<head>` tag, a meta fix) must carry the commit trailer `Lastmod: skip` — otherwise every URL is stamped as updated and Google learns to ignore the field. |
 | `seo/sitemap-priority.json` | Hand-edited. Holds the editorial `priority` and `changefreq` the generator preserves. |
 | `llms.txt` | **Hand-written.** Its per-page descriptions are better than the meta descriptions, so it is never generated — only checked for coverage by `npm run check`. Write new entries in the voice of their neighbours. |
 | the 11 HE + 11 EN city pages | **Hand-written, and deliberately not uniform.** There is no generator and one must not be built — see below. |
