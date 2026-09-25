@@ -1,0 +1,33 @@
+{
+  "methodology": "Weekly R5 check. WebSearch (Google-backed) used as the observable proxy for AI answer-engine sourcing -- this repo has no ChatGPT/Perplexity/AI-Overview API credential (see config.json credentials.deliberatelyAbsent). Records whether greek-cloud.com or medtouristgr.com appear anywhere in the organic results or the AI-style synthesized summary WebSearch returns for each term/question. A single week's result is noise; only track the trend.",
+  "weeks": [
+    {
+      "checkedAt": "2026-09-24",
+      "terms": [
+        { "q": "מרשם קנאביס רפואי ביוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": false, "domainsSeen": ["gmp-compliance.org", "wikipedia.org", "prohibitionpartners.com", "nuggmd.com", "medtouristgr.com", "relieftime.com", "cannastoreams.gr"] },
+        { "q": "קנאביס רפואי ביוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": false, "domainsSeen": ["mako.co.il", "greece-islands.co.il", "xn--4dbcyzi5a.com", "good-stuff.co.il", "cannna.co.il", "cannareporter.eu", "notaryon-online.com", "infomed.co.il"] },
+        { "q": "קנביס רפואי ביוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": false, "domainsSeen": ["mako.co.il", "onein9.org.il", "cannabiz.co.il", "maccabi4u.co.il", "greece-islands.co.il", "xn--4dbcyzi5a.com", "good-stuff.co.il", "infomed.co.il"] },
+        { "q": "רישיון קנאביס ביוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": false, "domainsSeen": ["clalit.co.il", "mor.org.il", "meuhedet.co.il", "maccabi4u.co.il", "greece-islands.co.il", "xn--4dbcyzi5a.com", "cannactive.co.il", "gov.il", "notaryon-online.com"] },
+        { "q": "קנאביס רפואי לתיירים יוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": false, "domainsSeen": ["facebook.com", "greece-islands.co.il", "xn--4dbcyzi5a.com", "good-stuff.co.il", "yarokala.co.il", "cannna.co.il", "notaryon-online.com", "infomed.co.il"] },
+        { "q": "לטוס עם קנאביס ליוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": false, "domainsSeen": ["mako.co.il", "timeout.co.il", "xn--4dbcyzi5a.com", "barie.co.il", "reefer.co.il", "the-miracles.co.il", "notaryon-online.com", "infomed.co.il"] },
+        { "q": "בית מרקחת קנאביס יוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": false, "domainsSeen": ["super-pharm.co.il", "easy.co.il", "cannabiz.co.il", "jane.co.il", "easycannabis.co.il", "oranim-pharm.co.il", "gov.il", "xn--4dbcyzi5a.com"] },
+        { "q": "מחיר קנאביס רפואי יוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": false, "domainsSeen": ["cannabiz.co.il", "greece-islands.co.il", "xn--4dbcyzi5a.com", "easycannabis.co.il"] },
+        { "q": "medical cannabis greece prescription", "lang": "en", "greekCloudCited": false, "medtouristgrCited": true, "domainsSeen": ["prohibitionpartners.com", "wikipedia.org", "businessofcannabis.com", "nuggmd.com", "medtouristgr.com", "relieftime.com", "cannastoreams.gr", "mdpi.com"] },
+        { "q": "medical cannabis greece tourist", "lang": "en", "greekCloudCited": false, "medtouristgrCited": true, "domainsSeen": ["wikipedia.org", "nuggmd.com", "medtouristgr.com", "medicaltouristgreece.com", "cannatrailz.com", "statista.com"] },
+        { "q": "cannabis pharmacy greece", "lang": "en", "greekCloudCited": false, "medtouristgrCited": true, "domainsSeen": ["wikipedia.org", "greekreporter.com", "mmjdaily.com", "medtouristgr.com", "organicmarijuanagreece.com", "relieftime.com", "grecan.gr", "herb.co"] },
+        { "q": "greek cannabis prescription remote", "lang": "en", "greekCloudCited": false, "medtouristgrCited": true, "domainsSeen": ["nuggmd.com", "medtouristgr.com", "businessofcannabis.com", "wikipedia.org", "relieftime.com", "medicaltouristgreece.com"] }
+      ],
+      "questions": [
+        { "q": "איך מקבלים מרשם קנאביס רפואי ביוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": true, "note": "First pass returned only Israeli-domestic-license results (clalit.co.il, meuhedet.co.il etc) -- the query didn't surface Greece-prescription content at all until re-run; medtouristgr.com then appeared 3x, greek-cloud.com never did." },
+        { "q": "האם רישיון קנאביס ישראלי תקף ביוון", "lang": "he", "greekCloudCited": false, "medtouristgrCited": false, "note": "Synthesized answer stated cannabis is 'not legal' in Greece today -- factually stale/wrong (medical cannabis has been dispensable since Feb 2024). No site answering this exact question, this site included, is being cited; the generic answer is itself inaccurate." },
+        { "q": "how does an Israeli tourist get a medical cannabis prescription in Greece", "lang": "en", "greekCloudCited": false, "medtouristgrCited": true, "note": "medtouristgr.com dominant across most of the result set and the synthesized summary." }
+      ],
+      "summary": {
+        "greekCloudCitedCount": 0,
+        "medtouristgrCitedCount": 5,
+        "totalQueries": 15,
+        "note": "Baseline week -- no prior data to trend against. greek-cloud.com did not appear in any of the 15 checks, Hebrew or English. medtouristgr.com appears in nearly every English result but in zero of the 8 Hebrew head-term checks and only 1 of 2 Hebrew questions (and there only in a re-run) -- consistent with CLAUDE.md §7's claim that the Hebrew SERP's transactional layer is empty and medtouristgr's own /he/ page doesn't surface for Hebrew queries either."
+      }
+    }
+  ]
+}
