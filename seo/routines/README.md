@@ -56,6 +56,16 @@ a PR, and editable without touching a cron schedule.
 7. **Report honestly.** If a step could not run — a missing credential, a site
    that would not respond — say which step, and why, in the PR body. Never
    present a skipped check as a passed one.
+8. **Open the PR and end the run. Do not watch it.** Never schedule a
+   follow-up, reminder or check-in (`send_later` or any equivalent), never
+   subscribe to PR activity, and never re-arm yourself to poll a PR until it is
+   merged. The owner reads PRs on their own schedule, and the next scheduled run
+   picks up anything left open.
+
+   Why: in September 2026 R4 opened one PR and then re-checked it every six
+   hours for three days. Those check-ins draw on the same usage limit as the
+   owner's own Claude sessions. They exhausted it, and R1's daily run on
+   2026-09-24 could not start at all.
 
 ## Schedule note
 
