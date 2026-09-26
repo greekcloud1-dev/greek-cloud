@@ -14,7 +14,7 @@ below is genuinely still open.
 
 ## Resolved
 
-- [x] Legal entity name + company/licensed-dealer number — Greek Cloud, 3234567
+- [x] Legal entity name + company/licensed-dealer number — Greek Cloud, 323587485
 - [x] Registered address — יגאל אלון 2, תל אביב / 2 Yigal Alon St, Tel Aviv
 - [x] Contact email — 1greek.cloud@gmail.com (used for privacy, refund and
       terms enquiries alike — a single shared inbox, not separate addresses)
